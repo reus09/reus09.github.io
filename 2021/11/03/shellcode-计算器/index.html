@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="marco reus">
+  
+
+  
+
+  
+
+  <title>shellcode_计算器 | reus09</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/flexblock.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="alternate" href="/atom.xml" title="reus09" type="application/atom+xml">
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://w.wallhaven.cc/full/g7/wallhaven-g7d9xl.png)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          reus09
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">主页</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">shellcode_计算器</h1>
+          <h2 class="title-sub-wrap">
+            <strong>marco reus</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-11-03T14:05:29.000Z" itemprop="datePublished">2021-11-03</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">📒 漏洞分析</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/shellcode%E7%BC%96%E5%86%99/">🏷️ shellcode编写</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="逆向分析计算器的漏洞利用过程"><a href="#逆向分析计算器的漏洞利用过程" class="headerlink" title="逆向分析计算器的漏洞利用过程"></a>逆向分析计算器的漏洞利用过程</h1><div class="aplayer-box" data-url='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.mp3' data-name='アイロニ' data-artist='鹿乃' data-cover='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.jpg' data-lrc='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.lrc' data-lrcType='3' ></div>
+
+<h2 id="0x01-实验目的"><a href="#0x01-实验目的" class="headerlink" title="0x01 实验目的"></a>0x01 实验目的</h2><ul>
+<li><h5 id="根据实验软件SCer-exe-和-shellcode代码shellcode2020-mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程"><a href="#根据实验软件SCer-exe-和-shellcode代码shellcode2020-mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程" class="headerlink" title="根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程"></a>根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程</h5></li>
+<li><h5 id="根据实验软件shellcode2020-exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。"><a href="#根据实验软件shellcode2020-exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。" class="headerlink" title="根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。"></a>根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。</h5></li>
+<li><h5 id="分析两者区别。"><a href="#分析两者区别。" class="headerlink" title="分析两者区别。"></a>分析两者区别。</h5></li>
+</ul>
+<h2 id="0x02-试验工具"><a href="#0x02-试验工具" class="headerlink" title="0x02 试验工具"></a>0x02 试验工具</h2><ul>
+<li><h5 id="windbg"><a href="#windbg" class="headerlink" title="windbg"></a>windbg</h5></li>
+<li><h5 id="Ollydbg"><a href="#Ollydbg" class="headerlink" title="Ollydbg"></a>Ollydbg</h5></li>
+<li><h5 id="IDA-PRO"><a href="#IDA-PRO" class="headerlink" title="IDA_PRO"></a>IDA_PRO</h5><ul>
+<li>因为Windows xp sp3下的Windbg微软将其在线Symbol符号下架，导致Windbg调试过程中，部分关键函数为乱码，无法正常分析，故借鉴Ida</li>
+</ul>
+</li>
+<li><h5 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h5><ul>
+<li><h5 id="Windows-xp-sp3"><a href="#Windows-xp-sp3" class="headerlink" title="Windows xp sp3"></a>Windows xp sp3</h5></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-windbg-调试-Scer-exe"><a href="#0x03-windbg-调试-Scer-exe" class="headerlink" title="0x03 windbg 调试 Scer.exe"></a>0x03 windbg 调试 Scer.exe</h2><ul>
+<li><p>打开Scer.exe，然后将shellcode.txt.mybin附加到程序，可以发现计算器可以正常打开。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210929234755283.png" alt="image-20210929234755283"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210929234801883.png" alt="image-20210929234801883"></li>
+</ul>
+</li>
+<li><p>需要对Scer.exe进行动态调试分析，为了调试分析植入的shellcode,我们在shellcode.txt.bin前加上字节<code>0xCC</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210929235018201.png" alt="image-20210929235018201"></li>
+</ul>
+</li>
+<li><p>然后在windbg中附加 Scer.exe的进程。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210929235237150.png" alt="image-20210929235237150"></li>
+<li>这里程序会停在系统代码区域，我们要进入用户代码里面。</li>
+<li>WinDbg里有个伪寄存器叫$exentry，里面记录了程序的入口点。所以我们只要在命令输入栏里输入<code>bp $exentry</code></li>
+<li>然后执行命令<code>g</code>即可进入用户程序入口。</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210929235440289.png" alt="image-20210929235440289"></li>
+<li>这里结合IDA_pro，<code>F5</code>反编译可以看到<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930000700637.png" alt="image-20210930000700637"></li>
+<li>这里实现了程序的初始化，就不在过多分析。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>这里通过IDA_PRO，找到我们加载核心代码shellcode 的首地址。</p>
+<ul>
+<li>首先<code>shift+F12</code>查看字符串，找到字符串<code>状态:0x%0.8x 已载入shellcode,即将开始执行...</code>，一路反跟踪函数返回，找到该段功能的首地址为：<code>0x401830</code></li>
+<li>也就是说在此段代码中，我们实现了向程序中输入shellcode后，程序如何处理shellcode以及如何跳转到shellcode的过程</li>
+</ul>
+</li>
+<li><p>在windbg 下 设置断点 <code>bp 0x401830</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930001010334.png" alt="image-20210930001010334"></li>
+<li>加载我们的shellcode 后，就可以在windbg中调试 看到程序怎么将shellcode存放起来并执行。</li>
+</ul>
+</li>
+<li><p>然后输入<code>pc</code>跳转到下一个call 指令，然后步入，这个函数为 <code>CreateFileA</code>。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930001323214.png" alt="image-20210930001323214"></li>
+<li>发现该函数功能实现了创建一个线程———-打开文件夹，即我们的shellcode文件。</li>
+</ul>
+</li>
+<li><p>继续<code>pc</code>跳转到下一个函数地址，这个函数为 <code>VirtualAlloc</code></p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930001505973.png" alt="image-20210930001505973"></p>
+</li>
+<li><p>这里查看一下<code>VirtualAlloc函数</code>的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LPVOID VirtualAlloc&#123;</span><br><span class="line">	LPVOID lpAddress, <span class="comment">// 要分配的内存区域的地址</span></span><br><span class="line">	DWORD dwSize, <span class="comment">// 分配的大小</span></span><br><span class="line">	DWORD flAllocationType, <span class="comment">// 分配的类型</span></span><br><span class="line">	DWORD flProtect <span class="comment">// 该内存的初始保护属性</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930001850024.png" alt="image-20210930001850024"></p>
+</li>
+<li><p>并且与调入函数前传入的参数相结合对比，</p>
+</li>
+<li><p>发现 ebx 存取的是 我们shellcode 的字节长度，esi存放的是 程序给 shellcode 分配的动态地址。</p>
+</li>
+</ul>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930002055336.png" alt="image-20210930002055336"></p>
+</li>
+<li><p>程序执行完毕后，很明显可以发现了esi 存取的 地址为 <code>0xb40000</code></p>
+</li>
+<li><p>这里就实现了为 shellcode的存取 提前分配好了 动态地址， 起始地址为 <code>0xb40000</code></p>
+</li>
+</ul>
+</li>
+<li><p>继续<code>pc</code>跳转到下一个call函数，该函数名字为 <code>ReadFile</code></p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930002506167.png" alt="image-20210930002506167"></p>
+</li>
+<li><p>这里查看一下<code>VirtualAlloc函数</code>的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">ReadFile</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    HANDLE hFile,                                    <span class="comment">//文件的句柄</span></span></span></span><br><span class="line"><span class="params"><span class="function">    LPVOID lpBuffer,                                <span class="comment">//用于保存读入数据的一个缓冲区</span></span></span></span><br><span class="line"><span class="params"><span class="function">    DWORD nNumberOfBytesToRead,    <span class="comment">//要读入的字节数</span></span></span></span><br><span class="line"><span class="params"><span class="function">    LPDWORD lpNumberOfBytesRead,    <span class="comment">//指向实际读取字节数的指针</span></span></span></span><br><span class="line"><span class="params"><span class="function">    LPOVERLAPPED lpOverlapped</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="comment">//如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="comment">//该结构定义了一次异步读取操作。否则，应将这个参数设为NULL</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930002546255.png" alt="image-20210930002546255"></p>
+</li>
+<li><p>此时的寄存器情况：</p>
+<p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930002800541.png" alt="image-20210930002800541"></p>
+</li>
+<li><p>将函数结构 与 传参前的 汇编语言进行 对比。</p>
+</li>
+</ul>
+</li>
+<li><p>可以发现函数实现了在地址为<code>esi :: 0xb40000</code> 的缓冲区 存取了 长度为27 字节的 shellcode。</p>
+</li>
+</ul>
+</li>
+<li><p>继续<code>pc</code>进行到sleep函数。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930003021502.png" alt="image-20210930003021502"></li>
+<li>因为要等待此时的线程完成。</li>
+</ul>
+</li>
+<li><p>继续<code>p</code>指令 单步跳过，一直到</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930003255306.png" alt="image-20210930003255306"></p>
+</li>
+<li><p>此段整体汇编代码对应用IDA_Pro显示</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930003409194.png" alt="image-20210930003409194"></p>
+</li>
+<li><p><code>mov bp+ms_exc.registration.TryLevel], 0 ; 进入第一个__try域,TryLevel=0</code></p>
+</li>
+<li><p><code>mov ebp+ms_exc.registration.TryLevel], 0FFFFFFFEh ; 离开第一个__try域，TryLevel=TRYLEVEL_NONE (-2)</code></p>
+</li>
+<li><p>所以此段为 <code>try_except </code>的过程。</p>
+</li>
+<li><p>然后发现存在汇编语句<code>call eax</code></p>
+</li>
+<li><p><code>call eax</code> 来自 <code>[ebp + var_24]</code></p>
+<ul>
+<li>追踪发现</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930003729944.png" alt="image-20210930003729944"></li>
+<li><code>[ebp+var_24]</code>存放的是<code>esi</code>的地址，即<code>0xb40000</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>因此这段代码，就是程序进入预先分配好的动态内存区(里面存有shellcode）的入口。</p>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930004003753.png" alt="image-20210930004003753"></p>
+</li>
+</ul>
+</li>
+<li><p>进入函数，分析shellcode。</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930004052803.png" alt="image-20210930004052803"></p>
+</li>
+<li><p>程序执行到<code>0xb40001</code>跳转到地址<code>0xb40019</code>，然后发现在地址<code>0xb40019</code>的 jmp 指令跳转到 <code>0xb40003</code></p>
+</li>
+<li><p>这里解释么要先call 跳转到 <code>0xb40019</code>然后再回到<code>0xb40003</code></p>
+<ul>
+<li>call/pop指令</li>
+<li>Shellcode可以通过在一个call指令后立即执行pop指令，将上一刻压入栈中的指令地址载入到寄存器中，从而获取到shellcode起始的内存地址。</li>
+<li>原理就是：call 指令实际上就是 先将该函数的下一个地址压入栈中，然后跳转到目的地址。跳转之后再将其pop出来，这样就达到了ebx 存放 地址<code>0xb4001e</code>的作用。</li>
+<li>这里通过<code>call 0xb40003</code>指令调用完之后对栈的分析，可以看出。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930005834839.png" alt="image-20210930005834839"></li>
+<li>显然，栈最顶层为calc.exe 存放的地址。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>然后开始 pop ebx ，将 eax 清零。</p>
+</li>
+<li><p>然后向栈中压入 ebx,eax。 ebx此时存放的地址为<code>0xb4001e</code>即字符串<code>\x63\x61x6c\x63\x2e\x65\x78\x65</code>对应的<code>calc.exe</code></p>
+</li>
+<li><p>将函数<code>kernel32!WinExec</code>地址传给ebx。</p>
+</li>
+<li><p>上面两个压栈相当于 对下面的函数 <code>kernel32!WinExec</code>进行传参。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UINT <span class="title">WinExec</span><span class="params">(  LPCSTR lpCmdLine,  </span></span></span><br><span class="line"><span class="params"><span class="function">             UINT   uCmdShow )</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>这样就相当于调用函数 <code>winExec(&quot;calc.exe&quot;,0)</code>来打开计算器。</p>
+</li>
+<li><p>函数调用完成后。将eax置0，然后入栈，将函数<code>kernel32!ExitProcess</code>地址传给ebx。相当于向函数<code>kernel32!ExitProcess</code>传入参数，结束调用的进程及其所有的线程windows函数。</p>
+</li>
+</ul>
+</li>
+<li><p>shellcode分析完毕。</p>
+</li>
+<li><p>在命令中输入<code>g</code>，即可弹出计算器。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930010258154.png" alt="image-20210930010258154"></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-Ollydbg-调试-shellcode2020-exe"><a href="#0x04-Ollydbg-调试-shellcode2020-exe" class="headerlink" title="0x04 Ollydbg 调试 shellcode2020.exe"></a>0x04 Ollydbg 调试 shellcode2020.exe</h2><ul>
+<li><p>直接执行shellcode2020.exe会直接弹出计算器。</p>
+</li>
+<li><p>动态分析前:</p>
+<ul>
+<li>通过IDA_Pro 可以直接定位到 main函数地址为 : <code>0x401290</code></li>
+</ul>
+</li>
+<li><p>在Ollydbg中设置断点<code>0x401290</code>,然后运行程序跳转到该地址</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930012008965.png" alt="image-20210930012008965"></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">push ebp </span><br><span class="line">mov ebp,esp 更新函数栈帧</span><br><span class="line"></span><br><span class="line">sub esp,8</span><br><span class="line">and esp,FFFFFFF0</span><br><span class="line">mov eax,0</span><br><span class="line">add eax,0f</span><br><span class="line">add eax,0f</span><br><span class="line">shr eax,4</span><br><span class="line">shl eax,4  将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010</span><br></pre></td></tr></table></figure></li>
+<li><p>然后进入到地址为<code>0x401710</code>的函数，结合IDA，该函数为alloca函数，产生函数指针。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">原型：</span><br><span class="line">void * __cdecl alloca(size_t);</span><br><span class="line">参数：</span><br><span class="line">size_t: 申请分配内存的尺寸</span><br><span class="line">返回值：</span><br><span class="line">void*: 分配到的内存地址</span><br><span class="line">alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。</span><br><span class="line">alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的&quot;堆栈&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>进入函数<code>0x4013b0</code>，执行加载函数，将shellcode加载到代码区。</p>
+</li>
+<li><p>然后设置断点 <code>0x4012ba</code>，然后单步步入</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930020613037.png" alt="image-20210930020613037"></li>
+<li>发现<code>dword ptr[ebp - 4]</code>被赋值为地址<code>0x402000</code></li>
+<li>观察IDA，发现地址<code>0x40200</code>的地方存取的数据为evil数组，即shellcode存放地址。</li>
+<li>同时<code>0x402000</code>也是文件执行过程中，data端的起始位置。</li>
+</ul>
+</li>
+<li><p>步入，查看shellcode。</p>
+<ul>
+<li><p>发现大致流程和windbg分析过程一样。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930020953402.png" alt="image-20210930020953402"></li>
+<li>通过call和pop结合运用，将ebx赋值为 地址<code>0x40201d</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930021121847.png" alt="image-20210930021121847"></li>
+<li>ebx此时存放的为字符串<code>calc.exe</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930021514723.png" alt="image-20210930021514723"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>然后同样的压栈操作，调用函数<code>Kernel32!WinExec</code>进行执行计算器。</p>
+<p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20210930022642197.png" alt="image-20210930022642197"></p>
+</li>
+<li><p>执行完毕后，又将eax置0 ，将函数<code>kernel32!ExitProcess</code>的地址传给ebx,调用ebx地址所在的程序，即ExitProcess(‘0’)，退出程序。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-总结-区别"><a href="#0x05-总结-区别" class="headerlink" title="0x05 总结(区别)"></a>0x05 总结(区别)</h2><ul>
+<li>Scer.exe创造一个新的线程，然后通过读取文件内容作为shellcode，并通过<code>VirtualAlloc</code>申请内存，xp里面这个内存地址均为<code>0xb40000</code>并且用esi保存这个地址，然后<code>ReadFile</code>即在虚拟地址<code>0xb40000</code>中写入shellcode，然后通过<code>forma</code>t,<code>update</code>等函数shellcode进行转换，最后地址将其作为一个函数指针，进行调用，进入shellcode。</li>
+<li>shellcode2020.exe则是在文件的.data端 存放我们的shellcode。通过函数<code>alloca</code>来在堆上申请内存，并且用函数指针对其调用，最后调用.data的起始地址，运行我们构造的shellcode,可以运行计算器。</li>
+<li>因此两者的区别：一个是从外部植入shellcode，将其加载到内存中，另一个是程序本身自带的shellcode，通过构造函数指针来执行shellcode。</li>
+</ul>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://w.wallhaven.cc/full/dp/wallhaven-dpdevg.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2021/11/03/rop/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rop</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://w.wallhaven.cc/full/l3/wallhaven-l3dkel.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2021/11/03/%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%BC%8F%E6%B4%9E/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">格式化字符串</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" class="soft-size--round soft-style--box" alt="reus09">
+    
+    
+      <h2>reus09</h2>
+    
+    
+      <p>足球世界瞬息万变，多特蒙德永不沉沦。</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>6</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        2
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        5
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>欢迎来到bvb ^~^</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">
+            漏洞分析 (4)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">
+            算法分析 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/rop/" style="font-size: 10px;" class="tags-cloud-0">rop</a> <a href="/tags/shellcode%E7%BC%96%E5%86%99/" style="font-size: 10px;" class="tags-cloud-0">shellcode编写</a> <a href="/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">栈溢出</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;" class="tags-cloud-0">格式化字符串漏洞</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;" class="tags-cloud-0">算法</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2021 <a href="/" target="_blank">marco reus</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+	
+</footer>
+
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer-box");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        let params = {
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          autoplay: true,
+          loop: false,
+          mutex: true,
+        }
+        if (el.dataset.lrc) {
+          params['lrcType'] = 3
+        }
+        new APlayer(params);
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

