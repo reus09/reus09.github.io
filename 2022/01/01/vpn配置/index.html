@@ -1,0 +1,929 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>vpn | reus</title><meta name="keywords" content="vpn配置"><meta name="author" content="reus09"><meta name="copyright" content="reus09"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="VPN配置实验[TOC] 0x01 实验内容  在Windows IPSEC配置实验中，通过抓包工具抓取IKE SA和IPSEC SA建立过程的数据包，并进行分析；思考：IKE密钥协商过程是否存在安全威胁。  采用IPSec隧道模式在两台用作网关的计算机之间配置VPN，抓取两台计算机之间的数据包，查看数据的机密性，提交实验步骤和分析结果。(提示：可以使用ping\net send \telnet等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vpn">
+<meta property="og:url" content="https://reus09.github.io/2022/01/01/vpn%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="reus">
+<meta property="og:description" content="VPN配置实验[TOC] 0x01 实验内容  在Windows IPSEC配置实验中，通过抓包工具抓取IKE SA和IPSEC SA建立过程的数据包，并进行分析；思考：IKE密钥协商过程是否存在安全威胁。  采用IPSec隧道模式在两台用作网关的计算机之间配置VPN，抓取两台计算机之间的数据包，查看数据的机密性，提交实验步骤和分析结果。(提示：可以使用ping\net send \telnet等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg">
+<meta property="article:published_time" content="2022-01-01T13:22:48.000Z">
+<meta property="article:modified_time" content="2022-01-01T13:15:07.189Z">
+<meta property="article:author" content="reus09">
+<meta property="article:tag" content="vpn配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg"><link rel="shortcut icon" href="https://w.wallhaven.cc/full/1k/wallhaven-1k2p8v.jpg"><link rel="canonical" href="https://reus09.github.io/2022/01/01/vpn%E9%85%8D%E7%BD%AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'vpn',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2022-01-01 21:15:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script src="/live2d-widget/autoload.js"></script><style type="text/css">#toggle-sidebar {bottom: 80px}</style><style type="text/css">.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{left:-66px!important}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover{left:0!important}</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="reus" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">reus</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">vpn</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-01T13:15:07.189Z" title="更新于 2022-01-01 21:15:07">2022-01-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/">网络安全实验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="vpn"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="VPN配置实验"><a href="#VPN配置实验" class="headerlink" title="VPN配置实验"></a>VPN配置实验</h1><p>[TOC]</p>
+<h2 id="0x01-实验内容"><a href="#0x01-实验内容" class="headerlink" title="0x01 实验内容"></a>0x01 实验内容</h2><ul>
+<li> 在Windows IPSEC配置实验中，通过抓包工具抓取IKE SA和IPSEC SA建立过程的数据包，并进行分析；思考：IKE密钥协商过程是否存在安全威胁。</li>
+<li> 采用IPSec隧道模式在两台用作网关的计算机之间配置VPN，抓取两台计算机之间的数据包，查看数据的机密性，提交实验步骤和分析结果。(提示：可以使用ping\net send \telnet等命令进行对比验证)</li>
+<li> 配置OPENVPN，利用2至3台主机独立完成虚拟专网的搭建，并验证虚拟专网的安全性（用抓包工具分析，提示：可以使用ping\net send \telnet等命令进行对比验证）。</li>
+<li>PacketTracer里VPN配置实验。（选做）</li>
+</ul>
+<h2 id="0x02-Windows-IPSEC配置"><a href="#0x02-Windows-IPSEC配置" class="headerlink" title="0x02 Windows IPSEC配置"></a>0x02 Windows IPSEC配置</h2><ul>
+<li>配置环境：<code>windows xp</code> &amp; <code>windows 7</code></li>
+<li>查看<code>win xp</code>和<code>win 7</code>的IP地址<ul>
+<li><code>windows xp</code> : <code>192.168.195.131</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128233556.png" alt="image-20211128233556458"></li>
+</ul>
+</li>
+<li><code>windows 7</code> : <code>192.168.195.176</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128233635.png" alt="image-20211128233635296"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-windows-xp-IPSEC配置"><a href="#2-1-windows-xp-IPSEC配置" class="headerlink" title="2.1 windows xp IPSEC配置"></a>2.1 windows xp IPSEC配置</h3><ul>
+<li><p>打开<code>windows xp</code>虚拟机，通过<code>secpol.msc</code>打开本地安全设置</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231055.png" alt="image-20211128231055325"></li>
+</ul>
+</li>
+<li><p>在IP安全策略下右键，创建安全策略</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231125.png" alt="image-20211128231125637"></li>
+</ul>
+</li>
+<li><p>设置配置名称为<code>reus09</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231159.png" alt="image-20211128231159635"></li>
+<li>激活默认响应规则<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231229.png" alt="image-20211128231229636"></li>
+</ul>
+</li>
+<li>身份认证方法采用<code>此字符串用来保护密钥交换</code>，输入<code>123456</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231312.png" alt="image-20211128231312522"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>回到原来窗口，鼠标右键，指派</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231410.png" alt="image-20211128231410547"></li>
+</ul>
+</li>
+<li><p>鼠标右键，属性，添加规则并进行相应的配置</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231441.png" alt="image-20211128231441417"></p>
+</li>
+<li><p>选择此规则不指定隧道</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231513.png" alt="image-20211128231513737"></li>
+</ul>
+</li>
+<li><p>选择所有网络连接</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231533.png" alt="image-20211128231532956"></li>
+</ul>
+</li>
+<li><p>身份验证方法采用<code>此字符串用来保护密钥交换</code>，输入字符串：<code>123456</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231623.png" alt="image-20211128231623393"></li>
+</ul>
+</li>
+<li><p>IP筛选列表选择<code>所有IP通讯量</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231647.png" alt="image-20211128231647505"></li>
+</ul>
+</li>
+<li><p>筛选器操作选择<code>需要安全</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231708.png" alt="image-20211128231708556"></li>
+</ul>
+</li>
+<li><p>点击下一步完成</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128231743.png" alt="image-20211128231743191"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>至此，<code>Windows xp</code>下的<code>IPSEC</code>配置完成，操作过程中没有报错。</p>
+</li>
+</ul>
+<h3 id="2-2-windows-7-IPSEC配置"><a href="#2-2-windows-7-IPSEC配置" class="headerlink" title="2.2 windows 7 IPSEC配置"></a>2.2 windows 7 IPSEC配置</h3><ul>
+<li>以同样的方式配置<code>windows 7</code>下的<code>IPSEC</code>，这里与<code>windows xp</code>配置大致相同，截图只用于说明不同点。通过<code>secpol.msc</code>打开<code>windows 7</code>本地安全设置<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232047.png" alt="image-20211128232047010"></li>
+</ul>
+</li>
+<li>在IP安全策略下右键，创建安全策略</li>
+<li>设置配置名称为<code>reus09</code>（个人随意），由于激活默认响应规则仅限于windows早期版本，故不选择激活默认响应规则，过程中，没有身份认证选择<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232145.png" alt="image-20211128232145840"></li>
+<li>点击默认设置，一直到属性窗口，添加规则：选择此规则不指定隧道、选择所有网络连接、在IP筛选列表中点击添加，名称为<code>新IP筛选列表</code>，并点击添加，之后选择默认操作<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232338.png" alt="image-20211128232338854"></li>
+</ul>
+</li>
+<li>选择刚刚建立的IP筛选列表，点击下一步<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232453.png" alt="image-20211128232417902"></li>
+</ul>
+</li>
+<li>选择<code>添加IP筛选器</code>操作, 选择<code>协商安全</code>,继续默认操作<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232530.png" alt="image-20211128232530857"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>选择刚刚建立的新筛选器操作，点击下一步<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232655.png" alt="image-20211128232654966"></li>
+<li>身份验证方法采用<code>此字符串用来保护密钥交换</code>，输入字符串：<code>123456</code>(与上面的相同)<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232733.png" alt="image-20211128232733497"></li>
+</ul>
+</li>
+<li>单击下一步，选择默认操作直至筛选器配置完成<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232803.png" alt="image-20211128232803642"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>回到原来窗口，鼠标右键，分配，至此，<code>Windows 7</code>下的<code>IPSEC</code>配置完成，操作过程中没有报错<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128232825.png" alt="image-20211128232825585"></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-开始通信"><a href="#2-3-开始通信" class="headerlink" title="2.3 开始通信"></a>2.3 开始通信</h3><ul>
+<li>关闭<code>win 7</code>的<code>IPSEC服务</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128234514.png" alt="image-20211128234514472"></li>
+</ul>
+</li>
+<li>使用<code>win 7</code> <code>ping</code> <code>win xp</code>，请求超时，<code>ping</code>不通<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128234625.png" alt="image-20211128234625877"></li>
+</ul>
+</li>
+<li>对通信过程进行抓包，可以看到<code>win 7</code>一直请求<code>IPsec SA</code>但总不成功<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235205.png" alt="image-20211128235205748"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235245.png" alt="image-20211128235245855"></li>
+</ul>
+</li>
+<li>重新开启<code>win 7</code>的<code>IPSEC服务</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235309.png" alt="image-20211128235309178"></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-1-默认安全策略"><a href="#2-3-1-默认安全策略" class="headerlink" title="2.3.1 默认安全策略"></a>2.3.1 默认安全策略</h4><ul>
+<li>使用<code>win 7</code>重新<code>ping</code> <code>win xp</code>，发现成功<code>ping</code>通<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235353.png" alt="image-20211128235353746"></li>
+</ul>
+</li>
+<li>对通信过程进行抓包，由于此时<code>win xp</code>和<code>win7</code>都采用的是默认的<code>esp加密</code>，所以抓包显示的是<code>esp包</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235444.png" alt="image-20211128235444673"></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-2-仅AH通信-不经过ESP加密"><a href="#2-3-2-仅AH通信-不经过ESP加密" class="headerlink" title="2.3.2 仅AH通信,不经过ESP加密"></a>2.3.2 仅<code>AH通信</code>,不经过<code>ESP加密</code></h4><ul>
+<li><code>Win 7</code>和<code>win xp</code>都设置仅<code>AH通信</code>，不经过<code>ESP</code>加密<ul>
+<li><code>window 7</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211128235942.png" alt="image-20211128235942864"></li>
+</ul>
+</li>
+<li><code>windows xp</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129000000.png" alt="image-20211129000000261"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>继续使用<code>win 7</code> <code>ping</code> <code>win xp</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129000200.png" alt="image-20211129000200223"></li>
+</ul>
+</li>
+<li>对通信过程进行抓包，发现没有<code>ESP加密</code>后数据包格式为<code>ICMP</code>，数据为<code>abcdef</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129000322.png" alt="image-20211129000322754"></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-3-Win-7和win-xp仅esp认证"><a href="#2-3-3-Win-7和win-xp仅esp认证" class="headerlink" title="2.3.3  Win 7和win xp仅esp认证"></a>2.3.3  Win 7<code>和</code>win xp<code>仅</code>esp认证</h4><ul>
+<li><code>windows 7</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129000619.png" alt="image-20211129000619011"></li>
+</ul>
+</li>
+<li><code>windows xp</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129001629.png" alt="image-20211129000631541"></li>
+</ul>
+</li>
+<li>可以看到没有<code>esp</code>加密后的数据是<code>abcdefg</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129001724.png" alt="image-20211129001724022"></li>
+</ul>
+</li>
+<li>同时也可以注意到开启<code>esp加密之后</code>的<code>esp</code>加密的数据被加密隐藏了<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129001921.png" alt="image-20211129001921658"></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-4-分析IKE-SA和IPSEC-SA建立过程"><a href="#2-3-4-分析IKE-SA和IPSEC-SA建立过程" class="headerlink" title="2.3.4 分析IKE SA和IPSEC SA建立过程"></a>2.3.4 分析<code>IKE SA</code>和<code>IPSEC SA</code>建立过程</h4><ul>
+<li>要建立<code>IPSec连接</code>，首先要协商一个<code>IKE SA</code>，然后在<code>IKE SA</code>的基础上协商<code>IPSec SA</code></li>
+<li>IKE SA建立分为三个阶段<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129002908.png" alt="image-20211129002908001"><ul>
+<li><code>SA交换</code>，协商确认有关安全策略。该过程进行安全协商<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003346.png" alt="image-20211129003346698"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003322.png" alt="image-20211129003322371"></li>
+</ul>
+</li>
+<li>密钥交换阶段，主要交换密钥<code>Diffie-Hellman公共值</code>。数据包中的<code>Key Exchange</code>用于交换各自加密生成的<code>主密钥</code>；<code>Nonce</code>使用了随机数，防止重放攻击；加密所用的密钥为<code>ipsec</code>中设定的<code>预共享密钥</code>； <code>NAT-D</code>为双方的ip+端口的Hash值。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003410.png" alt="image-20211129003410748"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003213.png" alt="image-20211129003136281"></li>
+</ul>
+</li>
+<li>ID信息和认证数据交换，进行身份认证，对第一阶段交换内容的认证。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003438.png" alt="image-20211129003438177"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003449.png" alt="image-20211129003449503"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>IPSec SA</code>建立分为两个阶段，都是加密数据，无法查看。用到了<code>Quick-Mode</code>，目的是在两个对等体间协商一组一致的参数来创建<code>IPSec SA</code>，用于真实数据的加解密，并且在此进行<code>PFS</code>，<code>PFS</code>及在<code>Quick-Mode</code>重新做<code>DH</code>的交换，产生新的密钥用于<code>IPSec</code>数据的加密。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129003512.png" alt="image-20211129003512913"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-5-思考"><a href="#2-3-5-思考" class="headerlink" title="2.3.5 思考"></a>2.3.5 思考</h4><ul>
+<li>Q：IKE密钥协商过程是否存在安全威胁？</li>
+<li>A：<code>IPSec密钥交换过程</code>分为两个独立阶段。第一阶段通信双方彼此建立一个通过身份认证和安全保护的隧道，称为<code>ISAKMP SA</code>。只要<code>ISAKMP SA</code>建立起来，所有发起方和应答方之间的<code>IKE</code>通信信息都通过加密、完整性检查和认证的方法受到保护。第二阶段的建立是为特定的<code>Internet</code>安全协议(如<code>IPSec</code>等)创建安全关联(<code>IPSec SA</code>)。IKE第一阶段的目的是建立一个<code>安全隧道</code>，使得第二阶段的协商可以秘密地进行。两台主机之间可以同时建立多个<code>ISAKMP SA</code>，一个<code>ISAKMP SA</code>也可以创建多个<code>IPSec SA</code>，<code>ISAKMP SA</code>的结束不会影响它创建的<code>IPSec SA</code>发生作用。这种密钥协商过程是存在着漏洞的，可以通过中间人攻击和拒绝服务攻击实现漏洞利用。</li>
+</ul>
+<h2 id="0x03-配置OPENVPN"><a href="#0x03-配置OPENVPN" class="headerlink" title="0x03 配置OPENVPN"></a>0x03 配置OPENVPN</h2><h3 id="4-1-网络环境"><a href="#4-1-网络环境" class="headerlink" title="4.1 网络环境"></a>4.1 网络环境</h3><ul>
+<li>服务器端<ul>
+<li><code>Windows xp</code>: <code>192.168.195.131</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130013117.png" alt="image-20211130013117863"></li>
+</ul>
+</li>
+<li>client<ul>
+<li><code>IP</code> :<code>192.168.195.131</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130013825.png" alt="image-20211130013825694"></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-环境修改"><a href="#4-2-环境修改" class="headerlink" title="4.2 环境修改"></a>4.2 环境修改</h3><ul>
+<li><p>把 easy-rsa 目录下的 vars.bat.sample 改名为 vars.bat，并且修改其内容</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130002436.png" alt="image-20211130002435971"></li>
+</ul>
+</li>
+<li><p>把 easy-rsa 下的 openssl.cnf.sample 改成 openssl.cnf。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130002541.png" alt="image-20211130002541798"></li>
+</ul>
+</li>
+<li><p>然后进入 cmd.exe</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130002645.png" alt="image-20211130002645764"></li>
+</ul>
+</li>
+<li><p>生成 Root CA</p>
+<p>格式: build-ca.bat</p>
+<p>输出: keys/ca.crt keys/ca.key</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130002917.png" alt="image-20211130002917147"></li>
+</ul>
+</li>
+<li><p>生成 dh1024.pem 文件，Server 使用 TLS 必须使用的一个文件。</p>
+<p>格式: build-dh.bat</p>
+<p>输出: keys/dh1024.pem</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130003000.png" alt="image-20211130003000109"></li>
+</ul>
+</li>
+<li><p><strong>下面生成服务端证书、客户端证书和 TA 证书：</strong> </p>
+<ul>
+<li><p>下面开始生成 Server 使用的证书了：</p>
+<p>格式: build-key-server.bat <filename></p>
+<p>输出: keys/<filename>.crt <filename>.csr <filename>.key</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130003144.png" alt="image-20211130003144877"></li>
+</ul>
+</li>
+<li><p>下面开始为 client 办法证书：</p>
+<p>格式: build-key.bat <filename></p>
+<p>输出: keys/<filename>.crt keys/<filename>.csr keys/<filename>.key</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130004557.png" alt="image-20211130004515698"></li>
+</ul>
+</li>
+<li><p>下面生成 ta.key 文件</p>
+<p>格式: openvpn –genkey –secret keys/ta.key</p>
+<p>输出: keys/ta.key</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130004557.png" alt="image-20211130004555618"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>服务端与客户端的配置:</strong> </p>
+<ul>
+<li>server.opvn配置</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130014311.png" alt="image-20211130014311592"></li>
+<li>把 easy-rsa\keys\下的 ca.crt server.crt server.key ta.key dh1024.pem复制到 server.ovpn 所在目录。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130010603.png" alt="image-20211130010603644"></li>
+</ul>
+</li>
+<li>可以看到<code>server端连接</code>：VPN的IP为<code>10.8.0.0</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130014424.png" alt="image-20211130014424315"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Client</p>
+<ul>
+<li>client.opvn配置<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130014326.png" alt="image-20211130014326627"></li>
+</ul>
+</li>
+<li>服务端主机 easy-rsa/keys 下的 ca.crt client.crt client.key ta.key 一起放到客户机的<OPENVPN_HOME>\config 目录下。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130011418.png" alt="image-20211130011418555"></li>
+</ul>
+</li>
+<li>连接效果图<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130013744.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-连接测试"><a href="#4-3-连接测试" class="headerlink" title="4.3 连接测试"></a>4.3 连接测试</h3><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130014242.png" alt="image-20211130014242007"></li>
+</ul>
+<h2 id="0x04-PacketTrace-VPN配置"><a href="#0x04-PacketTrace-VPN配置" class="headerlink" title="0x04 PacketTrace VPN配置"></a>0x04 PacketTrace VPN配置</h2><h3 id="5-1-实验环境"><a href="#5-1-实验环境" class="headerlink" title="5.1 实验环境"></a>5.1 实验环境</h3><ul>
+<li>系统：<code>Windows xp</code></li>
+<li>软件工具：思科官方模拟器<code>Packet Tracer 5.3</code></li>
+<li>模拟实体：2台<code>cisco2800</code>系列路由器、2台24端口以太网交换机和若干PC电脑</li>
+</ul>
+<h3 id="5-2-初始化路由器"><a href="#5-2-初始化路由器" class="headerlink" title="5.2 初始化路由器"></a>5.2 初始化路由器</h3><ul>
+<li><p>安装<code>Packet Tracer 5.3</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129004245.png" alt="image-20211129004245806"></li>
+</ul>
+</li>
+<li><p>配置安全策略</p>
+<ul>
+<li>新建一条安全策略<code>PacketTracer</code>，添加IP安全规则，隧道方式为<code>不指定隧道</code>，网络类型选择<code>所有网络连接</code>，身份验证方法选择<code>用字符串保护密钥交换</code>，输入：<code>123456</code>；进入IP筛选器列表的配置项，设置一个新的IP筛选器列表，新建一个IP筛选器，将<code>我的IP地址</code>作为源地址，将<code>任何IP地址</code>作为目标地址，在<code>选择协议类型</code>中选中<code>任意</code>，新建一个筛选操作，设置为<code>协商安全</code>，选中<code>不和不支持IPSec的计算机通讯</code>，以要求必须在<code>IPSec</code>基础上进行连接，<code>IP通讯安全设施</code>中选择选择<code>自定义</code>，然后点击<code>设置</code>选择如下图，选择默认直至配置完成</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129004914.png" alt="image-20211129004914430"></li>
+<li><img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20211129004953171.png" alt="image-20211129004953171"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129005023.png" alt="image-20211129005022954"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129005054.png" alt="image-20211129005054453"></li>
+</ul>
+</li>
+<li><p>初始化配置路由器</p>
+<ul>
+<li>打开<code>cisco模拟器</code>，在模拟器窗口工具栏下选择<code>file--new</code>。在左下角设备栏选取路由器。</li>
+<li>将<code>cisco2811路由器</code>拖到工作区域，单击工作区域的路由器图标，选择<code>CLI项</code>，弹出如图所示界面<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129005434.png" alt="image-20211129005433997"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进入路由器特权模式配置路由器网卡IP，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable	//进入特权模式，只有在特权模式下才可以对路由器进行配置</span><br><span class="line">Router#configure terminal		//进入配置状态，通过端口进行配置</span><br><span class="line">Router(config)# interface fastEthernet 0/0	//进入端口f0/0 </span><br><span class="line">Router(config-if)#ip address 10.0.0.1 255.255.255.0	#配置网卡f0/0的ip地址和子网掩码</span><br><span class="line">Router(config-if)#no shutdown		//开启端口f0/0</span><br><span class="line">Router(config-if)#end		//返回特权模式</span><br><span class="line">Router#configure terminal		//进入配置状态，通过端口进行配置</span><br><span class="line">Router(config)# interface fastEthernet 0/1  //进入端口f0/1</span><br><span class="line">Router(config-if)#ip address 192.168.1.1 255.255.255.0  //配置网卡f0/1的ip地址和子网掩码 </span><br><span class="line">Router(config-if)#no shutdown		//开启端口f0/1</span><br><span class="line">Router(config-if)#end		//返回特权模式</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129212207.png" alt="image-20211129212200414"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129212253.png" alt="image-20211129212253475"></li>
+</ul>
+</li>
+<li><p>初始配置<code>router 0</code>完成，根据<code>router 0</code>的配置过程完成<code>router 1</code>的配置，其中<code>router 1</code>的<code>f0/0</code>端口IP为<code>10.0.0.2/24</code>, <code>router 1</code>的<code>f0/1</code>端口的IP地址为<code>192.168.2.1/24</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129213100.png" alt="image-20211129212951455"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129213100.png" alt="image-20211129213058622"></li>
+</ul>
+</li>
+<li><p>配置完成后，点击选择将<code>router 0</code>和<code>router 1</code>的<code>f0/0</code>端口连接</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129213237.png" alt="image-20211129213237143"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129213247.png" alt="image-20211129213247785"></li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-搭建网络环境"><a href="#5-3-搭建网络环境" class="headerlink" title="5.3 搭建网络环境"></a>5.3 搭建网络环境</h3><ul>
+<li><p>在模拟器左下角选择PC</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129234811.png" alt="image-20211129234811235"></li>
+<li>拖到绘图工作区，双击<code>PC图标</code>，选择<code>Desktop</code>，如图所示<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129234852.png" alt="image-20211129234852274"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>选择<code>IP Configuration</code>，配置PC的IP地址和子网掩码，如图所示</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129235026.png" alt="image-20211129235026855"></li>
+</ul>
+</li>
+<li><p>重复上述操作，配置六台PC，它们的IP地址分别为</p>
+<ul>
+<li><code>192.168.1.10</code></li>
+<li><code>192.168.1.20</code></li>
+<li><code>192.168.1.30</code></li>
+<li><code>192.168.2.10</code></li>
+<li><code>192.168.2.20</code></li>
+<li><code>192.168.2.30</code></li>
+</ul>
+<p>子网掩码全为<code>255.255.255.0</code>，前三台网关为<code>192.168.1.1</code>，后三台网关为<code>192.168.2.1</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129235214.png" alt="image-20211129235214339"></li>
+</ul>
+</li>
+<li><p>选取交换机</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211129235344.png" alt="image-20211129235344813"></li>
+<li>将路由器于交换机相连，将交换机于PC相连；最终完成如图所示的网络图<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001024.png" alt="image-20211130001024110"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-4-配置路由"><a href="#5-4-配置路由" class="headerlink" title="5.4 配置路由"></a>5.4 配置路由</h3><ul>
+<li><p>在路由器中配置路由，使路由器两端的网络互通</p>
+</li>
+<li><p>配置<code>router 0</code>，双击<code>router 0</code>图标，选择<code>CLI项</code>，进入路由器配置窗口，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#configure  terminal</span><br><span class="line">Router(config)# ip route 0.0.0.0  0.0.0.0 fastEthernet 0/0  //配置内网访问外部网络的出口路由</span><br><span class="line">Router(config)#ip route 192.168.1.0  255.255.255.0  fastEthernet  0/1  //配置外部访问内部网络入口路由</span><br><span class="line">Router(config)#end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001038.png" alt="image-20211130001038099"></li>
+</ul>
+</li>
+<li><p>配置<code>router 1</code>，双击<code>router 1</code>图标，选择<code>CLI项</code>，进入路由器配置窗口，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#configure  terminal</span><br><span class="line">Router(config)# ip route 0.0.0.0  0.0.0.0 fastEthernet 0/0  //配置内网访问外部网络的出口路由</span><br><span class="line">Router(config)#ip route 192.168.2.0  255.255.255.0  fastEthernet  0/1  //配置外部访问内部网络入口路由</span><br><span class="line">Router(config)#end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001055.png" alt="image-20211130001055645"></li>
+</ul>
+</li>
+</ul>
+<h3 id="5-5-测试网络互通性"><a href="#5-5-测试网络互通性" class="headerlink" title="5.5 测试网络互通性"></a>5.5 测试网络互通性</h3><ul>
+<li><p>双击<code>PC0图标</code>，在弹出的对话框中，选择<code>Desktop</code>，选择<code>Command Prompt</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001215.png" alt="image-20211130001215742"></li>
+</ul>
+</li>
+<li><p>使用<code>ping</code>命令，<code>ping</code> <code>192.168.1.1</code>、<code>10.0.0.1</code>、<code>192.168.2.10</code>、<code>10.0.0.2</code>、<code>192.168.3.10</code>结果除了最后一个地址(该地址不存在)其它全能<code>ping</code>通，表明搭建的网络满足实验环境</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001251.png" alt="image-20211130001251587"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001314.png" alt="image-20211130001314453"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001400.png" alt="image-20211130001400515"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001421.png" alt="image-20211130001420945"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211130001508.png" alt="image-20211130001508132"></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://leeyuxun-1258157351.cos.ap-beijing.myqcloud.com/img/1565753295977.png">
+  </a></p>
+</li>
+</ul>
+<h2 id="0x05-IPSEC隧道模式VPN"><a href="#0x05-IPSEC隧道模式VPN" class="headerlink" title="0x05  IPSEC隧道模式VPN"></a>0x05  IPSEC隧道模式VPN</h2><h3 id="5-1-配置IPSec-VPN"><a href="#5-1-配置IPSec-VPN" class="headerlink" title="5.1 配置IPSec VPN"></a>5.1 配置IPSec VPN</h3><ul>
+<li><p>配置<code>router 0</code>，双击<code>router 0</code>图标，选择<code>CLI项</code>，进入路由器配置窗口</p>
+<ul>
+<li><p>定义<code>IKE</code>的策略(<code>router 0</code>和<code>router1</code>之间的密钥交换策略)，<code>IKE</code>只是密钥的交换策略,在使用加密对称和非对称加密算法的时候,需要密钥来对数据加密,下面的IKE策略只是建立一条管理连接，负责加密生成的各种密钥，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router#configure terminal		//进入配置状态，通过端口进行配置</span><br><span class="line">Router (config)#crypto isakmp policy 10		//一个IKE的策略，号码是10，数字越低，策略优先级越高</span><br><span class="line">Router (config-isakmp)# authentication pre-share	//使用预定义共享密钥进行设备认证</span><br><span class="line">Router (config-isakmp)#hash md5	   //认证方式使用MD5进行认证</span><br><span class="line">Router (config-isakmp)#encryption des		//加密方式使用DES，可选AES/DES</span><br><span class="line">Router (config-isakmp)#group 2		//指定DH组</span><br><span class="line">Router (config-isakmp)# lifetime 86400		//对生成新SA的周期进行调整，两端的路由器都要设置相同的SA周期</span><br><span class="line">Router (config-isakmp)# exit</span><br><span class="line">Router (config)#crypto isakmp key reus09 address 10.0.0.2   //定义一个密码,密码是reus09，和地址为10.0.0.2的设备去交换密钥</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211201003548.png" alt="image-20211201003541244"></p>
+</li>
+<li><p>定义数据的<code>加密方式</code>和<code>认证方式</code>，配置<code>IPSec</code>，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router (config)#access-list 110 permit ip 192.168.1.0 0.0.0.255 192.168.2.0  0.0.0.255	//定义访问控制列表,这里的访问控制列表不是对数据进行过滤，是定义那些数据应该被加密，也可以理解哪些数据触发IPSec 流</span><br><span class="line">Router (config)#crypto ipsec transform-set mine esp-des esp-md5-hmac	//设置数据的加密方式，策略名字为mine，使用ESP-DES对数据加密，ESP-MD5-HMAC对数据认证</span><br><span class="line">Router(config)# crypto map mymap 101 ipsec-isakmp  //定义一个map,调用刚才做的策略</span><br><span class="line">Router(config-crypto-map)# match address 110		//匹配出访问控制列表110的数据</span><br><span class="line">Router(config-crypto-map)# set peer 10.0.0.2      //标识对端路由器的合法IP地址</span><br><span class="line">Router(config-crypto-map)# set pfs group2</span><br><span class="line">Router(config-crypto-map)# set transform-set mine  //使用刚才定义好的策略对数据加密</span><br><span class="line">Router(config-crypto-map)# set security-association lifetime seconds 86400	//指定IPSec SA的存活期</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211201003727.png" alt="image-20211201003727600"></p>
+</li>
+<li><p>将<code>map</code>映射到<code>公网端口</code>，一个端口只能映射一个<code>map</code>，输入命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router（config）interface fastEthernet 0/0</span><br><span class="line">Router(config-if)#crypto map mymap</span><br><span class="line">*Jan  3 07:16:26.785: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is ON</span><br><span class="line">Router（config-if）end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201003814.png" alt="image-20211201003814132"></li>
+</ul>
+</li>
+<li><p>查看策略</p>
+<ol>
+<li><p>查看<code>IKE策略</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router# show crypto isakmp policy</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004108.png" alt="image-20211201004108595"></li>
+</ul>
+</li>
+<li><p>查看<code>IPSec变换集</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router# show crypto ipsec transform-set</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004133.png" alt="image-20211201004133511"></li>
+</ul>
+</li>
+<li><p>查看 <code>crypto maps</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router# show crypto map</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004200.png" alt="image-20211201004200300"></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>配置<code>router 1</code>，双击<code>router 1</code>图标，选择<code>CLI项</code>，进入路由器配置窗口</p>
+<ul>
+<li>定义<code>IKE</code>的策略，与配置<code>route 0</code>相同<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004433.png" alt="image-20211201004433062"></li>
+</ul>
+</li>
+<li>定义数据的加密方式和认证方式，配置<code>IPSec</code>，与配置<code>route 0</code>相同<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004721.png" alt="image-20211201004721537"></li>
+</ul>
+</li>
+<li>将<code>map</code>映射到<code>公网端口</code>，与配置<code>route 0</code>相同<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201004820.png" alt="image-20211201004820247"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-2-测试IPSec-VPN"><a href="#5-2-测试IPSec-VPN" class="headerlink" title="5.2 测试IPSec VPN"></a>5.2 测试IPSec VPN</h3><ul>
+<li><p>测试<code>VPN连通性</code></p>
+<p>双击<code>PC0</code>图标，在弹出的对话框中，选择<code>Desktop</code>，选择<code>Command Prompt</code>，<code>ping 192.168.2.10</code>，如下图所示</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005024.png" alt="image-20211201005024135"></li>
+</ul>
+</li>
+<li><p>验证数据经过<code>IPSec VPN</code> <code>加密传输</code>，点击进入<code>simulation mode</code>，弹出如图所示对话框</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005218.png" alt="image-20211201005218194"></li>
+</ul>
+</li>
+<li><p>重复上一步操作，<code>simulation Panel</code>中选取<code>Auto Capture</code>，观察工作区动画，展示了数据包在网络中的传送过程</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005424.png" alt="image-20211201005423929"></li>
+</ul>
+</li>
+<li><p>双击路由器<code>router 0</code>处数据包，弹出如图所示弹框，可以分析出数据包的信息</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005603.png" alt="image-20211201005603722"></li>
+<li>进入路由器的数据包（左侧）的信息源IP是<code>192.168.1.10</code>，目的IP是<code>192.168.2.10</code></li>
+<li>路由器出去的数据包(右侧)的源IP改变为<code>10.0.0.1</code>，目的IP变为<code>10.0.0.2</code></li>
+<li>从上图的第六条信息中发现<code>ESP encrypts the received packet</code>的信息</li>
+<li>综上，从<code>PC0</code>（<code>192.168.1.10</code>）发往对端<code>PC3</code>（<code>192.168.2.10</code>）的数据经过了路由器的<code>IPSec VPN</code>模块加密处理，隐藏了内网的IP地址信息，从而保护了内网的数据</li>
+</ul>
+</li>
+<li><p>断开<code>VPN</code></p>
+<ul>
+<li><p>断开<code>router 0</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router（config）#interface fastEthernet 0/0</span><br><span class="line">Router(config-if)#no crypto map mymap</span><br><span class="line">Router（config-if）end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005811.png" alt="image-20211201005811344"></li>
+</ul>
+</li>
+<li><p>双击<code>PC0</code>图标，在弹出的对话框中，选择<code>Desktop</code>，选择<code>Command Prompt</code>，<code>ping 192.168.2.10</code>，<code>ping</code>不通，表明只断开一端路由器的端口<code>map映射</code>，两边无法连通</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201005945.png" alt="image-20211201005945175"></li>
+</ul>
+</li>
+<li><p>以同样的方式断开route 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router（config）#interface fastEthernet 0/0</span><br><span class="line">Router(config-if)#no crypto map mymap</span><br><span class="line">Router（config-if）end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201010052.png" alt="image-20211201010052171"></li>
+</ul>
+</li>
+<li><p>双击<code>PC0</code>图标，在弹出的对话框中，选择<code>Desktop</code>，选择<code>Command Prompt</code>，<code>ping 192.168.2.10</code>，<code>ping</code>成功，表明两端都断开后，两边网络可以再次保持连接</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201010306.png" alt="image-20211201010306640"></li>
+</ul>
+</li>
+<li><p>抓取经过<code>route 0</code>的数据包，发现数据不再加密传输。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211201010334.png" alt="image-20211201010333971"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x06-总结"><a href="#0x06-总结" class="headerlink" title="0x06 总结"></a>0x06 总结</h2><ul>
+<li>通过配置IPSEC，明白AH和ESP的区别。</li>
+<li>配置OPEN VPN,PacketTrace 对局域网的架构有了一定的了解。</li>
+<li>配置多个VPN，明白了VPN的工作原理。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">reus09</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://reus09.github.io/2022/01/01/vpn%E9%85%8D%E7%BD%AE/">https://reus09.github.io/2022/01/01/vpn%E9%85%8D%E7%BD%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://reus09.github.io" target="_blank">reus</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vpn%E9%85%8D%E7%BD%AE/">vpn配置</a></div><div class="post_share"><div class="social-share" data-image="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/01/web%E5%AE%89%E5%85%A8/"><img class="next-cover" src="https://pic.3gbizhi.com/2021/1006/20211006101110273.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">web安全</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">reus09</div><div class="author-info__description">无名之辈</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/reus09"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/reus09" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:614768006@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">足球世界瞬息万变，多特蒙德永不沉沦。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#VPN%E9%85%8D%E7%BD%AE%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.</span> <span class="toc-text">VPN配置实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 实验内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Windows-IPSEC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 Windows IPSEC配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-windows-xp-IPSEC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 windows xp IPSEC配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-windows-7-IPSEC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 windows 7 IPSEC配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%BC%80%E5%A7%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 开始通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E9%BB%98%E8%AE%A4%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">2.3.1 默认安全策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E4%BB%85AH%E9%80%9A%E4%BF%A1-%E4%B8%8D%E7%BB%8F%E8%BF%87ESP%E5%8A%A0%E5%AF%86"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2.3.2 仅AH通信,不经过ESP加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-Win-7%E5%92%8Cwin-xp%E4%BB%85esp%E8%AE%A4%E8%AF%81"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">2.3.3  Win 7和win xp仅esp认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E5%88%86%E6%9E%90IKE-SA%E5%92%8CIPSEC-SA%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">2.3.4 分析IKE SA和IPSEC SA建立过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-%E6%80%9D%E8%80%83"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">2.3.5 思考</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E9%85%8D%E7%BD%AEOPENVPN"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 配置OPENVPN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.1 网络环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%8E%AF%E5%A2%83%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.2 环境修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3 连接测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-PacketTrace-VPN%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 PacketTrace VPN配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.1.</span> <span class="toc-text">5.1 实验环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%88%9D%E5%A7%8B%E5%8C%96%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">5.2 初始化路由器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%90%AD%E5%BB%BA%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.3.</span> <span class="toc-text">5.3 搭建网络环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1"><span class="toc-number">1.4.4.</span> <span class="toc-text">5.4 配置路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E6%80%A7"><span class="toc-number">1.4.5.</span> <span class="toc-text">5.5 测试网络互通性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-IPSEC%E9%9A%A7%E9%81%93%E6%A8%A1%E5%BC%8FVPN"><span class="toc-number">1.5.</span> <span class="toc-text">0x05  IPSEC隧道模式VPN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E9%85%8D%E7%BD%AEIPSec-VPN"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 配置IPSec VPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%B5%8B%E8%AF%95IPSec-VPN"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2 测试IPSec VPN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">0x06 总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn"><img src="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vpn"/></a><div class="content"><a class="title" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn">vpn</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全"><img src="https://pic.3gbizhi.com/2021/1006/20211006101110273.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web安全"/></a><div class="content"><a class="title" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全">web安全</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测"><img src="https://pic.3gbizhi.com/2021/1105/20211105063648584.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="入侵检测"/></a><div class="content"><a class="title" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测">入侵检测</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描"><img src="https://pic.3gbizhi.com/2021/1105/20211105063640562.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络扫描"/></a><div class="content"><a class="title" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描">网络扫描</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙"><img src="https://pic.3gbizhi.com/2021/1105/20211105063644204.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="防火墙"/></a><div class="content"><a class="title" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By reus09</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+      appKey: 'cbGngWbakC2XACAWTmkCGaE9',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_親親":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再見":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_發怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_發財":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可愛":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_嘔吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_壞笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尷尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_驚嚇":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=monsterid'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://u4B9afmQ.api.lncldglobal.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+        "X-LC-Key": 'cbGngWbakC2XACAWTmkCGaE9',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.innerHTML= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="806728741" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
