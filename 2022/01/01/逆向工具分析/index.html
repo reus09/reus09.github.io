@@ -1,0 +1,576 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>逆向分析 | reus</title><meta name="keywords" content="工具使用"><meta name="author" content="reus09"><meta name="copyright" content="reus09"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="实验题[TOC] 0x01 前提 c 程序以及可执行的exe 文件 #include &lt;stdio.h&gt;#include &lt;string&gt;#define PASSWORD &quot;1234567&quot;int verify_password (char *password)&amp;#123;	int authenticated;	authenticated&#x3D;strcmp(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向分析">
+<meta property="og:url" content="https://reus09.github.io/2022/01/01/%E9%80%86%E5%90%91%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="reus">
+<meta property="og:description" content="实验题[TOC] 0x01 前提 c 程序以及可执行的exe 文件 #include &lt;stdio.h&gt;#include &lt;string&gt;#define PASSWORD &quot;1234567&quot;int verify_password (char *password)&amp;#123;	int authenticated;	authenticated&#x3D;strcmp(">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.3gbizhi.com/2021/0924/20210924105944980.jpg">
+<meta property="article:published_time" content="2022-01-01T13:19:48.000Z">
+<meta property="article:modified_time" content="2022-01-01T13:24:28.167Z">
+<meta property="article:author" content="reus09">
+<meta property="article:tag" content="工具使用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.3gbizhi.com/2021/0924/20210924105944980.jpg"><link rel="shortcut icon" href="https://w.wallhaven.cc/full/1k/wallhaven-1k2p8v.jpg"><link rel="canonical" href="https://reus09.github.io/2022/01/01/%E9%80%86%E5%90%91%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '逆向分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2022-01-01 21:24:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script src="/live2d-widget/autoload.js"></script><style type="text/css">#toggle-sidebar {bottom: 80px}</style><style type="text/css">.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body{left:-66px!important}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover{left:0!important}</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="reus" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.3gbizhi.com/2021/0924/20210924105944980.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">reus</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">逆向分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-01T13:19:48.000Z" title="发表于 2022-01-01 21:19:48">2022-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-01T13:24:28.167Z" title="更新于 2022-01-01 21:24:28">2022-01-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/">软件安全实验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="逆向分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="实验题"><a href="#实验题" class="headerlink" title="实验题"></a>实验题</h1><p>[TOC]</p>
+<h2 id="0x01-前提"><a href="#0x01-前提" class="headerlink" title="0x01 前提"></a>0x01 前提</h2><ul>
+<li><p>c 程序以及可执行的exe 文件</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PASSWORD <span class="meta-string">&quot;1234567&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">verify_password</span> <span class="params">(<span class="keyword">char</span> *password)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> authenticated;</span><br><span class="line">	authenticated=<span class="built_in">strcmp</span>(password,PASSWORD);</span><br><span class="line">	<span class="keyword">return</span> authenticated;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> valid_flag=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> password[<span class="number">1024</span>];</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;please input password:       &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,password);</span><br><span class="line">		valid_flag = verify_password(password);</span><br><span class="line">		<span class="keyword">if</span>(valid_flag)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;incorrect password!\n\n&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;Congratulation! You have passed the verification!\n&quot;</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>调试程序: test.exe</p>
+</li>
+<li><p>工具：ollydbg,IDAPro</p>
+</li>
+<li><p>常见函数 strcmp功能:</p>
+<ul>
+<li><p>```<br>int strcmp(const char *str1, const char *str2)<br>str1 &lt; str2 返回值 &lt; 0<br>str1 = str2 返回值 = 0<br>str1 &gt; str2 返回值 &gt; 0</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">## 0x02 目标</span><br><span class="line"></span><br><span class="line">* 简单分析一下程序：</span><br><span class="line">  * 定义一个`PASSWORD`=`1234567`，然后在main()函数里面，循环输入一个密码，在每次输入的密码中调用函数`verify_password`来判断输入的`password`与宏定义好的`PASSWORD`比对，如果相同，程序打印`congratulations! you have passed the verification` ，并退出循环，如果不同，则继续进行循环，并打印`incorrect password!`</span><br><span class="line">* 目的：</span><br><span class="line">  * 通过Ollydbg调试程序，明确程序逻辑,然后通过修改汇编语句来修改程序的判断条件，改变程序的运行路线，即在输入密码错误的情况下依然输出`Congratulation! You have passed the verification!`。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 0x03 实验内容</span><br><span class="line"></span><br><span class="line">### 调试过程</span><br><span class="line"></span><br><span class="line">* 在IDAPro里面定位到main函数的入口地址  位于`0x401080`</span><br><span class="line"></span><br><span class="line">  ![image-20211004202636954](https://gitee.com/reus09/typora/raw/master/img/image-20211004202636954.png)</span><br><span class="line"></span><br><span class="line">* 在main函数入口地址设置断点，运行程序， F9调试至断点main函数入口处。</span><br><span class="line"></span><br><span class="line">  * ![image-20211004202939245](https://gitee.com/reus09/typora/raw/master/img/image-20211004202939245.png)</span><br><span class="line"></span><br><span class="line">* 可以看到前面是main函数栈帧的初始化过程，一路单步步过(F8)到达地址`0x4010A5`部分，很明显看到该部分为一个循环函数，</span><br><span class="line"></span><br><span class="line">  * `eax` 恒 赋值为 `0x1`，可以判断循环在没有特定退出条件的情况下，为一个死循环。</span><br><span class="line"></span><br><span class="line">  * 进入到地址为`0x4010AC` 区域</span><br><span class="line"></span><br><span class="line">  * 看到此时跳转未实现，因为 `test eax,eax`后标志位ZF仍然为0，故不会在这个地址跳转到函数`0x401107`。</span><br><span class="line"></span><br><span class="line">* 继续单步f8,可以看到压入字符串`&quot;please input password:&quot;`,作为参数压入栈中，调用函数`0x401390`，结合下文中的意思，该函数功能应该为`printf`，将字符串打印到界面。</span><br><span class="line"></span><br><span class="line">  * ![image-20211004211651127](https://gitee.com/reus09/typora/raw/master/img/image-20211004211651127.png)</span><br><span class="line"></span><br><span class="line">* 继续F8，发现`push ecx, push 0x425084`，ecx对应存放于[local.257]地址中的数据，0x425084看栈中对应的为`%s`,结合cmd命令端出现的字符串，因此不难发现，该函数`0x401330`实现了scanf函数，结合下面的指令，并且将输入的数据存放到[local.257]的内存空间中。</span><br><span class="line"></span><br><span class="line">  * ![](https://gitee.com/reus09/typora/raw/master/img/image-20211004211854030.png)</span><br><span class="line"></span><br><span class="line">* 然后在命令框中，随便输入一个密码，比如`1234`，看后续情况。</span><br><span class="line"></span><br><span class="line">  * ![image-20211004212115315](https://gitee.com/reus09/typora/raw/master/img/image-20211004212115315.png)</span><br><span class="line">  * 此时`[local.257]`空间存放的数据即为输入的password。然后`lea edx,[local.257]`，将password赋值给edx。</span><br><span class="line"></span><br><span class="line">* 向下F8,发现程序将edx入栈，作为函数`0x401005`的参数。单步步入(F7)观察函数`0x401005`，经过一次跳转，跳转到地址为`0x401030`的空间，进入该子函数的栈帧。</span><br><span class="line"></span><br><span class="line">  * ```汇编</span><br><span class="line">    push 0x32501c</span><br><span class="line">    mov eax,[arg.1]</span><br><span class="line">    push eax</span><br></pre></td></tr></table></figure></li>
+<li><p>发现栈帧中压入字符串<code>1234567</code>和字符串<code>1234</code></p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004212805164.png" alt="image-20211004212805164"></li>
+<li>不难知道，<code>0x42501c</code>的地址存放的为字符串<code>1234567</code>，<code>[arg.1]</code>存放的为我们输入的字符串password<code>1234</code>。(猜测此时的1234567即为正确密码)，</li>
+</ul>
+</li>
+<li><p>下面查看函数<code>0x401260</code>的功能。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004213216741.png" alt="image-20211004213216741"></li>
+<li>其实现了两个字符串之间逐字符的比较，因此应为strcmp函数</li>
+<li>二者比较后的结果存放在地址为<code>[local.1]</code>的空间中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>回到main函数的栈帧中，<code>cmp [local.1],0x0</code></p>
+<ul>
+<li>因为[local.1] 来自于 eax,eax的值为&lt;0,所以明显cmp之后，标志位ZF仍为0，故不会跳转到<code>0x4010f6</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004214010815.png" alt="image-20211004214010815"></li>
+</ul>
+</li>
+<li><p>然后压入字符串<code>0x425068</code> 空间内部的<code>&quot;incorrect password!&quot;</code>。</p>
+<ul>
+<li>作为参数传递给下面的printf函数，打印密码错误<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004214358640.png" alt="image-20211004214358640"></li>
+</ul>
+</li>
+<li>然后下面两步连续的跳转回到循环的开头,<code>0x4010A5</code>,重新开始新的循环。</li>
+</ul>
+</li>
+<li><p>然后就轻车熟路，连续单步步过(F8)，一直到scanf函数的位置，输入我们猜测的密码<code>1234567</code></p>
+<ul>
+<li><p>一路跳转到地址<code>0x4010DE</code>的位置，此时[loca.1] 对应eax存储的值为0。</p>
+<p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004214801049.png" alt="image-20211004214801049"></p>
+</li>
+<li><p>所以<code>cmp [local.1],0x0</code> 的结果中 ,ZF 值为1 ，故下面可以跳转。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004214936556.png" alt="image-20211004214936556"></li>
+</ul>
+</li>
+<li><p>跳转到地址<code>0x4010f6</code>的区域，压入字符串<code>&quot;Congratulation! You have passed the verification!&quot;</code>,并且调用打印函数。</p>
+<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004215058270.png" alt="image-20211004215058270"></li>
+</ul>
+</li>
+<li><p>然后两步跳转跳到0x401107区域，退出循环，然后退出程序。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改过程"><a href="#修改过程" class="headerlink" title="修改过程"></a>修改过程</h3><ul>
+<li>修改过程放在IDAPro 里面进行。</li>
+<li>首先直接查看该程序的整体框图。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004215312301.png" alt="image-20211004215312301"></li>
+<li>逻辑很清晰，在一个循环中，根据判断条件退出循环。</li>
+</ul>
+</li>
+<li>因此我们只需要找到判断二者分支的判断语句，修改其逻辑即可以实现。<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004215551741.png" alt="image-20211004215551741"></li>
+<li>观察框图，我们不难发现可以修改<code>jz short loc_4010F6</code>来实现逻辑翻转，即我们输入错误的密码一样可以输出<code>Congratulation</code>。</li>
+</ul>
+</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004215904682.png" alt="image-20211004215904682"></li>
+<li>JZ 的机器指令为 74,我们只要将其修改为 jNZ，即可，JNZ的机器指令为75.<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004220104006.png" alt="image-20211004220104006"></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004220207072.png" alt="image-20211004220207072"></li>
+<li>然后调用将其保存。</li>
+</ul>
+</li>
+</ul>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>修改前<ul>
+<li>输入<code>1234</code>报错<code>Incorrect</code>，输入<code>1234567</code>输出<code>conratulation</code>,``</li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004220747686.png" alt="image-20211004220747686"></li>
+</ul>
+</li>
+<li>修改后<ul>
+<li>因为程序没有设置<code>pause</code>，程序运行成功后会闪退，因此我们在ollydbg上面进行调试，不难，发现我们这次输入错误的密码<code>1234</code>，终端可以输出<code>congratulation</code>,然而输入正确的<code>1234567</code>反而<code>Incorrect</code></li>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211004220959851.png" alt="image-20211004220959851"></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-实验结构图"><a href="#0x04-实验结构图" class="headerlink" title="0x04 实验结构图"></a>0x04 实验结构图</h2><ul>
+<li>修改前<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6.png" alt="未命名文件"></li>
+</ul>
+</li>
+<li>修改后，两张图，相比只修改了，判断分支的时候valid_flag是否等于0.<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%20(1).png" alt="未命名文件 (1)"></li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-测试结论"><a href="#0x05-测试结论" class="headerlink" title="0x05 测试结论"></a>0x05 测试结论</h2><ul>
+<li>一个小小的分支语句的改变可以改变整个程序的逻辑，因此编写代码的时候一定要注意逻辑的顺序，一个小小的bug可能也会造成很大的损失。</li>
+<li>对于给出的数组password 数组的长度为1024，因为在main函数的栈帧里面，数组password是位于valid_flag上面的，因此原理上是可以实现通过栈溢出来覆盖valid_flag的值来达到拿到shell的目的。</li>
+</ul>
+<h1 id="附加题"><a href="#附加题" class="headerlink" title="附加题"></a>附加题</h1><p>[TOC]</p>
+<h2 id="0x01-前提-1"><a href="#0x01-前提-1" class="headerlink" title="0x01 前提"></a>0x01 前提</h2><ul>
+<li><p>crackme.exe</p>
+</li>
+<li><p>工具：</p>
+<ul>
+<li>IDAPro</li>
+<li>ollydbg</li>
+</ul>
+</li>
+<li><p>汇编指令对应的机器码</p>
+<ul>
+<li><p>```<br>JZ =&gt;  74<br>JNZ =&gt; 75</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">## 0x02 目标</span><br><span class="line"></span><br><span class="line">* 简单分析一下程序</span><br><span class="line">  * 通过在登录框中输入账户和密码。</span><br><span class="line">  * 如果账户和密码匹配(实际调试过程中发现，登录与否只与密码有关),则弹框登陆成功，如果不匹配，则弹框登录失败</span><br><span class="line">* 目的：</span><br><span class="line">  * 至少两种破解方法</span><br><span class="line">  * 通过修改程序代码绕过程序的密码验证逻辑，即输入错误的密码仍然可以弹框登录成功。</span><br><span class="line"></span><br><span class="line">## 0x03 实验内容</span><br><span class="line"></span><br><span class="line">### 调试过程</span><br><span class="line"></span><br><span class="line">* 首先在IDAPro`shift + F12`查看全局字符串，发现字符串`crackmepassword`疑似为需要的密码。</span><br><span class="line"></span><br><span class="line">  * 验证一下，随便输入一个账户和该密码</span><br><span class="line">  * ![image-20211005111357370](https://gitee.com/reus09/typora/raw/master/img/image-20211005111357370.png)</span><br><span class="line">  * 显示登录成功。</span><br><span class="line"></span><br><span class="line">* 因此调用该`crackmepassword`密码的位置即为程序判断密码、账户匹配的核心代码部分，利用IDAPro的`x`快捷键，迅速一级级xrefes 向上定位到核心代码区域。发现其位于起始地址`0x4015A0`的代码区，将其转化为函数，可以查看gragh图。</span><br><span class="line"></span><br><span class="line">  * ![image-20211005111844347](https://gitee.com/reus09/typora/raw/master/img/image-20211005111844347.png)</span><br><span class="line">  * ![image-20211005112005802](https://gitee.com/reus09/typora/raw/master/img/image-20211005112005802.png)</span><br><span class="line">  * 然后就发现，程序逻辑为，判断输入的账户、密码是否为空。</span><br><span class="line">  * 如果都不为空，则跳转到循环判断某个输入的字符串(这个字符串目前不明确是谁，存储在eax中)与我们存储的字符串`crackmepassword`(存储在esi中)是否相等，相等则输出登陆成功，否则就弹出登录错误。</span><br><span class="line"></span><br><span class="line">* 为了判断eax存储的具体为账户的值还是密码的值，这里利用ollydbg在地址`0x4015A90`的区域设置断点，跟踪eax寄存器中数据的变化，来定位最后需要判断的字符串到底来自谁。</span><br><span class="line"></span><br><span class="line">* 在账户中输入`12345678`八个字符，密码中输入`1234`四个字符。</span><br><span class="line"></span><br><span class="line">  * ![image-20211005112742137](https://gitee.com/reus09/typora/raw/master/img/image-20211005112742137.png)</span><br><span class="line"></span><br><span class="line">* 然后单步步过f8，一直跳到语句`jnz 0x4015c6 `止步，账户字符串存放在`ds:[edi-0x60]`,发现此时的eax存放的是账户的字符串，ecx存放的是账户字符串的长度</span><br><span class="line"></span><br><span class="line">  * ![image-20211005113110019](https://gitee.com/reus09/typora/raw/master/img/image-20211005113110019.png)</span><br><span class="line">  * 并且此时 zf 为0，也就是说明账户长度不为0，所以会跳转到地址`0x4016c6`的区域。</span><br><span class="line">  * 不难猜测，如果账户长度为0，就不会跳转，程序弹出`请输入账户`,然后重新回到读取数据的阶段。</span><br><span class="line"></span><br><span class="line">* 继续单步步过F8，跳转到语句`jnz 0x4015e2`区域，密码字符串存放在`ds:[edi-0x64]`,发现此时，eax存取数据更新，存放的是密码的字符串，ecx存放的是密码的长度，</span><br><span class="line"></span><br><span class="line">  * ![image-20211005113330557](https://gitee.com/reus09/typora/raw/master/img/image-20211005113330557.png)</span><br><span class="line">  * 并且此时 zf 为0，也就是密码账户长度不为0，所以会跳转到地址`0x4016e2`的区域。</span><br><span class="line">  * 不难猜测，如果密码长度为0，就不会跳转，程序弹出`请输入密码`,然后重新回到读取数据的阶段。</span><br><span class="line"></span><br><span class="line">* 接下来的一些汇编指令，实现了将字符串`crackmepassword`存取到寄存器esi，中</span><br><span class="line"></span><br><span class="line">  * ![image-20211005113750958](https://gitee.com/reus09/typora/raw/master/img/image-20211005113750958.png)</span><br><span class="line"></span><br><span class="line">* 继续读取数据,很容易发现读取的dl，来自eax(此时存放的是密码)。bl,来自esi(存取的是字符串`crackmepassword`)。</span><br><span class="line"></span><br><span class="line">  * ![image-20211005114131769](https://gitee.com/reus09/typora/raw/master/img/image-20211005114131769.png)</span><br><span class="line"></span><br><span class="line">* 由此确定,eax存放的是来自于密码的字符串。</span><br><span class="line"></span><br><span class="line">* 下面逻辑重新回到IDAPro里面借助框图分析。</span><br><span class="line"></span><br><span class="line">* ![image-20211005114532997](https://gitee.com/reus09/typora/raw/master/img/image-20211005114532997.png)</span><br><span class="line"></span><br><span class="line">  * 逻辑很简单，每次循环判断两个字节的数据(因为要从数组中取出数据两次)。</span><br><span class="line"></span><br><span class="line">  * `cmp dl,bl`判断每次比较的字符是否相等，相等则继续进行循环，如果不相等，直接跳转到函数`loc_401611`(该函数功能稍后再说),</span><br><span class="line"></span><br><span class="line">  * 比较一对对应的字符之后，`test cl,cl`,cl存放的是密码中的每一个字符，如果cl存在，ZF 显然为 1，不会跳转显然继续进行循环.如果cl为空，说明字符串已经全部比较完成，已经到了截断符`\0`的位置，因此循环可以退出，跳转到语句`0x40160D`位置。</span><br><span class="line"></span><br><span class="line">  * 下面的语句即为上面的再来一遍，不在赘述。</span><br><span class="line"></span><br><span class="line">  * `loc_40160D`函数 中`xor eax,eax`显然将eax 置 为 0. (密码正确的情况)</span><br><span class="line"></span><br><span class="line">  * `loc_401611` (密码错误的情况)</span><br><span class="line"></span><br><span class="line">    * ```</span><br><span class="line">      sbb eax,eax</span><br><span class="line">      sbb eax,0ffffffffh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>sbb是带借位减法指令，它利用了CF位上记录的借位值。</p>
+<p><code>功能:操作对象1=操作对象1-操作对象2-CF</code></p>
+</li>
+<li><p>对于该段函数，结合上面的程序，显然上述的cf为0，</p>
+</li>
+<li><p>故这里的 是将 eax 置为 <code>0x1</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005115455604.png" alt="image-20211005115455604"></p>
+<ul>
+<li>上述的eax 到这里，如果密码正确，eax = 0,<code>test eax,eax</code>产生的ZF 为0，所以跳转到相反的地址,弹框<code>注册成功</code>。</li>
+<li>如果密码错误，eax = 1 ,<code>test eax,eax </code>产生的 ZF 为 1， 跳转到函数<code>loc_401637</code>，弹框<code>注册失败</code>，然后继续输入数据，</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改过程-1"><a href="#修改过程-1" class="headerlink" title="修改过程"></a>修改过程</h3><ul>
+<li>根据逻辑，我们要想实现输入错误的密码也可以弹框<code>注册成功</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005121351508.png" alt="image-20211005121351508"></li>
+</ul>
+</li>
+<li>这里提供两个策略<ul>
+<li>一 修改 <code>jnz loc_401637</code>的逻辑，实现输入错误的密码会跳转到注册成功，反而输入正确的密码<code>crackmepassword</code>反而会弹框<code>注册失败</code></li>
+<li>二 修改到达函数<code>loc_401611</code>的路径，使比较字符错误后不会跳到该函数，这样就实现了输入错误密码，最后跳转到函数<code>loc_40160D</code>，最后成功输出<code>注册成功</code>，输入正确密码反而会弹出<code>注册失败</code>。</li>
+</ul>
+</li>
+<li>法一 ： 修改 <code>jnz loc_401637</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005122006989.png" alt="image-20211005122006989"></li>
+<li>将这里修改为<code>jz loc_401637</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005122124437.png" alt="image-20211005122124437"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>法二： 修改达到函数<code>loc_401611</code>的分支<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005122513620.png" alt="image-20211005122513620"></li>
+<li>这里需要修改两个地方的逻辑 </li>
+<li>即将<code>jnz loc_401611</code>均改为<code>jz loc_401611</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005122702849.png" alt="image-20211005122702849"></li>
+</ul>
+</li>
+<li>修改后<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005122811749.png" alt="image-20211005122811749"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>未修改前<ul>
+<li>输入正确密码 <code>crackmepassword</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123319611.png" alt="image-20211005123319611"></li>
+</ul>
+</li>
+<li>输入错误密码 <code>12345</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123359292.png" alt="image-20211005123359292"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>修改方案一   修改 <code>jnz loc_401637</code><ul>
+<li>输入正确密码 <code>crackmepassword</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123531545.png" alt="image-20211005123531545"></li>
+</ul>
+</li>
+<li>输入错误密码 <code>12345</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123603219.png" alt="image-20211005123603219"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>修改方案二  修改达到函数<code>loc_401611</code>的分支<ul>
+<li>输入正确密码 <code>crackmepassword</code><ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123623211.png" alt="image-20211005123623211"></li>
+</ul>
+</li>
+<li>输入错误密码<ul>
+<li><img src="https://gitee.com/reus09/typora/raw/master/img/image-20211005123642506.png" alt="image-20211005123642506"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x04-实验结构图-1"><a href="#0x04-实验结构图-1" class="headerlink" title="0x04 实验结构图"></a>0x04 实验结构图</h2><ul>
+<li>修改前<ul>
+<li>![未命名文件 (4)](<a target="_blank" rel="noopener" href="https://gitee.com/reus09/typora/raw/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6">https://gitee.com/reus09/typora/raw/master/img/未命名文件</a> (4).png)</li>
+</ul>
+</li>
+<li>修改后，法一 修改 <code>jnz loc_401637</code>，即修改eax == 1 为 eax == 0<ul>
+<li>![未命名文件 (6)](<a target="_blank" rel="noopener" href="https://gitee.com/reus09/typora/raw/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6">https://gitee.com/reus09/typora/raw/master/img/未命名文件</a> (6).png)</li>
+</ul>
+</li>
+<li>修改后，法二 修改达到函数<code>loc_401611</code>的分支<ul>
+<li>即修改 <code>bl = dl</code> 为  <code>bl != dl</code> ,修改两个即可</li>
+<li>![未命名文件 (7)](<a target="_blank" rel="noopener" href="https://gitee.com/reus09/typora/raw/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6">https://gitee.com/reus09/typora/raw/master/img/未命名文件</a> (7).png)</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x05-测试结论-1"><a href="#0x05-测试结论-1" class="headerlink" title="0x05 测试结论"></a>0x05 测试结论</h2><ul>
+<li>对于比较复杂的逻辑，直观的观察流程图更为方便。</li>
+<li>对于某些不太清晰的数据流，可以通过olldbg来进行动态调试来观察数据的走向来确定数据的流向，进而确定程序的逻辑结构。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">reus09</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://reus09.github.io/2022/01/01/%E9%80%86%E5%90%91%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90/">https://reus09.github.io/2022/01/01/%E9%80%86%E5%90%91%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://reus09.github.io" target="_blank">reus</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></div><div class="post_share"><div class="social-share" data-image="https://pic.3gbizhi.com/2021/0924/20210924105944980.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/01/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C_%E6%A0%88%E6%BA%A2%E5%87%BA/"><img class="prev-cover" src="https://pic.3gbizhi.com/2021/0924/20210924104717119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">栈溢出</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/01/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB/"><img class="next-cover" src="https://pic.3gbizhi.com/2021/1118/20211118091821767.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">拒绝服务攻击</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/reus09/typora/raw/master/img/20211103151005.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">reus09</div><div class="author-info__description">无名之辈</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/reus09"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/reus09" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:614768006@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">足球世界瞬息万变，多特蒙德永不沉沦。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">实验题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%89%8D%E6%8F%90"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 前提</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">修改过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">1.1.2.</span> <span class="toc-text">实验结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">0x04 实验结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E6%B5%8B%E8%AF%95%E7%BB%93%E8%AE%BA"><span class="toc-number">1.3.</span> <span class="toc-text">0x05 测试结论</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%8A%A0%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">附加题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%89%8D%E6%8F%90-1"><span class="toc-number">2.1.</span> <span class="toc-text">0x01 前提</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%BF%87%E7%A8%8B-1"><span class="toc-number">2.1.1.</span> <span class="toc-text">修改过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C-1"><span class="toc-number">2.1.2.</span> <span class="toc-text">实验结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E5%9B%BE-1"><span class="toc-number">2.2.</span> <span class="toc-text">0x04 实验结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E6%B5%8B%E8%AF%95%E7%BB%93%E8%AE%BA-1"><span class="toc-number">2.3.</span> <span class="toc-text">0x05 测试结论</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn"><img src="https://pic.3gbizhi.com/2021/1103/20211103043551775.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vpn"/></a><div class="content"><a class="title" href="/2022/01/01/vpn%E9%85%8D%E7%BD%AE/" title="vpn">vpn</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全"><img src="https://pic.3gbizhi.com/2021/1006/20211006101110273.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web安全"/></a><div class="content"><a class="title" href="/2022/01/01/web%E5%AE%89%E5%85%A8/" title="web安全">web安全</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测"><img src="https://pic.3gbizhi.com/2021/1105/20211105063648584.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="入侵检测"/></a><div class="content"><a class="title" href="/2022/01/01/%E5%85%A5%E4%BE%B5%E7%9B%91%E6%B5%8B/" title="入侵检测">入侵检测</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描"><img src="https://pic.3gbizhi.com/2021/1105/20211105063640562.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络扫描"/></a><div class="content"><a class="title" href="/2022/01/01/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/" title="网络扫描">网络扫描</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙"><img src="https://pic.3gbizhi.com/2021/1105/20211105063644204.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="防火墙"/></a><div class="content"><a class="title" href="/2022/01/01/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a><time datetime="2022-01-01T13:22:48.000Z" title="发表于 2022-01-01 21:22:48">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By reus09</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+      appKey: 'cbGngWbakC2XACAWTmkCGaE9',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_親親":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再見":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_發怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_發財":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可愛":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_嘔吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_壞笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尷尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_驚嚇":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=monsterid'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://u4B9afmQ.api.lncldglobal.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'u4B9afmQbCTKovVFlCeTXMdK-gzGzoHsz',
+        "X-LC-Key": 'cbGngWbakC2XACAWTmkCGaE9',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.innerHTML= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="806728741" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
