@@ -2,13 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://www.reus09.top/posts/tech/</loc>
+    <lastmod>2022-09-12T14:40:53+08:00</lastmod>
+  </url><url>
+    <loc>http://www.reus09.top/posts/</loc>
+    <lastmod>2022-09-12T14:40:53+08:00</lastmod>
+  </url><url>
     <loc>http://www.reus09.top/categories/</loc>
     <lastmod>2022-09-12T14:40:53+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/gin/</loc>
+    <loc>http://www.reus09.top/tags/gin/</loc>
     <lastmod>2022-09-11T16:18:58+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/tags/gin/</loc>
+    <loc>http://www.reus09.top/posts/tech/gin/</loc>
     <lastmod>2022-09-11T16:18:58+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/categories/go/</loc>
@@ -20,12 +26,6 @@
     <loc>http://www.reus09.top/tags/</loc>
     <lastmod>2022-09-11T16:18:58+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/</loc>
-    <lastmod>2022-09-12T14:40:53+08:00</lastmod>
-  </url><url>
-    <loc>http://www.reus09.top/posts/</loc>
-    <lastmod>2022-09-12T14:40:53+08:00</lastmod>
-  </url><url>
     <loc>http://www.reus09.top/categories/pwn/</loc>
     <lastmod>2022-09-11T16:09:37+08:00</lastmod>
   </url><url>
@@ -35,10 +35,10 @@
     <loc>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</loc>
     <lastmod>2022-09-11T15:56:59+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/ddos/</loc>
+    <loc>http://www.reus09.top/tags/ddos/</loc>
     <lastmod>2022-09-11T15:49:04+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/tags/ddos/</loc>
+    <loc>http://www.reus09.top/posts/tech/ddos/</loc>
     <lastmod>2022-09-11T15:49:04+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/</loc>
@@ -62,10 +62,10 @@
     <loc>http://www.reus09.top/categories/java%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2022-09-11T16:13:20+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/springboot/</loc>
+    <loc>http://www.reus09.top/tags/springboot/</loc>
     <lastmod>2022-09-11T16:13:20+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/tags/springboot/</loc>
+    <loc>http://www.reus09.top/posts/tech/springboot/</loc>
     <lastmod>2022-09-11T16:13:20+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/posts/tech/mybatis/</loc>
@@ -80,16 +80,16 @@
     <loc>http://www.reus09.top/posts/tech/spring/</loc>
     <lastmod>2022-09-11T16:12:03+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/javaweb/</loc>
-    <lastmod>2022-09-11T16:06:21+08:00</lastmod>
-  </url><url>
     <loc>http://www.reus09.top/tags/javaweb/</loc>
     <lastmod>2022-09-11T16:06:21+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/jdbc/</loc>
-    <lastmod>2022-09-11T16:07:31+08:00</lastmod>
+    <loc>http://www.reus09.top/posts/tech/javaweb/</loc>
+    <lastmod>2022-09-11T16:06:21+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/tags/jdbc/</loc>
+    <lastmod>2022-09-11T16:07:31+08:00</lastmod>
+  </url><url>
+    <loc>http://www.reus09.top/posts/tech/jdbc/</loc>
     <lastmod>2022-09-11T16:07:31+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/tags/ssl/</loc>
@@ -98,10 +98,10 @@
     <loc>http://www.reus09.top/posts/tech/ssl%E5%88%86%E6%9E%90/</loc>
     <lastmod>2022-09-11T16:15:05+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://www.reus09.top/tags/vpn%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2022-09-11T16:13:59+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/tags/vpn%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2022-09-11T16:13:59+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/</loc>
@@ -128,16 +128,16 @@
     <loc>http://www.reus09.top/posts/life/</loc>
     <lastmod>2022-09-11T16:16:02+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</loc>
-    <lastmod>2022-09-11T16:01:39+08:00</lastmod>
-  </url><url>
     <loc>http://www.reus09.top/tags/arp%E6%AC%BA%E9%AA%97/</loc>
     <lastmod>2022-09-11T16:01:39+08:00</lastmod>
   </url><url>
-    <loc>http://www.reus09.top/posts/tech/rop/</loc>
-    <lastmod>2022-09-11T16:09:37+08:00</lastmod>
+    <loc>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</loc>
+    <lastmod>2022-09-11T16:01:39+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/tags/rop/</loc>
+    <lastmod>2022-09-11T16:09:37+08:00</lastmod>
+  </url><url>
+    <loc>http://www.reus09.top/posts/tech/rop/</loc>
     <lastmod>2022-09-11T16:09:37+08:00</lastmod>
   </url><url>
     <loc>http://www.reus09.top/categories/ollydbd/</loc>
@@ -158,6 +158,8 @@
     <loc>http://www.reus09.top/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</loc>
     <lastmod>2022-09-11T15:43:48+08:00</lastmod>
   </url><url>
+    <loc>http://www.reus09.top/posts/read/</loc>
+  </url><url>
     <loc>http://www.reus09.top/about/</loc>
   </url><url>
     <loc>http://www.reus09.top/archives/</loc>
@@ -169,7 +171,5 @@
     <loc>http://www.reus09.top/search/</loc>
   </url><url>
     <loc>http://www.reus09.top/series/</loc>
-  </url><url>
-    <loc>http://www.reus09.top/posts/read/</loc>
   </url>
 </urlset>
