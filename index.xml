@@ -6,14 +6,14 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 12 Sep 2022 21:56:04 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Sep 2022 22:06:57 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Cve Demo</title>
-      <link>http://www.reus09.top/posts/tech/cve-demo/</link>
-      <pubDate>Mon, 12 Sep 2022 21:56:04 +0800</pubDate>
+      <title>Hugo部署github</title>
+      <link>http://www.reus09.top/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</link>
+      <pubDate>Mon, 12 Sep 2022 22:06:57 +0800</pubDate>
       
-      <guid>http://www.reus09.top/posts/tech/cve-demo/</guid>
-      <description></description>
+      <guid>http://www.reus09.top/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</guid>
+      <description>最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo</description>
     </item>
     
     <item>
