@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SSM on Reus09&#39;s Blog</title>
+    <link>http://www.reus09.top/tags/ssm/</link>
+    <description>Recent content in SSM on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 29 Apr 2022 09:17:06 +0000</lastBuildDate><atom:link href="http://www.reus09.top/tags/ssm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mybatis</title>
+      <link>http://www.reus09.top/posts/tech/mybatis/</link>
+      <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/mybatis/</guid>
+      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>Spring Mvc</title>
+      <link>http://www.reus09.top/posts/tech/spring-mvc/</link>
+      <pubDate>Fri, 29 Apr 2022 09:16:59 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/spring-mvc/</guid>
+      <description>Spring-mvc 本篇主要对spring-mvc的知识点进行总结 MVC的工作流程： 用户通过视图层发送请求到服务器，在服务器中请求被Controller接收，</description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>http://www.reus09.top/posts/tech/spring/</link>
+      <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/spring/</guid>
+      <description>Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了</description>
+    </item>
+    
+  </channel>
+</rss>

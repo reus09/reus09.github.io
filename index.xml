@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Reus09&#39;s Blog</title>
+    <link>http://www.reus09.top/</link>
+    <description>Recent content on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 12 Sep 2022 16:18:58 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gin</title>
+      <link>http://www.reus09.top/posts/tech/gin/</link>
+      <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/gin/</guid>
+      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</description>
+    </item>
+    
+    <item>
+      <title>栈溢出</title>
+      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
+      <pubDate>Sun, 11 Sep 2022 15:56:59 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
+      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
+    </item>
+    
+    <item>
+      <title>DDos</title>
+      <link>http://www.reus09.top/posts/tech/ddos/</link>
+      <pubDate>Sun, 11 Sep 2022 15:49:04 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/ddos/</guid>
+      <description>拒绝服务攻击 0x01 实验目的 使用udp flood、阿拉丁等工具，分组展开攻击并利用wireshark分析。 编程实现SYN Flood攻击。 0x02 实验前提</description>
+    </item>
+    
+    <item>
+      <title>Go原生net包分析</title>
+      <link>http://www.reus09.top/posts/tech/go%E5%8E%9F%E7%94%9Fnet%E5%8C%85%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 11 Sep 2022 14:40:53 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/go%E5%8E%9F%E7%94%9Fnet%E5%8C%85%E5%88%86%E6%9E%90/</guid>
+      <description>很长时间没有水博客了，前些天学习了一下go的语法。go凭借其轻量级和并发性的原因，性能越来越优异，这里简单分析一下如何通过go原生的http</description>
+    </item>
+    
+    <item>
+      <title>CVE-2022-22963漏洞复现</title>
+      <link>http://www.reus09.top/posts/tech/cve-2022-22963/</link>
+      <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/cve-2022-22963/</guid>
+      <description>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种</description>
+    </item>
+    
+    <item>
+      <title>SpringBoot</title>
+      <link>http://www.reus09.top/posts/tech/springboot/</link>
+      <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/springboot/</guid>
+      <description>因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下spri</description>
+    </item>
+    
+    <item>
+      <title>Mybatis</title>
+      <link>http://www.reus09.top/posts/tech/mybatis/</link>
+      <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/mybatis/</guid>
+      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>Spring Mvc</title>
+      <link>http://www.reus09.top/posts/tech/spring-mvc/</link>
+      <pubDate>Fri, 29 Apr 2022 09:16:59 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/spring-mvc/</guid>
+      <description>Spring-mvc 本篇主要对spring-mvc的知识点进行总结 MVC的工作流程： 用户通过视图层发送请求到服务器，在服务器中请求被Controller接收，</description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>http://www.reus09.top/posts/tech/spring/</link>
+      <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/spring/</guid>
+      <description>Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了</description>
+    </item>
+    
+    <item>
+      <title>Javaweb</title>
+      <link>http://www.reus09.top/posts/tech/javaweb/</link>
+      <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/javaweb/</guid>
+      <description>0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于</description>
+    </item>
+    
+    <item>
+      <title>Jdbc</title>
+      <link>http://www.reus09.top/posts/tech/jdbc/</link>
+      <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/jdbc/</guid>
+      <description>一：JDBC概述 1.1 数据的持久化 持久化(persistence)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，</description>
+    </item>
+    
+    <item>
+      <title>Ssl分析</title>
+      <link>http://www.reus09.top/posts/tech/ssl%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/ssl%E5%88%86%E6%9E%90/</guid>
+      <description>0x01 实验目的 SSL/TLS协议分析。 用wireshark抓包，分析SSL/TLS连接建立的四个阶段。 OpenSSL安装、配置和测试。 安装配置O</description>
+    </item>
+    
+    <item>
+      <title>Vpn配置</title>
+      <link>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</guid>
+      <description>VPN配置实验 0x01 实验内容 在Windows IPSEC配置实验中，通过抓包工具抓取IKE SA和IPSEC SA建立过程的数据包，并进行分析；思考：</description>
+    </item>
+    
+    <item>
+      <title>网络扫描</title>
+      <link>http://www.reus09.top/posts/tech/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/</link>
+      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/</guid>
+      <description>网络扫描 0x01 实验目的 用xscan、nmap和nessus软件进行主机、端口、漏洞扫描实验，捕获扫描时交互的数据包，通过分析扫描数据包，验证扫描</description>
+    </item>
+    
+    <item>
+      <title>防火墙实验</title>
+      <link>http://www.reus09.top/posts/tech/%E9%98%B2%E7%81%AB%E5%A2%99%E5%AE%9E%E9%AA%8C/</link>
+      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E9%98%B2%E7%81%AB%E5%A2%99%E5%AE%9E%E9%AA%8C/</guid>
+      <description>防火墙实验 0x01 实验目标 选择一种主流的软件防火墙，熟悉其安全规则配置，通过配置防火墙规则，实现以下功能： 过滤远程服务器（R）到本地主机（L）的T</description>
+    </item>
+    
+    <item>
+      <title>2021年度总结</title>
+      <link>http://www.reus09.top/posts/life/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sat, 01 Jan 2022 19:30:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/life/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</guid>
+      <description>2021 小结 当一个人坐在空无一人的宿舍里，也许是无聊吧，也许是眼慕朋友圈满天飞的跨年小结，也许是看各种推送的年度总结有感，因此总想写点什么东西，特</description>
+    </item>
+    
+    <item>
+      <title>Arp欺骗</title>
+      <link>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</link>
+      <pubDate>Fri, 05 Nov 2021 00:22:48 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</guid>
+      <description>ARP欺骗实验 0x01 实验前提知识 ARP协议的安全问题 ARP协议是建立在信任局域网内所有结点的基础上的，它高效，但却不安全。 ARP高速缓存根据所接</description>
+    </item>
+    
+    <item>
+      <title>Rop</title>
+      <link>http://www.reus09.top/posts/tech/rop/</link>
+      <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/rop/</guid>
+      <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcod</description>
+    </item>
+    
+    <item>
+      <title>Shellcode 计算器</title>
+      <link>http://www.reus09.top/posts/tech/shellcode-%E8%AE%A1%E7%AE%97%E5%99%A8/</link>
+      <pubDate>Wed, 03 Nov 2021 22:05:29 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/shellcode-%E8%AE%A1%E7%AE%97%E5%99%A8/</guid>
+      <description>逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过win</description>
+    </item>
+    
+    <item>
+      <title>格式化字符串</title>
+      <link>http://www.reus09.top/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://www.reus09.top/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/about/</guid>
+      <description></description>
+    </item>
+    
+    
+    <item>
+      <title>Links</title>
+      <link>http://www.reus09.top/links/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/links/</guid>
+      <description></description>
+    </item>
+    
+    
+  </channel>
+</rss>

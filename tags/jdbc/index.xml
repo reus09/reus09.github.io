@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>jdbc on Reus09&#39;s Blog</title>
+    <link>http://www.reus09.top/tags/jdbc/</link>
+    <description>Recent content in jdbc on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 24 Mar 2022 23:02:23 +0000</lastBuildDate><atom:link href="http://www.reus09.top/tags/jdbc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jdbc</title>
+      <link>http://www.reus09.top/posts/tech/jdbc/</link>
+      <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/jdbc/</guid>
+      <description>一：JDBC概述 1.1 数据的持久化 持久化(persistence)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，</description>
+    </item>
+    
+  </channel>
+</rss>

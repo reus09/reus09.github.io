@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>pwn on Reus09&#39;s Blog</title>
+    <link>http://www.reus09.top/categories/pwn/</link>
+    <description>Recent content in pwn on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 11 Sep 2022 15:56:59 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>栈溢出</title>
+      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
+      <pubDate>Sun, 11 Sep 2022 15:56:59 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
+      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
+    </item>
+    
+    <item>
+      <title>Rop</title>
+      <link>http://www.reus09.top/posts/tech/rop/</link>
+      <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/rop/</guid>
+      <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcod</description>
+    </item>
+    
+    <item>
+      <title>格式化字符串</title>
+      <link>http://www.reus09.top/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参</description>
+    </item>
+    
+  </channel>
+</rss>

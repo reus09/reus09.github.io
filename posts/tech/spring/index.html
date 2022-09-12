@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Spring | Reus09&#39;s Blog</title>
+<meta name="keywords" content="SSM">
+<meta name="description" content="Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="http://www.reus09.top/posts/tech/spring/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Spring" />
+<meta property="og:description" content="Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.reus09.top/posts/tech/spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-18T20:36:10+00:00" />
+<meta property="article:modified_time" content="2022-09-11T16:12:03+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring"/>
+<meta name="twitter:description" content="Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "http://www.reus09.top/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨🏻‍💻技术",
+      "item": "http://www.reus09.top/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Spring",
+      "item": "http://www.reus09.top/posts/tech/spring/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Spring",
+  "name": "Spring",
+  "description": "Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了",
+  "keywords": [
+    "SSM"
+  ],
+  "articleBody": "Spring5 框架  这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理  0x01 IOC  概念  控制反转，把创建对象过程交给 Spring 进行管理   使用目的：  为了耦合度降低   底层原理  xml 解析、工厂模式、反射   IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂  1.1 实现方式  BeanFactory：IOC 容器基本实现，是 Spring 内部的使用接口，不提供开发人员进行使用  加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象   ApplicationContext：BeanFactory 接口的子接口，提供更多更强大的功能，一般由开发人 员进行使用  加载配置文件时候就会把在配置文件对象进行创建   Bean管理  Spring创建对象 Spring注入属性 实现方法  基于xml配置文件方式实现 基于注解方式实现      1.2 xml配置文件 1.2.1 创建对象  在 spring 配置文件中，使用 bean 标签，标签里面添加对应属性，就可以实现对象创建 在 bean 标签有很多属性，介绍常用的属性 *  id 属性:唯一标识 class 属性:类全路径（包类路径)   创建对象时候，默认也是执行无参数构造方法完成对象创建  1   id=\"user\" class=\"com.atguigu.spring5.User\"   1.2.2 注入属性  DI：依赖注入，就是注入属性  1.2.2.1 set方法注入   这个注入方法类中必须要有set方法，使用property属性\n1 2 3 4   id=\"book\" class=\"com.atguigu.spring5.Book\" \t \t name=\"bname\" value=\"易筋经\"      这个在book中对于类中的元素必须实现了setBname方法\n1 2  public void setBname(String bname) { this.bname = bname; }       1.2.2.2 有参数构造注入   这个注入方式，构造类中必须有对应的构造方法。构造方法含有几个参数便在bean中添加几个元素，使用constructor-arg属性进行配置\n1 2 3 4   id=\"orders\" class=\"com.atguigu.spring5.Orders\"   name=\"oname\" value=\"电脑\"   name=\"address\" value=\"China\"      对应的构造方法为\n1 2 3 4 5  public Orders(String oname,String address) {  this.oname = oname;  this.address = address; }     1.2.2.3 p名称空间注入   需要在bean中导入http://www.springframework.org/schema/p中的工具进行约束\n  这里以使用set方法的注入为例\n1   id=\"book\" class=\"com.atguigu.spring5.Book\" p:bname=\"九阳神功\" p:bauthor=\"无名氏\"     1.2.2.4 其他类型属性注入   字面量\n  null值，用来修饰即可\n  属性包含特殊值，比如或\n  法一：借助\u0026lt，\u0026gt等转义符\n  法二：使用CDATA\n1 2 3   name=\"address\" \t]]          注入外部属性\n  在一个类中，另一个类注入到这个类中，可以先创建两个对应的对象后，使用ref属性，将类注入到需要注入的类中\n  外部bean\n1 2 3 4 5 6 7    id=\"userService\" class=\"com.atguigu.spring5.service.UserService\"   name=\"userDao\" ref=\"userDaoImpl\"    id=\"userDaoImpl\" class=\"com.atguigu.spring5.dao.UserDaoImpl\"     内部bean的操作就不在赘述，与上述类似\n  级联赋值\n 即被注入的类中也需要元素进行注入  可以直接ref 也可以在ref后，利用class.ss制定对应的类中元素进行赋值(这里的ss借指对应的类中元素)        注入集合类型\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32     id=\"stu\" class=\"com.atguigu.spring5.collectiontype.Stu\" \t \t name=\"courses\" \t  java 课程  数据库课程 \t \t  \t name=\"list\" \t \t张三 \t小三       name=\"maps\" \t \t key=\"JAVA\" value=\"java\" \t key=\"PHP\" value=\"php\" \t    name=\"sets\"    MySQL  Redis         array引入array标签,list引入list，map引入map和entry，set引入set标签    1.2.3 FactoryBean   Spring 有两种类型 bean，\n 一种普通 bean  在配置文件中定义 bean 类型就是返回类型   另外一种工厂 bean（FactoryBean)  在配置文件定义 bean 类型可以和返回类型不一样      实现方法\n 创建类，让这个类作为工厂 bean，实现接口 FactoryBean 实现接口里面的方法，在实现的方法中定义返回的 bean 类型    借用FactoryBean接口来实现\n1 2 3 4 5 6 7 8 9 10 11 12 13  public interface FactoryBean {  String OBJECT_TYPE_ATTRIBUTE = \"factoryBeanObjectType\";   @Nullable  T getObject() throws Exception;   @Nullable  Class getObjectType();   default boolean isSingleton() {  return true;  } }     1.2.4 Bean作用域  在 Spring 里面，默认情况下，bean 是单实例对象 在 spring 配置文件 bean 标签里面有属性（scope）用于设置单实例还是多实例 scope 属性值  第一个值 默认值，singleton，表示是单实例对象 第二个值 prototype，表示是多实例对象    1.2.5 生命周期   （1）通过构造器创建 bean 实例（无参数构造）\n  （2）为 bean 的属性设置值和对其他 bean 引用（调用 set 方法）\n  （3）调用 bean 的初始化的方法（需要进行配置初始化的方法）\n  （4）bean 可以使用了（对象获取到了）\n  （5）当容器关闭时候，调用 bean 的销毁的方法（需要进行配置销毁的方法）\n  这里以代码为例\n1 2 3   id=\"orders\" class=\"com.atguigu.spring5.bean.Orders\" init-method=\"initMethod\" destroy-method=\"destroyMethod\" \t name=\"oname\" value=\"手机\"     利用init-method，destory-method两个属性执行初始化方法和销毁方法    加上后置处理器，bean生命周期共有七步\n （1）通过构造器创建 bean 实例（无参数构造） （2）为 bean 的属性设置值和对其他 bean 引用（调用 set 方法） （3）把 bean 实例传递 bean 后置处理器的方法 postProcessBeforeInitialization （4）调用 bean 的初始化的方法（需要进行配置初始化的方法） （5）把 bean 实例传递 bean 后置处理器的方法 postProcessAfterInitialization （6）bean 可以使用了（对象获取到了） （7）当容器关闭时候，调用 bean 的销毁的方法（需要进行配置销毁的方法）  1 2 3 4 5 6 7 8 9 10 11 12 13 14  public class MyBeanPost implements BeanPostProcessor {   @Override  public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {  System.out.println(\"在初始化之前执行的方法\");  return bean;  }   @Override  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {  System.out.println(\"在初始化之后执行的方法\");  return bean;  } }     xml配置,全局开启后置处理器\n1   id=\"myBeanPost\" class=\"com.atguigu.spring5.bean.MyBeanPost\"       1.2.6 自动装配  bean 标签属性 autowire，配置自动装配 autowire 属性常用两个值：  byName 根据属性名称注入 ,注入值 bean 的 id 值和类属性名称一样 byType 根据属性类型注入    1.3 基于注解方式   （1）注解是代码特殊标记，格式：@注解名称(属性名称=属性值, 属性名称=属性值..)\n  （2）使用注解，注解作用在类上面，方法上面，属性上面\n  （3）使用注解目的：简化 xml 配置\n  Spring 针对 Bean 管理中创建对象提供注解\n @Component:常用于正常的组件 @Service :常用于service层 @Controller ：常用于controller层 @Repository : 常用于dao层 上面四个注解功能是一样的，都可以用来创建 bean 实例，只是作用的层次不一样    使用注解需要开启注解扫描\n  xml\n1   base-package=\"com.atguigu\"     纯代码,需要创建配置类\n1 2 3  @Configuration //作为配置类，替代 xml 配置文件 @ComponentScan(basePackages = {\"com.atguigu\"}) public class SpringConfig { }       基于注解方式实现属性注入\n  @Autowired：根据属性类型进行自动装配\n 首先按照类型去容器中找对应的组件，如果找到一个就赋值，找不到就抛异常； 如果有多个类型匹配时，会使用要注入的对象变量名称作为bean的id，在spring容器查找，找到了也可以注入成功，找不到就报错。 结合注解@Qualifer，指定一个id：在自动按照类型注入的基础之上，再按照指定的bean的id去查找。它在给字段注入时不能独立使用，必须和@Autowired一起使用；但是给方法参数注入时，可以独立使用。  1 2 3 4 5 6 7 8 9 10 11  @Service public class UserService { //定义 dao 类型属性 //不需要添加 set 方法 //添加注入属性注解   @Autowired  private UserDao userDao;  public void add() {  System.out.println(\"service add.......\");  userDao.add();  } }     @Qualifier：根据名称进行注入 这个@Qualifier 注解的使用，和上面@Autowired 一起使用\n1 2 3 4 5  //定义 dao 类型属性 //不需要添加 set 方法 //添加注入属性注解 @Autowired //根据类型进行注入 @Qualifier(value = \"userDaoImpl1\") //根据名称进行注入 private UserDao userDao;     @Resource：可以根据类型注入，可以根据名称注入\n1 2 3 4  //@Resource //根据类型进行注入 @Resource(name = \"userDaoImpl1\") private UserDao userDao;     @Value：注入普通类型属性\n1 2  @Value(value = \"abc\") private String name;       1.4 实现IOC容器中对象的获取   xml\n1 2 3  ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(\"spring-config.xml\");  Object obj = context.getBean(\"obj\", Object.class);     全注解\n config写的是实现IOC扫描的配置类  1 2 3  ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);  Object obj = context.getBean(\"obj\", Object.class);     0x02 Aop  概念  面向切面，不修改源代码进行功能增强 面向切面编程（方面），利用 AOP 可以对业务逻辑的各个部分进行隔离，从而使得 业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。   底层原理  AOP 底层使用动态代理     2.1 动态代理   使用方法newProxyInstance\n1 2 3 4 5 6 7 8 9 10 11 12 13  public static Object newProxyInstance(ClassLoader loader,  Class[] interfaces,  InvocationHandler h)  throws IllegalArgumentException Returns an instance of a proxy class for the specified interfaces that dispatches method invocations to the specified invocation handler. Proxy.newProxyInstance throws IllegalArgumentException for the same reasons that Proxy.getProxyClass does.  Parameters: loader - the class loader to define the proxy class interfaces - the list of interfaces for the proxy class to implement h - the invocation handler to dispatch method invocations to Returns: a proxy instance with the specified invocation handler of a proxy class that is defined by the specified class loader and that implements the specified interfaces     方法有三个参数：\n 第一参数，类加载器 第二参数，增强方法所在的类，这个类实现的接口，支持多个接口 第三参数，实现这个接口 InvocationHandler，创建代理对象，写增强的部分    处理的增强结果是借用InvocationHandler接口的invoke方法\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  class UserDaoProxy implements InvocationHandler{   private Object obj;   public UserDaoProxy(Object obj) {  this.obj = obj;  }   @Override  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {  System.out.println(\"发放之前执行....\"+method.getName()+\"参数：\"+ Arrays.toString(args));  Object res = method.invoke(obj,args);  System.out.println(\"方法之后执行\");  return res;  } }     2.2 Aop术语   连接点\n 类里面哪些方法可以被增强，属于连接点    切入点\n  实际被增强的方法，成为切入点\n  表达式\n1 2 3 4 5 6 7 8 9 10 11  execution([权限修饰符] [返回类型] [类全路径] [方法名称]([参数列表]) )    举例 1：对 com.atguigu.dao.BookDao 类里面的 add 进行增强  execution(* com.atguigu.dao.BookDao.add(..))    举例 2：对 com.atguigu.dao.BookDao 类里面的所有的方法进行增强  execution(* com.atguigu.dao.BookDao.* (..))  举例 3：对 com.atguigu.dao 包里面所有类，类里面所有方法进行增强  execution(* com.atguigu.dao.*.* (..))     相同的切入点可以使用@Pointcut进行注册同一个路径\n1 2 3 4 5 6 7 8  @Pointcut(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\") public void pointdemo() { }  //前置通知 //@Before 注解表示作为前置通知 @Before(value = \"pointdemo()\") public void before() {  System.out.println(\"before.........\"); }       通知（增强）\n 实际增强的逻辑部分 通知的类型  前置通知:Before 后置通知:AfterReturning 环绕通知:Around 异常通知:AfterThrowing 最终通知:After    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32  @Component @Aspect //生成代理对象 public class UserProxy {  //前置通知 //@Before 注解表示作为前置通知  @Before(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\")  public void before() {  System.out.println(\"before.........\");  }  //后置通知（返回通知）  @AfterReturning(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\")  public void afterReturning() {  System.out.println(\"afterReturning.........\");  }  //最终通知  @After(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\")  public void after()  {  System.out.println(\"after.........\");  }  //异常通知  @AfterThrowing(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\")  public void afterThrowing() {  System.out.println(\"afterThrowing.........\");  }  //环绕通知  @Around(value = \"execution(* com.atguigu.spring5.aopanno.User.add(..))\")  public void around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {  System.out.println(\"环绕之前.........\");  //被增强的方法执行 proceedingJoinPoint.proceed();  System.out.println(\"环绕之后.........\");  } }      切面\n 动作，过程 实现增强的过程代码    实现过程\n  对使用的类要进行组件注册，使用ioc注册，增强类用Aspect\n  需要开启全局代理\n  xml\n1 2 3         完全注解\n1 2 3 4  @Configuration @ComponentScan(basePackages = {\"com.atguigu\"}) @EnableAspectJAutoProxy(proxyTargetClass = true) public class ConfigAop { }       @Order可以设置优先级，数字越小优先级越高。\n    ",
+  "wordCount" : "4582",
+  "inLanguage": "en",
+  "datePublished": "2022-04-18T20:36:10Z",
+  "dateModified": "2022-09-11T16:12:03+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Reus09"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://www.reus09.top/posts/tech/spring/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reus09's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://www.reus09.top" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://www.reus09.top/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/tags" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/about" title="🙋🏻‍♂️关于">
+                    <span>🙋🏻‍♂️关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/links" title="🤝友链">
+                    <span>🤝友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://www.reus09.top">Home</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/">📚文章</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/tech/">👨🏻‍💻技术</a></div>
+    <h1 class="post-title">
+      Spring
+    </h1>
+    <div class="post-meta"><span title='2022-04-18 20:36:10 +0000 UTC'>2022-04-18</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Reus09
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#spring5-%e6%a1%86%e6%9e%b6" aria-label="Spring5 框架">Spring5 框架</a><ul>
+                            
+                    <li>
+                        <a href="#0x01-ioc" aria-label="0x01 IOC">0x01 IOC</a><ul>
+                            
+                    <li>
+                        <a href="#11-%e5%ae%9e%e7%8e%b0%e6%96%b9%e5%bc%8f" aria-label="1.1 实现方式">1.1 实现方式</a></li>
+                    <li>
+                        <a href="#12-xml%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="1.2 xml配置文件">1.2 <code>xml</code>配置文件</a><ul>
+                            
+                    <li>
+                        <a href="#121-%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1" aria-label="1.2.1 创建对象">1.2.1 创建对象</a></li>
+                    <li>
+                        <a href="#122-%e6%b3%a8%e5%85%a5%e5%b1%9e%e6%80%a7" aria-label="1.2.2 注入属性">1.2.2 注入属性</a><ul>
+                            
+                    <li>
+                        <a href="#1221-set%e6%96%b9%e6%b3%95%e6%b3%a8%e5%85%a5" aria-label="1.2.2.1 set方法注入">1.2.2.1 set方法注入</a></li>
+                    <li>
+                        <a href="#1222--%e6%9c%89%e5%8f%82%e6%95%b0%e6%9e%84%e9%80%a0%e6%b3%a8%e5%85%a5" aria-label="1.2.2.2  有参数构造注入">1.2.2.2  有参数构造注入</a></li>
+                    <li>
+                        <a href="#1223-p%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4%e6%b3%a8%e5%85%a5" aria-label="1.2.2.3 p名称空间注入">1.2.2.3 p名称空间注入</a></li>
+                    <li>
+                        <a href="#1224-%e5%85%b6%e4%bb%96%e7%b1%bb%e5%9e%8b%e5%b1%9e%e6%80%a7%e6%b3%a8%e5%85%a5" aria-label="1.2.2.4 其他类型属性注入">1.2.2.4 其他类型属性注入</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#123-factorybean" aria-label="1.2.3 FactoryBean">1.2.3 <code>FactoryBean</code></a></li>
+                    <li>
+                        <a href="#124-bean%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="1.2.4 Bean作用域">1.2.4 <code>Bean</code>作用域</a></li>
+                    <li>
+                        <a href="#125-%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f" aria-label="1.2.5 生命周期">1.2.5 生命周期</a></li>
+                    <li>
+                        <a href="#126-%e8%87%aa%e5%8a%a8%e8%a3%85%e9%85%8d" aria-label="1.2.6 自动装配">1.2.6 自动装配</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#13-%e5%9f%ba%e4%ba%8e%e6%b3%a8%e8%a7%a3%e6%96%b9%e5%bc%8f" aria-label="1.3 基于注解方式">1.3 基于注解方式</a></li>
+                    <li>
+                        <a href="#14-%e5%ae%9e%e7%8e%b0ioc%e5%ae%b9%e5%99%a8%e4%b8%ad%e5%af%b9%e8%b1%a1%e7%9a%84%e8%8e%b7%e5%8f%96" aria-label="1.4 实现IOC容器中对象的获取">1.4 实现IOC容器中对象的获取</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x02-aop" aria-label="0x02 Aop">0x02 Aop</a><ul>
+                            
+                    <li>
+                        <a href="#21-%e5%8a%a8%e6%80%81%e4%bb%a3%e7%90%86" aria-label="2.1 动态代理">2.1 动态代理</a></li>
+                    <li>
+                        <a href="#22-aop%e6%9c%af%e8%af%ad" aria-label="2.2 Aop术语">2.2 Aop术语</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h1 id="spring5-框架">Spring5 框架<a hidden class="anchor" aria-hidden="true" href="#spring5-框架">#</a></h1>
+<ul>
+<li>这里主要学习了<code>Spring5</code>的相关知识，对<code>ioc</code>和<code>Aop</code>的相关知识进行整理</li>
+</ul>
+<h2 id="0x01-ioc">0x01 IOC<a hidden class="anchor" aria-hidden="true" href="#0x01-ioc">#</a></h2>
+<ul>
+<li>概念
+<ul>
+<li>控制反转，把创建对象过程交给 Spring 进行管理</li>
+</ul>
+</li>
+<li>使用目的：
+<ul>
+<li>为了耦合度降低</li>
+</ul>
+</li>
+<li>底层原理
+<ul>
+<li>xml 解析、工厂模式、反射</li>
+</ul>
+</li>
+<li>IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂</li>
+</ul>
+<h3 id="11-实现方式">1.1 实现方式<a hidden class="anchor" aria-hidden="true" href="#11-实现方式">#</a></h3>
+<ul>
+<li><code>BeanFactory</code>：<code>IOC </code>容器基本实现，是 <code>Spring</code> 内部的使用接口，不提供开发人员进行使用
+<ul>
+<li>加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象</li>
+</ul>
+</li>
+<li><code>ApplicationContext</code>：<code>BeanFactory</code> 接口的子接口，提供更多更强大的功能，一般由开发人 员进行使用
+<ul>
+<li>加载配置文件时候就会把在配置文件对象进行创建</li>
+</ul>
+</li>
+<li><code>Bean</code>管理
+<ul>
+<li>Spring创建对象</li>
+<li>Spring注入属性</li>
+<li>实现方法
+<ul>
+<li>基于<code>xml</code>配置文件方式实现</li>
+<li>基于注解方式实现</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="12-xml配置文件">1.2 <code>xml</code>配置文件<a hidden class="anchor" aria-hidden="true" href="#12-xml配置文件">#</a></h3>
+<h4 id="121-创建对象">1.2.1 创建对象<a hidden class="anchor" aria-hidden="true" href="#121-创建对象">#</a></h4>
+<ul>
+<li>在 spring 配置文件中，使用 bean 标签，标签里面添加对应属性，就可以实现对象创建</li>
+<li>在 bean 标签有很多属性，介绍常用的属性 *
+<ul>
+<li><code>id </code>属性:唯一标识</li>
+<li><code>class</code> 属性:类全路径（包类路径)</li>
+</ul>
+</li>
+<li>创建对象时候，默认也是执行无参数构造方法完成对象创建</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;user&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.User&#34;</span><span style="font-weight:bold">&gt;&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="122-注入属性">1.2.2 注入属性<a hidden class="anchor" aria-hidden="true" href="#122-注入属性">#</a></h4>
+<ul>
+<li>DI：依赖注入，就是注入属性</li>
+</ul>
+<h5 id="1221-set方法注入">1.2.2.1 set方法注入<a hidden class="anchor" aria-hidden="true" href="#1221-set方法注入">#</a></h5>
+<ul>
+<li>
+<p>这个注入方法类中必须要有<code>set</code>方法，使用<code>property</code>属性</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;book&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.Book&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">&lt;!--使用 property 完成属性注入 name：类里面属性名称 value：向属性注入的值 --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;bname&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;易筋经&#34;</span><span style="font-weight:bold">&gt;&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>这个在<code>book</code>中对于类中的元素必须实现了<code>setBname方法</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> setBname(String bname) 
+</span></span><span style="display:flex;"><span>{ <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">bname</span> = bname; }
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h5 id="1222--有参数构造注入">1.2.2.2  有参数构造注入<a hidden class="anchor" aria-hidden="true" href="#1222--有参数构造注入">#</a></h5>
+<ul>
+<li>
+<p>这个注入方式，构造类中必须有对应的构造方法。构造方法含有几个参数便在<code>bean</code>中添加几个元素，使用<code>constructor-arg</code>属性进行配置</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;orders&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.Orders&#34;</span><span style="font-weight:bold">&gt;</span> 			      
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&lt;constructor-arg</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;oname&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;电脑&#34;</span><span style="font-weight:bold">&gt;&lt;/constructor-arg&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&lt;constructor-arg</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;address&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;China&#34;</span><span style="font-weight:bold">&gt;&lt;/constructor-arg&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>对应的构造方法为</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> Orders(String oname,String address) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">oname</span> = oname; 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">address</span> = address; 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h5 id="1223-p名称空间注入">1.2.2.3 p名称空间注入<a hidden class="anchor" aria-hidden="true" href="#1223-p名称空间注入">#</a></h5>
+<ul>
+<li>
+<p>需要在<code>bean</code>中导入<code>http://www.springframework.org/schema/p</code>中的工具进行约束</p>
+</li>
+<li>
+<p>这里以使用<code>set</code>方法的注入为例</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;book&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.Book&#34;</span> <span style="color:#007f7f">p:bname=</span><span style="color:#0ff;font-weight:bold">&#34;九阳神功&#34;</span> <span style="color:#007f7f">p:bauthor=</span><span style="color:#0ff;font-weight:bold">&#34;无名氏&#34;</span><span style="font-weight:bold">&gt;&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h5 id="1224-其他类型属性注入">1.2.2.4 其他类型属性注入<a hidden class="anchor" aria-hidden="true" href="#1224-其他类型属性注入">#</a></h5>
+<ul>
+<li>
+<p>字面量</p>
+<ul>
+<li>
+<p>null值，用<code>&lt;null/&gt;</code>来修饰即可</p>
+</li>
+<li>
+<p>属性包含特殊值，比如<code>&lt;</code>或<code>&gt;</code></p>
+<ul>
+<li>
+<p>法一：借助<code>&amp;lt</code>，<code>&amp;gt</code>等转义符</p>
+</li>
+<li>
+<p>法二：使用<code>CDATA</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;address&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;value&gt;</span><span style="color:#0f0;font-weight:bold">&lt;![CDATA[&lt;&lt;南京&gt;&gt;]]&gt;</span><span style="font-weight:bold">&lt;/value&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/property&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>注入外部属性</p>
+<ul>
+<li>
+<p>在一个类中，另一个类注入到这个类中，可以先创建两个对应的对象后，使用<code>ref</code>属性，将类注入到需要注入的类中</p>
+</li>
+<li>
+<p>外部<code>bean</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--1 service 和 dao 对象创建--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;userService&#34;</span> 	<span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.service.UserService&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--注入 userDao 对象 name 属性：类里面属性名称 ref 属性：创建 userDao 对象 bean 标签 id 值 --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;userDao&#34;</span> <span style="color:#007f7f">ref=</span><span style="color:#0ff;font-weight:bold">&#34;userDaoImpl&#34;</span><span style="font-weight:bold">&gt;&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;userDaoImpl&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.dao.UserDaoImpl&#34;</span><span style="font-weight:bold">&gt;&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>内部<code>bean</code>的操作就不在赘述，与上述类似</p>
+</li>
+<li>
+<p>级联赋值</p>
+<ul>
+<li>即被注入的类中也需要元素进行注入
+<ul>
+<li>可以直接<code>ref</code></li>
+<li>也可以在<code>ref</code>后，利用<code>class.ss</code>制定对应的类中元素进行赋值(这里的ss借指对应的类中元素)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>注入集合类型</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--1 集合类型属性注入--&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;stu&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.collectiontype.Stu&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">&lt;!--数组类型属性注入--&gt;</span> 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;courses&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&lt;value&gt;</span>java 课程<span style="font-weight:bold">&lt;/value&gt;</span> 
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&lt;value&gt;</span>数据库课程<span style="font-weight:bold">&lt;/value&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--list 类型属性注入--&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;list&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&lt;list&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&lt;value&gt;</span>张三<span style="font-weight:bold">&lt;/value&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&lt;value&gt;</span>小三<span style="font-weight:bold">&lt;/value&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;/list&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--map 类型属性注入--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;maps&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;map&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&lt;entry</span> <span style="color:#007f7f">key=</span><span style="color:#0ff;font-weight:bold">&#34;JAVA&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;java&#34;</span><span style="font-weight:bold">&gt;&lt;/entry&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&lt;entry</span> <span style="color:#007f7f">key=</span><span style="color:#0ff;font-weight:bold">&#34;PHP&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;php&#34;</span><span style="font-weight:bold">&gt;&lt;/entry&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;/map&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">&lt;!--set 类型属性注入--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;sets&#34;</span><span style="font-weight:bold">&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&lt;set&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;value&gt;</span>MySQL<span style="font-weight:bold">&lt;/value&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;value&gt;</span>Redis<span style="font-weight:bold">&lt;/value&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&lt;/set&gt;</span> 
+</span></span><span style="display:flex;"><span> <span style="font-weight:bold">&lt;/property&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>array</code>引入<code>array</code>标签,<code>list</code>引入<code>list</code>，<code>map</code>引入<code>map</code>和<code>entry</code>，<code>set</code>引入<code>set</code>标签</li>
+</ul>
+</li>
+</ul>
+<h4 id="123-factorybean">1.2.3 <code>FactoryBean</code><a hidden class="anchor" aria-hidden="true" href="#123-factorybean">#</a></h4>
+<ul>
+<li>
+<p>Spring 有两种类型 bean，</p>
+<ul>
+<li>一种普通 bean
+<ul>
+<li>在配置文件中定义 bean 类型就是返回类型</li>
+</ul>
+</li>
+<li>另外一种工厂 bean（FactoryBean)
+<ul>
+<li>在配置文件定义 bean 类型可以和返回类型不一样</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>实现方法</p>
+<ul>
+<li>创建类，让这个类作为工厂 bean，实现接口 FactoryBean</li>
+<li>实现接口里面的方法，在实现的方法中定义返回的 bean 类型</li>
+</ul>
+</li>
+<li>
+<p>借用<code>FactoryBean</code>接口来实现</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">interface</span> FactoryBean&lt;T&gt; {
+</span></span><span style="display:flex;"><span>    String OBJECT_TYPE_ATTRIBUTE = <span style="color:#0ff;font-weight:bold">&#34;factoryBeanObjectType&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Nullable
+</span></span><span style="display:flex;"><span>    T getObject() <span style="color:#fff;font-weight:bold">throws</span> Exception;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Nullable
+</span></span><span style="display:flex;"><span>    Class&lt;?&gt; getObjectType();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">default</span> <span style="color:#fff;font-weight:bold">boolean</span> isSingleton() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h4 id="124-bean作用域">1.2.4 <code>Bean</code>作用域<a hidden class="anchor" aria-hidden="true" href="#124-bean作用域">#</a></h4>
+<ul>
+<li>在 Spring 里面，默认情况下，bean 是单实例对象</li>
+<li>在 spring 配置文件 <code>bean </code>标签里面有属性（<code>scope</code>）用于设置单实例还是多实例</li>
+<li><code>scope</code> 属性值
+<ul>
+<li>第一个值 默认值，<code>singleton</code>，表示是单实例对象</li>
+<li>第二个值 <code>prototype</code>，表示是多实例对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="125-生命周期">1.2.5 生命周期<a hidden class="anchor" aria-hidden="true" href="#125-生命周期">#</a></h4>
+<ul>
+<li>
+<p>（1）通过构造器创建 bean 实例（无参数构造）</p>
+</li>
+<li>
+<p>（2）为 bean 的属性设置值和对其他 bean 引用（调用 set 方法）</p>
+</li>
+<li>
+<p>（3）调用 bean 的初始化的方法（需要进行配置初始化的方法）</p>
+</li>
+<li>
+<p>（4）bean 可以使用了（对象获取到了）</p>
+</li>
+<li>
+<p>（5）当容器关闭时候，调用 bean 的销毁的方法（需要进行配置销毁的方法）</p>
+</li>
+<li>
+<p>这里以代码为例</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;orders&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.bean.Orders&#34;</span> <span style="color:#007f7f">init-method=</span><span style="color:#0ff;font-weight:bold">&#34;initMethod&#34;</span> <span style="color:#007f7f">destroy-method=</span><span style="color:#0ff;font-weight:bold">&#34;destroyMethod&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;oname&#34;</span> <span style="color:#007f7f">value=</span><span style="color:#0ff;font-weight:bold">&#34;手机&#34;</span><span style="font-weight:bold">&gt;&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>利用<code>init-method</code>，<code>destory-method</code>两个属性执行初始化方法和销毁方法</li>
+</ul>
+</li>
+<li>
+<p>加上后置处理器，<code>bean</code>生命周期共有七步</p>
+<ul>
+<li>（1）通过构造器创建 bean 实例（无参数构造）</li>
+<li>（2）为 bean 的属性设置值和对其他 bean 引用（调用 set 方法）</li>
+<li>（3）把 bean 实例传递 bean 后置处理器的方法 postProcessBeforeInitialization</li>
+<li>（4）调用 bean 的初始化的方法（需要进行配置初始化的方法）</li>
+<li>（5）把 bean 实例传递 bean 后置处理器的方法 postProcessAfterInitialization</li>
+<li>（6）bean 可以使用了（对象获取到了）</li>
+<li>（7）当容器关闭时候，调用 bean 的销毁的方法（需要进行配置销毁的方法）</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MyBeanPost <span style="color:#fff;font-weight:bold">implements</span> BeanPostProcessor { 	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @Override 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> Object postProcessBeforeInitialization(Object bean, String beanName) <span style="color:#fff;font-weight:bold">throws</span> BeansException { 	
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;在初始化之前执行的方法&#34;</span>); 
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> bean; 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @Override 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> Object postProcessAfterInitialization(Object bean, String beanName) <span style="color:#fff;font-weight:bold">throws</span> BeansException { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;在初始化之后执行的方法&#34;</span>); 
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> bean; 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p><code>xml</code>配置,全局开启后置处理器</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;myBeanPost&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.spring5.bean.MyBeanPost&#34;</span><span style="font-weight:bold">&gt;&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h4 id="126-自动装配">1.2.6 自动装配<a hidden class="anchor" aria-hidden="true" href="#126-自动装配">#</a></h4>
+<ul>
+<li>bean 标签属性 autowire，配置自动装配</li>
+<li>autowire 属性常用两个值：
+<ul>
+<li>byName 根据属性名称注入 ,注入值 bean 的 id 值和类属性名称一样</li>
+<li>byType 根据属性类型注入</li>
+</ul>
+</li>
+</ul>
+<h3 id="13-基于注解方式">1.3 基于注解方式<a hidden class="anchor" aria-hidden="true" href="#13-基于注解方式">#</a></h3>
+<ul>
+<li>
+<p>（1）注解是代码特殊标记，格式：@注解名称(属性名称=属性值, 属性名称=属性值..)</p>
+</li>
+<li>
+<p>（2）使用注解，注解作用在类上面，方法上面，属性上面</p>
+</li>
+<li>
+<p>（3）使用注解目的：简化 xml 配置</p>
+</li>
+<li>
+<p>Spring 针对 Bean 管理中创建对象提供注解</p>
+<ul>
+<li>@Component:常用于正常的组件</li>
+<li>@Service :常用于<code>service</code>层</li>
+<li>@Controller ：常用于<code>controller</code>层</li>
+<li>@Repository : 常用于<code>dao</code>层</li>
+<li>上面四个注解功能是一样的，都可以用来创建 bean 实例，只是作用的层次不一样</li>
+</ul>
+</li>
+<li>
+<p>使用注解需要开启注解扫描</p>
+<ul>
+<li>
+<p>xml</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;context:component-scan</span> <span style="color:#007f7f">base-package=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu&#34;</span><span style="font-weight:bold">&gt;&lt;/context:component-scan&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>纯代码,需要创建配置类</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Configuration <span style="color:#007f7f">//作为配置类，替代 xml 配置文件 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>@ComponentScan(basePackages = {<span style="color:#0ff;font-weight:bold">&#34;com.atguigu&#34;</span>}) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> SpringConfig { }
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>基于注解方式实现属性注入</p>
+<ul>
+<li>
+<p><code>@Autowired</code>：根据属性类型进行自动装配</p>
+<ul>
+<li>首先按照类型去容器中找对应的组件，如果找到一个就赋值，找不到就抛异常；</li>
+<li>如果有多个类型匹配时，会使用要注入的对象变量名称作为bean的id，在spring容器查找，找到了也可以注入成功，找不到就报错。</li>
+<li>结合注解<code>@Qualifer</code>，指定一个id：在自动按照类型注入的基础之上，再按照指定的bean的id去查找。它在给字段注入时不能独立使用，必须和<code>@Autowired</code>一起使用；但是给方法参数注入时，可以独立使用。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Service 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> UserService {
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//定义 dao 类型属性 //不需要添加 set 方法 //添加注入属性注解
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>  @Autowired 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">private</span> UserDao userDao;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> add() {
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;service add.......&#34;</span>);
+</span></span><span style="display:flex;"><span>    userDao.<span style="color:#007f7f">add</span>(); 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>@Qualifier</code>：根据名称进行注入 这个@Qualifier 注解的使用，和上面<code>@Autowired</code> 一起使用</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//定义 dao 类型属性 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//不需要添加 set 方法 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//添加注入属性注解 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>@Autowired <span style="color:#007f7f">//根据类型进行注入 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>@Qualifier(value = <span style="color:#0ff;font-weight:bold">&#34;userDaoImpl1&#34;</span>) <span style="color:#007f7f">//根据名称进行注入 private UserDao userDao;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>@Resource</code>：可以根据类型注入，可以根据名称注入</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//@Resource
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//根据类型进行注入
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>@Resource(name = <span style="color:#0ff;font-weight:bold">&#34;userDaoImpl1&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">private</span> UserDao userDao;
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>@Value</code>：注入普通类型属性</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Value(value = <span style="color:#0ff;font-weight:bold">&#34;abc&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">private</span> String name;
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h3 id="14-实现ioc容器中对象的获取">1.4 实现IOC容器中对象的获取<a hidden class="anchor" aria-hidden="true" href="#14-实现ioc容器中对象的获取">#</a></h3>
+<ul>
+<li>
+<p><code>xml</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ClassPathXmlApplicationContext context = <span style="color:#fff;font-weight:bold">new</span> ClassPathXmlApplicationContext(<span style="color:#0ff;font-weight:bold">&#34;spring-config.xml&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Object obj = context.<span style="color:#007f7f">getBean</span>(<span style="color:#0ff;font-weight:bold">&#34;obj&#34;</span>, Object.<span style="color:#007f7f">class</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>全注解</code></p>
+<ul>
+<li><code>config</code>写的是实现<code>IOC</code>扫描的配置类</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ApplicationContext context = <span style="color:#fff;font-weight:bold">new</span> AnnotationConfigApplicationContext(Config.<span style="color:#007f7f">class</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Object obj = context.<span style="color:#007f7f">getBean</span>(<span style="color:#0ff;font-weight:bold">&#34;obj&#34;</span>, Object.<span style="color:#007f7f">class</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="0x02-aop">0x02 Aop<a hidden class="anchor" aria-hidden="true" href="#0x02-aop">#</a></h2>
+<ul>
+<li>概念
+<ul>
+<li>面向切面，不修改源代码进行功能增强</li>
+<li>面向切面编程（方面），利用 AOP 可以对业务逻辑的各个部分进行隔离，从而使得 业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。</li>
+</ul>
+</li>
+<li>底层原理
+<ul>
+<li>AOP 底层使用动态代理</li>
+<li><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20220418214007421.png" alt="image-20220418214007421"  />
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="21-动态代理">2.1 动态代理<a hidden class="anchor" aria-hidden="true" href="#21-动态代理">#</a></h3>
+<ul>
+<li>
+<p>使用方法<code>newProxyInstance</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> Object newProxyInstance(ClassLoader loader,
+</span></span><span style="display:flex;"><span>                                      Class&lt;?&gt;[] interfaces,
+</span></span><span style="display:flex;"><span>                                      InvocationHandler h)
+</span></span><span style="display:flex;"><span>                               <span style="color:#fff;font-weight:bold">throws</span> IllegalArgumentException
+</span></span><span style="display:flex;"><span>Returns an instance of a proxy <span style="color:#fff;font-weight:bold">class</span> for the specified interfaces that dispatches method invocations to the specified invocation handler.
+</span></span><span style="display:flex;"><span>Proxy.<span style="color:#007f7f">newProxyInstance</span> <span style="color:#fff;font-weight:bold">throws</span> IllegalArgumentException <span style="color:#fff;font-weight:bold">for</span> the same reasons that Proxy.<span style="color:#007f7f">getProxyClass</span> does.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Parameters:
+</span></span><span style="display:flex;"><span>loader - the <span style="color:#fff;font-weight:bold">class</span> loader to define the proxy <span style="color:#fff;font-weight:bold">class</span>
+</span></span><span style="display:flex;"><span>interfaces - the list of interfaces <span style="color:#fff;font-weight:bold">for</span> the proxy <span style="color:#fff;font-weight:bold">class</span> to implement
+</span></span><span style="display:flex;"><span>h - the invocation handler to dispatch method invocations to
+</span></span><span style="display:flex;"><span>Returns:
+</span></span><span style="display:flex;"><span>a proxy instance with the specified invocation handler of a proxy <span style="color:#fff;font-weight:bold">class</span> that is defined by the specified <span style="color:#fff;font-weight:bold">class</span> loader and that <span style="color:#fff;font-weight:bold">implements</span> the specified interfaces
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>方法有三个参数：</p>
+<ul>
+<li>第一参数，类加载器</li>
+<li>第二参数，增强方法所在的类，这个类实现的接口，支持多个接口</li>
+<li>第三参数，实现这个接口 InvocationHandler，创建代理对象，写增强的部分</li>
+</ul>
+</li>
+<li>
+<p>处理的增强结果是借用<code>InvocationHandler</code>接口的<code>invoke</code>方法</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> UserDaoProxy <span style="color:#fff;font-weight:bold">implements</span> InvocationHandler{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">private</span> Object obj;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> UserDaoProxy(Object obj) {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">obj</span> = obj;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Object invoke(Object proxy, Method method, Object[] args) <span style="color:#fff;font-weight:bold">throws</span> Throwable {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;发放之前执行....&#34;</span>+method.<span style="color:#007f7f">getName</span>()+<span style="color:#0ff;font-weight:bold">&#34;参数：&#34;</span>+ Arrays.<span style="color:#007f7f">toString</span>(args));
+</span></span><span style="display:flex;"><span>        Object res = method.<span style="color:#007f7f">invoke</span>(obj,args);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;方法之后执行&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="22-aop术语">2.2 Aop术语<a hidden class="anchor" aria-hidden="true" href="#22-aop术语">#</a></h3>
+<ul>
+<li>
+<p>连接点</p>
+<ul>
+<li>类里面哪些方法可以被增强，属于连接点</li>
+</ul>
+</li>
+<li>
+<p>切入点</p>
+<ul>
+<li>
+<p>实际被增强的方法，成为切入点</p>
+</li>
+<li>
+<p>表达式</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>execution([权限修饰符] [返回类型] [类全路径] [方法名称]([参数列表]) )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  举例 1<span style="color:#f00">：</span>对 com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span>.<span style="color:#007f7f">BookDao</span> 类里面的 add 进行增强 
+</span></span><span style="display:flex;"><span>  execution(* com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span>.<span style="color:#007f7f">BookDao</span>.<span style="color:#007f7f">add</span>(..))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  举例 2<span style="color:#f00">：</span>对 com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span>.<span style="color:#007f7f">BookDao</span> 类里面的所有的方法进行增强 
+</span></span><span style="display:flex;"><span>  execution(* com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span>.<span style="color:#007f7f">BookDao</span>.* (..)) 
+</span></span><span style="display:flex;"><span>  举例 3<span style="color:#f00">：</span>对 com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span> 包里面所有类<span style="color:#f00">，</span>类里面所有方法进行增强 
+</span></span><span style="display:flex;"><span>  execution(* com.<span style="color:#007f7f">atguigu</span>.<span style="color:#007f7f">dao</span>.*.* (..))
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>相同的切入点可以使用<code>@Pointcut</code>进行注册同一个路径</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Pointcut(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> pointdemo() { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//前置通知 //@Before 注解表示作为前置通知
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>@Before(value = <span style="color:#0ff;font-weight:bold">&#34;pointdemo()&#34;</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> before() { 
+</span></span><span style="display:flex;"><span>  System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;before.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>通知（增强）</p>
+<ul>
+<li>实际增强的逻辑部分</li>
+<li>通知的类型
+<ul>
+<li>前置通知:Before</li>
+<li>后置通知:AfterReturning</li>
+<li>环绕通知:Around</li>
+<li>异常通知:AfterThrowing</li>
+<li>最终通知:After</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Component 
+</span></span><span style="display:flex;"><span>@Aspect <span style="color:#007f7f">//生成代理对象 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> UserProxy { 
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//前置通知 //@Before 注解表示作为前置通知 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    @Before(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> before() { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;before.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//后置通知（返回通知） 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  @AfterReturning(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> afterReturning() { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;afterReturning.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//最终通知 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  @After(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> after() 
+</span></span><span style="display:flex;"><span>  { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;after.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//异常通知 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  @AfterThrowing(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> afterThrowing() { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;afterThrowing.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//环绕通知 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  @Around(value = <span style="color:#0ff;font-weight:bold">&#34;execution(* com.atguigu.spring5.aopanno.User.add(..))&#34;</span>) 
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> around(ProceedingJoinPoint proceedingJoinPoint) <span style="color:#fff;font-weight:bold">throws</span> Throwable { 
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;环绕之前.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//被增强的方法执行 proceedingJoinPoint.proceed(); 
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;环绕之后.........&#34;</span>); 
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li></li>
+<li>
+<p>切面</p>
+<ul>
+<li>动作，过程</li>
+<li>实现增强的过程代码</li>
+</ul>
+</li>
+<li>
+<p>实现过程</p>
+<ul>
+<li>
+<p>对使用的类要进行组件注册，使用<code>ioc</code>注册，增强类用<code>Aspect</code></p>
+</li>
+<li>
+<p>需要开启全局代理</p>
+<ul>
+<li>
+<p>xml</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#007f7f">&lt;!-- 开启 Aspect 生成代理对象--&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;aop:aspectj-autoproxy&gt;&lt;/aop:aspectj-autoproxy&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>完全注解</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@Configuration 
+</span></span><span style="display:flex;"><span>@ComponentScan(basePackages = {<span style="color:#0ff;font-weight:bold">&#34;com.atguigu&#34;</span>}) 
+</span></span><span style="display:flex;"><span>@EnableAspectJAutoProxy(proxyTargetClass = <span style="color:#fff;font-weight:bold">true</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> ConfigAop { }
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p><code>@Order</code>可以设置优先级，数字越小优先级越高。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://www.reus09.top/tags/ssm/">SSM</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://www.reus09.top/posts/tech/spring-mvc/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Spring Mvc</span>
+  </a>
+  <a class="next" href="http://www.reus09.top/posts/tech/javaweb/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Javaweb</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="http://www.reus09.top">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
