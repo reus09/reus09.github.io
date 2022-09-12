@@ -10,7 +10,7 @@
 <meta name="description" content="逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过win">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="http://www.reus09.top/posts/tech/shellcode-%E8%AE%A1%E7%AE%97%E5%99%A8/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css" integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
@@ -104,7 +104,7 @@
   "keywords": [
     "pwn"
   ],
-  "articleBody": "逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程 根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。 分析两者区别。 0x02 试验工具 windbg Ollydbg IDA_PRO 因为Windows xp sp3下的Windbg微软将其在线Symbol符号下架，导致Windbg调试过程中，部分关键函数为乱码，无法正常分析，故借鉴Ida 实验环境 Windows xp sp3 0x03 windbg 调试 Scer.exe 打开Scer.exe，然后将shellcode.txt.mybin附加到程序，可以发现计算器可以正常打开。\n需要对Scer.exe进行动态调试分析，为了调试分析植入的shellcode,我们在shellcode.txt.bin前加上字节0xCC\n然后在windbg中附加 Scer.exe的进程。\n这里程序会停在系统代码区域，我们要进入用户代码里面。 WinDbg里有个伪寄存器叫$exentry，里面记录了程序的入口点。所以我们只要在命令输入栏里输入bp $exentry 然后执行命令g即可进入用户程序入口。 这里结合IDA_pro，F5反编译可以看到 这里实现了程序的初始化，就不在过多分析。 这里通过IDA_PRO，找到我们加载核心代码shellcode 的首地址。\n首先shift+F12查看字符串，找到字符串状态:0x%0.8x 已载入shellcode,即将开始执行...，一路反跟踪函数返回，找到该段功能的首地址为：0x401830 也就是说在此段代码中，我们实现了向程序中输入shellcode后，程序如何处理shellcode以及如何跳转到shellcode的过程 在windbg 下 设置断点 bp 0x401830\n加载我们的shellcode 后，就可以在windbg中调试 看到程序怎么将shellcode存放起来并执行。 然后输入pc跳转到下一个call 指令，然后步入，这个函数为 CreateFileA。\n发现该函数功能实现了创建一个线程———-打开文件夹，即我们的shellcode文件。 继续pc跳转到下一个函数地址，这个函数为 VirtualAlloc\n这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6 LPVOID VirtualAlloc{ LPVOID lpAddress, // 要分配的内存区域的地址 DWORD dwSize, // 分配的大小 DWORD flAllocationType, // 分配的类型 DWORD flProtect // 该内存的初始保护属性 }; 并且与调入函数前传入的参数相结合对比，\n发现 ebx 存取的是 我们shellcode 的字节长度，esi存放的是 程序给 shellcode 分配的动态地址。\n程序执行完毕后，很明显可以发现了esi 存取的 地址为 0xb40000\n这里就实现了为 shellcode的存取 提前分配好了 动态地址， 起始地址为 0xb40000\n继续pc跳转到下一个call函数，该函数名字为 ReadFile\n这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6 7 8 9 BOOL ReadFile( HANDLE hFile, //文件的句柄 LPVOID lpBuffer, //用于保存读入数据的一个缓冲区 DWORD nNumberOfBytesToRead, //要读入的字节数 LPDWORD lpNumberOfBytesRead, //指向实际读取字节数的指针 LPOVERLAPPED lpOverlapped //如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。 //该结构定义了一次异步读取操作。否则，应将这个参数设为NULL ); 此时的寄存器情况：\n将函数结构 与 传参前的 汇编语言进行 对比。\n可以发现函数实现了在地址为esi :: 0xb40000 的缓冲区 存取了 长度为27 字节的 shellcode。\n继续pc进行到sleep函数。\n因为要等待此时的线程完成。 继续p指令 单步跳过，一直到\n此段整体汇编代码对应用IDA_Pro显示\nmov bp+ms_exc.registration.TryLevel], 0 ; 进入第一个__try域,TryLevel=0\nmov ebp+ms_exc.registration.TryLevel], 0FFFFFFFEh ; 离开第一个__try域，TryLevel=TRYLEVEL_NONE (-2)\n所以此段为 try_except 的过程。\n然后发现存在汇编语句call eax\ncall eax 来自 [ebp + var_24]\n追踪发现 [ebp+var_24]存放的是esi的地址，即0xb40000 因此这段代码，就是程序进入预先分配好的动态内存区(里面存有shellcode）的入口。\n进入函数，分析shellcode。\n程序执行到0xb40001跳转到地址0xb40019，然后发现在地址0xb40019的 jmp 指令跳转到 0xb40003\n这里解释么要先call 跳转到 0xb40019然后再回到0xb40003\ncall/pop指令 Shellcode可以通过在一个call指令后立即执行pop指令，将上一刻压入栈中的指令地址载入到寄存器中，从而获取到shellcode起始的内存地址。 原理就是：call 指令实际上就是 先将该函数的下一个地址压入栈中，然后跳转到目的地址。跳转之后再将其pop出来，这样就达到了ebx 存放 地址0xb4001e的作用。 这里通过call 0xb40003指令调用完之后对栈的分析，可以看出。 显然，栈最顶层为calc.exe 存放的地址。 然后开始 pop ebx ，将 eax 清零。\n然后向栈中压入 ebx,eax。 ebx此时存放的地址为0xb4001e即字符串\\x63\\x61x6c\\x63\\x2e\\x65\\x78\\x65对应的calc.exe\n将函数kernel32!WinExec地址传给ebx。\n上面两个压栈相当于 对下面的函数 kernel32!WinExec进行传参。\n1 2 UINT WinExec( LPCSTR lpCmdLine, UINT uCmdShow ); 这样就相当于调用函数 winExec(\"calc.exe\",0)来打开计算器。\n函数调用完成后。将eax置0，然后入栈，将函数kernel32!ExitProcess地址传给ebx。相当于向函数kernel32!ExitProcess传入参数，结束调用的进程及其所有的线程windows函数。\nshellcode分析完毕。\n在命令中输入g，即可弹出计算器。\n0x04 Ollydbg 调试 shellcode2020.exe 直接执行shellcode2020.exe会直接弹出计算器。\n动态分析前:\n通过IDA_Pro 可以直接定位到 main函数地址为 : 0x401290 在Ollydbg中设置断点0x401290,然后运行程序跳转到该地址\n1 2 3 4 5 6 7 8 9 10 push ebp mov ebp,esp 更新函数栈帧 sub esp,8 and esp,FFFFFFF0 mov eax,0 add eax,0f add eax,0f shr eax,4 shl eax,4 将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010 然后进入到地址为0x401710的函数，结合IDA，该函数为alloca函数，产生函数指针。\n1 2 3 4 5 6 7 8 原型： void * __cdecl alloca(size_t); 参数： size_t: 申请分配内存的尺寸 返回值： void*: 分配到的内存地址 alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。 alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的\"堆栈\" 进入函数0x4013b0，执行加载函数，将shellcode加载到代码区。\n然后设置断点 0x4012ba，然后单步步入\n发现dword ptr[ebp - 4]被赋值为地址0x402000 观察IDA，发现地址0x40200的地方存取的数据为evil数组，即shellcode存放地址。 同时0x402000也是文件执行过程中，data端的起始位置。 步入，查看shellcode。\n发现大致流程和windbg分析过程一样。\n通过call和pop结合运用，将ebx赋值为 地址0x40201d ebx此时存放的为字符串calc.exe 然后同样的压栈操作，调用函数Kernel32!WinExec进行执行计算器。\n执行完毕后，又将eax置0 ，将函数kernel32!ExitProcess的地址传给ebx,调用ebx地址所在的程序，即ExitProcess(‘0’)，退出程序。\n0x05 总结(区别) Scer.exe创造一个新的线程，然后通过读取文件内容作为shellcode，并通过VirtualAlloc申请内存，xp里面这个内存地址均为0xb40000并且用esi保存这个地址，然后ReadFile即在虚拟地址0xb40000中写入shellcode，然后通过format,update等函数shellcode进行转换，最后地址将其作为一个函数指针，进行调用，进入shellcode。 shellcode2020.exe则是在文件的.data端 存放我们的shellcode。通过函数alloca来在堆上申请内存，并且用函数指针对其调用，最后调用.data的起始地址，运行我们构造的shellcode,可以运行计算器。 因此两者的区别：一个是从外部植入shellcode，将其加载到内存中，另一个是程序本身自带的shellcode，通过构造函数指针来执行shellcode。 ",
+  "articleBody": "逆向分析计算器的漏洞利用过程 0x01 实验目的   根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程   根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。   分析两者区别。   0x02 试验工具   windbg   Ollydbg   IDA_PRO  因为Windows xp sp3下的Windbg微软将其在线Symbol符号下架，导致Windbg调试过程中，部分关键函数为乱码，无法正常分析，故借鉴Ida    实验环境   Windows xp sp3     0x03 windbg 调试 Scer.exe   打开Scer.exe，然后将shellcode.txt.mybin附加到程序，可以发现计算器可以正常打开。\n      需要对Scer.exe进行动态调试分析，为了调试分析植入的shellcode,我们在shellcode.txt.bin前加上字节0xCC\n     然后在windbg中附加 Scer.exe的进程。\n  这里程序会停在系统代码区域，我们要进入用户代码里面。 WinDbg里有个伪寄存器叫$exentry，里面记录了程序的入口点。所以我们只要在命令输入栏里输入bp $exentry 然后执行命令g即可进入用户程序入口。  这里结合IDA_pro，F5反编译可以看到   这里实现了程序的初始化，就不在过多分析。      这里通过IDA_PRO，找到我们加载核心代码shellcode 的首地址。\n 首先shift+F12查看字符串，找到字符串状态:0x%0.8x 已载入shellcode,即将开始执行...，一路反跟踪函数返回，找到该段功能的首地址为：0x401830 也就是说在此段代码中，我们实现了向程序中输入shellcode后，程序如何处理shellcode以及如何跳转到shellcode的过程    在windbg 下 设置断点 bp 0x401830\n  加载我们的shellcode 后，就可以在windbg中调试 看到程序怎么将shellcode存放起来并执行。    然后输入pc跳转到下一个call 指令，然后步入，这个函数为 CreateFileA。\n  发现该函数功能实现了创建一个线程———-打开文件夹，即我们的shellcode文件。    继续pc跳转到下一个函数地址，这个函数为 VirtualAlloc\n    这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6  LPVOID VirtualAlloc{ \tLPVOID lpAddress, // 要分配的内存区域的地址 \tDWORD dwSize, // 分配的大小 \tDWORD flAllocationType, // 分配的类型 \tDWORD flProtect // 该内存的初始保护属性 };       并且与调入函数前传入的参数相结合对比，\n  发现 ebx 存取的是 我们shellcode 的字节长度，esi存放的是 程序给 shellcode 分配的动态地址。\n      程序执行完毕后，很明显可以发现了esi 存取的 地址为 0xb40000\n  这里就实现了为 shellcode的存取 提前分配好了 动态地址， 起始地址为 0xb40000\n    继续pc跳转到下一个call函数，该函数名字为 ReadFile\n    这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6 7 8 9  BOOL ReadFile(  HANDLE hFile, //文件的句柄  LPVOID lpBuffer, //用于保存读入数据的一个缓冲区  DWORD nNumberOfBytesToRead, //要读入的字节数  LPDWORD lpNumberOfBytesRead, //指向实际读取字节数的指针  LPOVERLAPPED lpOverlapped  //如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。  //该结构定义了一次异步读取操作。否则，应将这个参数设为NULL );       此时的寄存器情况：\n  将函数结构 与 传参前的 汇编语言进行 对比。\n    可以发现函数实现了在地址为esi :: 0xb40000 的缓冲区 存取了 长度为27 字节的 shellcode。\n    继续pc进行到sleep函数。\n  因为要等待此时的线程完成。    继续p指令 单步跳过，一直到\n    此段整体汇编代码对应用IDA_Pro显示\n    mov bp+ms_exc.registration.TryLevel], 0 ; 进入第一个__try域,TryLevel=0\n  mov ebp+ms_exc.registration.TryLevel], 0FFFFFFFEh ; 离开第一个__try域，TryLevel=TRYLEVEL_NONE (-2)\n  所以此段为 try_except 的过程。\n  然后发现存在汇编语句call eax\n  call eax 来自 [ebp + var_24]\n 追踪发现  [ebp+var_24]存放的是esi的地址，即0xb40000      因此这段代码，就是程序进入预先分配好的动态内存区(里面存有shellcode）的入口。\n      进入函数，分析shellcode。\n    程序执行到0xb40001跳转到地址0xb40019，然后发现在地址0xb40019的 jmp 指令跳转到 0xb40003\n  这里解释么要先call 跳转到 0xb40019然后再回到0xb40003\n call/pop指令 Shellcode可以通过在一个call指令后立即执行pop指令，将上一刻压入栈中的指令地址载入到寄存器中，从而获取到shellcode起始的内存地址。 原理就是：call 指令实际上就是 先将该函数的下一个地址压入栈中，然后跳转到目的地址。跳转之后再将其pop出来，这样就达到了ebx 存放 地址0xb4001e的作用。 这里通过call 0xb40003指令调用完之后对栈的分析，可以看出。   显然，栈最顶层为calc.exe 存放的地址。      然后开始 pop ebx ，将 eax 清零。\n  然后向栈中压入 ebx,eax。 ebx此时存放的地址为0xb4001e即字符串\\x63\\x61x6c\\x63\\x2e\\x65\\x78\\x65对应的calc.exe\n  将函数kernel32!WinExec地址传给ebx。\n  上面两个压栈相当于 对下面的函数 kernel32!WinExec进行传参。\n1 2  UINT WinExec( LPCSTR lpCmdLine,  UINT uCmdShow );     这样就相当于调用函数 winExec(\"calc.exe\",0)来打开计算器。\n  函数调用完成后。将eax置0，然后入栈，将函数kernel32!ExitProcess地址传给ebx。相当于向函数kernel32!ExitProcess传入参数，结束调用的进程及其所有的线程windows函数。\n    shellcode分析完毕。\n  在命令中输入g，即可弹出计算器。\n     0x04 Ollydbg 调试 shellcode2020.exe   直接执行shellcode2020.exe会直接弹出计算器。\n  动态分析前:\n 通过IDA_Pro 可以直接定位到 main函数地址为 : 0x401290    在Ollydbg中设置断点0x401290,然后运行程序跳转到该地址\n   1 2 3 4 5 6 7 8 9 10  push ebp mov ebp,esp 更新函数栈帧  sub esp,8 and esp,FFFFFFF0 mov eax,0 add eax,0f add eax,0f shr eax,4 shl eax,4 将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010     然后进入到地址为0x401710的函数，结合IDA，该函数为alloca函数，产生函数指针。\n1 2 3 4 5 6 7 8  原型： void * __cdecl alloca(size_t); 参数： size_t: 申请分配内存的尺寸 返回值： void*: 分配到的内存地址 alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。 alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的\"堆栈\"     进入函数0x4013b0，执行加载函数，将shellcode加载到代码区。\n  然后设置断点 0x4012ba，然后单步步入\n  发现dword ptr[ebp - 4]被赋值为地址0x402000 观察IDA，发现地址0x40200的地方存取的数据为evil数组，即shellcode存放地址。 同时0x402000也是文件执行过程中，data端的起始位置。    步入，查看shellcode。\n  发现大致流程和windbg分析过程一样。\n  通过call和pop结合运用，将ebx赋值为 地址0x40201d   ebx此时存放的为字符串calc.exe       然后同样的压栈操作，调用函数Kernel32!WinExec进行执行计算器。\n  执行完毕后，又将eax置0 ，将函数kernel32!ExitProcess的地址传给ebx,调用ebx地址所在的程序，即ExitProcess(‘0’)，退出程序。\n    0x05 总结(区别)  Scer.exe创造一个新的线程，然后通过读取文件内容作为shellcode，并通过VirtualAlloc申请内存，xp里面这个内存地址均为0xb40000并且用esi保存这个地址，然后ReadFile即在虚拟地址0xb40000中写入shellcode，然后通过format,update等函数shellcode进行转换，最后地址将其作为一个函数指针，进行调用，进入shellcode。 shellcode2020.exe则是在文件的.data端 存放我们的shellcode。通过函数alloca来在堆上申请内存，并且用函数指针对其调用，最后调用.data的起始地址，运行我们构造的shellcode,可以运行计算器。 因此两者的区别：一个是从外部植入shellcode，将其加载到内存中，另一个是程序本身自带的shellcode，通过构造函数指针来执行shellcode。  ",
   "wordCount" : "3439",
   "inLanguage": "en",
   "datePublished": "2021-11-03T22:05:29Z",
@@ -218,61 +218,122 @@
     <div class="post-meta"><span title='2021-11-03 22:05:29 +0000 UTC'>2021-11-03</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Reus09
 
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%bf%87%e7%a8%8b" aria-label="逆向分析计算器的漏洞利用过程">逆向分析计算器的漏洞利用过程</a><ul>
-                        
-                <li>
-                    <a href="#0x01-%e5%ae%9e%e9%aa%8c%e7%9b%ae%e7%9a%84" aria-label="0x01 实验目的">0x01 实验目的</a><ul>
-                        <ul>
-                        <ul>
-                        
-                <li>
-                    <a href="#%e6%a0%b9%e6%8d%ae%e5%ae%9e%e9%aa%8c%e8%bd%af%e4%bb%b6scerexe-%e5%92%8c-shellcode%e4%bb%a3%e7%a0%81shellcode2020mybin%e9%80%9a%e8%bf%87windbg%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e5%bc%b9%e5%87%ba%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%af%a6%e7%bb%86%e8%bf%87%e7%a8%8b" aria-label="根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程">根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程</a></li>
-                <li>
-                    <a href="#%e6%a0%b9%e6%8d%ae%e5%ae%9e%e9%aa%8c%e8%bd%af%e4%bb%b6shellcode2020exe%e9%80%9a%e8%bf%87ollydbg%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e5%bc%b9%e5%87%ba%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%af%a6%e7%bb%86%e8%bf%87%e7%a8%8b" aria-label="根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。">根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。</a></li>
-                <li>
-                    <a href="#%e5%88%86%e6%9e%90%e4%b8%a4%e8%80%85%e5%8c%ba%e5%88%ab" aria-label="分析两者区别。">分析两者区别。</a></li></ul>
-                    </ul>
-                    </ul>
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%bf%87%e7%a8%8b" aria-label="逆向分析计算器的漏洞利用过程">逆向分析计算器的漏洞利用过程</a><ul>
+                            
+                    <li>
+                        <a href="#0x01-%e5%ae%9e%e9%aa%8c%e7%9b%ae%e7%9a%84" aria-label="0x01 实验目的">0x01 实验目的</a><ul>
+                            <ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e6%a0%b9%e6%8d%ae%e5%ae%9e%e9%aa%8c%e8%bd%af%e4%bb%b6scerexe-%e5%92%8c-shellcode%e4%bb%a3%e7%a0%81shellcode2020mybin%e9%80%9a%e8%bf%87windbg%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e5%bc%b9%e5%87%ba%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%af%a6%e7%bb%86%e8%bf%87%e7%a8%8b" aria-label="根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程">根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程</a></li>
+                    <li>
+                        <a href="#%e6%a0%b9%e6%8d%ae%e5%ae%9e%e9%aa%8c%e8%bd%af%e4%bb%b6shellcode2020exe%e9%80%9a%e8%bf%87ollydbg%e9%80%86%e5%90%91%e5%88%86%e6%9e%90%e5%bc%b9%e5%87%ba%e8%ae%a1%e7%ae%97%e5%99%a8%e7%9a%84%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e8%af%a6%e7%bb%86%e8%bf%87%e7%a8%8b" aria-label="根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。">根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。</a></li>
+                    <li>
+                        <a href="#%e5%88%86%e6%9e%90%e4%b8%a4%e8%80%85%e5%8c%ba%e5%88%ab" aria-label="分析两者区别。">分析两者区别。</a></li></ul>
+                        </ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#0x02-%e8%af%95%e9%aa%8c%e5%b7%a5%e5%85%b7" aria-label="0x02 试验工具">0x02 试验工具</a><ul>
+                            <ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#windbg" aria-label="windbg">windbg</a></li>
+                    <li>
+                        <a href="#ollydbg" aria-label="Ollydbg">Ollydbg</a></li>
+                    <li>
+                        <a href="#ida_pro" aria-label="IDA_PRO">IDA_PRO</a></li>
+                    <li>
+                        <a href="#%e5%ae%9e%e9%aa%8c%e7%8e%af%e5%a2%83" aria-label="实验环境">实验环境</a></li>
+                    <li>
+                        <a href="#windows-xp-sp3" aria-label="Windows xp sp3">Windows xp sp3</a></li></ul>
+                        </ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#0x03-windbg-%e8%b0%83%e8%af%95-scerexe" aria-label="0x03 windbg 调试 Scer.exe">0x03 windbg 调试 Scer.exe</a></li>
+                    <li>
+                        <a href="#0x04-ollydbg-%e8%b0%83%e8%af%95-shellcode2020exe" aria-label="0x04 Ollydbg 调试 shellcode2020.exe">0x04 Ollydbg 调试 shellcode2020.exe</a></li>
+                    <li>
+                        <a href="#0x05-%e6%80%bb%e7%bb%93%e5%8c%ba%e5%88%ab" aria-label="0x05 总结(区别)">0x05 总结(区别)</a>
+                    </li>
+                </ul>
                 </li>
-                <li>
-                    <a href="#0x02-%e8%af%95%e9%aa%8c%e5%b7%a5%e5%85%b7" aria-label="0x02 试验工具">0x02 试验工具</a><ul>
-                        <ul>
-                        <ul>
-                        
-                <li>
-                    <a href="#windbg" aria-label="windbg">windbg</a></li>
-                <li>
-                    <a href="#ollydbg" aria-label="Ollydbg">Ollydbg</a></li>
-                <li>
-                    <a href="#ida_pro" aria-label="IDA_PRO">IDA_PRO</a></li>
-                <li>
-                    <a href="#%e5%ae%9e%e9%aa%8c%e7%8e%af%e5%a2%83" aria-label="实验环境">实验环境</a></li>
-                <li>
-                    <a href="#windows-xp-sp3" aria-label="Windows xp sp3">Windows xp sp3</a></li></ul>
-                    </ul>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#0x03-windbg-%e8%b0%83%e8%af%95-scerexe" aria-label="0x03 windbg 调试 Scer.exe">0x03 windbg 调试 Scer.exe</a></li>
-                <li>
-                    <a href="#0x04-ollydbg-%e8%b0%83%e8%af%95-shellcode2020exe" aria-label="0x04 Ollydbg 调试 shellcode2020.exe">0x04 Ollydbg 调试 shellcode2020.exe</a></li>
-                <li>
-                    <a href="#0x05-%e6%80%bb%e7%bb%93%e5%8c%ba%e5%88%ab" aria-label="0x05 总结(区别)">0x05 总结(区别)</a>
-                </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
 
   <div class="post-content"><h1 id="逆向分析计算器的漏洞利用过程">逆向分析计算器的漏洞利用过程<a hidden class="anchor" aria-hidden="true" href="#逆向分析计算器的漏洞利用过程">#</a></h1>
 <h2 id="0x01-实验目的">0x01 实验目的<a hidden class="anchor" aria-hidden="true" href="#0x01-实验目的">#</a></h2>
