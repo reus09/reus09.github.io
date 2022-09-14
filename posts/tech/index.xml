@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 12 Sep 2022 22:06:57 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Sep 2022 19:18:45 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pwn基础知识</title>
+      <link>http://www.reus09.top/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Wed, 14 Sep 2022 19:18:45 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”</description>
+    </item>
+    
     <item>
       <title>Hugo部署github</title>
       <link>http://www.reus09.top/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</link>
