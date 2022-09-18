@@ -6,7 +6,25 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 16 Sep 2022 19:45:34 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Sep 2022 17:01:52 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Log4j2漏洞复现及原理分析</title>
+      <link>http://www.reus09.top/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
+      <description>[TOC] 0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫</description>
+    </item>
+    
+    <item>
+      <title>Xss</title>
+      <link>http://www.reus09.top/posts/tech/xss/</link>
+      <pubDate>Sat, 17 Sep 2022 14:21:16 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/xss/</guid>
+      <description>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss xss概念 跨站脚本（Cross-Site Scripting，XSS</description>
+    </item>
+    
     <item>
       <title>Sql注入</title>
       <link>http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/</link>
@@ -41,24 +59,6 @@
       
       <guid>http://www.reus09.top/posts/tech/gin/</guid>
       <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</description>
-    </item>
-    
-    <item>
-      <title>栈溢出</title>
-      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
-      <pubDate>Sun, 11 Sep 2022 15:56:59 +0800</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
-      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
-    </item>
-    
-    <item>
-      <title>DDos</title>
-      <link>http://www.reus09.top/posts/tech/ddos/</link>
-      <pubDate>Sun, 11 Sep 2022 15:49:04 +0800</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/ddos/</guid>
-      <description>拒绝服务攻击 0x01 实验目的 使用udp flood、阿拉丁等工具，分组展开攻击并利用wireshark分析。 编程实现SYN Flood攻击。 0x02 实验前提</description>
     </item>
     
     <item>
@@ -176,6 +176,24 @@
       
       <guid>http://www.reus09.top/posts/life/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</guid>
       <description>2021 小结 当一个人坐在空无一人的宿舍里，也许是无聊吧，也许是眼慕朋友圈满天飞的跨年小结，也许是看各种推送的年度总结有感，因此总想写点什么东西，特</description>
+    </item>
+    
+    <item>
+      <title>栈溢出</title>
+      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
+      <pubDate>Sat, 01 Jan 2022 15:56:59 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
+      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
+    </item>
+    
+    <item>
+      <title>DDos</title>
+      <link>http://www.reus09.top/posts/tech/ddos/</link>
+      <pubDate>Wed, 10 Nov 2021 15:49:04 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/ddos/</guid>
+      <description>拒绝服务攻击 0x01 实验目的 使用udp flood、阿拉丁等工具，分组展开攻击并利用wireshark分析。 编程实现SYN Flood攻击。 0x02 实验前提</description>
     </item>
     
     <item>
