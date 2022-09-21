@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>vulnhub靶机 on Reus09&#39;s Blog</title>
+    <link>http://www.reus09.top/categories/vulnhub%E9%9D%B6%E6%9C%BA/</link>
+    <description>Recent content in vulnhub靶机 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 21 Sep 2022 15:39:33 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/vulnhub%E9%9D%B6%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>靶机练习 Jangow01</title>
+      <link>http://www.reus09.top/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/</link>
+      <pubDate>Wed, 21 Sep 2022 15:39:33 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/</guid>
+      <description>之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机jangow01的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有</description>
+    </item>
+    
+  </channel>
+</rss>
