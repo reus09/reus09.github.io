@@ -13,7 +13,7 @@
       <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/gin/</guid>
-      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</description>
+      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 func main(){ // 使用默认中间件创建一个gin路由器 //</description>
     </item>
     
     <item>

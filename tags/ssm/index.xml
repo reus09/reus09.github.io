@@ -13,7 +13,7 @@
       <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/mybatis/</guid>
-      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;</description>
+      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- MySQL驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;</description>
     </item>
     
     <item>

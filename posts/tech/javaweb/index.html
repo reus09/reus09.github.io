@@ -104,8 +104,8 @@
   "keywords": [
     "javaweb"
   ],
-  "articleBody": "0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码\ntomcat8之前，设置编码：\nget请求方式： get方式目前不需要设置编码（基于tomcat8）\n如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）\n1 2 3 4 5 String fname = request.getParameter(\"fname\"); //1.将字符串打散成字节数组 byte[] bytes = fname.getBytes(\"ISO-8859-1\"); //2.将字节数组按照设定的编码重新组装成字符串 fname = new String(bytes,\"UTF-8\"); post请求方式： request.setCharacterEncoding(\"UTF-8\");\ntomcat8开始，设置编码，只需要针对post方式 request.setCharacterEncoding(\"UTF-8\");\n注意：\n需要注意的是，设置编码(post)这一句代码必须在所有的获取参数动作之前 1.2 Servlet 1.2.1 继承关系 Servlet的继承关系 - 重点查看的是服务方法（service()）\n继承关系 javax.servlet.Servlet接口 javax.servlet.GenericServlet抽象类 javax.servlet.http.HttpServlet抽象子类\n相关方法\njavax.servlet.Servlet接口:\n1 2 3 void init(config) - 初始化方法 void service(request,response) - 服务方法 void destory() - 销毁方法 javax.servlet.GenericServlet抽象类：\n1 void service(request,response) - 仍然是抽象的 javax.servlet.http.HttpServlet 抽象子类：\n1 void service(request,response) - 不是抽象的 String method = req.getMethod(); 获取请求的方式\n在HttpServlet这个抽象类中，do方法都差不多:\n1 2 3 4 5 6 7 8 9 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { String protocol = req.getProtocol(); String msg = lStrings.getString(\"http.method_get_not_supported\"); if (protocol.endsWith(\"1.1\")) { resp.sendError(405, msg); } else { resp.sendError(400, msg); } } 小结：\n继承关系： HttpServlet -\u003e GenericServlet -\u003e Servlet Servlet中的核心方法： init() , service() , destroy() 服务方法： 当有请求过来时，service方法会自动响应（其实是tomcat容器调用的） 在HttpServlet中我们会去分析请求的方式：到底是get、post、head还是delete等 然后再决定调用的是哪个do开头的方法 那么在HttpServlet中这些do方法默认都是405的实现风格-要我们子类去实现对应的方法，否则默认会报405错误 因此，我们在新建Servlet时，我们才会去考虑请求方法，从而决定重写哪个do方法 1.2.2 生命周期 Servlet的生命周期\n生命周期：从出生到死亡的过程就是生命周期。对应Servlet中的三个方法：init(),service(),destroy()\n默认情况下：\n第一次接收请求时，这个Servlet会进行实例化(调用构造方法)、初始化(调用init())、然后服务(调用service()) 从第二次请求开始，每一次都是服务 当容器关闭时，其中的所有的servlet实例会被销毁，调用销毁方法 通过案例我们发现：\nServlet实例tomcat只会创建一个，所有的请求都是这个实例去响应。 默认情况下，第一次请求时，tomcat才会去实例化，初始化，然后再服务.这样的好处是提高系统的启动速度 。 这样的缺点是第一次请求时，耗时较长。 因此得出结论： 如果需要提高系统的启动速度，当前默认情况就是这样。如果需要提高响应速度，我们应该设置Servlet的初始化时机。 Servlet在容器中是：单例的、线程不安全的\n单例：所有的请求都是同一个实例去响应 线程不安全：一个线程需要根据这个实例中的某个成员变量值去做逻辑判断。但是在中间某个时机，另一个线程改变了这个成员变量的值，从而导致第一个线程的执行路径发生了变化 我们已经知道了servlet是线程不安全的，给我们的启发是： 尽量的不要在servlet中定义成员变量。如果不得不定义成员变量，那么不要去：①不要去修改成员变量的值 ②不要去根据成员变量的值做一些逻辑判断 1.2.3 session 会话\nHttp是无状态的\nHTTP 无状态 ：服务器无法判断这两次请求是同一个客户端发过来的，还是不同的客户端发过来的\n无状态带来的现实问题：对于多次请求无法确定是一个同一个用户发送，从而增加服务器负载。\n通过会话跟踪技术来解决无状态的问题。\n会话跟踪技术\n客户端第一次发请求给服务器，服务器获取session，获取不到，则创建新的，然后响应给客户端\n下次客户端给服务器发请求时，会把sessionID带给服务器，那么服务器就能获取到了，那么服务器就判断这一次请求和上次某次请求是同一个客户端，从而能够区分开客户端\n常用的API：\n1 2 3 4 5 6 7 8 9 request.getSession() -\u003e 获取当前的会话，没有则创建一个新的会话 request.getSession(true) -\u003e 效果和不带参数相同 request.getSession(false) -\u003e 获取当前会话，没有则返回null，不会创建新的 session.getId() -\u003e 获取sessionID session.isNew() -\u003e 判断当前session是否是新的 session.getMaxInactiveInterval() -\u003e session的非激活间隔时长，默认1800秒 session.setMaxInactiveInterval() session.invalidate() -\u003e 强制性让会话立即失效 session保存作用域\nsession保存作用域是和具体的某一个session对应的\n常用的API：\n1 2 3 void session.setAttribute(k,v) Object session.getAttribute(k) void removeAttribute(k) 作用域比较：\n原始情况下，保存作用域我们可以认为有四个： page（页面级别，现在几乎不用） , request（一次请求响应范围） , session（一次会话范围） , application（整个应用程序范围） request：一次请求响应范围 session：一次会话范围有效 application： 一次应用程序范围有效 1.2.4 网页跳转 服务器内部转发以及客户端重定向 服务器内部转发 : request.getRequestDispatcher(\"...\").forward(request,response); 一次请求响应的过程，对于客户端而言，内部经过了多少次转发，客户端是不知道的 地址栏没有变化 客户端重定向： response.sendRedirect(\"....\"); 两次请求响应的过程。客户端肯定知道请求URL有变化 地址栏有变化 1.2.5 对应网站route设置 可以在web.xml里面配置Servlet\n1 2 3 4 5 6 7 8 9 10 11 12 Demo01Servlet com.reus.Demo01Servlet hello world Demo01Servlet /demo01 可以通过注解的方式进行配置\n1 2 3 4 @WebServlet(urlPatterns = {\"/demo01\"} , initParams = { @WebInitParam(name=\"hello\",value=\"world\") }) 这用Demo01Servelet.java对应的service将对应网页的route为/demo01\n获取ServletContext，有很多方法\n在初始化方法中： ServletContxt servletContext = getServletContext()\n在服务方法中也可以通过request对象获取，也可以通过session获取： request.getServletContext(); session.getServletContext()\n获取初始化值：\nservletContext.getInitParameter(); 1.3 Thymeleaf视图技术 Thymeleaf - 视图模板技术\n添加thymeleaf的jar包 新建一个Servlet类ViewBaseServlet 在web.xml文件中添加配置 配置前缀 view-prefix 配置后缀 view-suffix 使得我们的Servlet继承ViewBaseServlet 根据逻辑视图名称 得到 物理视图名称 此处的视图名称是 index\n那么thymeleaf会将这个 逻辑视图名称 对应到 物理视图 名称上去\n逻辑视图名称 ： index\n物理视图名称 ： view-prefix + 逻辑视图名称 + view-suffix\n所以真实的视图名称是： / index .html super.processTemplate(\"index\",request,response);\n使用thymeleaf的标签\n1 th:if , th:unless , th:each , th:text , th:src\t,\tth:value th:href 0x02 myssm 2.1 BaseDAO 这里见另一博客 JDBC BaseDAO抽象了基础的增删改查操作API 2.2 IOC IOC\n耦合/依赖\nIOC - 控制反转 / DI - 依赖注入\n控制反转：\n之前在Servlet中，我们创建service对象 ， FruitService fruitService = new FruitServiceImpl(); 这句话如果出现在servlet中的某个方法内部，那么这个fruitService的作用域（生命周期）应该就是这个方法级别； 如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域（生命周期）应该就是这个servlet实例级别 之后我们在applicationContext.xml中定义了这个fruitService。然后通过解析XML，产生fruitService实例，存放在beanMap中，这个beanMap在一个BeanFactory中 因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转 依赖注入：\n之前我们在控制层出现代码：FruitService fruitService = new FruitServiceImpl()； 那么，控制层和service层存在耦合。\n之后，我们将代码修改成FruitService fruitService = null ; 然后，在配置文件中配置:\n1 2 3 ",
-  "wordCount" : "5494",
+  "articleBody": "0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码\ntomcat8之前，设置编码：\nget请求方式： get方式目前不需要设置编码（基于tomcat8）\n如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）\nString fname = request.getParameter(\"fname\"); //1.将字符串打散成字节数组 byte[] bytes = fname.getBytes(\"ISO-8859-1\"); //2.将字节数组按照设定的编码重新组装成字符串 fname = new String(bytes,\"UTF-8\"); post请求方式： request.setCharacterEncoding(\"UTF-8\");\ntomcat8开始，设置编码，只需要针对post方式 request.setCharacterEncoding(\"UTF-8\");\n注意：\n需要注意的是，设置编码(post)这一句代码必须在所有的获取参数动作之前 1.2 Servlet 1.2.1 继承关系 Servlet的继承关系 - 重点查看的是服务方法（service()）\n继承关系 javax.servlet.Servlet接口 javax.servlet.GenericServlet抽象类 javax.servlet.http.HttpServlet抽象子类\n相关方法\njavax.servlet.Servlet接口:\nvoid init(config) - 初始化方法 void service(request,response) - 服务方法 void destory() - 销毁方法 javax.servlet.GenericServlet抽象类：\nvoid service(request,response) - 仍然是抽象的 javax.servlet.http.HttpServlet 抽象子类：\nvoid service(request,response) - 不是抽象的 String method = req.getMethod(); 获取请求的方式\n在HttpServlet这个抽象类中，do方法都差不多:\nprotected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { String protocol = req.getProtocol(); String msg = lStrings.getString(\"http.method_get_not_supported\"); if (protocol.endsWith(\"1.1\")) { resp.sendError(405, msg); } else { resp.sendError(400, msg); } } 小结：\n继承关系： HttpServlet -\u003e GenericServlet -\u003e Servlet Servlet中的核心方法： init() , service() , destroy() 服务方法： 当有请求过来时，service方法会自动响应（其实是tomcat容器调用的） 在HttpServlet中我们会去分析请求的方式：到底是get、post、head还是delete等 然后再决定调用的是哪个do开头的方法 那么在HttpServlet中这些do方法默认都是405的实现风格-要我们子类去实现对应的方法，否则默认会报405错误 因此，我们在新建Servlet时，我们才会去考虑请求方法，从而决定重写哪个do方法 1.2.2 生命周期 Servlet的生命周期\n生命周期：从出生到死亡的过程就是生命周期。对应Servlet中的三个方法：init(),service(),destroy()\n默认情况下：\n第一次接收请求时，这个Servlet会进行实例化(调用构造方法)、初始化(调用init())、然后服务(调用service()) 从第二次请求开始，每一次都是服务 当容器关闭时，其中的所有的servlet实例会被销毁，调用销毁方法 通过案例我们发现：\nServlet实例tomcat只会创建一个，所有的请求都是这个实例去响应。 默认情况下，第一次请求时，tomcat才会去实例化，初始化，然后再服务.这样的好处是提高系统的启动速度 。 这样的缺点是第一次请求时，耗时较长。 因此得出结论： 如果需要提高系统的启动速度，当前默认情况就是这样。如果需要提高响应速度，我们应该设置Servlet的初始化时机。 Servlet在容器中是：单例的、线程不安全的\n单例：所有的请求都是同一个实例去响应 线程不安全：一个线程需要根据这个实例中的某个成员变量值去做逻辑判断。但是在中间某个时机，另一个线程改变了这个成员变量的值，从而导致第一个线程的执行路径发生了变化 我们已经知道了servlet是线程不安全的，给我们的启发是： 尽量的不要在servlet中定义成员变量。如果不得不定义成员变量，那么不要去：①不要去修改成员变量的值 ②不要去根据成员变量的值做一些逻辑判断 1.2.3 session 会话\nHttp是无状态的\nHTTP 无状态 ：服务器无法判断这两次请求是同一个客户端发过来的，还是不同的客户端发过来的\n无状态带来的现实问题：对于多次请求无法确定是一个同一个用户发送，从而增加服务器负载。\n通过会话跟踪技术来解决无状态的问题。\n会话跟踪技术\n客户端第一次发请求给服务器，服务器获取session，获取不到，则创建新的，然后响应给客户端\n下次客户端给服务器发请求时，会把sessionID带给服务器，那么服务器就能获取到了，那么服务器就判断这一次请求和上次某次请求是同一个客户端，从而能够区分开客户端\n常用的API：\nrequest.getSession() -\u003e 获取当前的会话，没有则创建一个新的会话 request.getSession(true) -\u003e 效果和不带参数相同 request.getSession(false) -\u003e 获取当前会话，没有则返回null，不会创建新的 session.getId() -\u003e 获取sessionID session.isNew() -\u003e 判断当前session是否是新的 session.getMaxInactiveInterval() -\u003e session的非激活间隔时长，默认1800秒 session.setMaxInactiveInterval() session.invalidate() -\u003e 强制性让会话立即失效 session保存作用域\nsession保存作用域是和具体的某一个session对应的\n常用的API：\nvoid session.setAttribute(k,v) Object session.getAttribute(k) void removeAttribute(k) 作用域比较：\n原始情况下，保存作用域我们可以认为有四个： page（页面级别，现在几乎不用） , request（一次请求响应范围） , session（一次会话范围） , application（整个应用程序范围） request：一次请求响应范围 session：一次会话范围有效 application： 一次应用程序范围有效 1.2.4 网页跳转 服务器内部转发以及客户端重定向 服务器内部转发 : request.getRequestDispatcher(\"...\").forward(request,response); 一次请求响应的过程，对于客户端而言，内部经过了多少次转发，客户端是不知道的 地址栏没有变化 客户端重定向： response.sendRedirect(\"....\"); 两次请求响应的过程。客户端肯定知道请求URL有变化 地址栏有变化 1.2.5 对应网站route设置 可以在web.xml里面配置Servlet\nDemo01Servlet com.reus.Demo01Servlet hello world Demo01Servlet /demo01 可以通过注解的方式进行配置\n@WebServlet(urlPatterns = {\"/demo01\"} , initParams = { @WebInitParam(name=\"hello\",value=\"world\") }) 这用Demo01Servelet.java对应的service将对应网页的route为/demo01\n获取ServletContext，有很多方法\n在初始化方法中： ServletContxt servletContext = getServletContext()\n在服务方法中也可以通过request对象获取，也可以通过session获取： request.getServletContext(); session.getServletContext()\n获取初始化值：\nservletContext.getInitParameter(); 1.3 Thymeleaf视图技术 Thymeleaf - 视图模板技术\n添加thymeleaf的jar包 新建一个Servlet类ViewBaseServlet 在web.xml文件中添加配置 配置前缀 view-prefix 配置后缀 view-suffix 使得我们的Servlet继承ViewBaseServlet 根据逻辑视图名称 得到 物理视图名称 此处的视图名称是 index\n那么thymeleaf会将这个 逻辑视图名称 对应到 物理视图 名称上去\n逻辑视图名称 ： index\n物理视图名称 ： view-prefix + 逻辑视图名称 + view-suffix\n所以真实的视图名称是： / index .html super.processTemplate(\"index\",request,response);\n使用thymeleaf的标签\nth:if , th:unless , th:each , th:text , th:src\t,\tth:value th:href 0x02 myssm 2.1 BaseDAO 这里见另一博客 JDBC BaseDAO抽象了基础的增删改查操作API 2.2 IOC IOC\n耦合/依赖\nIOC - 控制反转 / DI - 依赖注入\n控制反转：\n之前在Servlet中，我们创建service对象 ， FruitService fruitService = new FruitServiceImpl(); 这句话如果出现在servlet中的某个方法内部，那么这个fruitService的作用域（生命周期）应该就是这个方法级别； 如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域（生命周期）应该就是这个servlet实例级别 之后我们在applicationContext.xml中定义了这个fruitService。然后通过解析XML，产生fruitService实例，存放在beanMap中，这个beanMap在一个BeanFactory中 因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转 依赖注入：\n之前我们在控制层出现代码：FruitService fruitService = new FruitServiceImpl()； 那么，控制层和service层存在耦合。\n之后，我们将代码修改成FruitService fruitService = null ; 然后，在配置文件中配置:\n",
+  "wordCount" : "5350",
   "inLanguage": "en",
   "datePublished": "2022-04-14T20:12:46Z",
   "dateModified": "2022-09-11T16:06:21+08:00",
@@ -352,23 +352,12 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <ul>
 <li>
 <p>如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String fname = request.<span style="color:#007f7f">getParameter</span>(<span style="color:#0ff;font-weight:bold">&#34;fname&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String fname = request.<span style="color:#007f7f">getParameter</span>(<span style="color:#0ff;font-weight:bold">&#34;fname&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//1.将字符串打散成字节数组
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">byte</span>[] bytes = fname.<span style="color:#007f7f">getBytes</span>(<span style="color:#0ff;font-weight:bold">&#34;ISO-8859-1&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//2.将字节数组按照设定的编码重新组装成字符串
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    fname = <span style="color:#fff;font-weight:bold">new</span> String(bytes,<span style="color:#0ff;font-weight:bold">&#34;UTF-8&#34;</span>);
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 <li>
 <p>post请求方式：
 <code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code></p>
@@ -409,60 +398,24 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <ul>
 <li>
 <p>javax.servlet.Servlet接口:</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> init(config) - 初始化方法
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> init(config) - 初始化方法
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - 服务方法
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> destory() - 销毁方法
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 <li>
 <p>javax.servlet.GenericServlet抽象类：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - 仍然是抽象的
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - 仍然是抽象的
+</span></span></code></pre></div></li>
 <li>
 <p>javax.servlet.http.HttpServlet 抽象子类：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - 不是抽象的
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - 不是抽象的
+</span></span></code></pre></div></li>
 <li>
 <p><code>String method = req.getMethod()</code>; 获取请求的方式</p>
 </li>
 <li>
 <p>在HttpServlet这个抽象类中，do方法都差不多:</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">protected</span> <span style="color:#fff;font-weight:bold">void</span> doGet(HttpServletRequest req, HttpServletResponse resp) <span style="color:#fff;font-weight:bold">throws</span> ServletException, IOException {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">protected</span> <span style="color:#fff;font-weight:bold">void</span> doGet(HttpServletRequest req, HttpServletResponse resp) <span style="color:#fff;font-weight:bold">throws</span> ServletException, IOException {
 </span></span><span style="display:flex;"><span>    String protocol = req.<span style="color:#007f7f">getProtocol</span>();
 </span></span><span style="display:flex;"><span>    String msg = lStrings.<span style="color:#007f7f">getString</span>(<span style="color:#0ff;font-weight:bold">&#34;http.method_get_not_supported&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (protocol.<span style="color:#007f7f">endsWith</span>(<span style="color:#0ff;font-weight:bold">&#34;1.1&#34;</span>)) {
@@ -471,9 +424,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>        resp.<span style="color:#007f7f">sendError</span>(400, msg);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 <li>
@@ -564,20 +515,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </li>
 <li>
 <p>常用的API：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>() -&gt; 获取当前的会话<span style="color:#f00">，</span>没有则创建一个新的会话
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>() -&gt; 获取当前的会话<span style="color:#f00">，</span>没有则创建一个新的会话
 </span></span><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>(<span style="color:#fff;font-weight:bold">true</span>) -&gt; 效果和不带参数相同
 </span></span><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>(<span style="color:#fff;font-weight:bold">false</span>) -&gt; 获取当前会话<span style="color:#f00">，</span>没有则返回null<span style="color:#f00">，</span>不会创建新的
 </span></span><span style="display:flex;"><span>
@@ -586,9 +524,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">getMaxInactiveInterval</span>() -&gt; session的非激活间隔时长<span style="color:#f00">，</span>默认1800秒
 </span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">setMaxInactiveInterval</span>()
 </span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">invalidate</span>() -&gt; 强制性让会话立即失效
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 <li>
@@ -599,19 +535,10 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <ul>
 <li>
 <p>常用的API：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> session.<span style="color:#007f7f">setAttribute</span>(k,v)
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> session.<span style="color:#007f7f">setAttribute</span>(k,v)
 </span></span><span style="display:flex;"><span>Object session.<span style="color:#007f7f">getAttribute</span>(k)
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> removeAttribute(k)
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 </ul>
@@ -654,23 +581,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <ul>
 <li>
 <p>可以在<code>web.xml</code>里面配置<code>Servlet</code></p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;servlet&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;servlet&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-name&gt;</span>Demo01Servlet<span style="font-weight:bold">&lt;/servlet-name&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-class&gt;</span>com.reus.Demo01Servlet<span style="font-weight:bold">&lt;/servlet-class&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;init-param&gt;</span>
@@ -682,26 +593,14 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-name&gt;</span>Demo01Servlet<span style="font-weight:bold">&lt;/servlet-name&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;url-pattern&gt;</span>/demo01<span style="font-weight:bold">&lt;/url-pattern&gt;</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/servlet-mapping&gt;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 <li>
 <p>可以通过注解的方式进行配置</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@WebServlet(urlPatterns = {<span style="color:#0ff;font-weight:bold">&#34;/demo01&#34;</span>} ,
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@WebServlet(urlPatterns = {<span style="color:#0ff;font-weight:bold">&#34;/demo01&#34;</span>} ,
 </span></span><span style="display:flex;"><span>     initParams = {
 </span></span><span style="display:flex;"><span>         @WebInitParam(name=<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>,value=<span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>)
 </span></span><span style="display:flex;"><span>     })
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 <li>
 <p>这用<code>Demo01Servelet.java</code>对应的<code>service</code>将对应网页的<code>route</code>为<code>/demo01</code></p>
 <ul>
@@ -760,15 +659,8 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <ul>
 <li>
 <p>使用thymeleaf的标签</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>th:if   ,  th:unless   , th:each   ,   th:text 	, 	th:src	,	 th:value  th:href
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>th:if   ,  th:unless   , th:each   ,   th:text 	, 	th:src	,	 th:value  th:href
+</span></span></code></pre></div></li>
 </ul>
 </li>
 </ul>
@@ -814,19 +706,10 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <li>
 <p>之后，我们将代码修改成<code>FruitService fruitService = null ;</code>
 然后，在配置文件中配置:</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;FruitController&#34;</span><span style="font-weight:bold">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;FruitController&#34;</span><span style="font-weight:bold">&gt;</span>
 </span></span><span style="display:flex;"><span>     <span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;fruitService&#34;</span> <span style="color:#007f7f">ref=</span><span style="color:#0ff;font-weight:bold">&#34;fruitService&#34;</span><span style="font-weight:bold">/&gt;</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 </ul>
@@ -842,15 +725,8 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </li>
 <li>
 <p>配置Filter，可以用注解<code>@WebFilter</code>，也可以使用xml文件:</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span> <span style="font-weight:bold">&lt;filter&gt;</span> <span style="font-weight:bold">&lt;filter-mapping&gt;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span> <span style="font-weight:bold">&lt;filter&gt;</span> <span style="font-weight:bold">&lt;filter-mapping&gt;</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Filter在配置时，和servlet一样，也可以配置通配符，例如 @WebFilter(&quot;*.do&quot;)表示拦截所有以.do结尾的请求</p>
 </li>
@@ -883,19 +759,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </li>
 <li>
 <p>set方法源码分析：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> set(T value) {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> set(T value) {
 </span></span><span style="display:flex;"><span>  Thread t = Thread.<span style="color:#007f7f">currentThread</span>(); <span style="color:#007f7f">//获取当前的线程
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  ThreadLocalMap map = getMap(t);    <span style="color:#007f7f">//每一个线程都维护各自的一个容器（ThreadLocalMap）
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">if</span> (map != <span style="color:#fff;font-weight:bold">null</span>)
@@ -903,31 +767,12 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">else</span>
 </span></span><span style="display:flex;"><span>      createMap(t, value);           <span style="color:#007f7f">//默认情况下map是没有初始化的，那么第一次往其中添加数据时，会去初始化
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 <ul>
 <li>
 <p>get方法源码分析：</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> T get() {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> T get() {
 </span></span><span style="display:flex;"><span>  Thread t = Thread.<span style="color:#007f7f">currentThread</span>(); <span style="color:#007f7f">//获取当前的线程
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  ThreadLocalMap map = getMap(t);    <span style="color:#007f7f">//获取和这个线程（企业）相关的ThreadLocalMap（也就是工作纽带的集合）
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">if</span> (map != <span style="color:#fff;font-weight:bold">null</span>) {
@@ -940,9 +785,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> setInitialValue();
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 <li>
@@ -950,31 +793,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </p>
 </li>
 <li>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> TransactionManager() {
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -994,40 +813,14 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
+</span></span></code></pre></div><ul>
 <li><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/05.%e7%bc%96%e7%a8%8b%e5%bc%8f%e4%ba%8b%e5%8a%a1%e7%ae%a1%e7%90%8603.png" alt="05.编程式事务管理03"  />
 </li>
 </ul>
 </li>
 <li>
 <p>借助<code>sql.connection</code>,实现对整个事务的管理，</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> TransactionManager() {
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -1047,9 +840,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 <h3 id="25-监听器">2.5 监听器<a hidden class="anchor" aria-hidden="true" href="#25-监听器">#</a></h3>
 <ul>
@@ -1083,15 +874,8 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </li>
 <li>
 <p>根据名称找到对应的组件:xxxController ， 这个对应的依据我们存储在<code>applicationContext.xm</code>l中</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.fruit.controllers.FruitController/</span><span style="font-weight:bold">&gt;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.fruit.controllers.FruitController/</span><span style="font-weight:bold">&gt;</span>
+</span></span></code></pre></div></li>
 <li>
 <p>通过DOM技术我们去解析XML文件，在中央控制器中形成一个<code>beanMap</code>容器，用来存放所有的<code>Controller</code>组件</p>
 </li>
@@ -1124,58 +908,18 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </li>
 <li>
 <p>视图处理</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String returnStr = (String)returnObj;
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String returnStr = (String)returnObj;
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span>(returnStr.<span style="color:#007f7f">startWith</span>(<span style="color:#0ff;font-weight:bold">&#34;redirect:&#34;</span>)){
 </span></span><span style="display:flex;"><span> ....
 </span></span><span style="display:flex;"><span>}<span style="color:#fff;font-weight:bold">else</span> <span style="color:#fff;font-weight:bold">if</span>.....
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
 <p>这里给出<code>applicationContext.xml</code></p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;!DOCTYPE beans[
 </span></span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">        &lt;!ELEMENT beans (bean*)&gt;</span>
@@ -1201,9 +945,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicService&#34;</span> <span style="color:#007f7f">ref =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicService&#34;</span><span style="font-weight:bold">/&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;/bean&gt;</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/beans&gt;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
+</span></span></code></pre></div></li>
 </ul>
 <h2 id="0x03-业务">0x03 业务<a hidden class="anchor" aria-hidden="true" href="#0x03-业务">#</a></h2>
 <ul>
