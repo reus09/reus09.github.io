@@ -6,7 +6,16 @@
     <description>Recent content in 漏洞 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 18 Sep 2022 17:01:52 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Sep 2022 18:44:20 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CVE 2022 33980 RCE漏洞分析</title>
+      <link>http://www.reus09.top/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 25 Sep 2022 18:44:20 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
+      <description>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4</description>
+    </item>
+    
     <item>
       <title>Log4j2漏洞复现及原理分析</title>
       <link>http://www.reus09.top/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</link>
