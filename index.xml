@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 09 Oct 2022 15:33:36 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Oct 2022 16:32:33 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CVE-2022-25845 FastJson RCE漏洞分析</title>
+      <link>http://www.reus09.top/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
+      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE</description>
+    </item>
+    
     <item>
       <title>观2022年10月9日威斯特法伦球场德国国家德比有感</title>
       <link>http://www.reus09.top/posts/life/%E8%A7%822022%E5%B9%B410%E6%9C%889%E6%97%A5%E5%A8%81%E6%96%AF%E7%89%B9%E6%B3%95%E4%BC%A6%E7%90%83%E5%9C%BA%E5%BE%B7%E5%9B%BD%E5%9B%BD%E5%AE%B6%E5%BE%B7%E6%AF%94%E6%9C%89%E6%84%9F/</link>
