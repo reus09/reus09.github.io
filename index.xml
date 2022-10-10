@@ -76,7 +76,7 @@
       <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
-      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 admin&amp;#39; -- admin&amp;#39; # admin&amp;#39;/\* &amp;#39; or 1=1-- &amp;#39; or 1=1# &amp;#39; or 1=1/* &amp;#39;) or &amp;#39;1&amp;#39;=&amp;#39;1-- &amp;#39;) or (&amp;#39;1&amp;#39;=&amp;#39;1-- 1&amp;#39;^1# (</description>
+      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin&amp;#39; -- admin&amp;#39; # admin&amp;#39;/\* &amp;#39; or 1=1-- &amp;#39; or 1=1# &amp;#39; or</description>
     </item>
     
     <item>
@@ -103,7 +103,7 @@
       <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/gin/</guid>
-      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 func main(){ // 使用默认中间件创建一个gin路由器 //</description>
+      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21</description>
     </item>
     
     <item>
@@ -139,7 +139,7 @@
       <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/mybatis/</guid>
-      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- MySQL驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt;</description>
+      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;</description>
     </item>
     
     <item>

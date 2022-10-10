@@ -22,7 +22,7 @@
       <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
-      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 admin&amp;#39; -- admin&amp;#39; # admin&amp;#39;/\* &amp;#39; or 1=1-- &amp;#39; or 1=1# &amp;#39; or 1=1/* &amp;#39;) or &amp;#39;1&amp;#39;=&amp;#39;1-- &amp;#39;) or (&amp;#39;1&amp;#39;=&amp;#39;1-- 1&amp;#39;^1# (</description>
+      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 [TOC] 万能密码 1 2 3 4 5 6 7 8 9 admin&amp;#39; -- admin&amp;#39; # admin&amp;#39;/\* &amp;#39; or 1=1-- &amp;#39; or 1=1# &amp;#39; or</description>
     </item>
     
   </channel>

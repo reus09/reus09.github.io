@@ -104,8 +104,8 @@
   "keywords": [
     "pwn"
   ],
-  "articleBody": "逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程 根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。 分析两者区别。 0x02 试验工具 windbg Ollydbg IDA_PRO 因为Windows xp sp3下的Windbg微软将其在线Symbol符号下架，导致Windbg调试过程中，部分关键函数为乱码，无法正常分析，故借鉴Ida 实验环境 Windows xp sp3 0x03 windbg 调试 Scer.exe 打开Scer.exe，然后将shellcode.txt.mybin附加到程序，可以发现计算器可以正常打开。\n需要对Scer.exe进行动态调试分析，为了调试分析植入的shellcode,我们在shellcode.txt.bin前加上字节0xCC\n然后在windbg中附加 Scer.exe的进程。\n这里程序会停在系统代码区域，我们要进入用户代码里面。 WinDbg里有个伪寄存器叫$exentry，里面记录了程序的入口点。所以我们只要在命令输入栏里输入bp $exentry 然后执行命令g即可进入用户程序入口。 这里结合IDA_pro，F5反编译可以看到 这里实现了程序的初始化，就不在过多分析。 这里通过IDA_PRO，找到我们加载核心代码shellcode 的首地址。\n首先shift+F12查看字符串，找到字符串状态:0x%0.8x 已载入shellcode,即将开始执行...，一路反跟踪函数返回，找到该段功能的首地址为：0x401830 也就是说在此段代码中，我们实现了向程序中输入shellcode后，程序如何处理shellcode以及如何跳转到shellcode的过程 在windbg 下 设置断点 bp 0x401830\n加载我们的shellcode 后，就可以在windbg中调试 看到程序怎么将shellcode存放起来并执行。 然后输入pc跳转到下一个call 指令，然后步入，这个函数为 CreateFileA。\n发现该函数功能实现了创建一个线程———-打开文件夹，即我们的shellcode文件。 继续pc跳转到下一个函数地址，这个函数为 VirtualAlloc\n这里查看一下VirtualAlloc函数的结构\nLPVOID VirtualAlloc{ LPVOID lpAddress, // 要分配的内存区域的地址 DWORD dwSize, // 分配的大小 DWORD flAllocationType, // 分配的类型 DWORD flProtect // 该内存的初始保护属性 }; 并且与调入函数前传入的参数相结合对比，\n发现 ebx 存取的是 我们shellcode 的字节长度，esi存放的是 程序给 shellcode 分配的动态地址。\n程序执行完毕后，很明显可以发现了esi 存取的 地址为 0xb40000\n这里就实现了为 shellcode的存取 提前分配好了 动态地址， 起始地址为 0xb40000\n继续pc跳转到下一个call函数，该函数名字为 ReadFile\n这里查看一下VirtualAlloc函数的结构\nBOOL ReadFile( HANDLE hFile, //文件的句柄 LPVOID lpBuffer, //用于保存读入数据的一个缓冲区 DWORD nNumberOfBytesToRead, //要读入的字节数 LPDWORD lpNumberOfBytesRead, //指向实际读取字节数的指针 LPOVERLAPPED lpOverlapped //如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。 //该结构定义了一次异步读取操作。否则，应将这个参数设为NULL ); 此时的寄存器情况：\n将函数结构 与 传参前的 汇编语言进行 对比。\n可以发现函数实现了在地址为esi :: 0xb40000 的缓冲区 存取了 长度为27 字节的 shellcode。\n继续pc进行到sleep函数。\n因为要等待此时的线程完成。 继续p指令 单步跳过，一直到\n此段整体汇编代码对应用IDA_Pro显示\nmov bp+ms_exc.registration.TryLevel], 0 ; 进入第一个__try域,TryLevel=0\nmov ebp+ms_exc.registration.TryLevel], 0FFFFFFFEh ; 离开第一个__try域，TryLevel=TRYLEVEL_NONE (-2)\n所以此段为 try_except 的过程。\n然后发现存在汇编语句call eax\ncall eax 来自 [ebp + var_24]\n追踪发现 [ebp+var_24]存放的是esi的地址，即0xb40000 因此这段代码，就是程序进入预先分配好的动态内存区(里面存有shellcode）的入口。\n进入函数，分析shellcode。\n程序执行到0xb40001跳转到地址0xb40019，然后发现在地址0xb40019的 jmp 指令跳转到 0xb40003\n这里解释么要先call 跳转到 0xb40019然后再回到0xb40003\ncall/pop指令 Shellcode可以通过在一个call指令后立即执行pop指令，将上一刻压入栈中的指令地址载入到寄存器中，从而获取到shellcode起始的内存地址。 原理就是：call 指令实际上就是 先将该函数的下一个地址压入栈中，然后跳转到目的地址。跳转之后再将其pop出来，这样就达到了ebx 存放 地址0xb4001e的作用。 这里通过call 0xb40003指令调用完之后对栈的分析，可以看出。 显然，栈最顶层为calc.exe 存放的地址。 然后开始 pop ebx ，将 eax 清零。\n然后向栈中压入 ebx,eax。 ebx此时存放的地址为0xb4001e即字符串\\x63\\x61x6c\\x63\\x2e\\x65\\x78\\x65对应的calc.exe\n将函数kernel32!WinExec地址传给ebx。\n上面两个压栈相当于 对下面的函数 kernel32!WinExec进行传参。\nUINT WinExec( LPCSTR lpCmdLine, UINT uCmdShow ); 这样就相当于调用函数 winExec(\"calc.exe\",0)来打开计算器。\n函数调用完成后。将eax置0，然后入栈，将函数kernel32!ExitProcess地址传给ebx。相当于向函数kernel32!ExitProcess传入参数，结束调用的进程及其所有的线程windows函数。\nshellcode分析完毕。\n在命令中输入g，即可弹出计算器。\n0x04 Ollydbg 调试 shellcode2020.exe 直接执行shellcode2020.exe会直接弹出计算器。\n动态分析前:\n通过IDA_Pro 可以直接定位到 main函数地址为 : 0x401290 在Ollydbg中设置断点0x401290,然后运行程序跳转到该地址\npush ebp mov ebp,esp 更新函数栈帧 sub esp,8 and esp,FFFFFFF0 mov eax,0 add eax,0f add eax,0f shr eax,4 shl eax,4 将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010 然后进入到地址为0x401710的函数，结合IDA，该函数为alloca函数，产生函数指针。\n原型： void * __cdecl alloca(size_t); 参数： size_t: 申请分配内存的尺寸 返回值： void*: 分配到的内存地址 alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。 alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的\"堆栈\" 进入函数0x4013b0，执行加载函数，将shellcode加载到代码区。\n然后设置断点 0x4012ba，然后单步步入\n发现dword ptr[ebp - 4]被赋值为地址0x402000 观察IDA，发现地址0x40200的地方存取的数据为evil数组，即shellcode存放地址。 同时0x402000也是文件执行过程中，data端的起始位置。 步入，查看shellcode。\n发现大致流程和windbg分析过程一样。\n通过call和pop结合运用，将ebx赋值为 地址0x40201d ebx此时存放的为字符串calc.exe 然后同样的压栈操作，调用函数Kernel32!WinExec进行执行计算器。\n执行完毕后，又将eax置0 ，将函数kernel32!ExitProcess的地址传给ebx,调用ebx地址所在的程序，即ExitProcess(‘0’)，退出程序。\n0x05 总结(区别) Scer.exe创造一个新的线程，然后通过读取文件内容作为shellcode，并通过VirtualAlloc申请内存，xp里面这个内存地址均为0xb40000并且用esi保存这个地址，然后ReadFile即在虚拟地址0xb40000中写入shellcode，然后通过format,update等函数shellcode进行转换，最后地址将其作为一个函数指针，进行调用，进入shellcode。 shellcode2020.exe则是在文件的.data端 存放我们的shellcode。通过函数alloca来在堆上申请内存，并且用函数指针对其调用，最后调用.data的起始地址，运行我们构造的shellcode,可以运行计算器。 因此两者的区别：一个是从外部植入shellcode，将其加载到内存中，另一个是程序本身自带的shellcode，通过构造函数指针来执行shellcode。 ",
-  "wordCount" : "3404",
+  "articleBody": "逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过windbg逆向分析弹出计算器的漏洞利用详细过程 根据实验软件shellcode2020.exe，通过Ollydbg逆向分析弹出计算器的漏洞利用详细过程。 分析两者区别。 0x02 试验工具 windbg Ollydbg IDA_PRO 因为Windows xp sp3下的Windbg微软将其在线Symbol符号下架，导致Windbg调试过程中，部分关键函数为乱码，无法正常分析，故借鉴Ida 实验环境 Windows xp sp3 0x03 windbg 调试 Scer.exe 打开Scer.exe，然后将shellcode.txt.mybin附加到程序，可以发现计算器可以正常打开。\n需要对Scer.exe进行动态调试分析，为了调试分析植入的shellcode,我们在shellcode.txt.bin前加上字节0xCC\n然后在windbg中附加 Scer.exe的进程。\n这里程序会停在系统代码区域，我们要进入用户代码里面。 WinDbg里有个伪寄存器叫$exentry，里面记录了程序的入口点。所以我们只要在命令输入栏里输入bp $exentry 然后执行命令g即可进入用户程序入口。 这里结合IDA_pro，F5反编译可以看到 这里实现了程序的初始化，就不在过多分析。 这里通过IDA_PRO，找到我们加载核心代码shellcode 的首地址。\n首先shift+F12查看字符串，找到字符串状态:0x%0.8x 已载入shellcode,即将开始执行...，一路反跟踪函数返回，找到该段功能的首地址为：0x401830 也就是说在此段代码中，我们实现了向程序中输入shellcode后，程序如何处理shellcode以及如何跳转到shellcode的过程 在windbg 下 设置断点 bp 0x401830\n加载我们的shellcode 后，就可以在windbg中调试 看到程序怎么将shellcode存放起来并执行。 然后输入pc跳转到下一个call 指令，然后步入，这个函数为 CreateFileA。\n发现该函数功能实现了创建一个线程———-打开文件夹，即我们的shellcode文件。 继续pc跳转到下一个函数地址，这个函数为 VirtualAlloc\n这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6 LPVOID VirtualAlloc{ LPVOID lpAddress, // 要分配的内存区域的地址 DWORD dwSize, // 分配的大小 DWORD flAllocationType, // 分配的类型 DWORD flProtect // 该内存的初始保护属性 }; 并且与调入函数前传入的参数相结合对比，\n发现 ebx 存取的是 我们shellcode 的字节长度，esi存放的是 程序给 shellcode 分配的动态地址。\n程序执行完毕后，很明显可以发现了esi 存取的 地址为 0xb40000\n这里就实现了为 shellcode的存取 提前分配好了 动态地址， 起始地址为 0xb40000\n继续pc跳转到下一个call函数，该函数名字为 ReadFile\n这里查看一下VirtualAlloc函数的结构\n1 2 3 4 5 6 7 8 9 BOOL ReadFile( HANDLE hFile, //文件的句柄 LPVOID lpBuffer, //用于保存读入数据的一个缓冲区 DWORD nNumberOfBytesToRead, //要读入的字节数 LPDWORD lpNumberOfBytesRead, //指向实际读取字节数的指针 LPOVERLAPPED lpOverlapped //如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。 //该结构定义了一次异步读取操作。否则，应将这个参数设为NULL ); 此时的寄存器情况：\n将函数结构 与 传参前的 汇编语言进行 对比。\n可以发现函数实现了在地址为esi :: 0xb40000 的缓冲区 存取了 长度为27 字节的 shellcode。\n继续pc进行到sleep函数。\n因为要等待此时的线程完成。 继续p指令 单步跳过，一直到\n此段整体汇编代码对应用IDA_Pro显示\nmov bp+ms_exc.registration.TryLevel], 0 ; 进入第一个__try域,TryLevel=0\nmov ebp+ms_exc.registration.TryLevel], 0FFFFFFFEh ; 离开第一个__try域，TryLevel=TRYLEVEL_NONE (-2)\n所以此段为 try_except 的过程。\n然后发现存在汇编语句call eax\ncall eax 来自 [ebp + var_24]\n追踪发现 [ebp+var_24]存放的是esi的地址，即0xb40000 因此这段代码，就是程序进入预先分配好的动态内存区(里面存有shellcode）的入口。\n进入函数，分析shellcode。\n程序执行到0xb40001跳转到地址0xb40019，然后发现在地址0xb40019的 jmp 指令跳转到 0xb40003\n这里解释么要先call 跳转到 0xb40019然后再回到0xb40003\ncall/pop指令 Shellcode可以通过在一个call指令后立即执行pop指令，将上一刻压入栈中的指令地址载入到寄存器中，从而获取到shellcode起始的内存地址。 原理就是：call 指令实际上就是 先将该函数的下一个地址压入栈中，然后跳转到目的地址。跳转之后再将其pop出来，这样就达到了ebx 存放 地址0xb4001e的作用。 这里通过call 0xb40003指令调用完之后对栈的分析，可以看出。 显然，栈最顶层为calc.exe 存放的地址。 然后开始 pop ebx ，将 eax 清零。\n然后向栈中压入 ebx,eax。 ebx此时存放的地址为0xb4001e即字符串\\x63\\x61x6c\\x63\\x2e\\x65\\x78\\x65对应的calc.exe\n将函数kernel32!WinExec地址传给ebx。\n上面两个压栈相当于 对下面的函数 kernel32!WinExec进行传参。\n1 2 UINT WinExec( LPCSTR lpCmdLine, UINT uCmdShow ); 这样就相当于调用函数 winExec(\"calc.exe\",0)来打开计算器。\n函数调用完成后。将eax置0，然后入栈，将函数kernel32!ExitProcess地址传给ebx。相当于向函数kernel32!ExitProcess传入参数，结束调用的进程及其所有的线程windows函数。\nshellcode分析完毕。\n在命令中输入g，即可弹出计算器。\n0x04 Ollydbg 调试 shellcode2020.exe 直接执行shellcode2020.exe会直接弹出计算器。\n动态分析前:\n通过IDA_Pro 可以直接定位到 main函数地址为 : 0x401290 在Ollydbg中设置断点0x401290,然后运行程序跳转到该地址\n1 2 3 4 5 6 7 8 9 10 push ebp mov ebp,esp 更新函数栈帧 sub esp,8 and esp,FFFFFFF0 mov eax,0 add eax,0f add eax,0f shr eax,4 shl eax,4 将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010 然后进入到地址为0x401710的函数，结合IDA，该函数为alloca函数，产生函数指针。\n1 2 3 4 5 6 7 8 原型： void * __cdecl alloca(size_t); 参数： size_t: 申请分配内存的尺寸 返回值： void*: 分配到的内存地址 alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。 alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的\"堆栈\" 进入函数0x4013b0，执行加载函数，将shellcode加载到代码区。\n然后设置断点 0x4012ba，然后单步步入\n发现dword ptr[ebp - 4]被赋值为地址0x402000 观察IDA，发现地址0x40200的地方存取的数据为evil数组，即shellcode存放地址。 同时0x402000也是文件执行过程中，data端的起始位置。 步入，查看shellcode。\n发现大致流程和windbg分析过程一样。\n通过call和pop结合运用，将ebx赋值为 地址0x40201d ebx此时存放的为字符串calc.exe 然后同样的压栈操作，调用函数Kernel32!WinExec进行执行计算器。\n执行完毕后，又将eax置0 ，将函数kernel32!ExitProcess的地址传给ebx,调用ebx地址所在的程序，即ExitProcess(‘0’)，退出程序。\n0x05 总结(区别) Scer.exe创造一个新的线程，然后通过读取文件内容作为shellcode，并通过VirtualAlloc申请内存，xp里面这个内存地址均为0xb40000并且用esi保存这个地址，然后ReadFile即在虚拟地址0xb40000中写入shellcode，然后通过format,update等函数shellcode进行转换，最后地址将其作为一个函数指针，进行调用，进入shellcode。 shellcode2020.exe则是在文件的.data端 存放我们的shellcode。通过函数alloca来在堆上申请内存，并且用函数指针对其调用，最后调用.data的起始地址，运行我们构造的shellcode,可以运行计算器。 因此两者的区别：一个是从外部植入shellcode，将其加载到内存中，另一个是程序本身自带的shellcode，通过构造函数指针来执行shellcode。 ",
+  "wordCount" : "3439",
   "inLanguage": "en",
   "datePublished": "2021-11-03T22:05:29Z",
   "dateModified": "2022-09-11T16:10:58+08:00",
@@ -445,13 +445,25 @@
 </li>
 <li>
 <p>这里查看一下<code>VirtualAlloc函数</code>的结构</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>LPVOID VirtualAlloc{
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>LPVOID VirtualAlloc{
 </span></span><span style="display:flex;"><span>	LPVOID lpAddress, <span style="color:#007f7f">// 要分配的内存区域的地址
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	DWORD dwSize, <span style="color:#007f7f">// 分配的大小
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	DWORD flAllocationType, <span style="color:#007f7f">// 分配的类型
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	DWORD flProtect <span style="color:#007f7f">// 该内存的初始保护属性
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>};
-</span></span></code></pre></div><ul>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
 <li>
 <p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20210930001850024.png" alt="image-20210930001850024"  />
 </p>
@@ -485,7 +497,20 @@
 </li>
 <li>
 <p>这里查看一下<code>VirtualAlloc函数</code>的结构</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>BOOL ReadFile(
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>BOOL ReadFile(
 </span></span><span style="display:flex;"><span>    HANDLE hFile,                                    <span style="color:#007f7f">//文件的句柄
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    LPVOID lpBuffer,                                <span style="color:#007f7f">//用于保存读入数据的一个缓冲区
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    DWORD nNumberOfBytesToRead,    <span style="color:#007f7f">//要读入的字节数
@@ -494,7 +519,9 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//如文件打开时指定了FILE_FLAG_OVERLAPPED，那么必须，用这个参数引用一个特殊的结构。
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">//该结构定义了一次异步读取操作。否则，应将这个参数设为NULL
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>);
-</span></span></code></pre></div><ul>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
 <li>
 <p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20210930002546255.png" alt="image-20210930002546255"  />
 </p>
@@ -604,9 +631,17 @@
 </li>
 <li>
 <p>上面两个压栈相当于 对下面的函数 <code>kernel32!WinExec</code>进行传参。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>UINT WinExec(  LPCSTR lpCmdLine,  
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>UINT WinExec(  LPCSTR lpCmdLine,  
 </span></span><span style="display:flex;"><span>             UINT   uCmdShow );
-</span></span></code></pre></div></li>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
 <li>
 <p>这样就相当于调用函数 <code>winExec(&quot;calc.exe&quot;,0)</code>来打开计算器。</p>
 </li>
@@ -643,7 +678,21 @@
 <li><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20210930012008965.png" alt="image-20210930012008965"  />
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>push ebp 
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>push ebp 
 </span></span><span style="display:flex;"><span>mov ebp,esp 更新函数栈帧
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sub esp,8
@@ -653,10 +702,24 @@
 </span></span><span style="display:flex;"><span>add eax,0f
 </span></span><span style="display:flex;"><span>shr eax,4
 </span></span><span style="display:flex;"><span>shl eax,4  将 (eax + 0f + 0f )先左移一位，后右移一位，结果为00000010
-</span></span></code></pre></div></li>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
 <li>
 <p>然后进入到地址为<code>0x401710</code>的函数，结合IDA，该函数为alloca函数，产生函数指针。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>原型：
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>原型：
 </span></span><span style="display:flex;"><span>void * __cdecl alloca(size_t);
 </span></span><span style="display:flex;"><span>参数：
 </span></span><span style="display:flex;"><span>size_t: 申请分配内存的尺寸
@@ -664,7 +727,9 @@
 </span></span><span style="display:flex;"><span>void*: 分配到的内存地址
 </span></span><span style="display:flex;"><span>alloca与malloc,calloc,realloc类似,需要注意的是它申请的是“栈(stack)”空间的内存，用完会在退出栈时自动释放，无需手动释放。
 </span></span><span style="display:flex;"><span>alloca不宜使用在必须广泛移植的程序中, 因为有些机器不一定有传统意义上的&#34;堆栈&#34;
-</span></span></code></pre></div></li>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
 <li>
 <p>进入函数<code>0x4013b0</code>，执行加载函数，将shellcode加载到代码区。</p>
 </li>
