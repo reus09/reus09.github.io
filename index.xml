@@ -6,9 +6,18 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 17 Oct 2022 14:20:49 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Oct 2022 14:14:54 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Java动态代理</title>
+      <title>Java反射</title>
+      <link>http://www.reus09.top/posts/tech/java%E5%8F%8D%E5%B0%84/</link>
+      <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
+      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反</description>
+    </item>
+    
+    <item>
+      <title>Java之动态代理</title>
       <link>http://www.reus09.top/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</link>
       <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
       
