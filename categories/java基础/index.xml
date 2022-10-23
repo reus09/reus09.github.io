@@ -13,7 +13,7 @@
       <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/java%E4%B9%8Bclassloader/</guid>
-      <description>这篇主要记录一下对于classloader的学习。 [TOC] 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件</description>
+      <description>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内</description>
     </item>
     
     <item>
