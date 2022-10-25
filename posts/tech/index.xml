@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 25 Oct 2022 14:57:25 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Oct 2022 18:44:13 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommonsCollections2分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2022 18:44:13 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</guid>
+      <description>学习完CommonCollections1链之后，很自然的学习了CommonCollection2的学习，但是CC2链的依赖版本较为固定，为</description>
+    </item>
+    
     <item>
       <title>CommonsCollections1分析</title>
       <link>http://www.reus09.top/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</link>
