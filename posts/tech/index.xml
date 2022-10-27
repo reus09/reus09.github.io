@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 25 Oct 2022 18:44:13 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Oct 2022 16:05:33 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommonsCollections3分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 27 Oct 2022 16:05:33 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</guid>
+      <description>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并</description>
+    </item>
+    
     <item>
       <title>CommonsCollections2分析</title>
       <link>http://www.reus09.top/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</link>
