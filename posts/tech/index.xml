@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 27 Oct 2022 16:05:33 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Oct 2022 19:36:38 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommonsCollections4分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 28 Oct 2022 19:36:38 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</guid>
+      <description>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commo</description>
+    </item>
+    
     <item>
       <title>CommonsCollections3分析</title>
       <link>http://www.reus09.top/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</link>

