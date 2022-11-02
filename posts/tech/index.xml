@@ -6,14 +6,14 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 29 Oct 2022 15:57:10 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Oct 2022 15:14:39 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CommonsCollections7分析</title>
-      <link>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
-      <pubDate>Sat, 29 Oct 2022 15:57:10 +0800</pubDate>
+      <title>CommonsCollections5分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 30 Oct 2022 15:14:39 +0800</pubDate>
       
-      <guid>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
-      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTa</description>
+      <guid>http://www.reus09.top/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</guid>
+      <description>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代</description>
     </item>
     
     <item>
@@ -347,6 +347,15 @@
       
       <guid>http://www.reus09.top/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
       <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections7分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
+      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTa</description>
     </item>
     
   </channel>
