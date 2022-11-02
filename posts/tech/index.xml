@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 30 Oct 2022 15:14:39 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Nov 2022 15:57:10 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommonsCollections7分析</title>
+      <link>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
+      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTa</description>
+    </item>
+    
     <item>
       <title>CommonsCollections5分析</title>
       <link>http://www.reus09.top/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</link>
