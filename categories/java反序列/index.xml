@@ -6,7 +6,16 @@
     <description>Recent content in Java反序列 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 01 Nov 2022 15:57:10 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Nov 2022 17:09:24 +0800</lastBuildDate><atom:link href="http://www.reus09.top/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommosBeanutils分析</title>
+      <link>http://www.reus09.top/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 04 Nov 2022 17:09:24 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</guid>
+      <description>实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的</description>
+    </item>
+    
     <item>
       <title>CommonsCollections7分析</title>
       <link>http://www.reus09.top/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
