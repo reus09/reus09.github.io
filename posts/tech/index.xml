@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 04 Nov 2022 17:09:24 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Nov 2022 15:56:46 +0800</lastBuildDate><atom:link href="http://www.reus09.top/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Groovy链分析</title>
+      <link>http://www.reus09.top/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学</description>
+    </item>
+    
     <item>
       <title>CommosBeanutils分析</title>
       <link>http://www.reus09.top/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</link>
