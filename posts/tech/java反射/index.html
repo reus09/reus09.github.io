@@ -612,7 +612,7 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Method method = clazz.<span style="color:#007f7f">getDeclaredMethod</span>(<span style="color:#0ff;font-weight:bold">&#34;方法名&#34;</span>);
-</span></span><span style="display:flex;"><span>Method method = clazz.<span style="color:#007f7f">getDeclaredMethod</span>(<span style="color:#0ff;font-weight:bold">&#34;方法名&#34;</span>, 参数类型如String.<span style="color:#007f7f">class</span><span style="color:#f00">，</span>多个参数用<span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>号隔开);
+</span></span><span style="display:flex;"><span>Method method = clazz.<span style="color:#007f7f">getDeclaredMethod</span>(<span style="color:#0ff;font-weight:bold">&#34;方法名&#34;</span>, <span style="color:#f00">参数类型如</span>String.<span style="color:#007f7f">class</span><span style="color:#f00">，多个参数用</span><span style="color:#0ff;font-weight:bold">&#34;,&#34;</span><span style="color:#f00">号隔开</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>getMethod</code>和<code>getDeclaredMethod</code>都能够获取到类成员方法，区别在于*</p>
@@ -626,7 +626,7 @@
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>method.<span style="color:#007f7f">invoke</span>(方法实例对象, 方法参数值<span style="color:#f00">，</span>多个参数值用<span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>隔开);
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>method.<span style="color:#007f7f">invoke</span>(<span style="color:#f00">方法实例对象</span>, <span style="color:#f00">方法参数值，多个参数值用</span><span style="color:#0ff;font-weight:bold">&#34;,&#34;</span><span style="color:#f00">隔开</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -708,7 +708,7 @@
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Object obj = field.<span style="color:#007f7f">get</span>(类实例对象);
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Object obj = field.<span style="color:#007f7f">get</span>(<span style="color:#f00">类实例对象</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>修改成员变量值：</strong></p>
@@ -717,7 +717,7 @@
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>field.<span style="color:#007f7f">set</span>(类实例对象, 修改后的值);
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>field.<span style="color:#007f7f">set</span>(<span style="color:#f00">类实例对象</span>, <span style="color:#f00">修改后的值</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>同理，当我们没有修改的成员变量权限时可以使用: <code>field.setAccessible(true)</code>的方式修改为访问成员变量访问权限。</p>
@@ -749,7 +749,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>modifiers.<span style="color:#007f7f">setInt</span>(field, field.<span style="color:#007f7f">getModifiers</span>() &amp; ~Modifier.<span style="color:#007f7f">FINAL</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 修改成员变量值
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>field.<span style="color:#007f7f">set</span>(类实例对象, 修改后的值);
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>field.<span style="color:#007f7f">set</span>(<span style="color:#f00">类实例对象</span>, <span style="color:#f00">修改后的值</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div>

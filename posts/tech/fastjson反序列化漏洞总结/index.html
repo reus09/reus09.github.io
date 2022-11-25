@@ -943,7 +943,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> **/</span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> JDNIServer {
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> RemoteException, NamingException, AlreadyBoundException {
-</span></span><span style="display:flex;"><span>        Registry registry = LocateRegistry.<span style="color:#007f7f">createRegistry</span>(1099);
+</span></span><span style="display:flex;"><span>        Registry registry = LocateRegistry.<span style="color:#007f7f">createRegistry</span>(<span style="color:#ff0;font-weight:bold">1099</span>);
 </span></span><span style="display:flex;"><span>        Reference reference = <span style="color:#fff;font-weight:bold">new</span> Reference(<span style="color:#0ff;font-weight:bold">&#34;com.reus09.badClassName&#34;</span>,
 </span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;com.reus09.badClassName&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;http://127.0.0.1:8000/&#34;</span>);
 </span></span><span style="display:flex;"><span>        ReferenceWrapper referenceWrapper = <span style="color:#fff;font-weight:bold">new</span> ReferenceWrapper(reference);
@@ -1470,39 +1470,39 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">null</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 类名长度判断，不大于128不小于3
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (typeName.<span style="color:#007f7f">length</span>() &gt;= 128 || typeName.<span style="color:#007f7f">length</span>() &lt; 3) {
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (typeName.<span style="color:#007f7f">length</span>() &gt;= <span style="color:#ff0;font-weight:bold">128</span> || typeName.<span style="color:#007f7f">length</span>() &lt; <span style="color:#ff0;font-weight:bold">3</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        String className = typeName.<span style="color:#007f7f">replace</span>(<span style="color:#0ff;font-weight:bold">&#39;$&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;.&#39;</span>);
 </span></span><span style="display:flex;"><span>        Class&lt;?&gt; clazz = <span style="color:#fff;font-weight:bold">null</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> BASIC = 0xcbf29ce484222325L; <span style="color:#007f7f">//;
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> PRIME = 0x100000001b3L;  <span style="color:#007f7f">//L
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> BASIC = <span style="color:#ff0;font-weight:bold">0xcbf29ce484222325L</span>; <span style="color:#007f7f">//;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> PRIME = <span style="color:#ff0;font-weight:bold">0x100000001b3L</span>;  <span style="color:#007f7f">//L
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> h1 = (BASIC ^ className.<span style="color:#007f7f">charAt</span>(0)) * PRIME;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> h1 = (BASIC ^ className.<span style="color:#007f7f">charAt</span>(<span style="color:#ff0;font-weight:bold">0</span>)) * PRIME;
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 类名以 [ 开头抛出异常
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (h1 == 0xaf64164c86024f1aL) { <span style="color:#007f7f">// [
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (h1 == <span style="color:#ff0;font-weight:bold">0xaf64164c86024f1aL</span>) { <span style="color:#007f7f">// [
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>            <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 类名以 L 开头以 ; 结尾抛出异常
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> ((h1 ^ className.<span style="color:#007f7f">charAt</span>(className.<span style="color:#007f7f">length</span>() - 1)) * PRIME == 0x9198507b5af98f0L) {
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> ((h1 ^ className.<span style="color:#007f7f">charAt</span>(className.<span style="color:#007f7f">length</span>() - <span style="color:#ff0;font-weight:bold">1</span>)) * PRIME == <span style="color:#ff0;font-weight:bold">0x9198507b5af98f0L</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> h3 = (((((BASIC ^ className.<span style="color:#007f7f">charAt</span>(0))
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">long</span> h3 = (((((BASIC ^ className.<span style="color:#007f7f">charAt</span>(<span style="color:#ff0;font-weight:bold">0</span>))
 </span></span><span style="display:flex;"><span>                * PRIME)
-</span></span><span style="display:flex;"><span>                ^ className.<span style="color:#007f7f">charAt</span>(1))
+</span></span><span style="display:flex;"><span>                ^ className.<span style="color:#007f7f">charAt</span>(<span style="color:#ff0;font-weight:bold">1</span>))
 </span></span><span style="display:flex;"><span>                * PRIME)
-</span></span><span style="display:flex;"><span>                ^ className.<span style="color:#007f7f">charAt</span>(2))
+</span></span><span style="display:flex;"><span>                ^ className.<span style="color:#007f7f">charAt</span>(<span style="color:#ff0;font-weight:bold">2</span>))
 </span></span><span style="display:flex;"><span>                * PRIME;
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// autoTypeSupport 为 true 时，先对比 acceptHashCodes 加载白名单项
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (autoTypeSupport || expectClass != <span style="color:#fff;font-weight:bold">null</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">long</span> hash = h3;
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">int</span> i = 3; i &lt; className.<span style="color:#007f7f">length</span>(); ++i) {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">int</span> i = <span style="color:#ff0;font-weight:bold">3</span>; i &lt; className.<span style="color:#007f7f">length</span>(); ++i) {
 </span></span><span style="display:flex;"><span>                hash ^= className.<span style="color:#007f7f">charAt</span>(i);
 </span></span><span style="display:flex;"><span>                hash *= PRIME;
-</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(acceptHashCodes, hash) &gt;= 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(acceptHashCodes, hash) &gt;= <span style="color:#ff0;font-weight:bold">0</span>) {
 </span></span><span style="display:flex;"><span>                    clazz = TypeUtils.<span style="color:#007f7f">loadClass</span>(typeName, defaultClassLoader, <span style="color:#fff;font-weight:bold">false</span>);
 </span></span><span style="display:flex;"><span>                    <span style="color:#fff;font-weight:bold">if</span> (clazz != <span style="color:#fff;font-weight:bold">null</span>) {
 </span></span><span style="display:flex;"><span>                        <span style="color:#fff;font-weight:bold">return</span> clazz;
@@ -1511,7 +1511,7 @@
 </span></span><span style="display:flex;"><span>                <span style="color:#007f7f">// 在对比 denyHashCodes 进行黑名单匹配
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                <span style="color:#007f7f">// 如果黑名单有匹配并且 TypeUtils.mappings 里没有缓存这个类
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                <span style="color:#007f7f">// 则抛出异常
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(denyHashCodes, hash) &gt;= 0 &amp;&amp; TypeUtils.<span style="color:#007f7f">getClassFromMapping</span>(typeName) == <span style="color:#fff;font-weight:bold">null</span>) {
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(denyHashCodes, hash) &gt;= <span style="color:#ff0;font-weight:bold">0</span> &amp;&amp; TypeUtils.<span style="color:#007f7f">getClassFromMapping</span>(typeName) == <span style="color:#fff;font-weight:bold">null</span>) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
@@ -1541,16 +1541,16 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 如果没有开启 AutoTypeSupport ，则先匹配黑名单，在匹配白名单，与之前逻辑一致
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span> (!autoTypeSupport) {
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">long</span> hash = h3;
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">int</span> i = 3; i &lt; className.<span style="color:#007f7f">length</span>(); ++i) {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">int</span> i = <span style="color:#ff0;font-weight:bold">3</span>; i &lt; className.<span style="color:#007f7f">length</span>(); ++i) {
 </span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">char</span> c = className.<span style="color:#007f7f">charAt</span>(i);
 </span></span><span style="display:flex;"><span>                hash ^= c;
 </span></span><span style="display:flex;"><span>                hash *= PRIME;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(denyHashCodes, hash) &gt;= 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(denyHashCodes, hash) &gt;= <span style="color:#ff0;font-weight:bold">0</span>) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(acceptHashCodes, hash) &gt;= 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">if</span> (Arrays.<span style="color:#007f7f">binarySearch</span>(acceptHashCodes, hash) &gt;= <span style="color:#ff0;font-weight:bold">0</span>) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#fff;font-weight:bold">if</span> (clazz == <span style="color:#fff;font-weight:bold">null</span>) {
 </span></span><span style="display:flex;"><span>                        clazz = TypeUtils.<span style="color:#007f7f">loadClass</span>(typeName, defaultClassLoader, <span style="color:#fff;font-weight:bold">false</span>);
 </span></span><span style="display:flex;"><span>                    }
@@ -1595,8 +1595,8 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">int</span> mask = Feature.<span style="color:#007f7f">SupportAutoType</span>.<span style="color:#007f7f">mask</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">boolean</span> autoTypeSupport = <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">autoTypeSupport</span>
-</span></span><span style="display:flex;"><span>                || (features &amp; mask) != 0
-</span></span><span style="display:flex;"><span>                || (JSON.<span style="color:#007f7f">DEFAULT_PARSER_FEATURE</span> &amp; mask) != 0;
+</span></span><span style="display:flex;"><span>                || (features &amp; mask) != <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>                || (JSON.<span style="color:#007f7f">DEFAULT_PARSER_FEATURE</span> &amp; mask) != <span style="color:#ff0;font-weight:bold">0</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> (!autoTypeSupport) {
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> JSONException(<span style="color:#0ff;font-weight:bold">&#34;autoType is not support. &#34;</span> + typeName);
@@ -1683,7 +1683,7 @@
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> Class&lt;?&gt; loadClass(String className, ClassLoader classLoader, <span style="color:#fff;font-weight:bold">boolean</span> cache) {
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 非空判断
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span>(className == <span style="color:#fff;font-weight:bold">null</span> || className.<span style="color:#007f7f">length</span>() == 0){
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span>(className == <span style="color:#fff;font-weight:bold">null</span> || className.<span style="color:#007f7f">length</span>() == <span style="color:#ff0;font-weight:bold">0</span>){
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">null</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 防止重复添加
@@ -1692,13 +1692,13 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> clazz;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 判断 className 是否以 [ 开头
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span>(className.<span style="color:#007f7f">charAt</span>(0) == <span style="color:#0ff;font-weight:bold">&#39;[&#39;</span>){
-</span></span><span style="display:flex;"><span>            Class&lt;?&gt; componentType = loadClass(className.<span style="color:#007f7f">substring</span>(1), classLoader);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> Array.<span style="color:#007f7f">newInstance</span>(componentType, 0).<span style="color:#007f7f">getClass</span>();
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span>(className.<span style="color:#007f7f">charAt</span>(<span style="color:#ff0;font-weight:bold">0</span>) == <span style="color:#0ff;font-weight:bold">&#39;[&#39;</span>){
+</span></span><span style="display:flex;"><span>            Class&lt;?&gt; componentType = loadClass(className.<span style="color:#007f7f">substring</span>(<span style="color:#ff0;font-weight:bold">1</span>), classLoader);
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> Array.<span style="color:#007f7f">newInstance</span>(componentType, <span style="color:#ff0;font-weight:bold">0</span>).<span style="color:#007f7f">getClass</span>();
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 判断 className 是否 L 开头 ; 结尾
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">if</span>(className.<span style="color:#007f7f">startsWith</span>(<span style="color:#0ff;font-weight:bold">&#34;L&#34;</span>) &amp;&amp; className.<span style="color:#007f7f">endsWith</span>(<span style="color:#0ff;font-weight:bold">&#34;;&#34;</span>)){
-</span></span><span style="display:flex;"><span>            String newClassName = className.<span style="color:#007f7f">substring</span>(1, className.<span style="color:#007f7f">length</span>() - 1);
+</span></span><span style="display:flex;"><span>            String newClassName = className.<span style="color:#007f7f">substring</span>(<span style="color:#ff0;font-weight:bold">1</span>, className.<span style="color:#007f7f">length</span>() - <span style="color:#ff0;font-weight:bold">1</span>);
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> loadClass(newClassName, classLoader);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">try</span>{

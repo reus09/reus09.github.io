@@ -428,9 +428,9 @@
 </span></span><span style="display:flex;"><span>        inputStream.<span style="color:#007f7f">read</span>(bytes);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 初始化PriorityQueue
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        PriorityQueue&lt;Object&gt; queue = <span style="color:#fff;font-weight:bold">new</span> PriorityQueue&lt;&gt;(2);
-</span></span><span style="display:flex;"><span>        queue.<span style="color:#007f7f">add</span>(1);
-</span></span><span style="display:flex;"><span>        queue.<span style="color:#007f7f">add</span>(2);
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        PriorityQueue&lt;Object&gt; queue = <span style="color:#fff;font-weight:bold">new</span> PriorityQueue&lt;&gt;(<span style="color:#ff0;font-weight:bold">2</span>);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#007f7f">add</span>(<span style="color:#ff0;font-weight:bold">1</span>);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#007f7f">add</span>(<span style="color:#ff0;font-weight:bold">2</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 初始化 TemplatesImpl 对象
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        TemplatesImpl tmpl = <span style="color:#fff;font-weight:bold">new</span> TemplatesImpl();
@@ -446,7 +446,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        Field field = PriorityQueue.<span style="color:#007f7f">class</span>.<span style="color:#007f7f">getDeclaredField</span>(<span style="color:#0ff;font-weight:bold">&#34;queue&#34;</span>);
 </span></span><span style="display:flex;"><span>        field.<span style="color:#007f7f">setAccessible</span>(<span style="color:#fff;font-weight:bold">true</span>);
 </span></span><span style="display:flex;"><span>        Object[] objects = (Object[]) field.<span style="color:#007f7f">get</span>(queue);
-</span></span><span style="display:flex;"><span>        objects[0] = tmpl;
+</span></span><span style="display:flex;"><span>        objects[<span style="color:#ff0;font-weight:bold">0</span>] = tmpl;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 初始化BeanComparator
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        BeanComparator beanComparator = <span style="color:#fff;font-weight:bold">new</span> BeanComparator(<span style="color:#0ff;font-weight:bold">&#34;outputProperties&#34;</span>);
