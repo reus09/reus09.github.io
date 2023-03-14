@@ -9,7 +9,7 @@
 <meta name="keywords" content="代理">
 <meta name="description" content="实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学">
 <meta name="author" content="Reus09">
-<link rel="canonical" href="http://www.reus09.top/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+<link rel="canonical" href="/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
@@ -59,7 +59,7 @@
 </noscript><meta property="og:title" content="Java之动态代理" />
 <meta property="og:description" content="实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.reus09.top/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-17T14:20:49+08:00" />
 <meta property="article:modified_time" content="2022-10-17T14:20:49+08:00" />
 
@@ -77,19 +77,19 @@
       "@type": "ListItem",
       "position":  2 ,
       "name": "📚文章",
-      "item": "http://www.reus09.top/posts/"
+      "item": "/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  3 ,
       "name": "👨🏻‍💻技术",
-      "item": "http://www.reus09.top/posts/tech/"
+      "item": "/posts/tech/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
       "name": "Java之动态代理",
-      "item": "http://www.reus09.top/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"
+      "item": "/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"
     }
   ]
 }
@@ -115,7 +115,7 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://www.reus09.top/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"
+    "@id": "/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"
   },
   "publisher": {
     "@type": "Organization",
@@ -144,7 +144,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://www.reus09.top" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <a href="" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -170,37 +170,37 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://www.reus09.top/search" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="search" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/" title="Home">
+                <a href="/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/posts" title="Posts">
+                <a href="posts" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/archives/" title="Archives">
+                <a href="archives/" title="Archives">
                     <span>Archives</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/categories" title="Categories">
+                <a href="categories" title="Categories">
                     <span>Categories</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/tags" title="Tags">
+                <a href="tags" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://www.reus09.top/about" title="About">
+                <a href="about" title="About">
                     <span>About</span>
                 </a>
             </li>
@@ -211,7 +211,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://www.reus09.top">Home</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/">📚文章</a>&nbsp;»&nbsp;<a href="http://www.reus09.top/posts/tech/">👨🏻‍💻技术</a></div>
+    <div class="breadcrumbs"><a href="">Home</a>&nbsp;»&nbsp;<a href="/posts/">📚文章</a>&nbsp;»&nbsp;<a href="/posts/tech/">👨🏻‍💻技术</a></div>
     <h1 class="post-title">
       Java之动态代理
     </h1>
@@ -922,15 +922,15 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://www.reus09.top/tags/%E4%BB%A3%E7%90%86/">代理</a></li>
+      <li><a href="/tags/%E4%BB%A3%E7%90%86/">代理</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="http://www.reus09.top/posts/tech/java%E5%8F%8D%E5%B0%84/">
+  <a class="prev" href="/posts/tech/java%E5%8F%8D%E5%B0%84/">
     <span class="title">« Prev</span>
     <br>
     <span>Java反射</span>
   </a>
-  <a class="next" href="http://www.reus09.top/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">
+  <a class="next" href="/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">
     <span class="title">Next »</span>
     <br>
     <span>FastJson反序列化漏洞总结</span>
@@ -942,7 +942,7 @@
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="http://www.reus09.top">Reus09&#39;s Blog</a></span>
+    <span>&copy; 2023 <a href="">Reus09&#39;s Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

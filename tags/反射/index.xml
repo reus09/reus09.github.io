@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>反射 on Reus09&#39;s Blog</title>
-    <link>http://www.reus09.top/tags/%E5%8F%8D%E5%B0%84/</link>
+    <link>/tags/%E5%8F%8D%E5%B0%84/</link>
     <description>Recent content in 反射 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 21 Oct 2022 14:14:54 +0800</lastBuildDate><atom:link href="http://www.reus09.top/tags/%E5%8F%8D%E5%B0%84/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Oct 2022 14:14:54 +0800</lastBuildDate><atom:link href="/tags/%E5%8F%8D%E5%B0%84/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java反射</title>
-      <link>http://www.reus09.top/posts/tech/java%E5%8F%8D%E5%B0%84/</link>
+      <link>/posts/tech/java%E5%8F%8D%E5%B0%84/</link>
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
-      <guid>http://www.reus09.top/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
+      <guid>/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
       <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反</description>
     </item>
     

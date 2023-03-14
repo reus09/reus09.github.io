@@ -2,233 +2,233 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Reus09&#39;s Blog</title>
-    <link>http://www.reus09.top/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Mar 2023 19:17:17 +0800</lastBuildDate><atom:link href="http://www.reus09.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Mar 2023 19:17:17 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RMI</title>
-      <link>http://www.reus09.top/tags/rmi/</link>
+      <link>/tags/rmi/</link>
       <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/rmi/</guid>
+      <guid>/tags/rmi/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Groovy链</title>
-      <link>http://www.reus09.top/tags/groovy%E9%93%BE/</link>
+      <link>/tags/groovy%E9%93%BE/</link>
       <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/groovy%E9%93%BE/</guid>
+      <guid>/tags/groovy%E9%93%BE/</guid>
       <description></description>
     </item>
     
     <item>
       <title>CommonsBeanutil</title>
-      <link>http://www.reus09.top/tags/commonsbeanutil/</link>
+      <link>/tags/commonsbeanutil/</link>
       <pubDate>Fri, 04 Nov 2022 17:09:24 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/commonsbeanutil/</guid>
+      <guid>/tags/commonsbeanutil/</guid>
       <description></description>
     </item>
     
     <item>
       <title>CommonsCollections链</title>
-      <link>http://www.reus09.top/tags/commonscollections%E9%93%BE/</link>
+      <link>/tags/commonscollections%E9%93%BE/</link>
       <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/commonscollections%E9%93%BE/</guid>
+      <guid>/tags/commonscollections%E9%93%BE/</guid>
       <description></description>
     </item>
     
     <item>
       <title>反序列化漏洞</title>
-      <link>http://www.reus09.top/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</link>
+      <link>/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</link>
       <pubDate>Mon, 24 Oct 2022 15:47:17 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</guid>
+      <guid>/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ClassLoader</title>
-      <link>http://www.reus09.top/tags/classloader/</link>
+      <link>/tags/classloader/</link>
       <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/classloader/</guid>
+      <guid>/tags/classloader/</guid>
       <description></description>
     </item>
     
     <item>
       <title>反射</title>
-      <link>http://www.reus09.top/tags/%E5%8F%8D%E5%B0%84/</link>
+      <link>/tags/%E5%8F%8D%E5%B0%84/</link>
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E5%8F%8D%E5%B0%84/</guid>
+      <guid>/tags/%E5%8F%8D%E5%B0%84/</guid>
       <description></description>
     </item>
     
     <item>
       <title>代理</title>
-      <link>http://www.reus09.top/tags/%E4%BB%A3%E7%90%86/</link>
+      <link>/tags/%E4%BB%A3%E7%90%86/</link>
       <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E4%BB%A3%E7%90%86/</guid>
+      <guid>/tags/%E4%BB%A3%E7%90%86/</guid>
       <description></description>
     </item>
     
     <item>
       <title>RCE</title>
-      <link>http://www.reus09.top/tags/rce/</link>
+      <link>/tags/rce/</link>
       <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/rce/</guid>
+      <guid>/tags/rce/</guid>
       <description></description>
     </item>
     
     <item>
       <title>渗透</title>
-      <link>http://www.reus09.top/tags/%E6%B8%97%E9%80%8F/</link>
+      <link>/tags/%E6%B8%97%E9%80%8F/</link>
       <pubDate>Wed, 21 Sep 2022 15:39:33 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E6%B8%97%E9%80%8F/</guid>
+      <guid>/tags/%E6%B8%97%E9%80%8F/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dockerFile</title>
-      <link>http://www.reus09.top/tags/dockerfile/</link>
+      <link>/tags/dockerfile/</link>
       <pubDate>Tue, 20 Sep 2022 15:16:35 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/dockerfile/</guid>
+      <guid>/tags/dockerfile/</guid>
       <description></description>
     </item>
     
     <item>
       <title>log4j2</title>
-      <link>http://www.reus09.top/tags/log4j2/</link>
+      <link>/tags/log4j2/</link>
       <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/log4j2/</guid>
+      <guid>/tags/log4j2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>xss</title>
-      <link>http://www.reus09.top/tags/xss/</link>
+      <link>/tags/xss/</link>
       <pubDate>Sat, 17 Sep 2022 14:21:16 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/xss/</guid>
+      <guid>/tags/xss/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sql注入</title>
-      <link>http://www.reus09.top/tags/sql%E6%B3%A8%E5%85%A5/</link>
+      <link>/tags/sql%E6%B3%A8%E5%85%A5/</link>
       <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/sql%E6%B3%A8%E5%85%A5/</guid>
+      <guid>/tags/sql%E6%B3%A8%E5%85%A5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Basic Knowledge</title>
-      <link>http://www.reus09.top/tags/basic-knowledge/</link>
+      <link>/tags/basic-knowledge/</link>
       <pubDate>Wed, 14 Sep 2022 19:18:45 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/basic-knowledge/</guid>
+      <guid>/tags/basic-knowledge/</guid>
       <description></description>
     </item>
     
     <item>
       <title>博客</title>
-      <link>http://www.reus09.top/tags/%E5%8D%9A%E5%AE%A2/</link>
+      <link>/tags/%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Mon, 12 Sep 2022 22:06:57 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E5%8D%9A%E5%AE%A2/</guid>
+      <guid>/tags/%E5%8D%9A%E5%AE%A2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gin</title>
-      <link>http://www.reus09.top/tags/gin/</link>
+      <link>/tags/gin/</link>
       <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
       
-      <guid>http://www.reus09.top/tags/gin/</guid>
+      <guid>/tags/gin/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Spring漏洞</title>
-      <link>http://www.reus09.top/tags/spring%E6%BC%8F%E6%B4%9E/</link>
+      <link>/tags/spring%E6%BC%8F%E6%B4%9E/</link>
       <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/spring%E6%BC%8F%E6%B4%9E/</guid>
+      <guid>/tags/spring%E6%BC%8F%E6%B4%9E/</guid>
       <description></description>
     </item>
     
     <item>
       <title>springboot</title>
-      <link>http://www.reus09.top/tags/springboot/</link>
+      <link>/tags/springboot/</link>
       <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/springboot/</guid>
+      <guid>/tags/springboot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SSM</title>
-      <link>http://www.reus09.top/tags/ssm/</link>
+      <link>/tags/ssm/</link>
       <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/ssm/</guid>
+      <guid>/tags/ssm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>javaweb</title>
-      <link>http://www.reus09.top/tags/javaweb/</link>
+      <link>/tags/javaweb/</link>
       <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/javaweb/</guid>
+      <guid>/tags/javaweb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jdbc</title>
-      <link>http://www.reus09.top/tags/jdbc/</link>
+      <link>/tags/jdbc/</link>
       <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/jdbc/</guid>
+      <guid>/tags/jdbc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rop</title>
-      <link>http://www.reus09.top/tags/rop/</link>
+      <link>/tags/rop/</link>
       <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/rop/</guid>
+      <guid>/tags/rop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>格式化字符串漏洞</title>
-      <link>http://www.reus09.top/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</link>
+      <link>/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</link>
       <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</guid>
+      <guid>/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</guid>
       <description></description>
     </item>
     
     <item>
       <title>net/http</title>
-      <link>http://www.reus09.top/tags/net/http/</link>
+      <link>/tags/net/http/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.reus09.top/tags/net/http/</guid>
+      <guid>/tags/net/http/</guid>
       <description></description>
     </item>
     
