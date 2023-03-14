@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>栈溢出</title>
-      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
-      <pubDate>Sat, 01 Jan 2022 15:56:59 +0800</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
-      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
-    </item>
-    
-    <item>
       <title>Rop</title>
       <link>http://www.reus09.top/posts/tech/rop/</link>
       <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>

@@ -13,7 +13,7 @@
       <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/jdbc/</guid>
-      <description>一：JDBC概述 1.1 数据的持久化 持久化(persistence)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，</description>
+      <description>JDBC概述 JDBC程序编写步骤 总结一下JDBC建立连接的全过程。 二：获取数据库连接 Driver接口实现类 Driver接口介绍 java.sql.Driver 接口是所有 JDBC</description>
     </item>
     
   </channel>

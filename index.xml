@@ -319,34 +319,7 @@
       <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/jdbc/</guid>
-      <description>一：JDBC概述 1.1 数据的持久化 持久化(persistence)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，</description>
-    </item>
-    
-    <item>
-      <title>Vpn配置</title>
-      <link>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/vpn%E9%85%8D%E7%BD%AE/</guid>
-      <description>VPN配置实验 0x01 实验内容 在Windows IPSEC配置实验中，通过抓包工具抓取IKE SA和IPSEC SA建立过程的数据包，并进行分析；思考：</description>
-    </item>
-    
-    <item>
-      <title>网络扫描</title>
-      <link>http://www.reus09.top/posts/tech/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/</link>
-      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F/</guid>
-      <description>网络扫描 0x01 实验目的 用xscan、nmap和nessus软件进行主机、端口、漏洞扫描实验，捕获扫描时交互的数据包，通过分析扫描数据包，验证扫描</description>
-    </item>
-    
-    <item>
-      <title>防火墙实验</title>
-      <link>http://www.reus09.top/posts/tech/%E9%98%B2%E7%81%AB%E5%A2%99%E5%AE%9E%E9%AA%8C/</link>
-      <pubDate>Sat, 01 Jan 2022 21:22:48 +0000</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/%E9%98%B2%E7%81%AB%E5%A2%99%E5%AE%9E%E9%AA%8C/</guid>
-      <description>防火墙实验 0x01 实验目标 选择一种主流的软件防火墙，熟悉其安全规则配置，通过配置防火墙规则，实现以下功能： 过滤远程服务器（R）到本地主机（L）的T</description>
+      <description>JDBC概述 JDBC程序编写步骤 总结一下JDBC建立连接的全过程。 二：获取数据库连接 Driver接口实现类 Driver接口介绍 java.sql.Driver 接口是所有 JDBC</description>
     </item>
     
     <item>
@@ -359,48 +332,12 @@
     </item>
     
     <item>
-      <title>栈溢出</title>
-      <link>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</link>
-      <pubDate>Sat, 01 Jan 2022 15:56:59 +0800</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/%E6%A0%88%E6%BA%A2%E5%87%BA/</guid>
-      <description>栈溢出报告 0x01 目标 通过对程序输入的密码的长度、内容等修改用Ollydbg来验证缓冲区溢出的发生（参考提供的两个代码） 完成淹没相邻变量改变程序流</description>
-    </item>
-    
-    <item>
-      <title>DDos</title>
-      <link>http://www.reus09.top/posts/tech/ddos/</link>
-      <pubDate>Wed, 10 Nov 2021 15:49:04 +0800</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/ddos/</guid>
-      <description>拒绝服务攻击 0x01 实验目的 使用udp flood、阿拉丁等工具，分组展开攻击并利用wireshark分析。 编程实现SYN Flood攻击。 0x02 实验前提</description>
-    </item>
-    
-    <item>
-      <title>Arp欺骗</title>
-      <link>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</link>
-      <pubDate>Fri, 05 Nov 2021 00:22:48 +0000</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/arp%E6%AC%BA%E9%AA%97/</guid>
-      <description>ARP欺骗实验 0x01 实验前提知识 ARP协议的安全问题 ARP协议是建立在信任局域网内所有结点的基础上的，它高效，但却不安全。 ARP高速缓存根据所接</description>
-    </item>
-    
-    <item>
       <title>Rop</title>
       <link>http://www.reus09.top/posts/tech/rop/</link>
       <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
       
       <guid>http://www.reus09.top/posts/tech/rop/</guid>
       <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcod</description>
-    </item>
-    
-    <item>
-      <title>Shellcode 计算器</title>
-      <link>http://www.reus09.top/posts/tech/shellcode-%E8%AE%A1%E7%AE%97%E5%99%A8/</link>
-      <pubDate>Wed, 03 Nov 2021 22:05:29 +0000</pubDate>
-      
-      <guid>http://www.reus09.top/posts/tech/shellcode-%E8%AE%A1%E7%AE%97%E5%99%A8/</guid>
-      <description>逆向分析计算器的漏洞利用过程 0x01 实验目的 根据实验软件SCer.exe 和 shellcode代码shellcode2020.mybin，通过win</description>
     </item>
     
     <item>
