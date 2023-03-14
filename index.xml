@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 18 Feb 2023 13:46:05 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Mar 2023 19:17:17 +0800</lastBuildDate><atom:link href="http://www.reus09.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JAVA安全 RMI</title>
+      <link>http://www.reus09.top/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</link>
+      <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
+      
+      <guid>http://www.reus09.top/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</guid>
+      <description>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解</description>
+    </item>
+    
     <item>
       <title>长沙之行</title>
       <link>http://www.reus09.top/posts/life/%E9%95%BF%E6%B2%99%E4%B9%8B%E8%A1%8C/</link>
