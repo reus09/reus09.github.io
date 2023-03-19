@@ -8,12 +8,12 @@
     <language>zh-cn</language>
     <lastBuildDate>Sun, 19 Mar 2023 14:04:48 +0800</lastBuildDate><atom:link href="/categories/%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Shiro 550漏洞学习</title>
+      <title>Shiro-550漏洞分析</title>
       <link>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</link>
       <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
       
       <guid>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理和利用方式，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一</description>
+      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的</description>
     </item>
     
     <item>
