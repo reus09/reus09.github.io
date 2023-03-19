@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Mar 2023 19:17:17 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2023 14:04:48 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shiro 550漏洞学习</title>
+      <link>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
+      
+      <guid>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
+      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理和利用方式，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一</description>
+    </item>
+    
     <item>
       <title>JAVA安全 RMI</title>
       <link>/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</link>

@@ -6,7 +6,16 @@
     <description>Recent content in 反序列化漏洞 on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 24 Oct 2022 15:47:17 +0800</lastBuildDate><atom:link href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2023 14:04:48 +0800</lastBuildDate><atom:link href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shiro 550漏洞学习</title>
+      <link>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
+      
+      <guid>/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
+      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理和利用方式，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一</description>
+    </item>
+    
     <item>
       <title>Java反序列化漏洞(一) 前置知识&amp;URLDNS</title>
       <link>/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</link>
@@ -14,6 +23,15 @@
       
       <guid>/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</guid>
       <description>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中gett</description>
+    </item>
+    
+    <item>
+      <title>CVE-2022-25845 FastJson RCE漏洞分析</title>
+      <link>/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
+      
+      <guid>/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
+      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE</description>
     </item>
     
   </channel>
