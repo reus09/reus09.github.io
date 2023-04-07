@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Mar 2023 20:34:53 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Apr 2023 18:51:30 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java Agent学习</title>
+      <link>/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 07 Apr 2023 18:51:30 +0800</pubDate>
+      
+      <guid>/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</guid>
+      <description>前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节</description>
+    </item>
+    
     <item>
       <title>CommonsCollections11链分析</title>
       <link>/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</link>

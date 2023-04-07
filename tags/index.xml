@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Mar 2023 20:34:53 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Apr 2023 18:51:30 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instrumentation</title>
+      <link>/tags/instrumentation/</link>
+      <pubDate>Fri, 07 Apr 2023 18:51:30 +0800</pubDate>
+      
+      <guid>/tags/instrumentation/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>CommonsCollections链</title>
       <link>/tags/commonscollections%E9%93%BE/</link>
