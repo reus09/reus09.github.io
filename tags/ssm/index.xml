@@ -31,7 +31,7 @@
       <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
       
       <guid>/posts/tech/spring/</guid>
-      <description>Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了</description>
+      <description>这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了耦合度</description>
     </item>
     
   </channel>

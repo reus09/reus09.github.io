@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 07 Apr 2023 18:51:30 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Apr 2023 14:38:38 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tomcat内存马</title>
+      <link>/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</link>
+      <pubDate>Sat, 15 Apr 2023 14:38:38 +0800</pubDate>
+      
+      <guid>/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
+      <description>前言 内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入</description>
+    </item>
+    
     <item>
       <title>Java Agent学习</title>
       <link>/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</link>
@@ -328,7 +337,7 @@
       <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
       
       <guid>/posts/tech/spring/</guid>
-      <description>Spring5 框架 这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了</description>
+      <description>这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了耦合度</description>
     </item>
     
     <item>
