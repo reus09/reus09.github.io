@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>代理 on Reus09&#39;s Blog</title>
+    <link>/en/tags/%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in 代理 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 17 Oct 2022 14:20:49 +0800</lastBuildDate><atom:link href="/en/tags/%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java之动态代理</title>
+      <link>/en/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
+      
+      <guid>/en/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</guid>
+      <description>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学</description>
+    </item>
+    
+  </channel>
+</rss>

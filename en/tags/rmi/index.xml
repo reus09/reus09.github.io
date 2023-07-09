@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>RMI on Reus09&#39;s Blog</title>
+    <link>/en/tags/rmi/</link>
+    <description>Recent content in RMI on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 10 Mar 2023 19:17:17 +0800</lastBuildDate><atom:link href="/en/tags/rmi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JAVA安全 RMI</title>
+      <link>/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</link>
+      <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
+      
+      <guid>/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</guid>
+      <description>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解</description>
+    </item>
+    
+  </channel>
+</rss>

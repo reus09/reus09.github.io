@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>JAVA安全 RMI | Reus09&#39;s Blog</title>
+<meta name="keywords" content="RMI">
+<meta name="description" content="实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="JAVA安全 RMI" />
+<meta property="og:description" content="实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-10T19:17:17+08:00" />
+<meta property="article:modified_time" content="2023-03-10T19:17:17+08:00" /><meta property="og:site_name" content="(〃&#39;▽&#39;〃)" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JAVA安全 RMI"/>
+<meta name="twitter:description" content="实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "JAVA安全 RMI",
+      "item": "/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JAVA安全 RMI",
+  "name": "JAVA安全 RMI",
+  "description": "实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解",
+  "keywords": [
+    "RMI"
+  ],
+  "articleBody": "实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。\nRMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。\n这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送数据结构，而在 Java 中，我们通常传递一个完整的对象，这个对象既包含数据，也包含数据和操作数据的方法，Java 中如果想完整的在网络中向远程位置传输一个对象，我们通常使用的方法是 Java 原生反序列化，并且可以结合动态类加载和安全管理器来安全的传输一个 Java 类。\n而具体的实现思想就是让我们获取远程主机上对象的引用，我们调用这个引用对象，但实际方法的执行在远程位置上。\nRMI引入了两个概念，分别是 Stub（客户端存根） 以及 Skeleton（服务端骨架）。当一个客户端(Client)去访问远程一个Object的时候，实际上是先访问本地的一个代理类(Stub),然后访问远端的Object的代理(Skeleton),它从 Stub 中接收远程方法调用并传递给真实的目标类,这里先简单列一下整体调用时序图，后面会详细进行展开说：\nRMI也提供了动态加载，如果客户端在调用时，传递了一个可序列化对象，这个对象在服务端不存在，则在服务端会抛出 ClassNotFound 的异常，但是 RMI 支持动态类加载，如果设置了 java.rmi.server.codebase，则会尝试从其中的地址获取 .class 并加载及反序列化。可使用 System.setProperty(\"java.rmi.server.codebase\", \"http://127.0.0.1:9999/\"); 进行设置，或使用启动参数 -Djava.rmi.server.codebase=\"http://127.0.0.1:9999/\" 进行指定。\n接下来就是安全策略的设置，因为我们通过网络加载外部类并执行方法，所以我们必须要有一个安全管理器来进行管理，如果没有设置安全管理，则 RMI 不会动态加载任何类，通常我们使用：\n1 2 3 if (System.getSecurityManager() == null) { System.setSecurityManager(new RMISecurityManager()); } 管理器应与管理策略相辅相成，所以我们还需要提供一个策略文件，里面配置允许那些主机进行哪些操作，这里为了方便测试，直接设置全部权限：\n1 2 3 grant { permission java.security.AllPermission; }; 同样可以使用 -Djava.security.policy=rmi.policy 或 System.setProperty(\"java.security.policy\", RemoteServer.class.getClassLoader().getResource(\"rmi.policy\").toString()); 来进行设置。\nRMI示例 Server端 首先要定义一个期望能够远程调用的接口，这个接口必须扩展java.rmi.Remote接口。这个接口中的所有方法都必须声明抛出java.rmi.RemoteException。\n1 2 3 4 5 6 public interface RemoteInterface extends Remote { public String sayHello() throws RemoteException; public String sayHello(Object obj) throws RemoteException; public String sayGoodBye() throws RemoteException; } 其次，我们需要创建这个远程接口的实现类，这个类中是真正的逻辑代码，通常会扩展java.rmi.server.UnicastRemoteObject类，扩展此类后，RMI 会自动将这个类 export 给远程想要调用它的 Client 端，同时还提供了一些基础的 equals/hashcode/toString 方法。这里必须为这个实现类提供一个构造函数并且抛出 RemoteException。\n在 export 时，会随机绑定一个端口，监听客户端的请求，所以即使不注册，直接请求这个端口也可以通信。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 public class RemoteObject extends UnicastRemoteObject implements RemoteInterface { protected RemoteObject() throws RemoteException { } @Override public String sayHello() throws RemoteException { return \"Hello My Friend\"; } @Override public String sayHello(Object obj) throws RemoteException { return obj.getClass().getName(); } @Override public String sayGoodBye() throws RemoteException { return \"Bye My Friend\"; } } 如果不想让远程对象成为 UnicastRemoteObject 的子类，后面就需要主动的使用其静态方法 exportObject 来手动 export 对象。\nRegistry端 上述，可以被远程调用的对象创建完毕。为了方便调用，Java RMI设计了一个Registry的思想，我们可以通过注册表来查找一个远端对象的调用。我们想从某个人获取信息(Remote Method Invocation)，我们在电话本(Registry)查找这个人的姓名(Name)从而找到这个人的电话号码(Reference)，最后通过这个号码找到该人(Remote Object)。\n这种思想由java.rmi.Registry和java.rmi.Naming实现。\njava.rmi.Naming 先来说说 java.rmi.Naming，这是一个 final 类，提供了在远程对象注册表（Registry）中存储和获取远程对象引用的方法，这个类提供的每个方法都有一个 URL 格式的参数，格式如下： //host:port/name：\nhost 表示注册表所在的主机 port 表示注册表接受调用的端口号，默认为 1099 name 表示一个注册 Remote Object 的引用的名称，不能是注册表中的一些关键字 Naming 提供了查询（lookup）、绑定（bind）、重新绑定（rebind）、接触绑定（unbind）、list（列表）用来对注册表进行操作。也就是说，Naming 是一个用来对注册表进行操作的类。\njava.rmi.Registry 上述Naming提供的方法的具体实现，其实是调用 LocateRegistry.getRegistry 方法获取了 Registry 接口的实现类，并调用其相关方法进行实现的。\n那就说到了 java.rmi.registry.Registry 接口，这个接口在 RMI 下有两个实现类，分别是 RegistryImpl 以及 RegistryImpl_Stub，具体也放面后面来说。\n我们通常使用 LocateRegistry#createRegistry() 方法来创建注册中心：\n1 2 3 4 5 6 7 8 9 10 11 public class Registry { public static void main(String args[]) { try { LocateRegistry.createRegistry(1099); System.out.println(\"Server Start\"); } catch (Exception e) { e.printStackTrace(); } } } 然后将待调用的类进行绑定：\n1 2 3 4 5 6 7 8 9 public class RemoteServer { public static void main(String[] args) throws RemoteException, MalformedURLException, AlreadyBoundException, InterruptedException { // 创建远程对象 RemoteInterface remoteObject = new RemoteObject(); // 绑定 Naming.bind(\"rmi://localhost:1099/Hello\", remoteObject); } } Client端 客户端进行调用，通过Registry查找到对应的服务即可。\n1 2 3 4 5 6 7 8 9 10 11 12 public class RMIClient { public static void main(String[] args) throws RemoteException, NotBoundException { Registry registry = LocateRegistry.getRegistry(1099); System.out.println(Arrays.toString(registry.list())); // lookup and call RemoteInterface stub = (RemoteInterface) registry.lookup(\"Hello\"); System.out.println(stub.sayHello()); System.out.println(stub.sayHello(new String())); System.out.println(stub.sayGoodBye()); } } 这里 RemoteInterface 接口在 Client/Server/Registry 均应该存在，只不过通常 Registry 与 Server 通常在同一端上。\n源码分析 服务注册 ①远程对象创建 根据我们直接创建的demo,我们创建的远程对象:RemoteInterface remoteObject = new RemoteObject();，这个对象继承了UnicastRemoteObject，这个类使用JRMP协议export远程对象，在服务器端获取与注册端进行通信的Stub。\n在UnicastRemoteObject初始化的时候，会创建一个UnicastServerRef ，然后判断我们传入的remoteObject是否继承了UnicastRemoteObject，最后调用UnicastServerRef的exportObject方法来export我们创建的remoteObject这个远程对象。\n在sref.exportObject方法中，实现了Export我们的远程对象，然后创建stub。\n使用 sun.rmi.server.Util#createProxy() 如下。\n值得注意的是调用stubClassExists方法时，此时类中没有remoteClass.getName()+\"_Stub\"的类，所以返回为false。退出判断语句，然后使用RemoteObjectInvocationHandler 来为我们测试写的 RemoteObject 实现的 RemoteInterface 接口创建动态代理。\n创建stub完毕后,我们的stub是一个动态代理类型，并没有继承RemoteStub类，因此可以跳过。接着创建 sun.rmi.transport.Target 对象，使用这个 Target 对象封装了我们远程执行方法和生成的动态代理类（Stub）。\n并调用LiveRef#exportObject，经过层层调用，最后调用sun.rmi.transport.tcp.TCPTransport#exportObject来监听本地端口。\n然后调用sun.rmi.transport.Transport#exportObject方法将 Target 实例注册到 ObjectTable 中。ObjectTable 用来管理所有发布的服务实例 Target，ObjectTable 提供了根据ObjectEndpoint和 Remote 实例两种方式查找 Target 的方法（不同参数的 getTarget 方法）。\n这里借用su18师傅，总结为一张图：\nStub是通过RemoteObjectInvocationHandler 来实现传输的信息接受和反序列haul执行。这个动态代理继承 RemoteObject 实现 InvocationHandler，因此这是一个可序列化的、可使用 RMI 远程传输的动态代理类。既然是动态代理类，自然重点关注 invoke 方法，可以看到如果是声明类为 Object 的方法会调用 invokeObjectMethod 方法，其他的则调用 invokeRemoteMethod 方法。\ninvokeRemoteMethod 中实际是委托 RemoteRef 的子类 UnicastRef 的 invoke 方法执行调用。\nUnicastRef 的 invoke 方法是一个建立连接，执行调用，并读取结果并反序列化的过程。这里，UnicastRef 包含属性 LiveRef ，LiveRef 类中的 Endpoint、Channel 封装了与网络通信相关的方法。\n反序列化方法在 unmarshalValue 中，判断type之后，就将类反序列化。\n②注册中心创建 我们通常使用 LocateRegistry.createRegistry(1099); 来创建注册中心，\n首先是可以看到 createRegistry 方法实际 new 了一个RegistryImpl对象。\nRegistryImpl 的构造方法中创建 LiveRef 对象，然后创建 UnicastServerRef 对象，最后调用 setup 进行配置。\n在 setup 方法中，依旧是使用 UnicastServerRef 的 exportObject 方法 export 对象，只不过这次 export 的是 RegistryImpl 这个对象。\n在上文中提到，在createProxy方法里对远程对象使用 RemoteObjectInvocationHandler 创建动态代理前，有一个stubClassExists的判断，如果需要创建代理的类在本地有 _Stub 的类，则直接使用 createStub 方法反射调用 stub 类的构造方法创建类实例。RMI恰好实现了RegistryImpl_Stub这个类的实现。\n可以看到此时的stub已经被实例化为RegistryImpl_Stub,然后该类继承了RemoteStub类\n因此接下来会调用 setSkeleton 方法，里面就是跟判断RegistryImpl_Stub是否存在的流程，继续判断RegistryImpl_Skel。\n调用 Util.createSkeleton() 方法创建 skeleton。\nRegistryImpl_Skel 类提供了 dispatch 方法来分发具体的操作。\n后续的 export 流程相同。\n注册中心与远程服务对象注册的大部分流程相同，差异在：\n远程服务对象使用动态代理，invoke 方法最终调用 UnicastRef 的 invoke 方法，注册中心使用 RegistryImpl_Stub，同时还创建了 RegistryImpl_Skel 远程对象默认随机端口，注册中心默认是 1099（当然也可以指定） ③服务注册 注册其实就是 bind 的过程。\n如果 Server 端和 Registry 在同一端，我们可以直接调用Registry 的 bind 方法进行绑定，具体实现在 RegistryImpl 的 bind 方法，就是将 Remote 对象和名称 String 放在成员变量 bindings 中，这是一个Hashtable对象。\n如果 Server 端和 Registry 端不在一起，那我们需要先获取 Registry 对象，无论是使用 Naming 或者 LocateRegistry 都是调用 LocateRegistry.getRegistry() 方法来创建 RegistryImpl_Stub，这部分的创建过程与注册中心注册时的过程是一致的。\n服务发现 获取注册中心并对其进行操作的过程，这里面包含 Server 端和 Client 端两种。\n如果 Server 端和 Registry 在同一端，那可以直接使用在创建 Registry 时使用的 RegistryImpl， 直接调用其相关方法，这没什么好说的。\n如果 Server 端和 Registry 不同端，则在 Server 端或 Client 端使用 LocateRegistry.getRegistry() 方法获取注册中心时都是一样的流程：\n首先在本地创建了一个包含了具体通信地址、端口的 RegistryImpl_Stub 对象 通过调用这个本地的 RegistryImpl_Stub 对象的 bind/list… 等方法，来与 Registry 端进行通信 而 RegistryImpl_Stub 的每个方法，都实际上调用了RemoteRef的 invoke 方法，进行了一次远程调用链接 这个过程使用 java 原生序列化及反序列化来实现 获取了注册中心后，如果是 Server 端，我们希望在注册中心上绑定（bind）我们的服务，如果是 Client 端，我们希望在注册中心遍历（list）、查找（lookup）和调用服务，查找的逻辑我们放在下一部分服务调用来说，这里主要关注绑定的过程。\n对于 Server 端向注册中心上绑定（bind）来说，无论是 Registry 还是 Naming 的 bind 方法，实际上都是调用 Server 端生成的本地 RegistryImpl_Stub 的 bind 方法。这个方法比较简单粗暴，建立连接然后向流里 writeObject 。\n然后调用newCall方法建立一个连接到对应的RMI服务端，然后序列化自己的一些数据。\n然后将需要bind的Name和对应的RemoteObject写入到out,然后执行ref.invoke(call)方法。\n在invoke方法中跟进executeCall方法，可以看出当前客户端正在处理服务端返回回来的数据\n读取的第二个字节会用于下面的流程判断，如果是1的话那么直接return，而如果是2的话，那么会对返回回来的数据进行反序列化（这是一个攻击点，也就是如果服务端返回回来的序列化数据，那么在这里客户端是可以进行反序列化的）。\n这里注意的是：正常情况returnType = 1 ，程序直接返回。 错误状态下，retrunType = 2,触发readObject从而产生反序列化。我们可以基于此进行攻击，客户端调用服务器远端方法，如果我们能够伪装服务端返回恶意的报错信息就可以触发反序列漏洞。 以上就 Server 端执行 bind 方法后进行的操作，一句话总结就是，根据 Registry 的 host/port 等信息创建本地 RegistryImpl_Stub，然后调用其 bind 方法向 Registry 端使用 writeObject 写入 name 和生成的动态代理类。\n在 Registry 端，由 sun.rmi.transport.tcp.TCPTransport#handleMessages 来处理请求，调用 serviceCall 方法处理。\nserviceCall 方法中从 ObjectTable 中获取封装的 Target 对象，并获取其中的封装的 UnicastServerRef 以及 RegistryImpl 对象。然后调用 UnicastServerRef 的 dispatch 方法\nUnicastServerRef 的 dispatch 方法调用 oldDispatch 方法，这里判断了 skel 是否为空，用来区别自己是 Registry 还是 Server。\noldDispatch 方法调用 this.skel 也就是 RegistryImpl_Skel 类的 dispatch 方法。\nRegistryImpl_Skel 的 dispatch 方法根据流中写入的不同的操作类型分发给不同的方法处理，例如 0 代表着 bind 方法，则从流中读取对应的内容，反序列化，然后调用 RegistryImpl 的 bind 方法进行绑定。\n在Registry端，调用RegistryImpl.bind方法，这里获取我们从Serve端接受到的Name和RemoteObject。\nRegistryImpl会先检查自己的bingdings中是否有当前要绑定的远程对象的名称，如果有的话就抛出异常，没有的话则将当前远程对象绑定到RegistryImpl的bindings属性中去。\n以上就是bind过程服务器端和注册端的接受信息流程。\n服务调用 Client 端向 Registry 端查询和请求的过程：客户端获取 Registry 的流程与上面分析的服务端一致，这里不再重复。还是通过调用本地创建的 RegistryImpl_Stub 对象。\n在调用其 lookup 方法时，会向 Registry 端传递序列化的 name ，然后将 Registry 端回传的结果反序列化。\n这里关注Registry端的做法，依旧是 RegistryImpl_Skel 的 dispatch 方法，lookup 方法对应的值opnum是 2 ，调用 RegistryImpl 的 lookup 方法，然后将查询到的结果 writeObject 到流中。\nlient 拿到 Registry 端返回的动态代理对象并且反序列化后，对其进行调用，这看起来是本地进行调用，但实际上是动态代理的 RemoteObjectInvocationHandler 委托 RemoteRef 的 invoke 方法进行远程通信。\nServer 端由 UnicastServerRef 的 dispatch 方法来处理客户端的请求，会在 this.hashToMethod_Map 中寻找 Client 端对应执行 Method 的 hash 值，如果找到了，则会反序列化 Client 端传来的参数，并且通过反射调用。\n调用后将结果序列化传输给 Client 端。\nClient 端接受结果进行反序列化得到Remote Method执行后的结果，完成整个调用的过程。\n总结 RMI 底层通讯采用了Stub (运行在客户端) 和 Skeleton (运行在服务端) 机制，RMI 调用远程方法的大致如下：\nRMI 客户端在调用远程方法时会先创建 Stub ( sun.rmi.registry.RegistryImpl_Stub )。 Stub 会将 Remote 对象传递给远程引用层 ( java.rmi.server.RemoteRef ) 并创建 java.rmi.server.RemoteCall( 远程调用 )对象。 RemoteCall 序列化 RMI 服务名称、Remote 对象。 RMI 客户端的远程引用层传输 RemoteCall 序列化后的请求信息通过 Socket 连接的方式传输到 RMI 服务端的远程引用层。 RMI服务端的远程引用层( sun.rmi.server.UnicastServerRef )收到请求会请求传递给 Skeleton ( sun.rmi.registry.RegistryImpl_Skel#dispatch )。 Skeleton 调用 RemoteCall 反序列化 RMI 客户端传过来的序列化。 Skeleton 处理客户端请求：bind、list、lookup、rebind、unbind，如果是 lookup 则查找 RMI 服务名绑定的接口对象，序列化该对象并通过 RemoteCall 传输到客户端。 RMI 客户端反序列化服务端结果，获取远程对象的引用。 RMI 客户端调用远程方法，RMI服务端反射调用RMI服务实现类的对应方法并序列化执行结果返回给客户端。 RMI 客户端反序列化 RMI 远程方法调用结果。 ",
+  "wordCount" : "5955",
+  "inLanguage": "en",
+  "datePublished": "2023-03-10T19:17:17+08:00",
+  "dateModified": "2023-03-10T19:17:17+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Reus09"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/en/posts/tech/java%E5%AE%89%E5%85%A8-rmi/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reus09's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="en/" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="en/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/categories" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/tags" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="en/">Home</a></div>
+    <h1 class="post-title">
+      JAVA安全 RMI
+    </h1>
+    <div class="post-meta"><span title='2023-03-10 19:17:17 +0800 +0800'>2023-03-10</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Reus09
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#rmi%e4%bb%8b%e7%bb%8d" aria-label="RMI介绍">RMI介绍</a></li>
+                    <li>
+                        <a href="#rmi%e7%a4%ba%e4%be%8b" aria-label="RMI示例">RMI示例</a><ul>
+                            
+                    <li>
+                        <a href="#server%e7%ab%af" aria-label="Server端">Server端</a></li>
+                    <li>
+                        <a href="#registry%e7%ab%af" aria-label="Registry端">Registry端</a><ul>
+                            
+                    <li>
+                        <a href="#javarminaming" aria-label="java.rmi.Naming">java.rmi.Naming</a></li>
+                    <li>
+                        <a href="#javarmiregistry" aria-label="java.rmi.Registry">java.rmi.Registry</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#client%e7%ab%af" aria-label="Client端">Client端</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90" aria-label="源码分析">源码分析</a><ul>
+                            
+                    <li>
+                        <a href="#%e6%9c%8d%e5%8a%a1%e6%b3%a8%e5%86%8c" aria-label="服务注册">服务注册</a><ul>
+                            
+                    <li>
+                        <a href="#%e8%bf%9c%e7%a8%8b%e5%af%b9%e8%b1%a1%e5%88%9b%e5%bb%ba" aria-label="①远程对象创建">①远程对象创建</a></li>
+                    <li>
+                        <a href="#%e6%b3%a8%e5%86%8c%e4%b8%ad%e5%bf%83%e5%88%9b%e5%bb%ba" aria-label="②注册中心创建">②注册中心创建</a></li>
+                    <li>
+                        <a href="#%e6%9c%8d%e5%8a%a1%e6%b3%a8%e5%86%8c-1" aria-label="③服务注册">③服务注册</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" aria-label="服务发现">服务发现</a></li>
+                    <li>
+                        <a href="#%e6%9c%8d%e5%8a%a1%e8%b0%83%e7%94%a8" aria-label="服务调用">服务调用</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e6%80%bb%e7%bb%93" aria-label="总结">总结</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。</p>
+<h2 id="rmi介绍">RMI介绍<a hidden class="anchor" aria-hidden="true" href="#rmi介绍">#</a></h2>
+<p>RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。</p>
+<p>这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送数据结构，而在 Java 中，我们通常传递一个完整的对象，这个对象既包含数据，也包含数据和操作数据的方法，Java 中如果想完整的在网络中向远程位置传输一个对象，我们通常使用的方法是 Java 原生反序列化，并且可以结合动态类加载和安全管理器来安全的传输一个 Java 类。</p>
+<p>而具体的实现思想就是让我们获取远程主机上对象的引用，我们调用这个引用对象，但实际方法的执行在远程位置上。</p>
+<p>RMI引入了两个概念，分别是 Stub（客户端存根） 以及 Skeleton（服务端骨架）。当一个客户端(Client)去访问远程一个Object的时候，实际上是先访问本地的一个代理类(Stub),然后访问远端的Object的代理(Skeleton),它从 Stub 中接收远程方法调用并传递给真实的目标类,这里先简单列一下整体调用时序图，后面会详细进行展开说：</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image1633059061409.png" alt="img"  />
+</p>
+<p>RMI也提供了动态加载，如果客户端在调用时，传递了一个可序列化对象，这个对象在服务端不存在，则在服务端会抛出 ClassNotFound 的异常，但是 RMI 支持动态类加载，如果设置了 <code>java.rmi.server.codebase</code>，则会尝试从其中的地址获取 <code>.class</code> 并加载及反序列化。可使用 <code>System.setProperty(&quot;java.rmi.server.codebase&quot;, &quot;http://127.0.0.1:9999/&quot;);</code> 进行设置，或使用启动参数 <code>-Djava.rmi.server.codebase=&quot;http://127.0.0.1:9999/&quot;</code> 进行指定。</p>
+<p>接下来就是安全策略的设置，因为我们通过网络加载外部类并执行方法，所以我们必须要有一个安全管理器来进行管理，如果没有设置安全管理，则 RMI 不会动态加载任何类，通常我们使用：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> (System.<span style="color:#007f7f">getSecurityManager</span>() == <span style="color:#fff;font-weight:bold">null</span>) {
+</span></span><span style="display:flex;"><span>    System.<span style="color:#007f7f">setSecurityManager</span>(<span style="color:#fff;font-weight:bold">new</span> RMISecurityManager());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>管理器应与管理策略相辅相成，所以我们还需要提供一个策略文件，里面配置允许那些主机进行哪些操作，这里为了方便测试，直接设置全部权限：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-zed" data-lang="zed"><span style="display:flex;"><span>grant {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">permission</span> java.security.AllPermission;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同样可以使用 <code>-Djava.security.policy=rmi.policy</code> 或 <code>System.setProperty(&quot;java.security.policy&quot;, RemoteServer.class.getClassLoader().getResource(&quot;rmi.policy&quot;).toString());</code> 来进行设置。</p>
+<h2 id="rmi示例">RMI示例<a hidden class="anchor" aria-hidden="true" href="#rmi示例">#</a></h2>
+<h3 id="server端">Server端<a hidden class="anchor" aria-hidden="true" href="#server端">#</a></h3>
+<p>首先要定义一个期望能够远程调用的接口，这个接口必须扩展<code>java.rmi.Remote</code>接口。这个接口中的所有方法都必须声明抛出<code>java.rmi.RemoteException</code>。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">interface</span> RemoteInterface <span style="color:#fff;font-weight:bold">extends</span> Remote {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayHello() <span style="color:#fff;font-weight:bold">throws</span> RemoteException;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayHello(Object obj) <span style="color:#fff;font-weight:bold">throws</span>  RemoteException;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayGoodBye() <span style="color:#fff;font-weight:bold">throws</span> RemoteException;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其次，我们需要创建这个远程接口的实现类，这个类中是真正的逻辑代码，通常会扩展<code>java.rmi.server.UnicastRemoteObject</code>类，扩展此类后，RMI 会自动将这个类 export 给远程想要调用它的 Client 端，同时还提供了一些基础的 <code>equals/hashcode/toString</code> 方法。这里必须为这个实现类提供一个构造函数并且抛出 RemoteException。</p>
+<p>在 export 时，会随机绑定一个端口，监听客户端的请求，所以即使不注册，直接请求这个端口也可以通信。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> RemoteObject <span style="color:#fff;font-weight:bold">extends</span> UnicastRemoteObject <span style="color:#fff;font-weight:bold">implements</span>  RemoteInterface {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">protected</span> RemoteObject() <span style="color:#fff;font-weight:bold">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayHello() <span style="color:#fff;font-weight:bold">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;Hello My Friend&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayHello(Object obj) <span style="color:#fff;font-weight:bold">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> obj.<span style="color:#007f7f">getClass</span>().<span style="color:#007f7f">getName</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @Override
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> String sayGoodBye() <span style="color:#fff;font-weight:bold">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;Bye My Friend&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果不想让远程对象成为 UnicastRemoteObject 的子类，后面就需要主动的使用其静态方法 <code>exportObject</code> 来手动 export 对象。</p>
+<h3 id="registry端">Registry端<a hidden class="anchor" aria-hidden="true" href="#registry端">#</a></h3>
+<p>上述，可以被远程调用的对象创建完毕。为了方便调用，Java RMI设计了一个Registry的思想，我们可以通过注册表来查找一个远端对象的调用。我们想从某个人获取信息(Remote Method Invocation)，我们在电话本(Registry)查找这个人的姓名(Name)从而找到这个人的电话号码(Reference)，最后通过这个号码找到该人(Remote Object)。</p>
+<p>这种思想由<code>java.rmi.Registry</code>和<code>java.rmi.Naming</code>实现。</p>
+<h4 id="javarminaming">java.rmi.Naming<a hidden class="anchor" aria-hidden="true" href="#javarminaming">#</a></h4>
+<p>先来说说 <code>java.rmi.Naming</code>，这是一个 final 类，提供了在远程对象注册表（Registry）中存储和获取远程对象引用的方法，这个类提供的每个方法都有一个 URL 格式的参数，格式如下：<code> //host:port/name</code>：</p>
+<ul>
+<li>host 表示注册表所在的主机</li>
+<li>port 表示注册表接受调用的端口号，默认为 1099</li>
+<li>name 表示一个注册 Remote Object 的引用的名称，不能是注册表中的一些关键字</li>
+</ul>
+<p>Naming 提供了查询（lookup）、绑定（bind）、重新绑定（rebind）、接触绑定（unbind）、list（列表）用来对注册表进行操作。也就是说，Naming 是一个用来对注册表进行操作的类。</p>
+<h4 id="javarmiregistry">java.rmi.Registry<a hidden class="anchor" aria-hidden="true" href="#javarmiregistry">#</a></h4>
+<p>上述<code>Naming</code>提供的方法的具体实现，其实是调用 <code>LocateRegistry.getRegistry</code> 方法获取了 Registry 接口的实现类，并调用其相关方法进行实现的。</p>
+<p>那就说到了 <code>java.rmi.registry.Registry</code> 接口，这个接口在 RMI 下有两个实现类，分别是 RegistryImpl 以及 RegistryImpl_Stub，具体也放面后面来说。</p>
+<p>我们通常使用 <code>LocateRegistry#createRegistry()</code> 方法来创建注册中心：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> Registry {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String args[]) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">try</span> {
+</span></span><span style="display:flex;"><span>			LocateRegistry.<span style="color:#007f7f">createRegistry</span>(<span style="color:#ff0;font-weight:bold">1099</span>);
+</span></span><span style="display:flex;"><span>			System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;Server Start&#34;</span>);
+</span></span><span style="display:flex;"><span>		} <span style="color:#fff;font-weight:bold">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>			e.<span style="color:#007f7f">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后将待调用的类进行绑定：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> RemoteServer {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> RemoteException, MalformedURLException, AlreadyBoundException, InterruptedException {
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 创建远程对象
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		RemoteInterface remoteObject = <span style="color:#fff;font-weight:bold">new</span> RemoteObject();
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 绑定
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		Naming.<span style="color:#007f7f">bind</span>(<span style="color:#0ff;font-weight:bold">&#34;rmi://localhost:1099/Hello&#34;</span>, remoteObject);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="client端">Client端<a hidden class="anchor" aria-hidden="true" href="#client端">#</a></h3>
+<p>客户端进行调用，通过<code>Registry</code>查找到对应的服务即可。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> RMIClient {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args) <span style="color:#fff;font-weight:bold">throws</span> RemoteException, NotBoundException {
+</span></span><span style="display:flex;"><span>        Registry registry = LocateRegistry.<span style="color:#007f7f">getRegistry</span>(<span style="color:#ff0;font-weight:bold">1099</span>);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(Arrays.<span style="color:#007f7f">toString</span>(registry.<span style="color:#007f7f">list</span>()));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// lookup and call
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        RemoteInterface stub = (RemoteInterface) registry.<span style="color:#007f7f">lookup</span>(<span style="color:#0ff;font-weight:bold">&#34;Hello&#34;</span>);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(stub.<span style="color:#007f7f">sayHello</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(stub.<span style="color:#007f7f">sayHello</span>(<span style="color:#fff;font-weight:bold">new</span> String()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(stub.<span style="color:#007f7f">sayGoodBye</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里 RemoteInterface 接口在 Client/Server/Registry 均应该存在，只不过通常 Registry 与 Server 通常在同一端上。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310195425570.png" alt="image-20230310195425570"  />
+</p>
+<h2 id="源码分析">源码分析<a hidden class="anchor" aria-hidden="true" href="#源码分析">#</a></h2>
+<h3 id="服务注册">服务注册<a hidden class="anchor" aria-hidden="true" href="#服务注册">#</a></h3>
+<h4 id="远程对象创建">①远程对象创建<a hidden class="anchor" aria-hidden="true" href="#远程对象创建">#</a></h4>
+<p>根据我们直接创建的demo,我们创建的远程对象:<code>RemoteInterface remoteObject = new RemoteObject();</code>，这个对象继承了<code>UnicastRemoteObject</code>，这个类使用JRMP协议export远程对象，在服务器端获取与注册端进行通信的<code>Stub</code>。</p>
+<p>在<code>UnicastRemoteObject</code>初始化的时候，会创建一个<code>UnicastServerRef </code>，然后判断我们传入的<code>remoteObject</code>是否继承了<code>UnicastRemoteObject</code>，最后调用<code>UnicastServerRef</code>的<code>exportObject</code>方法来export我们创建的<code>remoteObject</code>这个远程对象。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310202734566.png" alt="image-20230310202734566"  />
+</p>
+<p>在<code>sref.exportObject</code>方法中，实现了Export我们的远程对象，然后创建<code>stub</code>。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310203027144.png" alt="image-20230310203027144"  />
+</p>
+<p>使用 <code>sun.rmi.server.Util#createProxy()</code> 如下。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310204040761.png" alt="image-20230310204040761"  />
+</p>
+<p>值得注意的是调用<code>stubClassExists</code>方法时，此时类中没有<code>remoteClass.getName()+&quot;_Stub&quot;</code>的类，所以返回为<code>false</code>。退出判断语句，然后使用RemoteObjectInvocationHandler 来为我们测试写的 RemoteObject 实现的 <code>RemoteInterface </code>接口创建动态代理。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310204425126.png" alt="image-20230310204425126"  />
+</p>
+<p>创建<code>stub</code>完毕后,我们的<code>stub</code>是一个动态代理类型，并没有继承<code>RemoteStub</code>类，因此可以跳过。接着创建 <code>sun.rmi.transport.Target</code> 对象，使用这个 Target 对象封装了我们远程执行方法和生成的动态代理类（Stub）。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310204937299.png" alt="image-20230310204937299"  />
+</p>
+<p>并调用<code>LiveRef#exportObject</code>，经过层层调用，最后调用<code>sun.rmi.transport.tcp.TCPTransport#exportObject</code>来监听本地端口。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310205157040.png" alt="image-20230310205157040"  />
+</p>
+<p>然后调用<code>sun.rmi.transport.Transport#exportObject</code>方法将 Target 实例注册到 ObjectTable 中。<code>ObjectTable</code> 用来管理所有发布的服务实例 Target，ObjectTable 提供了根据<code>ObjectEndpoint</code>和 <code>Remote </code>实例两种方式查找 Target 的方法（不同参数的 getTarget 方法）。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310205421052.png" alt="image-20230310205421052"  />
+</p>
+<p>这里借用su18师傅，总结为一张图：</p>
+<p><img loading="lazy" src="https://su18.org/post-images/1633142606521.png" alt="img"  />
+</p>
+<p>Stub是通过<code>RemoteObjectInvocationHandler</code> 来实现传输的信息接受和反序列haul执行。这个动态代理继承 RemoteObject 实现 InvocationHandler，因此这是一个可序列化的、可使用 RMI 远程传输的动态代理类。既然是动态代理类，自然重点关注 invoke 方法，可以看到如果是声明类为 Object 的方法会调用 <code>invokeObjectMethod</code> 方法，其他的则调用 <code>invokeRemoteMethod</code> 方法。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310210117106.png" alt="image-20230310210117106"  />
+</p>
+<p><code>invokeRemoteMethod</code> 中实际是委托 RemoteRef 的子类 UnicastRef 的 invoke 方法执行调用。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310210243718.png" alt="image-20230310210243718"  />
+</p>
+<p>UnicastRef 的 invoke 方法是一个建立连接，执行调用，并读取结果并反序列化的过程。这里，UnicastRef 包含属性 LiveRef ，LiveRef 类中的 Endpoint、Channel 封装了与网络通信相关的方法。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310210544058.png" alt="image-20230310210544058"  />
+</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310210609040.png" alt="image-20230310210609040"  />
+</p>
+<p>反序列化方法在 <code>unmarshalValue</code> 中，判断<code>type</code>之后，就将类反序列化。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310210737644.png" alt="image-20230310210737644"  />
+</p>
+<h4 id="注册中心创建">②注册中心创建<a hidden class="anchor" aria-hidden="true" href="#注册中心创建">#</a></h4>
+<p>我们通常使用 <code>LocateRegistry.createRegistry(1099);</code> 来创建注册中心，</p>
+<p>首先是可以看到 createRegistry 方法实际 new 了一个<code>RegistryImpl</code>对象。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310211102448.png" alt="image-20230310211102448"  />
+</p>
+<p>RegistryImpl 的构造方法中创建 LiveRef 对象，然后创建 UnicastServerRef 对象，最后调用 <code>setup</code> 进行配置。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310211225992.png" alt="image-20230310211225992"  />
+</p>
+<p>在 <code>setup</code> 方法中，依旧是使用 <code>UnicastServerRef </code>的 exportObject 方法 export 对象，只不过这次 export 的是 RegistryImpl 这个对象。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310211310947.png" alt="image-20230310211310947"  />
+</p>
+<p>在上文中提到，在<code>createProxy</code>方法里对远程对象使用 RemoteObjectInvocationHandler 创建动态代理前，有一个<code>stubClassExists</code>的判断，如果需要创建代理的类在本地有 <code>_Stub</code> 的类，则直接使用 createStub 方法反射调用 stub 类的构造方法创建类实例。RMI恰好实现了<code>RegistryImpl_Stub</code>这个类的实现。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310211649307.png" alt="image-20230310211649307"  />
+</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310211858029.png" alt="image-20230310211858029"  />
+</p>
+<p>可以看到此时的stub已经被实例化为<code>RegistryImpl_Stub</code>,然后该类继承了<code>RemoteStub</code>类</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310212022106.png" alt="image-20230310212022106"  />
+</p>
+<p>因此接下来会调用 <code>setSkeleton </code>方法，里面就是跟判断<code>RegistryImpl_Stub</code>是否存在的流程，继续判断<code>RegistryImpl_Skel</code>。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310212135344.png" alt="image-20230310212135344"  />
+</p>
+<p>调用 <code>Util.createSkeleton()</code> 方法创建 skeleton。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310212414149.png" alt="image-20230310212414149"  />
+</p>
+<p>RegistryImpl_Skel 类提供了 dispatch 方法来分发具体的操作。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310212604511.png" alt="image-20230310212604511"  />
+</p>
+<p>后续的 export 流程相同。</p>
+<p>注册中心与远程服务对象注册的大部分流程相同，差异在：</p>
+<ul>
+<li>远程服务对象使用动态代理，invoke 方法最终调用 UnicastRef 的 invoke 方法，注册中心使用<code> RegistryImpl_Stub</code>，同时还创建了<code> RegistryImpl_Skel</code></li>
+<li>远程对象默认随机端口，注册中心默认是 1099（当然也可以指定）</li>
+</ul>
+<h4 id="服务注册-1">③服务注册<a hidden class="anchor" aria-hidden="true" href="#服务注册-1">#</a></h4>
+<p>注册其实就是 bind 的过程。</p>
+<p>如果 Server 端和 Registry 在同一端，我们可以直接调用Registry 的 bind 方法进行绑定，具体实现在 <code>RegistryImpl </code>的 bind 方法，就是将 Remote 对象和名称 String 放在成员变量<code> bindings 中</code>，这是一个<code>Hashtable</code>对象。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310212932851.png" alt="image-20230310212932851"  />
+</p>
+<p>如果 Server 端和 Registry 端不在一起，那我们需要先获取 Registry 对象，无论是使用 Naming 或者 LocateRegistry 都是调用 <code>LocateRegistry.getRegistry()</code> 方法来创建 <code>RegistryImpl_Stub</code>，这部分的创建过程与注册中心注册时的过程是一致的。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230310213255500.png" alt="image-20230310213255500"  />
+</p>
+<h3 id="服务发现">服务发现<a hidden class="anchor" aria-hidden="true" href="#服务发现">#</a></h3>
+<p>获取注册中心并对其进行操作的过程，这里面包含 Server 端和 Client 端两种。</p>
+<p>如果 Server 端和 Registry 在同一端，那可以直接使用在创建 Registry 时使用的 RegistryImpl， 直接调用其相关方法，这没什么好说的。</p>
+<p>如果 Server 端和 Registry 不同端，则在 Server 端或 Client 端使用 <code>LocateRegistry.getRegistry()</code> 方法获取注册中心时都是一样的流程：</p>
+<ul>
+<li>首先在本地创建了一个包含了具体通信地址、端口的 RegistryImpl_Stub 对象</li>
+<li>通过调用这个本地的 RegistryImpl_Stub 对象的 bind/list&hellip; 等方法，来与 Registry 端进行通信</li>
+<li>而 <code>RegistryImpl_Stub</code> 的每个方法，都实际上调用了<code>RemoteRef</code>的 invoke 方法，进行了一次远程调用链接</li>
+<li>这个过程使用 java 原生序列化及反序列化来实现</li>
+</ul>
+<p>获取了注册中心后，如果是 Server 端，我们希望在注册中心上绑定（bind）我们的服务，如果是 Client 端，我们希望在注册中心遍历（list）、查找（lookup）和调用服务，查找的逻辑我们放在下一部分服务调用来说，这里主要关注绑定的过程。</p>
+<p>对于 Server 端向注册中心上绑定（bind）来说，无论是 Registry 还是 Naming 的 <code>bind</code> 方法，实际上都是调用 Server 端生成的本地 RegistryImpl_Stub 的 <code>bind</code> 方法。这个方法比较简单粗暴，建立连接然后向流里 writeObject 。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311143125558.png" alt="image-20230311143125558"  />
+</p>
+<p>然后调用newCall方法建立一个连接到对应的RMI服务端，然后序列化自己的一些数据。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311143643607.png" alt="image-20230311143643607"  />
+</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311143707192.png" alt="image-20230311143707192"  />
+</p>
+<p>然后将需要bind的Name和对应的RemoteObject写入到out,然后执行<code>ref.invoke(call)方法</code>。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311143847714.png" alt="image-20230311143847714"  />
+</p>
+<p>在<code>invoke</code>方法中跟进<code>executeCall</code>方法，可以看出当前客户端正在处理服务端返回回来的数据</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311144409366.png" alt="image-20230311144409366"  />
+</p>
+<p>读取的第二个字节会用于下面的流程判断，如果是1的话那么直接return，而如果是2的话，那么会对返回回来的数据进行反序列化（这是一个攻击点，也就是如果服务端返回回来的序列化数据，那么在这里客户端是可以进行反序列化的）。</p>
+<ul>
+<li>这里注意的是：正常情况<code>returnType = 1 </code> ，程序直接返回。</li>
+<li>错误状态下，<code>retrunType = 2</code>,触发<code>readObject</code>从而产生反序列化。我们可以基于此进行攻击，客户端调用服务器远端方法，如果我们能够伪装服务端返回恶意的报错信息就可以触发反序列漏洞。</li>
+</ul>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311144621982.png" alt="image-20230311144621982"  />
+</p>
+<p>以上就 Server 端执行 bind 方法后进行的操作，一句话总结就是，根据 Registry 的 host/port 等信息创建本地 RegistryImpl_Stub，然后调用其 bind 方法向 Registry 端使用 writeObject 写入 name 和生成的动态代理类。</p>
+<p>在 Registry 端，由 <code>sun.rmi.transport.tcp.TCPTransport#handleMessages</code> 来处理请求，调用 <code>serviceCall</code> 方法处理。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311145555186.png" alt="image-20230311145555186"  />
+</p>
+<p><code>serviceCall</code> 方法中从 ObjectTable 中获取封装的 Target 对象，并获取其中的封装的 UnicastServerRef 以及 RegistryImpl 对象。然后调用 UnicastServerRef 的 <code>dispatch</code> 方法</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311145739581.png" alt="image-20230311145739581"  />
+</p>
+<p>UnicastServerRef 的 <code>dispatch</code> 方法调用 <code>oldDispatch</code> 方法，这里判断了 <code>skel</code> 是否为空，用来区别自己是 Registry 还是 Server。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311150143071.png" alt="image-20230311150143071"  />
+</p>
+<p><code>oldDispatch</code> 方法调用 <code>this.skel</code> 也就是 RegistryImpl_Skel 类的 <code>dispatch</code> 方法。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311150422228.png" alt="image-20230311150422228"  />
+</p>
+<p>RegistryImpl_Skel 的 <code>dispatch</code> 方法根据流中写入的不同的操作类型分发给不同的方法处理，例如 0 代表着 bind 方法，则从流中读取对应的内容，反序列化，然后调用 RegistryImpl 的 bind 方法进行绑定。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311150532110.png" alt="image-20230311150532110"  />
+</p>
+<p>在Registry端，调用<code>RegistryImpl.bind</code>方法，这里获取我们从Serve端接受到的Name和RemoteObject。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311150705589.png" alt="image-20230311150705589"  />
+</p>
+<p><code>RegistryImpl</code>会先检查自己的bingdings中是否有当前要绑定的远程对象的名称，如果有的话就抛出异常，没有的话则将当前远程对象绑定到<code>RegistryImpl</code>的<code>bindings</code>属性中去。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311150734681.png" alt="image-20230311150734681"  />
+</p>
+<p>以上就是bind过程服务器端和注册端的接受信息流程。</p>
+<h3 id="服务调用">服务调用<a hidden class="anchor" aria-hidden="true" href="#服务调用">#</a></h3>
+<p>Client 端向 Registry 端查询和请求的过程：客户端获取 Registry 的流程与上面分析的服务端一致，这里不再重复。还是通过调用本地创建的 RegistryImpl_Stub 对象。</p>
+<p>在调用其 lookup 方法时，会向 Registry 端传递序列化的 name ，然后将 Registry 端回传的结果反序列化。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311152130650.png" alt="image-20230311152130650"  />
+</p>
+<p>这里关注Registry端的做法，依旧是 RegistryImpl_Skel 的 <code>dispatch</code> 方法，lookup 方法对应的值<code>opnum</code>是 2 ，调用 <code>RegistryImpl </code>的 lookup 方法，然后将查询到的结果 writeObject 到流中。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311152357323.png" alt="image-20230311152357323"  />
+</p>
+<p>lient 拿到 Registry 端返回的动态代理对象并且反序列化后，对其进行调用，这看起来是本地进行调用，但实际上是动态代理的 <code>RemoteObjectInvocationHandler </code>委托 RemoteRef 的 invoke 方法进行远程通信。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311152822275.png" alt="image-20230311152822275"  />
+</p>
+<p>Server 端由 UnicastServerRef 的 dispatch 方法来处理客户端的请求，会在 <code>this.hashToMethod_Map</code> 中寻找 Client 端对应执行 Method 的 hash 值，如果找到了，则会反序列化 Client 端传来的参数，并且通过反射调用。</p>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230311154836538.png" alt="image-20230311154836538"  />
+</p>
+<p>调用后将结果序列化传输给 Client 端。</p>
+<p>Client 端接受结果进行反序列化得到<code>Remote Method</code>执行后的结果，完成整个调用的过程。</p>
+<h2 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h2>
+<p>RMI 底层通讯采用了Stub (运行在客户端) 和 Skeleton (运行在服务端) 机制，RMI 调用远程方法的大致如下：</p>
+<ol>
+<li>RMI 客户端在调用远程方法时会先创建 Stub ( <code>sun.rmi.registry.RegistryImpl_Stub</code> )。</li>
+<li>Stub 会将 Remote 对象传递给远程引用层 ( <code>java.rmi.server.RemoteRef</code> ) 并创建 <code>java.rmi.server.RemoteCall</code>( 远程调用 )对象。</li>
+<li>RemoteCall 序列化 RMI 服务名称、Remote 对象。</li>
+<li>RMI 客户端的远程引用层传输 RemoteCall 序列化后的请求信息通过 Socket 连接的方式传输到 RMI 服务端的远程引用层。</li>
+<li>RMI服务端的远程引用层( <code>sun.rmi.server.UnicastServerRef</code> )收到请求会请求传递给 Skeleton ( <code>sun.rmi.registry.RegistryImpl_Skel#dispatch</code> )。</li>
+<li>Skeleton 调用 RemoteCall 反序列化 RMI 客户端传过来的序列化。</li>
+<li>Skeleton 处理客户端请求：bind、list、lookup、rebind、unbind，如果是 lookup 则查找 RMI 服务名绑定的接口对象，序列化该对象并通过 RemoteCall 传输到客户端。</li>
+<li>RMI 客户端反序列化服务端结果，获取远程对象的引用。</li>
+<li>RMI 客户端调用远程方法，RMI服务端反射调用RMI服务实现类的对应方法并序列化执行结果返回给客户端。</li>
+<li>RMI 客户端反序列化 RMI 远程方法调用结果。</li>
+</ol>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageupload_f6dcd30875579430ba6b4980c1957f97.png" alt="img"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/en/tags/rmi/">RMI</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/en/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Shiro-550漏洞分析</span>
+  </a>
+  <a class="next" href="/en/posts/life/%E9%95%BF%E6%B2%99%E4%B9%8B%E8%A1%8C/">
+    <span class="title">Next »</span>
+    <br>
+    <span>长沙之行</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="en/">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

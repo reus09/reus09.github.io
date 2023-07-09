@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Javaweb | Reus09&#39;s Blog</title>
+<meta name="keywords" content="javaweb">
+<meta name="description" content="0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="/en/posts/tech/javaweb/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.40573d180b208ab15c3bf0a170c2ac86aa8ccf179f96f939352198fbee79100e.css" integrity="sha256-QFc9GAsgirFcO/ChcMKshqqMzxeflvk5NSGY&#43;&#43;55EA4=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Javaweb" />
+<meta property="og:description" content="0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/en/posts/tech/javaweb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-14T20:12:46+00:00" />
+<meta property="article:modified_time" content="2022-09-11T16:06:21+08:00" /><meta property="og:site_name" content="(〃&#39;▽&#39;〃)" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Javaweb"/>
+<meta name="twitter:description" content="0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "Javaweb",
+      "item": "/en/posts/tech/javaweb/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Javaweb",
+  "name": "Javaweb",
+  "description": "0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于",
+  "keywords": [
+    "javaweb"
+  ],
+  "articleBody": "0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码\ntomcat8之前，设置编码：\nget请求方式： get方式目前不需要设置编码（基于tomcat8）\n如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）\n1 2 3 4 5 String fname = request.getParameter(\"fname\"); //1.将字符串打散成字节数组 byte[] bytes = fname.getBytes(\"ISO-8859-1\"); //2.将字节数组按照设定的编码重新组装成字符串 fname = new String(bytes,\"UTF-8\"); post请求方式： request.setCharacterEncoding(\"UTF-8\");\ntomcat8开始，设置编码，只需要针对post方式 request.setCharacterEncoding(\"UTF-8\");\n注意：\n需要注意的是，设置编码(post)这一句代码必须在所有的获取参数动作之前 1.2 Servlet 1.2.1 继承关系 Servlet的继承关系 - 重点查看的是服务方法（service()）\n继承关系 javax.servlet.Servlet接口 javax.servlet.GenericServlet抽象类 javax.servlet.http.HttpServlet抽象子类\n相关方法\njavax.servlet.Servlet接口:\n1 2 3 void init(config) - 初始化方法 void service(request,response) - 服务方法 void destory() - 销毁方法 javax.servlet.GenericServlet抽象类：\n1 void service(request,response) - 仍然是抽象的 javax.servlet.http.HttpServlet 抽象子类：\n1 void service(request,response) - 不是抽象的 String method = req.getMethod(); 获取请求的方式\n在HttpServlet这个抽象类中，do方法都差不多:\n1 2 3 4 5 6 7 8 9 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { String protocol = req.getProtocol(); String msg = lStrings.getString(\"http.method_get_not_supported\"); if (protocol.endsWith(\"1.1\")) { resp.sendError(405, msg); } else { resp.sendError(400, msg); } } 小结：\n继承关系： HttpServlet -\u003e GenericServlet -\u003e Servlet Servlet中的核心方法： init() , service() , destroy() 服务方法： 当有请求过来时，service方法会自动响应（其实是tomcat容器调用的） 在HttpServlet中我们会去分析请求的方式：到底是get、post、head还是delete等 然后再决定调用的是哪个do开头的方法 那么在HttpServlet中这些do方法默认都是405的实现风格-要我们子类去实现对应的方法，否则默认会报405错误 因此，我们在新建Servlet时，我们才会去考虑请求方法，从而决定重写哪个do方法 1.2.2 生命周期 Servlet的生命周期\n生命周期：从出生到死亡的过程就是生命周期。对应Servlet中的三个方法：init(),service(),destroy()\n默认情况下：\n第一次接收请求时，这个Servlet会进行实例化(调用构造方法)、初始化(调用init())、然后服务(调用service()) 从第二次请求开始，每一次都是服务 当容器关闭时，其中的所有的servlet实例会被销毁，调用销毁方法 通过案例我们发现：\nServlet实例tomcat只会创建一个，所有的请求都是这个实例去响应。 默认情况下，第一次请求时，tomcat才会去实例化，初始化，然后再服务.这样的好处是提高系统的启动速度 。 这样的缺点是第一次请求时，耗时较长。 因此得出结论： 如果需要提高系统的启动速度，当前默认情况就是这样。如果需要提高响应速度，我们应该设置Servlet的初始化时机。 Servlet在容器中是：单例的、线程不安全的\n单例：所有的请求都是同一个实例去响应 线程不安全：一个线程需要根据这个实例中的某个成员变量值去做逻辑判断。但是在中间某个时机，另一个线程改变了这个成员变量的值，从而导致第一个线程的执行路径发生了变化 我们已经知道了servlet是线程不安全的，给我们的启发是： 尽量的不要在servlet中定义成员变量。如果不得不定义成员变量，那么不要去：①不要去修改成员变量的值 ②不要去根据成员变量的值做一些逻辑判断 1.2.3 session 会话\nHttp是无状态的\nHTTP 无状态 ：服务器无法判断这两次请求是同一个客户端发过来的，还是不同的客户端发过来的\n无状态带来的现实问题：对于多次请求无法确定是一个同一个用户发送，从而增加服务器负载。\n通过会话跟踪技术来解决无状态的问题。\n会话跟踪技术\n客户端第一次发请求给服务器，服务器获取session，获取不到，则创建新的，然后响应给客户端\n下次客户端给服务器发请求时，会把sessionID带给服务器，那么服务器就能获取到了，那么服务器就判断这一次请求和上次某次请求是同一个客户端，从而能够区分开客户端\n常用的API：\n1 2 3 4 5 6 7 8 9 request.getSession() -\u003e 获取当前的会话，没有则创建一个新的会话 request.getSession(true) -\u003e 效果和不带参数相同 request.getSession(false) -\u003e 获取当前会话，没有则返回null，不会创建新的 session.getId() -\u003e 获取sessionID session.isNew() -\u003e 判断当前session是否是新的 session.getMaxInactiveInterval() -\u003e session的非激活间隔时长，默认1800秒 session.setMaxInactiveInterval() session.invalidate() -\u003e 强制性让会话立即失效 session保存作用域\nsession保存作用域是和具体的某一个session对应的\n常用的API：\n1 2 3 void session.setAttribute(k,v) Object session.getAttribute(k) void removeAttribute(k) 作用域比较：\n原始情况下，保存作用域我们可以认为有四个： page（页面级别，现在几乎不用） , request（一次请求响应范围） , session（一次会话范围） , application（整个应用程序范围） request：一次请求响应范围 session：一次会话范围有效 application： 一次应用程序范围有效 1.2.4 网页跳转 服务器内部转发以及客户端重定向 服务器内部转发 : request.getRequestDispatcher(\"...\").forward(request,response); 一次请求响应的过程，对于客户端而言，内部经过了多少次转发，客户端是不知道的 地址栏没有变化 客户端重定向： response.sendRedirect(\"....\"); 两次请求响应的过程。客户端肯定知道请求URL有变化 地址栏有变化 1.2.5 对应网站route设置 可以在web.xml里面配置Servlet\n1 2 3 4 5 6 7 8 9 10 11 12 Demo01Servlet com.reus.Demo01Servlet hello world Demo01Servlet /demo01 可以通过注解的方式进行配置\n1 2 3 4 @WebServlet(urlPatterns = {\"/demo01\"} , initParams = { @WebInitParam(name=\"hello\",value=\"world\") }) 这用Demo01Servelet.java对应的service将对应网页的route为/demo01\n获取ServletContext，有很多方法\n在初始化方法中： ServletContxt servletContext = getServletContext()\n在服务方法中也可以通过request对象获取，也可以通过session获取： request.getServletContext(); session.getServletContext()\n获取初始化值：\nservletContext.getInitParameter(); 1.3 Thymeleaf视图技术 Thymeleaf - 视图模板技术\n添加thymeleaf的jar包 新建一个Servlet类ViewBaseServlet 在web.xml文件中添加配置 配置前缀 view-prefix 配置后缀 view-suffix 使得我们的Servlet继承ViewBaseServlet 根据逻辑视图名称 得到 物理视图名称 此处的视图名称是 index\n那么thymeleaf会将这个 逻辑视图名称 对应到 物理视图 名称上去\n逻辑视图名称 ： index\n物理视图名称 ： view-prefix + 逻辑视图名称 + view-suffix\n所以真实的视图名称是： / index .html super.processTemplate(\"index\",request,response);\n使用thymeleaf的标签\n1 th:if , th:unless , th:each , th:text , th:src\t,\tth:value th:href 0x02 myssm 2.1 BaseDAO 这里见另一博客 JDBC BaseDAO抽象了基础的增删改查操作API 2.2 IOC IOC\n耦合/依赖\nIOC - 控制反转 / DI - 依赖注入\n控制反转：\n之前在Servlet中，我们创建service对象 ， FruitService fruitService = new FruitServiceImpl(); 这句话如果出现在servlet中的某个方法内部，那么这个fruitService的作用域（生命周期）应该就是这个方法级别； 如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域（生命周期）应该就是这个servlet实例级别 之后我们在applicationContext.xml中定义了这个fruitService。然后通过解析XML，产生fruitService实例，存放在beanMap中，这个beanMap在一个BeanFactory中 因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转 依赖注入：\n之前我们在控制层出现代码：FruitService fruitService = new FruitServiceImpl()； 那么，控制层和service层存在耦合。\n之后，我们将代码修改成FruitService fruitService = null ; 然后，在配置文件中配置:\n1 2 3 ",
+  "wordCount" : "5494",
+  "inLanguage": "en",
+  "datePublished": "2022-04-14T20:12:46Z",
+  "dateModified": "2022-09-11T16:06:21+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Reus09"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/en/posts/tech/javaweb/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reus09's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="en/" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="en/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/categories" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/tags" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="en/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="en/">Home</a></div>
+    <h1 class="post-title">
+      Javaweb
+    </h1>
+    <div class="post-meta"><span title='2022-04-14 20:12:46 +0000 UTC'>2022-04-14</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;Reus09
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0x01-tomcat%e4%bd%bf%e7%94%a8" aria-label="0x01 Tomcat使用">0x01 Tomcat使用</a><ul>
+                            
+                    <li>
+                        <a href="#11--tomcat%e8%ae%be%e7%bd%ae%e7%bc%96%e7%a0%81" aria-label="1.1 Tomcat设置编码">1.1  <code>Tomcat</code>设置编码</a></li>
+                    <li>
+                        <a href="#12--servlet" aria-label="1.2 Servlet">1.2  <code>Servlet</code></a><ul>
+                            
+                    <li>
+                        <a href="#121-%e7%bb%a7%e6%89%bf%e5%85%b3%e7%b3%bb" aria-label="1.2.1 继承关系">1.2.1 继承关系</a></li>
+                    <li>
+                        <a href="#122-%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f" aria-label="1.2.2 生命周期">1.2.2 生命周期</a></li>
+                    <li>
+                        <a href="#123-session" aria-label="1.2.3 session">1.2.3 session</a></li>
+                    <li>
+                        <a href="#124-%e7%bd%91%e9%a1%b5%e8%b7%b3%e8%bd%ac" aria-label="1.2.4 网页跳转">1.2.4 网页跳转</a></li>
+                    <li>
+                        <a href="#125-%e5%af%b9%e5%ba%94%e7%bd%91%e7%ab%99route%e8%ae%be%e7%bd%ae" aria-label="1.2.5 对应网站route设置">1.2.5 对应网站route设置</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#13-thymeleaf%e8%a7%86%e5%9b%be%e6%8a%80%e6%9c%af" aria-label="1.3 Thymeleaf视图技术">1.3 <code>Thymeleaf</code>视图技术</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x02-myssm" aria-label="0x02 myssm">0x02 myssm</a><ul>
+                            
+                    <li>
+                        <a href="#21-basedao" aria-label="2.1 BaseDAO">2.1 <code>BaseDAO</code></a></li>
+                    <li>
+                        <a href="#22-ioc" aria-label="2.2 IOC">2.2 <code>IOC</code></a></li>
+                    <li>
+                        <a href="#23-filter" aria-label="2.3 Filter">2.3 <code>Filter</code></a></li>
+                    <li>
+                        <a href="#24-%e4%ba%8b%e5%8a%a1%e5%a4%84%e7%90%86" aria-label="2.4 事务处理">2.4 事务处理</a></li>
+                    <li>
+                        <a href="#25-%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="2.5 监听器">2.5 监听器</a></li>
+                    <li>
+                        <a href="#26-%e4%b8%ad%e5%a4%ae%e6%8e%a7%e5%88%b6%e5%99%a8" aria-label="2.6 中央控制器">2.6<code> 中央控制器</code></a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x03-%e4%b8%9a%e5%8a%a1" aria-label="0x03 业务">0x03 业务</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="0x01-tomcat使用">0x01 Tomcat使用<a hidden class="anchor" aria-hidden="true" href="#0x01-tomcat使用">#</a></h2>
+<h3 id="11--tomcat设置编码">1.1  <code>Tomcat</code>设置编码<a hidden class="anchor" aria-hidden="true" href="#11--tomcat设置编码">#</a></h3>
+<ul>
+<li>
+<p><code>Tomcat</code>设置编码</p>
+<ul>
+<li>
+<p>tomcat8之前，设置编码：</p>
+<ul>
+<li>
+<p>get请求方式：
+get方式目前不需要设置编码（基于tomcat8）</p>
+<ul>
+<li>
+<p>如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String fname = request.<span style="color:#007f7f">getParameter</span>(<span style="color:#0ff;font-weight:bold">&#34;fname&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//1.将字符串打散成字节数组
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">byte</span>[] bytes = fname.<span style="color:#007f7f">getBytes</span>(<span style="color:#0ff;font-weight:bold">&#34;ISO-8859-1&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//2.将字节数组按照设定的编码重新组装成字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    fname = <span style="color:#fff;font-weight:bold">new</span> String(bytes,<span style="color:#0ff;font-weight:bold">&#34;UTF-8&#34;</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>post请求方式：
+<code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>tomcat8开始，设置编码，只需要针对post方式
+<code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code></p>
+<ul>
+<li>
+<p>注意：</p>
+<ul>
+<li>需要注意的是，设置编码(post)这一句代码必须在所有的获取参数动作之前</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="12--servlet">1.2  <code>Servlet</code><a hidden class="anchor" aria-hidden="true" href="#12--servlet">#</a></h3>
+<h4 id="121-继承关系">1.2.1 继承关系<a hidden class="anchor" aria-hidden="true" href="#121-继承关系">#</a></h4>
+<ul>
+<li>
+<p>Servlet的继承关系 - 重点查看的是服务方法（service()）</p>
+<ul>
+<li>
+<p>继承关系
+<code>javax.servlet.Servlet接口</code>
+<code>javax.servlet.GenericServlet抽象类</code>
+<code>javax.servlet.http.HttpServlet抽象子类</code></p>
+</li>
+<li>
+<p>相关方法</p>
+<ul>
+<li>
+<p>javax.servlet.Servlet接口:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> init(config) - <span style="color:#f00">初始化方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - <span style="color:#f00">服务方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> destory() - <span style="color:#f00">销毁方法</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>javax.servlet.GenericServlet抽象类：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - <span style="color:#f00">仍然是抽象的</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>javax.servlet.http.HttpServlet 抽象子类：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> service(request,response) - <span style="color:#f00">不是抽象的</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>String method = req.getMethod()</code>; 获取请求的方式</p>
+</li>
+<li>
+<p>在HttpServlet这个抽象类中，do方法都差不多:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">protected</span> <span style="color:#fff;font-weight:bold">void</span> doGet(HttpServletRequest req, HttpServletResponse resp) <span style="color:#fff;font-weight:bold">throws</span> ServletException, IOException {
+</span></span><span style="display:flex;"><span>    String protocol = req.<span style="color:#007f7f">getProtocol</span>();
+</span></span><span style="display:flex;"><span>    String msg = lStrings.<span style="color:#007f7f">getString</span>(<span style="color:#0ff;font-weight:bold">&#34;http.method_get_not_supported&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (protocol.<span style="color:#007f7f">endsWith</span>(<span style="color:#0ff;font-weight:bold">&#34;1.1&#34;</span>)) {
+</span></span><span style="display:flex;"><span>        resp.<span style="color:#007f7f">sendError</span>(<span style="color:#ff0;font-weight:bold">405</span>, msg);
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        resp.<span style="color:#007f7f">sendError</span>(<span style="color:#ff0;font-weight:bold">400</span>, msg);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>小结：</p>
+<ul>
+<li>继承关系： HttpServlet -&gt; GenericServlet -&gt; Servlet</li>
+<li>Servlet中的核心方法： init() , service() , destroy()</li>
+<li>服务方法： 当有请求过来时，service方法会自动响应（其实是tomcat容器调用的）
+<ul>
+<li>在HttpServlet中我们会去分析请求的方式：到底是get、post、head还是delete等</li>
+<li>然后再决定调用的是哪个do开头的方法</li>
+<li>那么在HttpServlet中这些do方法默认都是405的实现风格-要我们子类去实现对应的方法，否则默认会报405错误</li>
+</ul>
+</li>
+<li>因此，我们在新建Servlet时，我们才会去考虑请求方法，从而决定重写哪个do方法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="122-生命周期">1.2.2 生命周期<a hidden class="anchor" aria-hidden="true" href="#122-生命周期">#</a></h4>
+<ul>
+<li>
+<p>Servlet的生命周期</p>
+<ul>
+<li>
+<p>生命周期：从出生到死亡的过程就是生命周期。对应Servlet中的三个方法：<code>init()</code>,<code>service()</code>,<code>destroy()</code></p>
+<ul>
+<li>
+<p>默认情况下：</p>
+<ul>
+<li>第一次接收请求时，这个Servlet会进行实例化(调用构造方法)、初始化(调用init())、然后服务(调用service())</li>
+<li>从第二次请求开始，每一次都是服务</li>
+<li>当容器关闭时，其中的所有的servlet实例会被销毁，调用销毁方法</li>
+</ul>
+</li>
+<li>
+<p>通过案例我们发现：</p>
+<ul>
+<li>Servlet实例tomcat只会创建一个，所有的请求都是这个实例去响应。
+<ul>
+<li>默认情况下，第一次请求时，tomcat才会去实例化，初始化，然后再服务.这样的好处是提高系统的启动速度 。 这样的缺点是第一次请求时，耗时较长。</li>
+<li>因此得出结论： 如果需要提高系统的启动速度，当前默认情况就是这样。如果需要提高响应速度，我们应该设置Servlet的初始化时机。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Servlet在容器中是：单例的、线程不安全的</p>
+<ul>
+<li>单例：所有的请求都是同一个实例去响应</li>
+<li>线程不安全：一个线程需要根据这个实例中的某个成员变量值去做逻辑判断。但是在中间某个时机，另一个线程改变了这个成员变量的值，从而导致第一个线程的执行路径发生了变化</li>
+<li>我们已经知道了servlet是线程不安全的，给我们的启发是： 尽量的不要在servlet中定义成员变量。如果不得不定义成员变量，那么不要去：①不要去修改成员变量的值 ②不要去根据成员变量的值做一些逻辑判断</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="123-session">1.2.3 session<a hidden class="anchor" aria-hidden="true" href="#123-session">#</a></h4>
+<ul>
+<li>
+<p>会话</p>
+<ul>
+<li>
+<p>Http是无状态的</p>
+<ul>
+<li>
+<p>HTTP 无状态 ：服务器无法判断这两次请求是同一个客户端发过来的，还是不同的客户端发过来的</p>
+</li>
+<li>
+<p>无状态带来的现实问题：对于多次请求无法确定是一个同一个用户发送，从而增加服务器负载。</p>
+</li>
+<li>
+<p>通过会话跟踪技术来解决无状态的问题。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>会话跟踪技术</p>
+<ul>
+<li>
+<p>客户端第一次发请求给服务器，服务器获取session，获取不到，则创建新的，然后响应给客户端</p>
+</li>
+<li>
+<p>下次客户端给服务器发请求时，会把sessionID带给服务器，那么服务器就能获取到了，那么服务器就判断这一次请求和上次某次请求是同一个客户端，从而能够区分开客户端</p>
+</li>
+<li>
+<p>常用的API：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>() -&gt; <span style="color:#f00">获取当前的会话，没有则创建一个新的会话</span>
+</span></span><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>(<span style="color:#fff;font-weight:bold">true</span>) -&gt; <span style="color:#f00">效果和不带参数相同</span>
+</span></span><span style="display:flex;"><span>request.<span style="color:#007f7f">getSession</span>(<span style="color:#fff;font-weight:bold">false</span>) -&gt; <span style="color:#f00">获取当前会话，没有则返回</span><span style="color:#fff;font-weight:bold">null</span><span style="color:#f00">，不会创建新的</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">getId</span>() -&gt; <span style="color:#f00">获取</span>sessionID
+</span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">isNew</span>() -&gt; <span style="color:#f00">判断当前</span>session<span style="color:#f00">是否是新的</span>
+</span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">getMaxInactiveInterval</span>() -&gt; session<span style="color:#f00">的非激活间隔时长，默认</span><span style="color:#ff0;font-weight:bold">1800</span><span style="color:#f00">秒</span>
+</span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">setMaxInactiveInterval</span>()
+</span></span><span style="display:flex;"><span>session.<span style="color:#007f7f">invalidate</span>() -&gt; <span style="color:#f00">强制性让会话立即失效</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>session保存作用域</p>
+<ul>
+<li>
+<p>session保存作用域是和具体的某一个session对应的</p>
+<ul>
+<li>
+<p>常用的API：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> session.<span style="color:#007f7f">setAttribute</span>(k,v)
+</span></span><span style="display:flex;"><span>Object session.<span style="color:#007f7f">getAttribute</span>(k)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> removeAttribute(k)
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>作用域比较：</p>
+<ul>
+<li>原始情况下，保存作用域我们可以认为有四个： page（页面级别，现在几乎不用） , request（一次请求响应范围） , session（一次会话范围） , application（整个应用程序范围）</li>
+<li>request：一次请求响应范围
+<ul>
+<li>session：一次会话范围有效</li>
+</ul>
+</li>
+<li>application： 一次应用程序范围有效</li>
+</ul>
+</li>
+</ul>
+<h4 id="124-网页跳转">1.2.4 网页跳转<a hidden class="anchor" aria-hidden="true" href="#124-网页跳转">#</a></h4>
+<ul>
+<li>服务器内部转发以及客户端重定向
+<ul>
+<li>服务器内部转发 : <code>request.getRequestDispatcher(&quot;...&quot;).forward(request,response);</code>
+<ul>
+<li>一次请求响应的过程，对于客户端而言，内部经过了多少次转发，客户端是不知道的</li>
+<li>地址栏没有变化</li>
+</ul>
+</li>
+<li>客户端重定向： <code>response.sendRedirect(&quot;....&quot;);</code>
+<ul>
+<li>两次请求响应的过程。客户端肯定知道请求URL有变化</li>
+<li>地址栏有变化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="125-对应网站route设置">1.2.5 对应网站route设置<a hidden class="anchor" aria-hidden="true" href="#125-对应网站route设置">#</a></h4>
+<ul>
+<li>
+<p>可以在<code>web.xml</code>里面配置<code>Servlet</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;servlet&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-name&gt;</span>Demo01Servlet<span style="font-weight:bold">&lt;/servlet-name&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-class&gt;</span>com.reus.Demo01Servlet<span style="font-weight:bold">&lt;/servlet-class&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;init-param&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&lt;param-name&gt;</span>hello<span style="font-weight:bold">&lt;/param-name&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&lt;param-value&gt;</span>world<span style="font-weight:bold">&lt;/param-value&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;/init-param&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/servlet&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;servlet-mapping&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;servlet-name&gt;</span>Demo01Servlet<span style="font-weight:bold">&lt;/servlet-name&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;url-pattern&gt;</span>/demo01<span style="font-weight:bold">&lt;/url-pattern&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/servlet-mapping&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>可以通过注解的方式进行配置</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@WebServlet(urlPatterns = {<span style="color:#0ff;font-weight:bold">&#34;/demo01&#34;</span>} ,
+</span></span><span style="display:flex;"><span>     initParams = {
+</span></span><span style="display:flex;"><span>         @WebInitParam(name=<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>,value=<span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>)
+</span></span><span style="display:flex;"><span>     })
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>这用<code>Demo01Servelet.java</code>对应的<code>service</code>将对应网页的<code>route</code>为<code>/demo01</code></p>
+<ul>
+<li>
+<p>获取ServletContext，有很多方法</p>
+<ul>
+<li>
+<p>在初始化方法中：<code> ServletContxt servletContext = getServletContext()</code></p>
+</li>
+<li>
+<p>在服务方法中也可以通过request对象获取，也可以通过session获取：
+<code>request.getServletContext(); session.getServletContext()</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>获取初始化值：</p>
+<ul>
+<li><code>servletContext.getInitParameter();</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="13-thymeleaf视图技术">1.3 <code>Thymeleaf</code>视图技术<a hidden class="anchor" aria-hidden="true" href="#13-thymeleaf视图技术">#</a></h3>
+<ul>
+<li>
+<p>Thymeleaf - 视图模板技术</p>
+<ul>
+<li>添加thymeleaf的jar包</li>
+<li>新建一个Servlet类ViewBaseServlet</li>
+<li>在web.xml文件中添加配置</li>
+</ul>
+<ul>
+<li>配置前缀 view-prefix</li>
+<li>配置后缀 view-suffix</li>
+<li>使得我们的Servlet继承ViewBaseServlet</li>
+<li>根据逻辑视图名称 得到 物理视图名称</li>
+</ul>
+<ul>
+<li>
+<p>此处的视图名称是 index</p>
+</li>
+<li>
+<p>那么thymeleaf会将这个 逻辑视图名称 对应到 物理视图 名称上去</p>
+</li>
+<li>
+<p>逻辑视图名称 ：   index</p>
+</li>
+<li>
+<p>物理视图名称 ：   view-prefix + 逻辑视图名称 + view-suffix</p>
+</li>
+<li>
+<p>所以真实的视图名称是：      /       index       .html
+<code>super.processTemplate(&quot;index&quot;,request,response);</code></p>
+<ul>
+<li>
+<p>使用thymeleaf的标签</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>th:if   ,  th:unless   , th:each   ,   th:text 	, 	th:src	,	 th:value  th:href
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x02-myssm">0x02 myssm<a hidden class="anchor" aria-hidden="true" href="#0x02-myssm">#</a></h2>
+<h3 id="21-basedao">2.1 <code>BaseDAO</code><a hidden class="anchor" aria-hidden="true" href="#21-basedao">#</a></h3>
+<ul>
+<li>这里见另一博客  <code>JDBC</code></li>
+<li><code>BaseDAO</code>抽象了基础的增删改查操作<code>API</code></li>
+</ul>
+<h3 id="22-ioc">2.2 <code>IOC</code><a hidden class="anchor" aria-hidden="true" href="#22-ioc">#</a></h3>
+<ul>
+<li>
+<p>IOC</p>
+<ul>
+<li>
+<p>耦合/依赖</p>
+</li>
+<li>
+<p>IOC - 控制反转 / DI - 依赖注入</p>
+</li>
+<li>
+<p>控制反转：</p>
+<ul>
+<li>之前在Servlet中，我们创建service对象 ，<code> FruitService fruitService = new FruitServiceImpl();</code>
+<ul>
+<li>这句话如果出现在servlet中的某个方法内部，那么这个fruitService的作用域（生命周期）应该就是这个<code>方法级别</code>；</li>
+<li>如果这句话出现在servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域（生命周期）应该就是这个<code>servlet实例级别</code></li>
+</ul>
+</li>
+<li>之后我们在<code>applicationContext.xm</code>l中定义了这个<code>fruitService</code>。然后通过解析XML，产生<code>fruitService</code>实例，存放在<code>beanMap</code>中，这个<code>beanMap</code>在一个<code>BeanFactory</code>中
+因此，我们转移（改变）了之前的service实例、dao实例等等他们的生命周期。控制权从<code>程序员</code>转移到<code>BeanFactory</code>。这个现象我们称之为<code>控制反转</code></li>
+</ul>
+</li>
+<li>
+<p>依赖注入：</p>
+<ul>
+<li>
+<p>之前我们在控制层出现代码：<code>FruitService fruitService = new FruitServiceImpl()；</code>
+那么，控制层和service层存在耦合。</p>
+</li>
+<li>
+<p>之后，我们将代码修改成<code>FruitService fruitService = null ;</code>
+然后，在配置文件中配置:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;FruitController&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name=</span><span style="color:#0ff;font-weight:bold">&#34;fruitService&#34;</span> <span style="color:#007f7f">ref=</span><span style="color:#0ff;font-weight:bold">&#34;fruitService&#34;</span><span style="font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-filter">2.3 <code>Filter</code><a hidden class="anchor" aria-hidden="true" href="#23-filter">#</a></h3>
+<ul>
+<li>
+<p>Filter也属于Servlet规范</p>
+</li>
+<li>
+<p>Filter开发步骤：新建类实现<code>Filter</code>接口，然后实现其中的三个方法：<code>init</code>、<code>doFilter</code>、<code>destroy</code></p>
+</li>
+<li>
+<p>配置Filter，可以用注解<code>@WebFilter</code>，也可以使用xml文件:</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span> <span style="font-weight:bold">&lt;filter&gt;</span> <span style="font-weight:bold">&lt;filter-mapping&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>Filter在配置时，和servlet一样，也可以配置通配符，例如 @WebFilter(&quot;*.do&quot;)表示拦截所有以.do结尾的请求</p>
+</li>
+<li>
+<p>过滤器链</p>
+<ul>
+<li>执行的顺序依次是： A B C demo03 C2 B2 A2</li>
+<li>如果采取的是注解的方式进行配置，那么过滤器链的拦截顺序是按照全类名的先后顺序排序的</li>
+<li>如果采取的是xml的方式进行配置，那么按照配置的先后顺序进行排序</li>
+</ul>
+</li>
+<li>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/02.CharacterEncodingFilter.png" alt="02.CharacterEncodingFilter"  />
+</p>
+<ul>
+<li>比如可以实现借助过滤器，设置全局的编码方式，建好代码冗余量。</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-事务处理">2.4 事务处理<a hidden class="anchor" aria-hidden="true" href="#24-事务处理">#</a></h3>
+<ul>
+<li>
+<p><code>ThreadLocal</code></p>
+<ul>
+<li>
+<p>get() , set(obj)</p>
+</li>
+<li>
+<p>ThreadLocal称之为本地线程 。 我们可以通过set方法在当前线程上存储数据、通过get方法在当前线程上获取数据</p>
+</li>
+<li>
+<p>set方法源码分析：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> set(T value) {
+</span></span><span style="display:flex;"><span>  Thread t = Thread.<span style="color:#007f7f">currentThread</span>(); <span style="color:#007f7f">//获取当前的线程
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  ThreadLocalMap map = getMap(t);    <span style="color:#007f7f">//每一个线程都维护各自的一个容器（ThreadLocalMap）
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">if</span> (map != <span style="color:#fff;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>      map.<span style="color:#007f7f">set</span>(<span style="color:#fff;font-weight:bold">this</span>, value);          <span style="color:#007f7f">//这里的key对应的是ThreadLocal，因为我们的组件中需要传输（共享）的对象可能会有多个（不止Connection）
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>      createMap(t, value);           <span style="color:#007f7f">//默认情况下map是没有初始化的，那么第一次往其中添加数据时，会去初始化
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<ul>
+<li>
+<p>get方法源码分析：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> T get() {
+</span></span><span style="display:flex;"><span>  Thread t = Thread.<span style="color:#007f7f">currentThread</span>(); <span style="color:#007f7f">//获取当前的线程
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  ThreadLocalMap map = getMap(t);    <span style="color:#007f7f">//获取和这个线程（企业）相关的ThreadLocalMap（也就是工作纽带的集合）
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">if</span> (map != <span style="color:#fff;font-weight:bold">null</span>) {
+</span></span><span style="display:flex;"><span>      ThreadLocalMap.<span style="color:#007f7f">Entry</span> e = map.<span style="color:#007f7f">getEntry</span>(<span style="color:#fff;font-weight:bold">this</span>);   <span style="color:#007f7f">//this指的是ThreadLocal对象，通过它才能知道是哪一个工作纽带
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#fff;font-weight:bold">if</span> (e != <span style="color:#fff;font-weight:bold">null</span>) {
+</span></span><span style="display:flex;"><span>          @SuppressWarnings(<span style="color:#0ff;font-weight:bold">&#34;unchecked&#34;</span>)
+</span></span><span style="display:flex;"><span>          T result = (T)e.<span style="color:#007f7f">value</span>;     <span style="color:#007f7f">//entry.value就可以获取到工具箱了
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#fff;font-weight:bold">return</span> result;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> setInitialValue();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/06.ThreadLocal.png" alt="06.ThreadLocal"  />
+</p>
+</li>
+<li>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> TransactionManager() {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> beginTrans() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">getConn</span>().<span style="color:#007f7f">setAutoCommit</span>(<span style="color:#fff;font-weight:bold">false</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> commit() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn = ConnUtil.<span style="color:#007f7f">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#007f7f">commit</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> rollback() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn = ConnUtil.<span style="color:#007f7f">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#007f7f">rollback</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/05.%e7%bc%96%e7%a8%8b%e5%bc%8f%e4%ba%8b%e5%8a%a1%e7%ae%a1%e7%90%8603.png" alt="05.编程式事务管理03"  />
+</li>
+</ul>
+</li>
+<li>
+<p>借助<code>sql.connection</code>,实现对整个事务的管理，</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TransactionManager {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> TransactionManager() {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> beginTrans() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">getConn</span>().<span style="color:#007f7f">setAutoCommit</span>(<span style="color:#fff;font-weight:bold">false</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> commit() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn = ConnUtil.<span style="color:#007f7f">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#007f7f">commit</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> rollback() <span style="color:#fff;font-weight:bold">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn = ConnUtil.<span style="color:#007f7f">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#007f7f">rollback</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#007f7f">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="25-监听器">2.5 监听器<a hidden class="anchor" aria-hidden="true" href="#25-监听器">#</a></h3>
+<ul>
+<li>监听事件的过程
+<ul>
+<li><code>ServletContextListener</code> - 监听ServletContext对象的创建和销毁的过程</li>
+<li><code>HttpSessionListener</code> - 监听HttpSession对象的创建和销毁的过程</li>
+<li><code>ServletRequestListener</code> - 监听ServletRequest对象的创建和销毁的过程</li>
+<li><code>ServletContextAttributeListener </code>- 监听ServletContext的保存作用域的改动(add,remove,replace)</li>
+<li><code>HttpSessionAttributeListener </code>- 监听HttpSession的保存作用域的改动(add,remove,replace)</li>
+<li><code>ServletRequestAttributeListener </code>- 监听ServletRequest的保存作用域的改动(add,remove,replace)</li>
+<li><code>HttpSessionBindingListener</code> - 监听某个对象在Session域中的创建与移除</li>
+<li><code>HttpSessionActivationListener</code> - 监听某个对象在Session域中的序列化和反序列化</li>
+</ul>
+</li>
+</ul>
+<h3 id="26-中央控制器">2.6<code> 中央控制器</code><a hidden class="anchor" aria-hidden="true" href="#26-中央控制器">#</a></h3>
+<ul>
+<li>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/01.MVC04.png" alt="01.MVC04"  />
+</p>
+</li>
+<li>
+<p>DispatcherServlet这个类的工作分为两大部分：</p>
+<ul>
+<li>
+<p>根据url定位到能够处理这个请求的controller组件：</p>
+<ul>
+<li>
+<p>从url中提取servletPath :  将获得的<code>url</code>进行处理，获得我们在<code>beanFactory</code>中组装好的Controller对象名称。</p>
+</li>
+<li>
+<p>根据名称找到对应的组件:xxxController ， 这个对应的依据我们存储在<code>applicationContext.xm</code>l中</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id=</span><span style="color:#0ff;font-weight:bold">&#34;fruit&#34;</span> <span style="color:#007f7f">class=</span><span style="color:#0ff;font-weight:bold">&#34;com.atguigu.fruit.controllers.FruitController/</span><span style="font-weight:bold">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>通过DOM技术我们去解析XML文件，在中央控制器中形成一个<code>beanMap</code>容器，用来存放所有的<code>Controller</code>组件</p>
+</li>
+<li>
+<p>根据获取到的<code>operate</code>的值定位到我们<code>FruitController</code>中需要调用的方法</p>
+</li>
+</ul>
+</li>
+<li>
+<p>调用<code>Controller</code>组件中的方法：</p>
+<ul>
+<li>
+<p>获取参数</p>
+<ul>
+<li>
+<p>获取即将要调用的方法的参数签名信息: <code>Parameter[] parameters = method.getParameters();</code></p>
+</li>
+<li>
+<p>通过<code>parameter.getName()</code>获取参数的名称；</p>
+</li>
+<li>
+<p>准备了<code>Object[] parameterValues </code>这个数组用来存放对应参数的参数值
+另外，我们需要考虑参数的类型问题，需要做类型转化的工作。通过parameter.getType()获取参数的类型</p>
+</li>
+</ul>
+</li>
+<li>
+<p>执行方法
+<code>Object returnObj = method.invoke(controllerBean , parameterValues);</code></p>
+</li>
+<li>
+<p>视图处理</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String returnStr = (String)returnObj;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span>(returnStr.<span style="color:#007f7f">startWith</span>(<span style="color:#0ff;font-weight:bold">&#34;redirect:&#34;</span>)){
+</span></span><span style="display:flex;"><span> ....
+</span></span><span style="display:flex;"><span>}<span style="color:#fff;font-weight:bold">else</span> <span style="color:#fff;font-weight:bold">if</span>.....
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>这里给出<code>applicationContext.xml</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;!DOCTYPE beans[
+</span></span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">        &lt;!ELEMENT beans (bean*)&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ELEMENT bean (property*)&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ELEMENT property (#PCDATA)&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ATTLIST bean id ID #REQUIRED&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ATTLIST bean class CDATA #IMPLIED&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ATTLIST property name CDATA #IMPLIED&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0f0;font-weight:bold">&lt;!ATTLIST property ref IDREF #IMPLIED&gt;</span>
+</span></span><span style="display:flex;"><span>]&gt;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">&lt;!-- 上面的是 要求了&lt;bean &gt; 和 &lt;property&gt; 的格式--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;beans&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicDAO&#34;</span> <span style="color:#007f7f">class =</span> <span style="color:#0ff;font-weight:bold">&#34;com.reus.qqzone.dao.impl.UserBasicDAOImpl&#34;</span><span style="font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicService&#34;</span> <span style="color:#007f7f">class =</span> <span style="color:#0ff;font-weight:bold">&#34;com.reus.qqzone.service.impl.UserBasicServiceImpl&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicDAO&#34;</span> <span style="color:#007f7f">ref=</span><span style="color:#0ff;font-weight:bold">&#34;userBasicDAO&#34;</span><span style="font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">&lt;!--  user.do --&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;bean</span> <span style="color:#007f7f">id =</span> <span style="color:#0ff;font-weight:bold">&#34;user&#34;</span> <span style="color:#007f7f">class =</span><span style="color:#0ff;font-weight:bold">&#34;com.reus.qqzone.controller.UserController&#34;</span><span style="font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&lt;property</span> <span style="color:#007f7f">name =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicService&#34;</span> <span style="color:#007f7f">ref =</span> <span style="color:#0ff;font-weight:bold">&#34;userBasicService&#34;</span><span style="font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&lt;/bean&gt;</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">&lt;/beans&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="0x03-业务">0x03 业务<a hidden class="anchor" aria-hidden="true" href="#0x03-业务">#</a></h2>
+<ul>
+<li>
+<p>设计业务的时候，需要先构想好数据库、及数据库之间的依赖关系。</p>
+</li>
+<li>
+<p>DAO的概念和角色（设计理念）： DAO-称之为数据访问对象，其中的方法都是单精度方法。</p>
+<ul>
+<li>什么叫单精度，单精度指的是这个方法的粒度不能再分了，已经非常细了（因此也称之为细粒度）</li>
+</ul>
+</li>
+<li>
+<p>什么是业务层</p>
+<ul>
+<li>Model1和Model2
+<ul>
+<li>MVC : Model（模型）、View（视图）、Controller（控制器）
+<ul>
+<li>视图层：用于做数据展示以及和用户交互的一个界面</li>
+<li>控制层：能够接受客户端的请求，具体的业务功能还是需要借助于模型组件来完成</li>
+<li>模型层：模型分为很多种：有比较简单的pojo/vo(value object)，有业务模型组件，有数据访问层组件
+<ul>
+<li>pojo/vo :类对象</li>
+<li>DAO ： 数据访问对象</li>
+<li>BO ： 业务对象(<code>这里即为</code>Service)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>区分业务对象和数据访问对象：
+<ul>
+<li>DAO中的方法都是单精度方法或者称之为细粒度方法。什么叫单精度？一个方法只考虑一个操作，比如增删改查</li>
+<li>BO中的方法属于业务方法，也实际的业务是比较复杂的，因此业务方法的粒度是比较粗的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>针对一个用户的操作：我们可以对用户的登录、注册、查看个人信息、注销、更改信息，这些要求集合成一个<code>controller</code></p>
+<ul>
+<li><code>controller</code>中调用<code>service </code>层，在<code>service</code>层实现登录、注册等的业务。
+<ul>
+<li>同时呢，<code>service</code>借用<code>dao</code>层的基础数据库为底层。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/01.MVC04.png" alt="01.MVC04"  />
+</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="/en/tags/javaweb/">javaweb</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="/en/posts/tech/spring/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Spring</span>
+  </a>
+  <a class="next" href="/en/posts/tech/jdbc/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Jdbc</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="en/">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

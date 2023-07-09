@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java安全 on Reus09&#39;s Blog</title>
+    <link>/en/categories/java%E5%AE%89%E5%85%A8/</link>
+    <description>Recent content in Java安全 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Apr 2023 21:25:18 +0800</lastBuildDate><atom:link href="/en/categories/java%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tomcat无文件内存马</title>
+      <link>/en/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</link>
+      <pubDate>Sun, 16 Apr 2023 21:25:18 +0800</pubDate>
+      
+      <guid>/en/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
+      <description>前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地</description>
+    </item>
+    
+    <item>
+      <title>Tomcat内存马</title>
+      <link>/en/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</link>
+      <pubDate>Sat, 15 Apr 2023 14:38:38 +0800</pubDate>
+      
+      <guid>/en/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
+      <description>前言 内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>sql注入 on Reus09&#39;s Blog</title>
+    <link>/en/tags/sql%E6%B3%A8%E5%85%A5/</link>
+    <description>Recent content in sql注入 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 16 Sep 2022 19:45:34 +0800</lastBuildDate><atom:link href="/en/tags/sql%E6%B3%A8%E5%85%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sql注入</title>
+      <link>/en/posts/tech/sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
+      
+      <guid>/en/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据</description>
+    </item>
+    
+  </channel>
+</rss>

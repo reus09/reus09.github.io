@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>xss on Reus09&#39;s Blog</title>
+    <link>/en/tags/xss/</link>
+    <description>Recent content in xss on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 17 Sep 2022 14:21:16 +0800</lastBuildDate><atom:link href="/en/tags/xss/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Xss</title>
+      <link>/en/posts/tech/xss/</link>
+      <pubDate>Sat, 17 Sep 2022 14:21:16 +0800</pubDate>
+      
+      <guid>/en/posts/tech/xss/</guid>
+      <description>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss xss概念 跨站脚本（Cross-Site Scripting，XSS</description>
+    </item>
+    
+  </channel>
+</rss>
