@@ -11,7 +11,7 @@
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/">
 <meta name="google-site-verification" content="XYZabc">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.678b5c47efa744d2e0dd0d61101075e6aecdc9a0631e7ad8538f4ec0cca79273.css" integrity="sha256-Z4tcR&#43;&#43;nRNLg3Q1hEBB15q7NyaBjHnrYU49OwMynknM=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
@@ -214,73 +214,133 @@
     <div class="post-meta"><span title='2022-09-18 17:01:52 +0800 +0800'>2022-09-18</span>&nbsp;·&nbsp;13 分钟&nbsp;·&nbsp;Reus09
 
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">目录</span>
-        </summary>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">目录</span>
+            </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#0x00-%e5%89%8d%e8%a8%80" aria-label="0x00 前言">0x00 前言</a></li>
-                <li>
-                    <a href="#0x01-%e6%bc%8f%e6%b4%9e%e6%8f%8f%e8%bf%b0" aria-label="0x01 漏洞描述">0x01 漏洞描述</a></li>
-                <li>
-                    <a href="#0x02-%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%86" aria-label="0x02 前置知识">0x02 前置知识</a></li>
-                <li>
-                    <a href="#0x03-%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0" aria-label="0x03 漏洞复现">0x03 漏洞复现</a><ul>
-                        
-                <li>
-                    <a href="#log4j%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" aria-label="log4j环境搭建">log4j环境搭建</a></li></ul>
-                </li>
-                <li>
-                    <a href="#0x04-%e6%bc%8f%e6%b4%9e%e5%8e%9f%e7%90%86%e5%88%86%e6%9e%90" aria-label="0x04 漏洞原理分析">0x04 漏洞原理分析</a><ul>
-                        
-                <li>
-                    <a href="#%e6%97%a5%e5%bf%97%e8%ae%b0%e5%bd%95%e8%a7%a6%e5%8f%91%e7%82%b9" aria-label="日志记录/触发点">日志记录/触发点</a></li>
-                <li>
-                    <a href="#%e6%b6%88%e6%81%af%e6%a0%bc%e5%bc%8f%e5%8c%96" aria-label="消息格式化">消息格式化</a></li>
-                <li>
-                    <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%9b%bf%e6%8d%a2" aria-label="字符串替换">字符串替换</a></li>
-                <li>
-                    <a href="#lookup%e5%a4%84%e7%90%86" aria-label="Lookup处理"><code>Lookup</code>处理</a></li>
-                <li>
-                    <a href="#jdni%e6%9f%a5%e8%af%a2" aria-label="JDNI查询"><code>JDNI</code>查询</a></li></ul>
-                </li>
-                <li>
-                    <a href="#0x05-%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8" aria-label="0x05 漏洞利用">0x05 漏洞利用</a></li>
-                <li>
-                    <a href="#0x06-%e7%bb%95%e8%bf%87%e5%a7%bf%e5%8a%bf" aria-label="0x06 绕过姿势">0x06 绕过姿势</a><ul>
-                        
-                <li>
-                    <a href="#rc1-%e7%bb%95%e8%bf%87" aria-label="Rc1 绕过">Rc1 绕过</a></li>
-                <li>
-                    <a href="#rc2%e4%bf%ae%e5%a4%8d" aria-label="RC2修复">RC2修复</a></li>
-                <li>
-                    <a href="#%e5%a4%9a%e4%b8%aa%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" aria-label="多个${}执行流程">多个${}执行流程</a></li>
-                <li>
-                    <a href="#%e5%88%86%e9%9a%94%e7%ac%a6" aria-label="分隔符">分隔符</a></li></ul>
-                </li>
-                <li>
-                    <a href="#0x07-%e9%94%99%e8%af%af%e8%a7%a3%e5%86%b3" aria-label="0x07 错误解决">0x07 错误解决</a><ul>
-                        
-                <li>
-                    <a href="#reference-class-name-foo" aria-label="Reference Class Name: foo">Reference Class Name: foo</a><ul>
-                        
-                <li>
-                    <a href="#%e6%96%b9%e6%b3%95%e4%b8%80" aria-label="方法一">方法一</a></li>
-                <li>
-                    <a href="#%e6%96%b9%e6%b3%95%e4%ba%8c" aria-label="方法二：">方法二：</a></li></ul>
-                </li></ul>
-                </li>
-                <li>
-                    <a href="#0x08-%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" aria-label="0x08 参考资料">0x08 参考资料</a>
-                </li>
-            </ul>
-        </div>
-    </details>
-</div>
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#0x00-%e5%89%8d%e8%a8%80" aria-label="0x00 前言">0x00 前言</a></li>
+                    <li>
+                        <a href="#0x01-%e6%bc%8f%e6%b4%9e%e6%8f%8f%e8%bf%b0" aria-label="0x01 漏洞描述">0x01 漏洞描述</a></li>
+                    <li>
+                        <a href="#0x02-%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%86" aria-label="0x02 前置知识">0x02 前置知识</a></li>
+                    <li>
+                        <a href="#0x03-%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0" aria-label="0x03 漏洞复现">0x03 漏洞复现</a><ul>
+                            
+                    <li>
+                        <a href="#log4j%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" aria-label="log4j环境搭建">log4j环境搭建</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x04-%e6%bc%8f%e6%b4%9e%e5%8e%9f%e7%90%86%e5%88%86%e6%9e%90" aria-label="0x04 漏洞原理分析">0x04 漏洞原理分析</a><ul>
+                            
+                    <li>
+                        <a href="#%e6%97%a5%e5%bf%97%e8%ae%b0%e5%bd%95%e8%a7%a6%e5%8f%91%e7%82%b9" aria-label="日志记录/触发点">日志记录/触发点</a></li>
+                    <li>
+                        <a href="#%e6%b6%88%e6%81%af%e6%a0%bc%e5%bc%8f%e5%8c%96" aria-label="消息格式化">消息格式化</a></li>
+                    <li>
+                        <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%9b%bf%e6%8d%a2" aria-label="字符串替换">字符串替换</a></li>
+                    <li>
+                        <a href="#lookup%e5%a4%84%e7%90%86" aria-label="Lookup处理"><code>Lookup</code>处理</a></li>
+                    <li>
+                        <a href="#jdni%e6%9f%a5%e8%af%a2" aria-label="JDNI查询"><code>JDNI</code>查询</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x05-%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8" aria-label="0x05 漏洞利用">0x05 漏洞利用</a></li>
+                    <li>
+                        <a href="#0x06-%e7%bb%95%e8%bf%87%e5%a7%bf%e5%8a%bf" aria-label="0x06 绕过姿势">0x06 绕过姿势</a><ul>
+                            
+                    <li>
+                        <a href="#rc1-%e7%bb%95%e8%bf%87" aria-label="Rc1 绕过">Rc1 绕过</a></li>
+                    <li>
+                        <a href="#rc2%e4%bf%ae%e5%a4%8d" aria-label="RC2修复">RC2修复</a></li>
+                    <li>
+                        <a href="#%e5%a4%9a%e4%b8%aa%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" aria-label="多个${}执行流程">多个${}执行流程</a></li>
+                    <li>
+                        <a href="#%e5%88%86%e9%9a%94%e7%ac%a6" aria-label="分隔符">分隔符</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x07-%e9%94%99%e8%af%af%e8%a7%a3%e5%86%b3" aria-label="0x07 错误解决">0x07 错误解决</a><ul>
+                            
+                    <li>
+                        <a href="#reference-class-name-foo" aria-label="Reference Class Name: foo">Reference Class Name: foo</a><ul>
+                            
+                    <li>
+                        <a href="#%e6%96%b9%e6%b3%95%e4%b8%80" aria-label="方法一">方法一</a></li>
+                    <li>
+                        <a href="#%e6%96%b9%e6%b3%95%e4%ba%8c" aria-label="方法二：">方法二：</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#0x08-%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" aria-label="0x08 参考资料">0x08 参考资料</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
 
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
   <div class="post-content"><h2 id="0x00-前言">0x00 前言<a hidden class="anchor" aria-hidden="true" href="#0x00-前言">#</a></h2>
 <p>最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。</p>
 <h2 id="0x01-漏洞描述">0x01 漏洞描述<a hidden class="anchor" aria-hidden="true" href="#0x01-漏洞描述">#</a></h2>
