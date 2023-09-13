@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Groovy链 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/groovy%E9%93%BE/</link>
+    <description>Recent content in Groovy链 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 10 Nov 2022 15:56:46 +0800</lastBuildDate><atom:link href="https://reus09.github.io/tags/groovy%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Groovy链分析</title>
+      <link>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java反序列 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97/</link>
+    <description>Recent content in Java反序列 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 19 Mar 2023 20:34:53 +0800</lastBuildDate><atom:link href="https://reus09.github.io/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CommonsCollections11链分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 19 Mar 2023 20:34:53 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>今天学习了Shiro-550漏洞的原理，看到通过Gadget使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的Object Array，CC6中的ChainTransformer本质是一个Transformer类型的数组，无法被序列化，这时候文章提到了大杀器C</description>
+    </item>
+    
+    <item>
+      <title>Groovy链分析</title>
+      <link>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的</description>
+    </item>
+    
+    <item>
+      <title>CommosBeanutils分析</title>
+      <link>https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 04 Nov 2022 17:09:24 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</guid>
+      <description>实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的日子可以说过了相当一段时间，前不久感觉较为简单的CC7链的分析拖延了好长时间。但是生活总是要向前的，今天就继续跟着su18师傅继续学习反序列</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections7分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
+      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTable。对于HashTable，这里学习了su18师傅提供的继承CC6的老路。 实际上在之后CC7的学习中，发现了HashTable在CC7链</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections5分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 30 Oct 2022 15:14:39 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</guid>
+      <description>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections6分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 29 Oct 2022 15:10:18 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</guid>
+      <description>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections4分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 28 Oct 2022 19:36:38 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</guid>
+      <description>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransf</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections3分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 27 Oct 2022 16:05:33 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</guid>
+      <description>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。 在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。 在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections2分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2022 18:44:13 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</guid>
+      <description>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。 在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Col</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections1分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2022 14:57:25 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</guid>
+      <description>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。 从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsColl</description>
+    </item>
+    
+  </channel>
+</rss>

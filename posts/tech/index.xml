@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>👨🏻‍💻技术 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/posts/tech/</link>
+    <description>Recent content in 👨🏻‍💻技术 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 16 Apr 2023 21:25:18 +0800</lastBuildDate><atom:link href="https://reus09.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tomcat无文件内存马</title>
+      <link>https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</link>
+      <pubDate>Sun, 16 Apr 2023 21:25:18 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
+      <description>前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo</description>
+    </item>
+    
+    <item>
+      <title>Tomcat内存马</title>
+      <link>https://reus09.github.io/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</link>
+      <pubDate>Sat, 15 Apr 2023 14:38:38 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
+      <description>前言 内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入，导致的文件 shell 难以写入和持久而衍生出的一种“概念型”木马。这种技术的核心思想非常简单，一句话就能概括，那就是对访问路径映射及相关处理代码的动</description>
+    </item>
+    
+    <item>
+      <title>Java Agent学习</title>
+      <link>https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 07 Apr 2023 18:51:30 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</guid>
+      <description>前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections11链分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 19 Mar 2023 20:34:53 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>今天学习了Shiro-550漏洞的原理，看到通过Gadget使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的Object Array，CC6中的ChainTransformer本质是一个Transformer类型的数组，无法被序列化，这时候文章提到了大杀器C</description>
+    </item>
+    
+    <item>
+      <title>Shiro-550漏洞分析</title>
+      <link>https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
+      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和</description>
+    </item>
+    
+    <item>
+      <title>JAVA安全 RMI</title>
+      <link>https://reus09.github.io/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</link>
+      <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</guid>
+      <description>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。 这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送</description>
+    </item>
+    
+    <item>
+      <title>Groovy链分析</title>
+      <link>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的</description>
+    </item>
+    
+    <item>
+      <title>CommosBeanutils分析</title>
+      <link>https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 04 Nov 2022 17:09:24 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</guid>
+      <description>实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的日子可以说过了相当一段时间，前不久感觉较为简单的CC7链的分析拖延了好长时间。但是生活总是要向前的，今天就继续跟着su18师傅继续学习反序列</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections7分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
+      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTable。对于HashTable，这里学习了su18师傅提供的继承CC6的老路。 实际上在之后CC7的学习中，发现了HashTable在CC7链</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections5分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 30 Oct 2022 15:14:39 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</guid>
+      <description>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections6分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sat, 29 Oct 2022 15:10:18 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</guid>
+      <description>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections4分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 28 Oct 2022 19:36:38 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</guid>
+      <description>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransf</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections3分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 27 Oct 2022 16:05:33 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</guid>
+      <description>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。 在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。 在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections2分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2022 18:44:13 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</guid>
+      <description>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。 在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Col</description>
+    </item>
+    
+    <item>
+      <title>CommonsCollections1分析</title>
+      <link>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2022 14:57:25 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</guid>
+      <description>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。 从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsColl</description>
+    </item>
+    
+    <item>
+      <title>Java反序列化漏洞(一) 前置知识&amp;URLDNS</title>
+      <link>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</link>
+      <pubDate>Mon, 24 Oct 2022 15:47:17 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</guid>
+      <description>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。 序</description>
+    </item>
+    
+    <item>
+      <title>Java之ClassLoader</title>
+      <link>https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/</link>
+      <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/</guid>
+      <description>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，</description>
+    </item>
+    
+    <item>
+      <title>Java反射</title>
+      <link>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</link>
+      <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
+      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以</description>
+    </item>
+    
+    <item>
+      <title>Java之动态代理</title>
+      <link>https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</guid>
+      <description>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。 0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，</description>
+    </item>
+    
+    <item>
+      <title>FastJson反序列化漏洞总结</title>
+      <link>https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Wed, 12 Oct 2022 14:04:36 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</guid>
+      <description>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕</description>
+    </item>
+    
+    <item>
+      <title>CVE-2022-25845 FastJson RCE漏洞分析</title>
+      <link>https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
+      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一</description>
+    </item>
+    
+    <item>
+      <title>CVE-2022-33980 RCE漏洞分析</title>
+      <link>https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 25 Sep 2022 18:44:20 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
+      <description>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，</description>
+    </item>
+    
+    <item>
+      <title>靶机练习 Jangow01</title>
+      <link>https://reus09.github.io/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/</link>
+      <pubDate>Wed, 21 Sep 2022 15:39:33 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/</guid>
+      <description>之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机jangow01的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有思路，所以总体还是参照其他人的思路走了一遍，但是也学到了很多的东西。 0x00 错误解决 jangow01作者给出的靶机是基于virtualBox的,但</description>
+    </item>
+    
+    <item>
+      <title>Dockerfile编写</title>
+      <link>https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/</link>
+      <pubDate>Tue, 20 Sep 2022 15:16:35 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/</guid>
+      <description>这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交</description>
+    </item>
+    
+    <item>
+      <title>Log4j2漏洞复现及原理分析</title>
+      <link>https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
+      <description>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java</description>
+    </item>
+    
+    <item>
+      <title>Xss</title>
+      <link>https://reus09.github.io/posts/tech/xss/</link>
+      <pubDate>Sat, 17 Sep 2022 14:21:16 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/xss/</guid>
+      <description>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss xss概念 跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 WEB 应用程序中的计算机安全漏洞，是由于 WEB 应用程序对用户的输入过滤不足而产生的。攻击者利用网站漏洞把恶意的脚本代码注入到网页中</description>
+    </item>
+    
+    <item>
+      <title>Sql注入</title>
+      <link>https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据库路径 @@version_compile_os 操作系统版本 字符串拼接函数 concat(a,b,...) 没有分隔符地连接字符串 concat_ws(separator,a,b,...) 含有分隔符地连接字符串 group_concat(a,b,...) 以逗号分隔 联合查询 查库名-&amp;gt;查表名-&amp;gt;查列名</description>
+    </item>
+    
+    <item>
+      <title>Pwn基础知识</title>
+      <link>https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Wed, 14 Sep 2022 19:18:45 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称</description>
+    </item>
+    
+    <item>
+      <title>Hugo部署github</title>
+      <link>https://reus09.github.io/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</link>
+      <pubDate>Mon, 12 Sep 2022 22:06:57 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</guid>
+      <description>最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo,发现Hugo的主题Hugo-PaperMod挺好看的，就了解了一下，并且结合github action 实现自动化部署。并从中学习到了一些git的命令，</description>
+    </item>
+    
+    <item>
+      <title>Gin</title>
+      <link>https://reus09.github.io/posts/tech/gin/</link>
+      <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/gin/</guid>
+      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 func main(){ // 使用默认中间件创建一个gin路由器 // logger and recovery (crash-free) 中间件 router := gin.Default() // 加载templates目录下的所有文件为html router.LoadHTMLGlob(&amp;#34;/templates/**&amp;#34;) router.GET(&amp;#34;/someGet&amp;#34;, getting) router.POST(&amp;#34;/somePost&amp;#34;, posting)</description>
+    </item>
+    
+    <item>
+      <title>Go原生net包分析</title>
+      <link>https://reus09.github.io/posts/tech/go%E5%8E%9F%E7%94%9Fnet%E5%8C%85%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 11 Sep 2022 14:40:53 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/go%E5%8E%9F%E7%94%9Fnet%E5%8C%85%E5%88%86%E6%9E%90/</guid>
+      <description>很长时间没有水博客了，前些天学习了一下go的语法。go凭借其轻量级和并发性的原因，性能越来越优异，这里简单分析一下如何通过go原生的http开启一个web服务，并对其过程进行一定的剖析。 go原生的web服务搭建 Go 语言里面提供了一个完善的 net/http 包，通过 http 包可以很方便的就搭建起来一个可以</description>
+    </item>
+    
+    <item>
+      <title>CVE-2022-22963漏洞复现</title>
+      <link>https://reus09.github.io/posts/tech/cve-2022-22963/</link>
+      <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/cve-2022-22963/</guid>
+      <description>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的</description>
+    </item>
+    
+    <item>
+      <title>SpringBoot</title>
+      <link>https://reus09.github.io/posts/tech/springboot/</link>
+      <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/springboot/</guid>
+      <description>因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合</description>
+    </item>
+    
+    <item>
+      <title>Mybatis</title>
+      <link>https://reus09.github.io/posts/tech/mybatis/</link>
+      <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/mybatis/</guid>
+      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- MySQL驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;8.0.27&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 创建MyBatis的核心配置文件 mybatis-config.xml 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39</description>
+    </item>
+    
+    <item>
+      <title>Spring Mvc</title>
+      <link>https://reus09.github.io/posts/tech/spring-mvc/</link>
+      <pubDate>Fri, 29 Apr 2022 09:16:59 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/spring-mvc/</guid>
+      <description>Spring-mvc 本篇主要对spring-mvc的知识点进行总结 MVC的工作流程： 用户通过视图层发送请求到服务器，在服务器中请求被Controller接收，Controller调用相应的Model层处理请求，处理完毕将结果返回到Controller，Controller再根据请求处理的结果找到相</description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>https://reus09.github.io/posts/tech/spring/</link>
+      <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/spring/</guid>
+      <description>这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了耦合度降低 底层原理 xml 解析、工厂模式、反射 IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂 1.1 实现方式 BeanFactory：IOC 容器基本实现，是 Spring</description>
+    </item>
+    
+    <item>
+      <title>Javaweb</title>
+      <link>https://reus09.github.io/posts/tech/javaweb/</link>
+      <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/javaweb/</guid>
+      <description>0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于tomcat8） 如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前） 1 2 3 4 5 String fname = request.getParameter(&amp;#34;fname&amp;#34;); //1.将字符串打散成字节数组 byte[] bytes =</description>
+    </item>
+    
+    <item>
+      <title>Jdbc</title>
+      <link>https://reus09.github.io/posts/tech/jdbc/</link>
+      <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/jdbc/</guid>
+      <description>JDBC概述 JDBC程序编写步骤 总结一下JDBC建立连接的全过程。 二：获取数据库连接 Driver接口实现类 Driver接口介绍 java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。 在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动</description>
+    </item>
+    
+    <item>
+      <title>Rop</title>
+      <link>https://reus09.github.io/posts/tech/rop/</link>
+      <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/rop/</guid>
+      <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实</description>
+    </item>
+    
+    <item>
+      <title>格式化字符串</title>
+      <link>https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据</description>
+    </item>
+    
+  </channel>
+</rss>

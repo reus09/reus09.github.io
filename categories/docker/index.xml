@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>docker on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/categories/docker/</link>
+    <description>Recent content in docker on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 20 Sep 2022 15:16:35 +0800</lastBuildDate><atom:link href="https://reus09.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dockerfile编写</title>
+      <link>https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/</link>
+      <pubDate>Tue, 20 Sep 2022 15:16:35 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/</guid>
+      <description>这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交</description>
+    </item>
+    
+  </channel>
+</rss>

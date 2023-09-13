@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>格式化字符串漏洞 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</link>
+    <description>Recent content in 格式化字符串漏洞 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 03 Nov 2021 20:46:59 +0000</lastBuildDate><atom:link href="https://reus09.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>格式化字符串</title>
+      <link>https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据</description>
+    </item>
+    
+  </channel>
+</rss>

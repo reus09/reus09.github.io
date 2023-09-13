@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>sql注入 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/sql%E6%B3%A8%E5%85%A5/</link>
+    <description>Recent content in sql注入 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 16 Sep 2022 19:45:34 +0800</lastBuildDate><atom:link href="https://reus09.github.io/tags/sql%E6%B3%A8%E5%85%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sql注入</title>
+      <link>https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据库路径 @@version_compile_os 操作系统版本 字符串拼接函数 concat(a,b,...) 没有分隔符地连接字符串 concat_ws(separator,a,b,...) 含有分隔符地连接字符串 group_concat(a,b,...) 以逗号分隔 联合查询 查库名-&amp;gt;查表名-&amp;gt;查列名</description>
+    </item>
+    
+  </channel>
+</rss>

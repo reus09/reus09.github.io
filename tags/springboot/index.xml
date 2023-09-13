@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>springboot on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/springboot/</link>
+    <description>Recent content in springboot on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 03 May 2022 12:43:35 +0000</lastBuildDate><atom:link href="https://reus09.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SpringBoot</title>
+      <link>https://reus09.github.io/posts/tech/springboot/</link>
+      <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/springboot/</guid>
+      <description>因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合</description>
+    </item>
+    
+  </channel>
+</rss>

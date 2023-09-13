@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Spring漏洞 on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/spring%E6%BC%8F%E6%B4%9E/</link>
+    <description>Recent content in Spring漏洞 on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 02 Jul 2022 09:18:51 +0000</lastBuildDate><atom:link href="https://reus09.github.io/tags/spring%E6%BC%8F%E6%B4%9E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CVE-2022-22963漏洞复现</title>
+      <link>https://reus09.github.io/posts/tech/cve-2022-22963/</link>
+      <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/cve-2022-22963/</guid>
+      <description>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>rop on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/rop/</link>
+    <description>Recent content in rop on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 03 Nov 2021 22:11:40 +0000</lastBuildDate><atom:link href="https://reus09.github.io/tags/rop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rop</title>
+      <link>https://reus09.github.io/posts/tech/rop/</link>
+      <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/rop/</guid>
+      <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实</description>
+    </item>
+    
+  </channel>
+</rss>

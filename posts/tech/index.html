@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>👨🏻‍💻技术 | Reus09&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="👨🏻‍💻技术 - Reus09&#39;s Blog">
+<meta name="author" content="Reus09">
+<link rel="canonical" href="https://reus09.github.io/posts/tech/">
+<meta name="google-site-verification" content="XYZabc">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="apple-touch-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<link rel="mask-icon" href="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20211103151005.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://reus09.github.io/posts/tech/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="👨🏻‍💻技术" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://reus09.github.io/posts/tech/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="👨🏻‍💻技术"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "https://reus09.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "👨🏻‍💻技术",
+      "item": "https://reus09.github.io/posts/tech/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://reus09.github.io" accesskey="h" title="Reus09&#39;s Blog (Alt + H)">Reus09&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://reus09.github.io/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://reus09.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://reus09.github.io/posts" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://reus09.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://reus09.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://reus09.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://reus09.github.io">主页</a>&nbsp;»&nbsp;<a href="https://reus09.github.io/posts/">📚文章</a></div>
+  <h1>
+    👨🏻‍💻技术
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Tomcat无文件内存马
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-04-16 21:25:18 +0800 +0800'>2023-04-16</span>&nbsp;·&nbsp;17 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to Tomcat无文件内存马" href="https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Tomcat内存马
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入，导致的文件 shell 难以写入和持久而衍生出的一种“概念型”木马。这种技术的核心思想非常简单，一句话就能概括，那就是对访问路径映射及相关处理代码的动...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-04-15 14:38:38 +0800 +0800'>2023-04-15</span>&nbsp;·&nbsp;23 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to Tomcat内存马" href="https://reus09.github.io/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Java Agent学习
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-04-07 18:51:30 +0800 +0800'>2023-04-07</span>&nbsp;·&nbsp;10 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to Java Agent学习" href="https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>CommonsCollections11链分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天学习了Shiro-550漏洞的原理，看到通过Gadget使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的Object Array，CC6中的ChainTransformer本质是一个Transformer类型的数组，无法被序列化，这时候文章提到了大杀器C...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-03-19 20:34:53 +0800 +0800'>2023-03-19</span>&nbsp;·&nbsp;5 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to CommonsCollections11链分析" href="https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Shiro-550漏洞分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-03-19 14:04:48 +0800 +0800'>2023-03-19</span>&nbsp;·&nbsp;13 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to Shiro-550漏洞分析" href="https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>JAVA安全 RMI
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。 这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-03-10 19:17:17 +0800 +0800'>2023-03-10</span>&nbsp;·&nbsp;12 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to JAVA安全 RMI" href="https://reus09.github.io/posts/tech/java%E5%AE%89%E5%85%A8-rmi/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Groovy链分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-11-10 15:56:46 +0800 +0800'>2022-11-10</span>&nbsp;·&nbsp;4 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to Groovy链分析" href="https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>CommosBeanutils分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的日子可以说过了相当一段时间，前不久感觉较为简单的CC7链的分析拖延了好长时间。但是生活总是要向前的，今天就继续跟着su18师傅继续学习反序列...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-11-04 17:09:24 +0800 +0800'>2022-11-04</span>&nbsp;·&nbsp;4 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to CommosBeanutils分析" href="https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>CommonsCollections7分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTable。对于HashTable，这里学习了su18师傅提供的继承CC6的老路。 实际上在之后CC7的学习中，发现了HashTable在CC7链...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-11-01 15:57:10 +0800 +0800'>2022-11-01</span>&nbsp;·&nbsp;7 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to CommonsCollections7分析" href="https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>CommonsCollections5分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-10-30 15:14:39 +0800 +0800'>2022-10-30</span>&nbsp;·&nbsp;3 分钟&nbsp;·&nbsp;Reus09</footer>
+  <a class="entry-link" aria-label="post link to CommonsCollections5分析" href="https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://reus09.github.io/posts/tech/page/2/">下一页&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://reus09.github.io">Reus09&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

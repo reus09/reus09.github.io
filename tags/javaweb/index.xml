@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>javaweb on Reus09&#39;s Blog</title>
+    <link>https://reus09.github.io/tags/javaweb/</link>
+    <description>Recent content in javaweb on Reus09&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 14 Apr 2022 20:12:46 +0000</lastBuildDate><atom:link href="https://reus09.github.io/tags/javaweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Javaweb</title>
+      <link>https://reus09.github.io/posts/tech/javaweb/</link>
+      <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/javaweb/</guid>
+      <description>0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于tomcat8） 如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前） 1 2 3 4 5 String fname = request.getParameter(&amp;#34;fname&amp;#34;); //1.将字符串打散成字节数组 byte[] bytes =</description>
+    </item>
+    
+  </channel>
+</rss>
