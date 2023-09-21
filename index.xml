@@ -6,7 +6,16 @@
     <description>Recent content on Reus09&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 16 Apr 2023 21:25:18 +0800</lastBuildDate><atom:link href="https://reus09.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 Sep 2023 00:42:35 +0800</lastBuildDate><atom:link href="https://reus09.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring1链分析</title>
+      <link>https://reus09.github.io/posts/tech/spring1%E9%93%BE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 22 Sep 2023 00:42:35 +0800</pubDate>
+      
+      <guid>https://reus09.github.io/posts/tech/spring1%E9%93%BE%E5%88%86%E6%9E%90/</guid>
+      <description>影响版本 spring-core : 4.1.4.RELEASE spring-beans : 4.1.4.RELEASE 导入依赖： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-core --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-beans --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-beans&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 前提知识 ysoserial给出的spring1的利用链还是比较完整的。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 /* Gadget chain: ObjectInputStream.readObject() SerializableTypeWrapper.MethodInvokeTypeProvider.readObject() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.findMethod() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.invokeMethod() Method.invoke() Templates(Proxy).newTransformer() AutowireUtils.ObjectFactoryDelegatingInvocationHandler.invoke() ObjectFactory(Proxy).getObject() AnnotationInvocationHandler.invoke() HashMap.get() Method.invoke() TemplatesImpl.newTransformer() TemplatesImpl.getTransletInstance() TemplatesImpl.defineTransletClasses() TemplatesImpl.TransletClassLoader.defineClass() Pwner*(Javassist-generated).&amp;lt;static init&amp;gt; Runtime.exec() */ 然后根据</description>
+    </item>
+    
     <item>
       <title>Tomcat无文件内存马</title>
       <link>https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</link>
