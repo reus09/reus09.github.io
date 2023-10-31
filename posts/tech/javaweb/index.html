@@ -211,7 +211,7 @@
     <h1 class="post-title">
       Javaweb
     </h1>
-    <div class="post-meta"><span title='2022-04-14 20:12:46 +0000 UTC'>2022-04-14</span>&nbsp;·&nbsp;11 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-04-14 20:12:46 &#43;0000 UTC&#39;&gt;2022-04-14&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -351,11 +351,11 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String fname <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fname&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//1.将字符串打散成字节数组
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bytes <span style="color:#f92672">=</span> fname<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//2.将字节数组按照设定的编码重新组装成字符串
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fname <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>bytes<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String fname <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getParameter</span>(<span style="color:#e6db74">&#34;fname&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//1.将字符串打散成字节数组</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bytes <span style="color:#f92672">=</span> fname.<span style="color:#a6e22e">getBytes</span>(<span style="color:#e6db74">&#34;ISO-8859-1&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//2.将字节数组按照设定的编码重新组装成字符串</span>
+</span></span><span style="display:flex;"><span>    fname <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String(bytes,<span style="color:#e6db74">&#34;UTF-8&#34;</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -406,9 +406,9 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span><span style="color:#f92672">(</span>config<span style="color:#f92672">)</span> <span style="color:#f92672">-</span> 初始化方法
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span>response<span style="color:#f92672">)</span> <span style="color:#f92672">-</span> 服务方法
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">destory</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> 销毁方法
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(config) <span style="color:#f92672">-</span> 初始化方法
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span>(request,response) <span style="color:#f92672">-</span> 服务方法
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">destory</span>() <span style="color:#f92672">-</span> 销毁方法
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -419,7 +419,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span>response<span style="color:#f92672">)</span> <span style="color:#f92672">-</span> 仍然是抽象的
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span>(request,response) <span style="color:#f92672">-</span> 仍然是抽象的
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -430,7 +430,7 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span>response<span style="color:#f92672">)</span> <span style="color:#f92672">-</span> 不是抽象的
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span>(request,response) <span style="color:#f92672">-</span> 不是抽象的
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -452,15 +452,15 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doGet</span><span style="color:#f92672">(</span>HttpServletRequest req<span style="color:#f92672">,</span> HttpServletResponse resp<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> ServletException<span style="color:#f92672">,</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    String protocol <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getProtocol</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    String msg <span style="color:#f92672">=</span> lStrings<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http.method_get_not_supported&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>protocol<span style="color:#f92672">.</span><span style="color:#a6e22e">endsWith</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1.1&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        resp<span style="color:#f92672">.</span><span style="color:#a6e22e">sendError</span><span style="color:#f92672">(</span><span style="color:#ae81ff">405</span><span style="color:#f92672">,</span> msg<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        resp<span style="color:#f92672">.</span><span style="color:#a6e22e">sendError</span><span style="color:#f92672">(</span><span style="color:#ae81ff">400</span><span style="color:#f92672">,</span> msg<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doGet</span>(HttpServletRequest req, HttpServletResponse resp) <span style="color:#66d9ef">throws</span> ServletException, IOException {
+</span></span><span style="display:flex;"><span>    String protocol <span style="color:#f92672">=</span> req.<span style="color:#a6e22e">getProtocol</span>();
+</span></span><span style="display:flex;"><span>    String msg <span style="color:#f92672">=</span> lStrings.<span style="color:#a6e22e">getString</span>(<span style="color:#e6db74">&#34;http.method_get_not_supported&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (protocol.<span style="color:#a6e22e">endsWith</span>(<span style="color:#e6db74">&#34;1.1&#34;</span>)) {
+</span></span><span style="display:flex;"><span>        resp.<span style="color:#a6e22e">sendError</span>(405, msg);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        resp.<span style="color:#a6e22e">sendError</span>(400, msg);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -567,15 +567,15 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getSession</span><span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> 获取当前的会话<span style="color:#960050;background-color:#1e0010">，</span>没有则创建一个新的会话
-</span></span><span style="display:flex;"><span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getSession</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> 效果和不带参数相同
-</span></span><span style="display:flex;"><span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getSession</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> 获取当前会话<span style="color:#960050;background-color:#1e0010">，</span>没有则返回null<span style="color:#960050;background-color:#1e0010">，</span>不会创建新的
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request.<span style="color:#a6e22e">getSession</span>() <span style="color:#f92672">-&gt;</span> 获取当前的会话<span style="color:#960050;background-color:#1e0010">，</span>没有则创建一个新的会话
+</span></span><span style="display:flex;"><span>request.<span style="color:#a6e22e">getSession</span>(<span style="color:#66d9ef">true</span>) <span style="color:#f92672">-&gt;</span> 效果和不带参数相同
+</span></span><span style="display:flex;"><span>request.<span style="color:#a6e22e">getSession</span>(<span style="color:#66d9ef">false</span>) <span style="color:#f92672">-&gt;</span> 获取当前会话<span style="color:#960050;background-color:#1e0010">，</span>没有则返回null<span style="color:#960050;background-color:#1e0010">，</span>不会创建新的
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>session<span style="color:#f92672">.</span><span style="color:#a6e22e">getId</span><span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> 获取sessionID
-</span></span><span style="display:flex;"><span>session<span style="color:#f92672">.</span><span style="color:#a6e22e">isNew</span><span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> 判断当前session是否是新的
-</span></span><span style="display:flex;"><span>session<span style="color:#f92672">.</span><span style="color:#a6e22e">getMaxInactiveInterval</span><span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> session的非激活间隔时长<span style="color:#960050;background-color:#1e0010">，</span>默认1800秒
-</span></span><span style="display:flex;"><span>session<span style="color:#f92672">.</span><span style="color:#a6e22e">setMaxInactiveInterval</span><span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>session<span style="color:#f92672">.</span><span style="color:#a6e22e">invalidate</span><span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> 强制性让会话立即失效
+</span></span><span style="display:flex;"><span>session.<span style="color:#a6e22e">getId</span>() <span style="color:#f92672">-&gt;</span> 获取sessionID
+</span></span><span style="display:flex;"><span>session.<span style="color:#a6e22e">isNew</span>() <span style="color:#f92672">-&gt;</span> 判断当前session是否是新的
+</span></span><span style="display:flex;"><span>session.<span style="color:#a6e22e">getMaxInactiveInterval</span>() <span style="color:#f92672">-&gt;</span> session的非激活间隔时长<span style="color:#960050;background-color:#1e0010">，</span>默认1800秒
+</span></span><span style="display:flex;"><span>session.<span style="color:#a6e22e">setMaxInactiveInterval</span>()
+</span></span><span style="display:flex;"><span>session.<span style="color:#a6e22e">invalidate</span>() <span style="color:#f92672">-&gt;</span> 强制性让会话立即失效
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -596,9 +596,9 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> session<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span>k<span style="color:#f92672">,</span>v<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Object session<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span>k<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeAttribute</span><span style="color:#f92672">(</span>k<span style="color:#f92672">)</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> session.<span style="color:#a6e22e">setAttribute</span>(k,v)
+</span></span><span style="display:flex;"><span>Object session.<span style="color:#a6e22e">getAttribute</span>(k)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeAttribute</span>(k)
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -685,10 +685,10 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@WebServlet</span><span style="color:#f92672">(</span>urlPatterns <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;/demo01&#34;</span><span style="color:#f92672">}</span> <span style="color:#f92672">,</span>
-</span></span><span style="display:flex;"><span>     initParams <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">@WebInitParam</span><span style="color:#f92672">(</span>name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">,</span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;world&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#f92672">})</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@WebServlet</span>(urlPatterns <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;/demo01&#34;</span>} ,
+</span></span><span style="display:flex;"><span>     initParams <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">@WebInitParam</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello&#34;</span>,value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;world&#34;</span>)
+</span></span><span style="display:flex;"><span>     })
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -885,14 +885,14 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>T value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  Thread t <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span> <span style="color:#75715e">//获取当前的线程
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ThreadLocalMap map <span style="color:#f92672">=</span> getMap<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>    <span style="color:#75715e">//每一个线程都维护各自的一个容器（ThreadLocalMap）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      map<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>          <span style="color:#75715e">//这里的key对应的是ThreadLocal，因为我们的组件中需要传输（共享）的对象可能会有多个（不止Connection）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>      createMap<span style="color:#f92672">(</span>t<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>           <span style="color:#75715e">//默认情况下map是没有初始化的，那么第一次往其中添加数据时，会去初始化
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span>(T value) {
+</span></span><span style="display:flex;"><span>  Thread t <span style="color:#f92672">=</span> Thread.<span style="color:#a6e22e">currentThread</span>(); <span style="color:#75715e">//获取当前的线程</span>
+</span></span><span style="display:flex;"><span>  ThreadLocalMap map <span style="color:#f92672">=</span> getMap(t);    <span style="color:#75715e">//每一个线程都维护各自的一个容器（ThreadLocalMap）</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>      map.<span style="color:#a6e22e">set</span>(<span style="color:#66d9ef">this</span>, value);          <span style="color:#75715e">//这里的key对应的是ThreadLocal，因为我们的组件中需要传输（共享）的对象可能会有多个（不止Connection）</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>      createMap(t, value);           <span style="color:#75715e">//默认情况下map是没有初始化的，那么第一次往其中添加数据时，会去初始化</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -917,19 +917,19 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> T <span style="color:#a6e22e">get</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  Thread t <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span> <span style="color:#75715e">//获取当前的线程
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ThreadLocalMap map <span style="color:#f92672">=</span> getMap<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>    <span style="color:#75715e">//获取和这个线程（企业）相关的ThreadLocalMap（也就是工作纽带的集合）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      ThreadLocalMap<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span> e <span style="color:#f92672">=</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">getEntry</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>   <span style="color:#75715e">//this指的是ThreadLocal对象，通过它才能知道是哪一个工作纽带
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>          T result <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">;</span>     <span style="color:#75715e">//entry.value就可以获取到工具箱了
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>          <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> setInitialValue<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> T <span style="color:#a6e22e">get</span>() {
+</span></span><span style="display:flex;"><span>  Thread t <span style="color:#f92672">=</span> Thread.<span style="color:#a6e22e">currentThread</span>(); <span style="color:#75715e">//获取当前的线程</span>
+</span></span><span style="display:flex;"><span>  ThreadLocalMap map <span style="color:#f92672">=</span> getMap(t);    <span style="color:#75715e">//获取和这个线程（企业）相关的ThreadLocalMap（也就是工作纽带的集合）</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>      ThreadLocalMap.<span style="color:#a6e22e">Entry</span> e <span style="color:#f92672">=</span> map.<span style="color:#a6e22e">getEntry</span>(<span style="color:#66d9ef">this</span>);   <span style="color:#75715e">//this指的是ThreadLocal对象，通过它才能知道是哪一个工作纽带</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">@SuppressWarnings</span>(<span style="color:#e6db74">&#34;unchecked&#34;</span>)
+</span></span><span style="display:flex;"><span>          T result <span style="color:#f92672">=</span> (T)e.<span style="color:#a6e22e">value</span>;     <span style="color:#75715e">//entry.value就可以获取到工具箱了</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> setInitialValue();
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -964,26 +964,26 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TransactionManager</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">TransactionManager</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TransactionManager</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">TransactionManager</span>() {
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">beginTrans</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setAutoCommit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">beginTrans</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">getConn</span>().<span style="color:#a6e22e">setAutoCommit</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        conn<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">closeConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil.<span style="color:#a6e22e">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#a6e22e">commit</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rollback</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        conn<span style="color:#f92672">.</span><span style="color:#a6e22e">rollback</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">closeConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rollback</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil.<span style="color:#a6e22e">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#a6e22e">rollback</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1017,26 +1017,26 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TransactionManager</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">TransactionManager</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TransactionManager</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">TransactionManager</span>() {
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">beginTrans</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setAutoCommit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">beginTrans</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">getConn</span>().<span style="color:#a6e22e">setAutoCommit</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        conn<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">closeConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil.<span style="color:#a6e22e">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#a6e22e">commit</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rollback</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        conn<span style="color:#f92672">.</span><span style="color:#a6e22e">rollback</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        ConnUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">closeConn</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rollback</span>() <span style="color:#66d9ef">throws</span> SQLException {
+</span></span><span style="display:flex;"><span>        Connection conn <span style="color:#f92672">=</span> ConnUtil.<span style="color:#a6e22e">getConn</span>();
+</span></span><span style="display:flex;"><span>        conn.<span style="color:#a6e22e">rollback</span>();
+</span></span><span style="display:flex;"><span>        ConnUtil.<span style="color:#a6e22e">closeConn</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1122,10 +1122,10 @@ get方式目前不需要设置编码（基于tomcat8）</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String returnStr <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">)</span>returnObj<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>returnStr<span style="color:#f92672">.</span><span style="color:#a6e22e">startWith</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redirect:&#34;</span><span style="color:#f92672">)){</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">....</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">.....</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String returnStr <span style="color:#f92672">=</span> (String)returnObj;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(returnStr.<span style="color:#a6e22e">startWith</span>(<span style="color:#e6db74">&#34;redirect:&#34;</span>)){
+</span></span><span style="display:flex;"><span> ....
+</span></span><span style="display:flex;"><span>}<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>.....
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>

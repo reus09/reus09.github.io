@@ -211,7 +211,7 @@
     <h1 class="post-title">
       Java反射
     </h1>
-    <div class="post-meta"><span title='2022-10-21 14:14:54 +0800 +0800'>2022-10-21</span>&nbsp;·&nbsp;12 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-10-21 14:14:54 &#43;0800 &#43;0800&#39;&gt;2022-10-21&lt;/span&gt;&amp;nbsp;·&amp;nbsp;12 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -324,10 +324,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>String className<span style="color:#f92672">,</span> String methodName<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span> 
-</span></span><span style="display:flex;"><span>    Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>className<span style="color:#f92672">);</span> 
-</span></span><span style="display:flex;"><span>    clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span>methodName<span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">());</span> 
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">execute</span>(String className, String methodName) <span style="color:#66d9ef">throws</span> Exception { 
+</span></span><span style="display:flex;"><span>    Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(className); 
+</span></span><span style="display:flex;"><span>    clazz.<span style="color:#a6e22e">getMethod</span>(methodName).<span style="color:#a6e22e">invoke</span>(clazz.<span style="color:#a6e22e">newInstance</span>()); 
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面的例子，运用了反射里极为重要的方法</p>
@@ -353,9 +353,9 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class<span style="color:#f92672">&lt;?&gt;</span> doubleArray <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[D&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//相当于double[].class
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Class<span style="color:#f92672">&lt;?&gt;</span> cStringArray <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[[Ljava.lang.String;&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">// 相当于String[][].class
-</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class<span style="color:#f92672">&lt;?&gt;</span> doubleArray <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;[D&#34;</span>);<span style="color:#75715e">//相当于double[].class</span>
+</span></span><span style="display:flex;"><span>Class<span style="color:#f92672">&lt;?&gt;</span> cStringArray <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;[[Ljava.lang.String;&#34;</span>);<span style="color:#75715e">// 相当于String[][].class</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>forName</code>有两个函数重载：</p>
 <ul>
@@ -370,9 +370,9 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>className<span style="color:#f92672">)</span> 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 等于 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span>className<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> currentLoader<span style="color:#f92672">)</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class.<span style="color:#a6e22e">forName</span>(className) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 等于 </span>
+</span></span><span style="display:flex;"><span>Class.<span style="color:#a6e22e">forName</span>(className, <span style="color:#66d9ef">true</span>, currentLoader)
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>默认情况下，<code> forName</code> 是的第⼀个参数是类名；第⼆个参数表示是否初始化；第三个参数就是<code>ClassLoader</code>。</p>
@@ -427,18 +427,18 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> a<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">printf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Empty block initial %s\n&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">printf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Static initial %s\n&#34;</span><span style="color:#f92672">,</span>ReflectTest<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Demo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">printf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Initial %s\n&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> a;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Empty block initial %s\n&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getClass</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Static initial %s\n&#34;</span>,ReflectTest.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Demo</span>() {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Initial %s\n&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getClass</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -476,10 +476,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// java.lang.Runtime.exec(&#34;id&#34;)
-</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span>);
+</span></span><span style="display:flex;"><span>clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;exec&#34;</span>, String.<span style="color:#a6e22e">class</span>).<span style="color:#a6e22e">invoke</span>(clazz.<span style="color:#a6e22e">newInstance</span>(), <span style="color:#e6db74">&#34;id&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// java.lang.Runtime.exec(&#34;id&#34;)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>会产生报错</p>
 <p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221021183158888.png" alt="image-20221021183158888"  />
@@ -499,11 +499,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;getRuntime&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">),</span><span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span><span style="color:#f92672">)</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span>);
+</span></span><span style="display:flex;"><span>clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;exec&#34;</span>,String.<span style="color:#a6e22e">class</span>).<span style="color:#a6e22e">invoke</span>(clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;getRuntime&#34;</span>).<span style="color:#a6e22e">invoke</span>(clazz),<span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span>)
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//java.lang.Runtime.getRuntime().exec(&#34;open -a Calculator.app&#34;)
-</span></span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//java.lang.Runtime.getRuntime().exec(&#34;open -a Calculator.app&#34;)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221021183539863.png" alt="image-20221021183539863"  />
 </p>
@@ -514,8 +514,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span><span style="color:#f92672">);</span> 
-</span></span><span style="display:flex;"><span>Method execMethod <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span> Method getRuntimeMethod <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;getRuntime&#34;</span><span style="color:#f92672">);</span> Object runtime <span style="color:#f92672">=</span> getRuntimeMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">);</span> execMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>runtime<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span>); 
+</span></span><span style="display:flex;"><span>Method execMethod <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;exec&#34;</span>, String.<span style="color:#a6e22e">class</span>); Method getRuntimeMethod <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;getRuntime&#34;</span>); Object runtime <span style="color:#f92672">=</span> getRuntimeMethod.<span style="color:#a6e22e">invoke</span>(clazz); execMethod.<span style="color:#a6e22e">invoke</span>(runtime, <span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里因为<code>getRuntime</code>为静态方法，所以需要传入<code>class</code>，<code>exec</code>为正常的方法，所以传入对应的实例类。</p>
@@ -532,10 +532,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz<span style="color:#f92672">=</span>  Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Constructor constructor <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredConstructor</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(),</span><span style="color:#e6db74">&#34;open -na Calculator.app&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz<span style="color:#f92672">=</span>  Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.Runtime&#34;</span>);
+</span></span><span style="display:flex;"><span>Constructor constructor <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredConstructor</span>();
+</span></span><span style="display:flex;"><span>constructor.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;exec&#34;</span>, String.<span style="color:#a6e22e">class</span>).<span style="color:#a6e22e">invoke</span>(constructor.<span style="color:#a6e22e">newInstance</span>(),<span style="color:#e6db74">&#34;open -na Calculator.app&#34;</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20230926233725053.png" alt="image-20230926233725053"  />
@@ -556,9 +556,9 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;start&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getConstructor</span><span style="color:#f92672">(</span>List<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;open&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;-a&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;Calculator.app&#34;</span><span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span>clazz.<span style="color:#a6e22e">getMethod</span>(<span style="color:#e6db74">&#34;start&#34;</span>).<span style="color:#a6e22e">invoke</span>(clazz.<span style="color:#a6e22e">getConstructor</span>(List.<span style="color:#a6e22e">class</span>).<span style="color:#a6e22e">newInstance</span>( Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;open&#34;</span>,<span style="color:#e6db74">&#34;-a&#34;</span>,<span style="color:#e6db74">&#34;Calculator.app&#34;</span>)));
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>通过<code>getMethod(&quot;start&quot;)</code>获取到<code>start</code>方法，然后<code>invoke</code>执行，<code>invoke</code>的第一个参数就是<code>ProcessBuilder Object</code>了。</p>
@@ -573,8 +573,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> names<span style="color:#f92672">)</span> <span style="color:#f92672">{}</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span><span style="color:#a6e22e">names</span><span style="color:#f92672">)</span> <span style="color:#f92672">{}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span>(String<span style="color:#f92672">[]</span> names) {} 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span>(String...<span style="color:#a6e22e">names</span>) {}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>所以，我们将字符串数组的<code>String[].class</code>传给<code>getConstructor</code>，获取<code>ProcessBuilder</code>的第二类种构造函数：</p>
@@ -584,8 +584,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span><span style="color:#f92672">);</span> 
-</span></span><span style="display:flex;"><span>clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getConstructor</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span>); 
+</span></span><span style="display:flex;"><span>clazz.<span style="color:#a6e22e">getConstructor</span>(String<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>)
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在调用<code>newInstance</code>的时候，因为这个函数本身接收的是一个可变长参数，我们传给<code>ProcessBuilder</code> 的也是一个可变长参数，二者叠加为一个二维数组，所以整个Payload如下：</p>
@@ -596,9 +596,9 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.lang.ProcessBuilder&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">((</span>ProcessBuilder<span style="color:#f92672">)</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getConstructor</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> String<span style="color:#f92672">[][]{{</span><span style="color:#e6db74">&#34;open&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;-a&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;Calculator.app&#34;</span><span style="color:#f92672">}})).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>((ProcessBuilder) clazz.<span style="color:#a6e22e">getConstructor</span>(String<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>).<span style="color:#a6e22e">newInstance</span>(<span style="color:#66d9ef">new</span> String<span style="color:#f92672">[][]</span>{{<span style="color:#e6db74">&#34;open&#34;</span>,<span style="color:#e6db74">&#34;-a&#34;</span>,<span style="color:#e6db74">&#34;Calculator.app&#34;</span>}})).<span style="color:#a6e22e">start</span>();
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>第二个问题，方法、构造方法是私有方法，</p>
@@ -622,15 +622,15 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    Class clazz <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.reus.reflect.Demo&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    Method<span style="color:#f92672">[]</span> methods <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethods</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>Method method <span style="color:#f92672">:</span> methods<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>method<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    Class clazz <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;com.reus.reflect.Demo&#34;</span>);
+</span></span><span style="display:flex;"><span>    Method<span style="color:#f92672">[]</span> methods <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredMethods</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(Method method : methods){
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(method);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}<span style="color:#66d9ef">catch</span> (Exception e){
+</span></span><span style="display:flex;"><span>    e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>获取当前类指定的成员方法</p>
@@ -640,8 +640,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Method method <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;方法名&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Method method <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;方法名&#34;</span><span style="color:#f92672">,</span> 参数类型如String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#960050;background-color:#1e0010">，</span>多个参数用<span style="color:#e6db74">&#34;,&#34;</span>号隔开<span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Method method <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredMethod</span>(<span style="color:#e6db74">&#34;方法名&#34;</span>);
+</span></span><span style="display:flex;"><span>Method method <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredMethod</span>(<span style="color:#e6db74">&#34;方法名&#34;</span>, 参数类型如String.<span style="color:#a6e22e">class</span><span style="color:#960050;background-color:#1e0010">，</span>多个参数用<span style="color:#e6db74">&#34;,&#34;</span>号隔开);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>getMethod</code>和<code>getDeclaredMethod</code>都能够获取到类成员方法，区别在于：</p>
@@ -655,7 +655,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>method<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>方法实例对象<span style="color:#f92672">,</span> 方法参数值<span style="color:#960050;background-color:#1e0010">，</span>多个参数值用<span style="color:#e6db74">&#34;,&#34;</span>隔开<span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>method.<span style="color:#a6e22e">invoke</span>(方法实例对象, 方法参数值<span style="color:#960050;background-color:#1e0010">，</span>多个参数值用<span style="color:#e6db74">&#34;,&#34;</span>隔开);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -680,22 +680,22 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@CallerSensitive</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> args<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> IllegalAccessException<span style="color:#f92672">,</span> IllegalArgumentException<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span>(Object obj, Object... args)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> IllegalAccessException, IllegalArgumentException,
 </span></span><span style="display:flex;"><span>       InvocationTargetException
-</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>override<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>Reflection<span style="color:#f92672">.</span><span style="color:#a6e22e">quickCheckMemberAccess</span><span style="color:#f92672">(</span>clazz<span style="color:#f92672">,</span> modifiers<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            Class<span style="color:#f92672">&lt;?&gt;</span> caller <span style="color:#f92672">=</span> Reflection<span style="color:#f92672">.</span><span style="color:#a6e22e">getCallerClass</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>            checkAccess<span style="color:#f92672">(</span>caller<span style="color:#f92672">,</span> clazz<span style="color:#f92672">,</span> obj<span style="color:#f92672">,</span> modifiers<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    MethodAccessor ma <span style="color:#f92672">=</span> methodAccessor<span style="color:#f92672">;</span>             <span style="color:#75715e">// read volatile
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ma <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        ma <span style="color:#f92672">=</span> acquireMethodAccessor<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ma<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>override) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>Reflection.<span style="color:#a6e22e">quickCheckMemberAccess</span>(clazz, modifiers)) {
+</span></span><span style="display:flex;"><span>            Class<span style="color:#f92672">&lt;?&gt;</span> caller <span style="color:#f92672">=</span> Reflection.<span style="color:#a6e22e">getCallerClass</span>();
+</span></span><span style="display:flex;"><span>            checkAccess(caller, clazz, obj, modifiers);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    MethodAccessor ma <span style="color:#f92672">=</span> methodAccessor;             <span style="color:#75715e">// read volatile</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ma <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        ma <span style="color:#f92672">=</span> acquireMethodAccessor();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ma.<span style="color:#a6e22e">invoke</span>(obj, args);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -718,7 +718,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Field fields <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredFields</span><span style="color:#f92672">();</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Field fields <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredFields</span>();
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>获取当前类指定的成员变量：</strong></p>
@@ -727,7 +727,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Field field  <span style="color:#f92672">=</span> clazz<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;变量名&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Field field  <span style="color:#f92672">=</span> clazz.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;变量名&#34;</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>getField</code>和<code>getDeclaredField</code>的区别同<code>getMethod</code>和<code>getDeclaredMethod</code>。</p>
@@ -737,7 +737,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Object obj <span style="color:#f92672">=</span> field<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>类实例对象<span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Object obj <span style="color:#f92672">=</span> field.<span style="color:#a6e22e">get</span>(类实例对象);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>修改成员变量值：</strong></p>
@@ -746,7 +746,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>类实例对象<span style="color:#f92672">,</span> 修改后的值<span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>field.<span style="color:#a6e22e">set</span>(类实例对象, 修改后的值);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>同理，当我们没有修改的成员变量权限时可以使用: <code>field.setAccessible(true)</code>的方式修改为访问成员变量访问权限。</p>
@@ -772,17 +772,17 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 反射获取Field类的modifiers
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Field modifiers <span style="color:#f92672">=</span> field<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;modifiers&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 反射获取Field类的modifiers</span>
+</span></span><span style="display:flex;"><span>Field modifiers <span style="color:#f92672">=</span> field.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;modifiers&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 设置modifiers修改权限
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>modifiers<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 设置modifiers修改权限</span>
+</span></span><span style="display:flex;"><span>modifiers.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 修改成员变量的Field对象的modifiers值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>modifiers<span style="color:#f92672">.</span><span style="color:#a6e22e">setInt</span><span style="color:#f92672">(</span>field<span style="color:#f92672">,</span> field<span style="color:#f92672">.</span><span style="color:#a6e22e">getModifiers</span><span style="color:#f92672">()</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">FINAL</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 修改成员变量的Field对象的modifiers值</span>
+</span></span><span style="display:flex;"><span>modifiers.<span style="color:#a6e22e">setInt</span>(field, field.<span style="color:#a6e22e">getModifiers</span>() <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>Modifier.<span style="color:#a6e22e">FINAL</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 修改成员变量值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>类实例对象<span style="color:#f92672">,</span> 修改后的值<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 修改成员变量值</span>
+</span></span><span style="display:flex;"><span>field.<span style="color:#a6e22e">set</span>(类实例对象, 修改后的值);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里给出一个测试类：</p>
@@ -812,27 +812,27 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span>  <span style="color:#a6e22e">Sample</span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> basicId <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> classId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String basicString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello Basic String&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String classString <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello class String&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> test testSample <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> test<span style="color:#f92672">();</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span>  <span style="color:#a6e22e">Sample</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> basicId <span style="color:#f92672">=</span> 1;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> classId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer(1);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String basicString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello Basic String&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String classString <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String(<span style="color:#e6db74">&#34;hello class String&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> test testSample <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> test();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;basicId = &#34;</span> <span style="color:#f92672">+</span> basicId<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classId = &#34;</span> <span style="color:#f92672">+</span> classId<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;basicString = &#34;</span> <span style="color:#f92672">+</span> basicString<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classString = &#34;</span> <span style="color:#f92672">+</span> classString<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">testSample</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(){
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;basicId = &#34;</span> <span style="color:#f92672">+</span> basicId);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;classId = &#34;</span> <span style="color:#f92672">+</span> classId);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;basicString = &#34;</span> <span style="color:#f92672">+</span> basicString);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;classString = &#34;</span> <span style="color:#f92672">+</span> classString);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">testSample</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">test</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">test</span>(){
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后我们将这五个<code>final</code>的成员变量修改：</p>
@@ -879,45 +879,45 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modifyFinalField</span><span style="color:#f92672">(</span>Object object <span style="color:#f92672">,</span> Field field <span style="color:#f92672">,</span> Object newValue<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modifyFinalField</span>(Object object , Field field , Object newValue) <span style="color:#66d9ef">throws</span> Exception{
+</span></span><span style="display:flex;"><span>    field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Field modifersField <span style="color:#f92672">=</span> field<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;modifiers&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    modifersField<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 去除field 中指定的final 修饰符
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    modifersField<span style="color:#f92672">.</span><span style="color:#a6e22e">setInt</span><span style="color:#f92672">(</span>field<span style="color:#f92672">,</span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">getModifiers</span><span style="color:#f92672">()</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">FINAL</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 设置这个Field的新值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>object<span style="color:#f92672">,</span> newValue<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    Sample  sample <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sample<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Final Field 修改前&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    sample<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    Field basicIdField <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;basicId&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    Field classIdField <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classId&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    Field basicStringField <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;basicString&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    Field classStringField <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classString&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    Field testSampleField <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testSample&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    Field modifersField <span style="color:#f92672">=</span> field.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;modifiers&#34;</span>);
+</span></span><span style="display:flex;"><span>    modifersField.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 去除field 中指定的final 修饰符</span>
+</span></span><span style="display:flex;"><span>    modifersField.<span style="color:#a6e22e">setInt</span>(field,field.<span style="color:#a6e22e">getModifiers</span>() <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>Modifier.<span style="color:#a6e22e">FINAL</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 设置这个Field的新值</span>
+</span></span><span style="display:flex;"><span>    field.<span style="color:#a6e22e">set</span>(object, newValue);
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    modifyFinalField<span style="color:#f92672">(</span>sample<span style="color:#f92672">,</span>basicIdField<span style="color:#f92672">,</span><span style="color:#ae81ff">3</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    modifyFinalField<span style="color:#f92672">(</span>sample<span style="color:#f92672">,</span>classIdField<span style="color:#f92672">,</span><span style="color:#ae81ff">3</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    modifyFinalField<span style="color:#f92672">(</span>sample<span style="color:#f92672">,</span>basicStringField<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;hacked basic string&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    modifyFinalField<span style="color:#f92672">(</span>sample<span style="color:#f92672">,</span>classStringField<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;hacked class string&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    test newTest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> test<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    modifyFinalField<span style="color:#f92672">(</span>sample<span style="color:#f92672">,</span>testSampleField<span style="color:#f92672">,</span> newTest<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Final Field 修改后，实例化对象方法内的参数：&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    sample<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception{
+</span></span><span style="display:flex;"><span>    Sample  sample <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sample();
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Final Field 修改前&#34;</span>);
+</span></span><span style="display:flex;"><span>    sample.<span style="color:#a6e22e">print</span>();
+</span></span><span style="display:flex;"><span>    Field basicIdField <span style="color:#f92672">=</span> sample.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;basicId&#34;</span>);
+</span></span><span style="display:flex;"><span>    Field classIdField <span style="color:#f92672">=</span> sample.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;classId&#34;</span>);
+</span></span><span style="display:flex;"><span>    Field basicStringField <span style="color:#f92672">=</span> sample.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;basicString&#34;</span>);
+</span></span><span style="display:flex;"><span>    Field classStringField <span style="color:#f92672">=</span> sample.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;classString&#34;</span>);
+</span></span><span style="display:flex;"><span>    Field testSampleField <span style="color:#f92672">=</span> sample.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;testSample&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;反射获得修改后的结果:&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>basicIdField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>sample<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>classIdField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>sample<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>basicStringField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>sample<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>classStringField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>sample<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>testSampleField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>sample<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    modifyFinalField(sample,basicIdField,3);
+</span></span><span style="display:flex;"><span>    modifyFinalField(sample,classIdField,3);
+</span></span><span style="display:flex;"><span>    modifyFinalField(sample,basicStringField,<span style="color:#e6db74">&#34;hacked basic string&#34;</span>);
+</span></span><span style="display:flex;"><span>    modifyFinalField(sample,classStringField,<span style="color:#e6db74">&#34;hacked class string&#34;</span>);
+</span></span><span style="display:flex;"><span>    test newTest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> test();
+</span></span><span style="display:flex;"><span>    modifyFinalField(sample,testSampleField, newTest);
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Final Field 修改后，实例化对象方法内的参数：&#34;</span>);
+</span></span><span style="display:flex;"><span>    sample.<span style="color:#a6e22e">print</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;反射获得修改后的结果:&#34;</span>);
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(basicIdField.<span style="color:#a6e22e">get</span>(sample));
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(classIdField.<span style="color:#a6e22e">get</span>(sample));
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(basicStringField.<span style="color:#a6e22e">get</span>(sample));
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(classStringField.<span style="color:#a6e22e">get</span>(sample));
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(testSampleField.<span style="color:#a6e22e">get</span>(sample));
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>发现输出的结果如下：</p>

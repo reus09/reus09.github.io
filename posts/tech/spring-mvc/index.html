@@ -211,7 +211,7 @@
     <h1 class="post-title">
       Spring Mvc
     </h1>
-    <div class="post-meta"><span title='2022-04-29 09:16:59 +0000 UTC'>2022-04-29</span>&nbsp;·&nbsp;17 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-04-29 09:16:59 &#43;0000 UTC&#39;&gt;2022-04-29&lt;/span&gt;&amp;nbsp;·&amp;nbsp;17 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -714,15 +714,15 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Controller</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/test&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RequestMappingController</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/test&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RequestMappingController</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//此时请求映射所映射的请求的请求路径为：/test/testRequestMapping
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testRequestMapping&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRequestMapping</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//此时请求映射所映射的请求的请求路径为：/test/testRequestMapping</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testRequestMapping&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRequestMapping</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -775,13 +775,13 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testRest/{id}/{username}&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRest</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">)</span> String id<span style="color:#f92672">,</span> <span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">)</span> String username<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id:&#34;</span><span style="color:#f92672">+</span>id<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,username:&#34;</span><span style="color:#f92672">+</span>username<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//最终输出的内容为--&gt;id:1,username:admin
-</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testRest/{id}/{username}&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRest</span>(<span style="color:#a6e22e">@PathVariable</span>(<span style="color:#e6db74">&#34;id&#34;</span>) String id, <span style="color:#a6e22e">@PathVariable</span>(<span style="color:#e6db74">&#34;username&#34;</span>) String username){
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;id:&#34;</span><span style="color:#f92672">+</span>id<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,username:&#34;</span><span style="color:#f92672">+</span>username);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//最终输出的内容为--&gt;id:1,username:admin</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -834,12 +834,12 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 比如传输的 username=admin password=123456
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testRequestBody&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRequestBody</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestBody</span> String requestBody<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;requestBody:&#34;</span><span style="color:#f92672">+</span>requestBody<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 比如传输的 username=admin password=123456</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testRequestBody&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRequestBody</span>(<span style="color:#a6e22e">@RequestBody</span> String requestBody){
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;requestBody:&#34;</span><span style="color:#f92672">+</span>requestBody);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -873,11 +873,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testResponseBody&#34;</span><span style="color:#f92672">)</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testResponseBody&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ResponseBody</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testResponseBody</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testResponseBody</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -904,13 +904,13 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testParam&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testParam</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    String username <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    String password <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username:&#34;</span><span style="color:#f92672">+</span>username<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,password:&#34;</span><span style="color:#f92672">+</span>password<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testParam&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testParam</span>(HttpServletRequest request){
+</span></span><span style="display:flex;"><span>    String username <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getParameter</span>(<span style="color:#e6db74">&#34;username&#34;</span>);
+</span></span><span style="display:flex;"><span>    String password <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getParameter</span>(<span style="color:#e6db74">&#34;password&#34;</span>);
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;username:&#34;</span><span style="color:#f92672">+</span>username<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,password:&#34;</span><span style="color:#f92672">+</span>password);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -936,11 +936,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testParam&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testParam</span><span style="color:#f92672">(</span>String username<span style="color:#f92672">,</span> String password<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username:&#34;</span><span style="color:#f92672">+</span>username<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,password:&#34;</span><span style="color:#f92672">+</span>password<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testParam&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testParam</span>(String username, String password){
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;username:&#34;</span><span style="color:#f92672">+</span>username<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,password:&#34;</span><span style="color:#f92672">+</span>password);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -967,13 +967,13 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testpojo&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testPOJO</span><span style="color:#f92672">(</span>User user<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//最终结果--&gt;User{id=null, username=&#39;张三&#39;, password=&#39;123&#39;, age=23, sex=&#39;男&#39;, email=&#39;123@qq.com&#39;}
-</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testpojo&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testPOJO</span>(User user){
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//最终结果--&gt;User{id=null, username=&#39;张三&#39;, password=&#39;123&#39;, age=23, sex=&#39;男&#39;, email=&#39;123@qq.com&#39;}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -1028,20 +1028,20 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testModelAndView&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ModelAndView <span style="color:#a6e22e">testModelAndView</span><span style="color:#f92672">(){</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testModelAndView&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ModelAndView <span style="color:#a6e22e">testModelAndView</span>(){
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * ModelAndView有Model和View的功能
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Model主要用于向请求域共享数据
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * View主要用于设置视图，实现页面跳转
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    ModelAndView mav <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ModelAndView<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//向请求域共享数据
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    mav<span style="color:#f92672">.</span><span style="color:#a6e22e">addObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,ModelAndView&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置视图，实现页面跳转
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    mav<span style="color:#f92672">.</span><span style="color:#a6e22e">setViewName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> mav<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    ModelAndView mav <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ModelAndView();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//向请求域共享数据</span>
+</span></span><span style="display:flex;"><span>    mav.<span style="color:#a6e22e">addObject</span>(<span style="color:#e6db74">&#34;testScope&#34;</span>, <span style="color:#e6db74">&#34;hello,ModelAndView&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置视图，实现页面跳转</span>
+</span></span><span style="display:flex;"><span>    mav.<span style="color:#a6e22e">setViewName</span>(<span style="color:#e6db74">&#34;success&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> mav;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1059,11 +1059,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testModel&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testModel</span><span style="color:#f92672">(</span>Model model<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,Model&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testModel&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testModel</span>(Model model){
+</span></span><span style="display:flex;"><span>    model.<span style="color:#a6e22e">addAttribute</span>(<span style="color:#e6db74">&#34;testScope&#34;</span>, <span style="color:#e6db74">&#34;hello,Model&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1078,11 +1078,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testMap&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testMap</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,Map&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testMap&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testMap</span>(Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> map){
+</span></span><span style="display:flex;"><span>    map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;testScope&#34;</span>, <span style="color:#e6db74">&#34;hello,Map&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1097,11 +1097,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testModelMap&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testModelMap</span><span style="color:#f92672">(</span>ModelMap modelMap<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    modelMap<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,ModelMap&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testModelMap&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testModelMap</span>(ModelMap modelMap){
+</span></span><span style="display:flex;"><span>    modelMap.<span style="color:#a6e22e">addAttribute</span>(<span style="color:#e6db74">&#34;testScope&#34;</span>, <span style="color:#e6db74">&#34;hello,ModelMap&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1115,10 +1115,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Model</span><span style="color:#f92672">{}</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ModelMap</span> <span style="color:#66d9ef">extends</span> LinkedHashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{}</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExtendedModelMap</span> <span style="color:#66d9ef">extends</span> ModelMap <span style="color:#66d9ef">implements</span> Model <span style="color:#f92672">{}</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BindingAwareModelMap</span> <span style="color:#66d9ef">extends</span> ExtendedModelMap <span style="color:#f92672">{}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Model</span>{}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ModelMap</span> <span style="color:#66d9ef">extends</span> LinkedHashMap<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExtendedModelMap</span> <span style="color:#66d9ef">extends</span> ModelMap <span style="color:#66d9ef">implements</span> Model {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BindingAwareModelMap</span> <span style="color:#66d9ef">extends</span> ExtendedModelMap {}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1136,11 +1136,11 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testSession&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testSession</span><span style="color:#f92672">(</span>HttpSession session<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    session<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testSessionScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,session&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testSession&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testSession</span>(HttpSession session){
+</span></span><span style="display:flex;"><span>    session.<span style="color:#a6e22e">setAttribute</span>(<span style="color:#e6db74">&#34;testSessionScope&#34;</span>, <span style="color:#e6db74">&#34;hello,session&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1159,12 +1159,12 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testApplication&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testApplication</span><span style="color:#f92672">(</span>HttpSession session<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>	ServletContext application <span style="color:#f92672">=</span> session<span style="color:#f92672">.</span><span style="color:#a6e22e">getServletContext</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    application<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testApplicationScope&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hello,application&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testApplication&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testApplication</span>(HttpSession session){
+</span></span><span style="display:flex;"><span>	ServletContext application <span style="color:#f92672">=</span> session.<span style="color:#a6e22e">getServletContext</span>();
+</span></span><span style="display:flex;"><span>    application.<span style="color:#a6e22e">setAttribute</span>(<span style="color:#e6db74">&#34;testApplicationScope&#34;</span>, <span style="color:#e6db74">&#34;hello,application&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1193,10 +1193,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testHello&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testHello</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testHello&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testHello</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1216,10 +1216,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testForward&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testForward</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;forward:/testHello&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testForward&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testForward</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;forward:/testHello&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1237,10 +1237,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testRedirect&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRedirect</span><span style="color:#f92672">(){</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;redirect:/testHello&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testRedirect&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testRedirect</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;redirect:/testHello&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1372,31 +1372,31 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 实际使用的时候，将需要下载的路径作为参数传递即可
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testDown&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]&gt;</span> <span style="color:#a6e22e">testResponseEntity</span><span style="color:#f92672">(</span>HttpSession session<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取ServletContext对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ServletContext servletContext <span style="color:#f92672">=</span> session<span style="color:#f92672">.</span><span style="color:#a6e22e">getServletContext</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取服务器中文件的真实路径
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    String realPath <span style="color:#f92672">=</span> servletContext<span style="color:#f92672">.</span><span style="color:#a6e22e">getRealPath</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/static/img/1.jpg&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建输入流
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    InputStream is <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span>realPath<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建字节数组
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>is<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()];</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//将流读到字节数组中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    is<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建HttpHeaders对象设置响应头信息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    MultiValueMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置要下载方式以及下载文件的名字
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    headers<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Content-Disposition&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;attachment;filename=1.jpg&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置响应状态码
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    HttpStatus statusCode <span style="color:#f92672">=</span> HttpStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">OK</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建ResponseEntity对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResponseEntity<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]&gt;</span> responseEntity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ResponseEntity<span style="color:#f92672">&lt;&gt;(</span>bytes<span style="color:#f92672">,</span> headers<span style="color:#f92672">,</span> statusCode<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//关闭输入流
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> responseEntity<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 实际使用的时候，将需要下载的路径作为参数传递即可</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testDown&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]&gt;</span> <span style="color:#a6e22e">testResponseEntity</span>(HttpSession session) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取ServletContext对象</span>
+</span></span><span style="display:flex;"><span>    ServletContext servletContext <span style="color:#f92672">=</span> session.<span style="color:#a6e22e">getServletContext</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取服务器中文件的真实路径</span>
+</span></span><span style="display:flex;"><span>    String realPath <span style="color:#f92672">=</span> servletContext.<span style="color:#a6e22e">getRealPath</span>(<span style="color:#e6db74">&#34;/static/img/1.jpg&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建输入流</span>
+</span></span><span style="display:flex;"><span>    InputStream is <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream(realPath);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建字节数组</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>is.<span style="color:#a6e22e">available</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//将流读到字节数组中</span>
+</span></span><span style="display:flex;"><span>    is.<span style="color:#a6e22e">read</span>(bytes);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建HttpHeaders对象设置响应头信息</span>
+</span></span><span style="display:flex;"><span>    MultiValueMap<span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span> headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置要下载方式以及下载文件的名字</span>
+</span></span><span style="display:flex;"><span>    headers.<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;Content-Disposition&#34;</span>, <span style="color:#e6db74">&#34;attachment;filename=1.jpg&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置响应状态码</span>
+</span></span><span style="display:flex;"><span>    HttpStatus statusCode <span style="color:#f92672">=</span> HttpStatus.<span style="color:#a6e22e">OK</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//创建ResponseEntity对象</span>
+</span></span><span style="display:flex;"><span>    ResponseEntity<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]&gt;</span> responseEntity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ResponseEntity<span style="color:#f92672">&lt;&gt;</span>(bytes, headers, statusCode);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//关闭输入流</span>
+</span></span><span style="display:flex;"><span>    is.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> responseEntity;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1474,26 +1474,26 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testUp&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testUp</span><span style="color:#f92672">(</span>MultipartFile photo<span style="color:#f92672">,</span> HttpSession session<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取上传的文件的文件名
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    String fileName <span style="color:#f92672">=</span> photo<span style="color:#f92672">.</span><span style="color:#a6e22e">getOriginalFilename</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//处理文件重名问题
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    String hzName <span style="color:#f92672">=</span> fileName<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">.</span><span style="color:#a6e22e">lastIndexOf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    fileName <span style="color:#f92672">=</span> UUID<span style="color:#f92672">.</span><span style="color:#a6e22e">randomUUID</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> hzName<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取服务器中photo目录的路径
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ServletContext servletContext <span style="color:#f92672">=</span> session<span style="color:#f92672">.</span><span style="color:#a6e22e">getServletContext</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    String photoPath <span style="color:#f92672">=</span> servletContext<span style="color:#f92672">.</span><span style="color:#a6e22e">getRealPath</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;photo&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    File file <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>photoPath<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>file<span style="color:#f92672">.</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">()){</span>
-</span></span><span style="display:flex;"><span>        file<span style="color:#f92672">.</span><span style="color:#a6e22e">mkdir</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    String finalPath <span style="color:#f92672">=</span> photoPath <span style="color:#f92672">+</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> fileName<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//实现上传功能
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    photo<span style="color:#f92672">.</span><span style="color:#a6e22e">transferTo</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>finalPath<span style="color:#f92672">));</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/testUp&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testUp</span>(MultipartFile photo, HttpSession session) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取上传的文件的文件名</span>
+</span></span><span style="display:flex;"><span>    String fileName <span style="color:#f92672">=</span> photo.<span style="color:#a6e22e">getOriginalFilename</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//处理文件重名问题</span>
+</span></span><span style="display:flex;"><span>    String hzName <span style="color:#f92672">=</span> fileName.<span style="color:#a6e22e">substring</span>(fileName.<span style="color:#a6e22e">lastIndexOf</span>(<span style="color:#e6db74">&#34;.&#34;</span>));
+</span></span><span style="display:flex;"><span>    fileName <span style="color:#f92672">=</span> UUID.<span style="color:#a6e22e">randomUUID</span>().<span style="color:#a6e22e">toString</span>() <span style="color:#f92672">+</span> hzName;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取服务器中photo目录的路径</span>
+</span></span><span style="display:flex;"><span>    ServletContext servletContext <span style="color:#f92672">=</span> session.<span style="color:#a6e22e">getServletContext</span>();
+</span></span><span style="display:flex;"><span>    String photoPath <span style="color:#f92672">=</span> servletContext.<span style="color:#a6e22e">getRealPath</span>(<span style="color:#e6db74">&#34;photo&#34;</span>);
+</span></span><span style="display:flex;"><span>    File file <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File(photoPath);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>file.<span style="color:#a6e22e">exists</span>()){
+</span></span><span style="display:flex;"><span>        file.<span style="color:#a6e22e">mkdir</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    String finalPath <span style="color:#f92672">=</span> photoPath <span style="color:#f92672">+</span> File.<span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> fileName;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//实现上传功能</span>
+</span></span><span style="display:flex;"><span>    photo.<span style="color:#a6e22e">transferTo</span>(<span style="color:#66d9ef">new</span> File(finalPath));
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1543,19 +1543,19 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//@ControllerAdvice将当前类标识为异常处理的组件
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@ControllerAdvice</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExceptionController</span> <span style="color:#f92672">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//@ControllerAdvice将当前类标识为异常处理的组件</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ControllerAdvice</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExceptionController</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//@ExceptionHandler用于设置所标识方法处理的异常
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@ExceptionHandler</span><span style="color:#f92672">(</span>ArithmeticException<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//ex表示当前请求处理中出现的异常对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">handleArithmeticException</span><span style="color:#f92672">(</span>Exception ex<span style="color:#f92672">,</span> Model model<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>        model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ex&#34;</span><span style="color:#f92672">,</span> ex<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;error&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//@ExceptionHandler用于设置所标识方法处理的异常</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(ArithmeticException.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//ex表示当前请求处理中出现的异常对象</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">handleArithmeticException</span>(Exception ex, Model model){
+</span></span><span style="display:flex;"><span>        model.<span style="color:#a6e22e">addAttribute</span>(<span style="color:#e6db74">&#34;ex&#34;</span>, ex);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;error&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>

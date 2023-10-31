@@ -211,7 +211,7 @@
     <h1 class="post-title">
       Mybatis
     </h1>
-    <div class="post-meta"><span title='2022-04-29 09:17:06 +0000 UTC'>2022-04-29</span>&nbsp;·&nbsp;19 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-04-29 09:17:06 &#43;0000 UTC&#39;&gt;2022-04-29&lt;/span&gt;&amp;nbsp;·&amp;nbsp;19 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -608,14 +608,14 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.reus.mybatis.mapper<span style="color:#f92672">;</span>  
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.reus.mybatis.mapper;  
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">UserMapper</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">UserMapper</span> {  
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/**  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">	* 添加用户信息  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">	*/</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">insertUser</span><span style="color:#f92672">();</span>  
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">insertUser</span>();  
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -781,28 +781,28 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserMapperTest</span> <span style="color:#f92672">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserMapperTest</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testInsertUser</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//读取MyBatis的核心配置文件
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        InputStream is <span style="color:#f92672">=</span> Resources<span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mybatis-config.xml&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取SqlSessionFactoryBuilder对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        SqlSessionFactoryBuilder sqlSessionFactoryBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBuilder<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//通过核心配置文件所对应的字节输入流创建工厂类SqlSessionFactory，生产SqlSession对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        SqlSessionFactory sqlSessionFactory <span style="color:#f92672">=</span> sqlSessionFactoryBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取sqlSession，此时通过SqlSession对象所操作的sql都必须手动提交或回滚事务
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//SqlSession sqlSession = sqlSessionFactory.openSession();
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	    <span style="color:#75715e">//创建SqlSession对象，此时通过SqlSession对象所操作的sql都会自动提交  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		SqlSession sqlSession <span style="color:#f92672">=</span> sqlSessionFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">openSession</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//通过代理模式创建UserMapper接口的代理实现类对象
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        UserMapper userMapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>UserMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//调用UserMapper接口中的方法，就可以根据UserMapper的全类名匹配元素文件，通过调用的方法名匹配映射文件中的SQL标签，并执行标签中的SQL语句
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">insertUser</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//提交事务
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//sqlSession.commit();
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;result:&#34;</span> <span style="color:#f92672">+</span> result<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testInsertUser</span>() <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//读取MyBatis的核心配置文件</span>
+</span></span><span style="display:flex;"><span>        InputStream is <span style="color:#f92672">=</span> Resources.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;mybatis-config.xml&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取SqlSessionFactoryBuilder对象</span>
+</span></span><span style="display:flex;"><span>        SqlSessionFactoryBuilder sqlSessionFactoryBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBuilder();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//通过核心配置文件所对应的字节输入流创建工厂类SqlSessionFactory，生产SqlSession对象</span>
+</span></span><span style="display:flex;"><span>        SqlSessionFactory sqlSessionFactory <span style="color:#f92672">=</span> sqlSessionFactoryBuilder.<span style="color:#a6e22e">build</span>(is);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取sqlSession，此时通过SqlSession对象所操作的sql都必须手动提交或回滚事务</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//SqlSession sqlSession = sqlSessionFactory.openSession();</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#75715e">//创建SqlSession对象，此时通过SqlSession对象所操作的sql都会自动提交  </span>
+</span></span><span style="display:flex;"><span>		SqlSession sqlSession <span style="color:#f92672">=</span> sqlSessionFactory.<span style="color:#a6e22e">openSession</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//通过代理模式创建UserMapper接口的代理实现类对象</span>
+</span></span><span style="display:flex;"><span>        UserMapper userMapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(UserMapper.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//调用UserMapper接口中的方法，就可以根据UserMapper的全类名匹配元素文件，通过调用的方法名匹配映射文件中的SQL标签，并执行标签中的SQL语句</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> userMapper.<span style="color:#a6e22e">insertUser</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//提交事务</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//sqlSession.commit();</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;result:&#34;</span> <span style="color:#f92672">+</span> result);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -933,15 +933,15 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">checkLoginByMap</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getSqlSession</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	ParameterMapper mapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>ParameterMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span>Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
-</span></span><span style="display:flex;"><span>	map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;usermane&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">checkLoginByMap</span><span style="color:#f92672">(</span>map<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">checkLoginByMap</span>() {
+</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils.<span style="color:#a6e22e">getSqlSession</span>();
+</span></span><span style="display:flex;"><span>	ParameterMapper mapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(ParameterMapper.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>	Map<span style="color:#f92672">&lt;</span>String,Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>	map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;usermane&#34;</span>,<span style="color:#e6db74">&#34;admin&#34;</span>);
+</span></span><span style="display:flex;"><span>	map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;password&#34;</span>,<span style="color:#e6db74">&#34;123456&#34;</span>);
+</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> mapper.<span style="color:#a6e22e">checkLoginByMap</span>(map);
+</span></span><span style="display:flex;"><span>	System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -979,12 +979,12 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getSqlSession</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	ParameterMapper mapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>ParameterMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;Tom&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">,</span><span style="color:#ae81ff">12</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;男&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;123@321.com&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">insertUser</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span>() {
+</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils.<span style="color:#a6e22e">getSqlSession</span>();
+</span></span><span style="display:flex;"><span>	ParameterMapper mapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(ParameterMapper.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#34;Tom&#34;</span>,<span style="color:#e6db74">&#34;123456&#34;</span>,12,<span style="color:#e6db74">&#34;男&#34;</span>,<span style="color:#e6db74">&#34;123@321.com&#34;</span>);
+</span></span><span style="display:flex;"><span>	mapper.<span style="color:#a6e22e">insertUser</span>(user);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1053,7 +1053,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，此时可以将这些map放在一个list集合中获取  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>  
-</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">getAllUserToMap</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">getAllUserToMap</span>();
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1104,8 +1104,8 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，并且最终要以一个map的方式返回数据，此时需要通过@MapKey注解设置map集合的键，值是每条数据所对应的map集合
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@MapKey</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getAllUserToMap</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@MapKey</span>(<span style="color:#e6db74">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getAllUserToMap</span>();
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1161,7 +1161,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return java.util.List&lt;com.atguigu.mybatis.pojo.User&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/26 21:56
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUserByLike</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">)</span> String username<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUserByLike</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;username&#34;</span>) String username);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1206,7 +1206,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return int
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/26 22:06
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">deleteMore</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ids&#34;</span><span style="color:#f92672">)</span> String ids<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">deleteMore</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;ids&#34;</span>) String ids);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1244,7 +1244,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return java.util.List&lt;com.atguigu.mybatis.pojo.User&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 14:41
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUserByTable</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;tableName&#34;</span><span style="color:#f92672">)</span> String tableName<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUserByTable</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;tableName&#34;</span>) String tableName);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1302,7 +1302,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param user 
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 15:04
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span><span style="color:#f92672">(</span>User user<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span>(User user);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1333,16 +1333,16 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//测试类
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@Test</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getSqlSession</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	SQLMapper mapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>SQLMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;ton&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;123&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">23</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;男&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;123@321.com&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">insertUser</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//输出：user{id=10, username=&#39;ton&#39;, password=&#39;123&#39;, age=23, sex=&#39;男&#39;, email=&#39;123@321.com&#39;}，自增主键存放到了user的id属性中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//测试类</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertUser</span>() {
+</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> SqlSessionUtils.<span style="color:#a6e22e">getSqlSession</span>();
+</span></span><span style="display:flex;"><span>	SQLMapper mapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(SQLMapper.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>	User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User(<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;ton&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>, 23, <span style="color:#e6db74">&#34;男&#34;</span>, <span style="color:#e6db74">&#34;123@321.com&#34;</span>);
+</span></span><span style="display:flex;"><span>	mapper.<span style="color:#a6e22e">insertUser</span>(user);
+</span></span><span style="display:flex;"><span>	System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(user);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//输出：user{id=10, username=&#39;ton&#39;, password=&#39;123&#39;, age=23, sex=&#39;男&#39;, email=&#39;123@321.com&#39;}，自增主键存放到了user的id属性中</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -1453,15 +1453,15 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Emp</span> <span style="color:#f92672">{</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Integer eid<span style="color:#f92672">;</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String empName<span style="color:#f92672">;</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Integer age<span style="color:#f92672">;</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String sex<span style="color:#f92672">;</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String email<span style="color:#f92672">;</span>  
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Dept dept<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//...构造器、get、set方法等
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Emp</span> {  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Integer eid;  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String empName;  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Integer age;  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String sex;  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String email;  
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> Dept dept;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//...构造器、get、set方法等</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1569,15 +1569,15 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//EmpMapper里的方法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//EmpMapper里的方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 通过分步查询，员工及所对应的部门信息
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 分步查询第一步：查询员工信息
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param  
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return com.atguigu.mybatis.pojo.Emp
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 20:17
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>Emp <span style="color:#a6e22e">getEmpAndDeptByStepOne</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;eid&#34;</span><span style="color:#f92672">)</span> Integer eid<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Emp <span style="color:#a6e22e">getEmpAndDeptByStepOne</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;eid&#34;</span>) Integer eid);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1630,15 +1630,15 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//DeptMapper里的方法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//DeptMapper里的方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 通过分步查询，员工及所对应的部门信息
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 分步查询第二步：通过did查询员工对应的部门信息
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return com.atguigu.mybatis.pojo.Emp
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 20:23
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>Dept <span style="color:#a6e22e">getEmpAndDeptByStepTwo</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;did&#34;</span><span style="color:#f92672">)</span> Integer did<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Dept <span style="color:#a6e22e">getEmpAndDeptByStepTwo</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;did&#34;</span>) Integer did);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1682,12 +1682,12 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dept</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer did<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String deptName<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//...构造器、get、set方法等
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dept</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer did;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String deptName;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//...构造器、get、set方法等</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -1758,7 +1758,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return com.atguigu.mybatis.pojo.Dept
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 22:04
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>Dept <span style="color:#a6e22e">getDeptAndEmpByStepOne</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;did&#34;</span><span style="color:#f92672">)</span> Integer did<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Dept <span style="color:#a6e22e">getDeptAndEmpByStepOne</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;did&#34;</span>) Integer did);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1811,7 +1811,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return java.util.List&lt;com.atguigu.mybatis.pojo.Emp&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @date 2022/2/27 22:10
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getDeptAndEmpByStepTwo</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Param</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;did&#34;</span><span style="color:#f92672">)</span> Integer did<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getDeptAndEmpByStepTwo</span>(<span style="color:#a6e22e">@Param</span>(<span style="color:#e6db74">&#34;did&#34;</span>) Integer did);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -2539,12 +2539,12 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>EmpMapper mapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>EmpMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//访问第一页，每页四条数据
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PageHelper<span style="color:#f92672">.</span><span style="color:#a6e22e">startPage</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">4</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps <span style="color:#f92672">=</span> mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectByExample</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	emps<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>EmpMapper mapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(EmpMapper.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//访问第一页，每页四条数据</span>
+</span></span><span style="display:flex;"><span>PageHelper.<span style="color:#a6e22e">startPage</span>(1,4);
+</span></span><span style="display:flex;"><span>	List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps <span style="color:#f92672">=</span> mapper.<span style="color:#a6e22e">selectByExample</span>(<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>	emps.<span style="color:#a6e22e">forEach</span>(System.<span style="color:#a6e22e">out</span>::println);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -2580,19 +2580,19 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testPageHelper</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>	InputStream is <span style="color:#f92672">=</span> Resources<span style="color:#f92672">.</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mybatis-config.xml&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	SqlSessionFactoryBuilder sqlSessionFactoryBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBuilder<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	SqlSessionFactory sqlSessionFactory <span style="color:#f92672">=</span> sqlSessionFactoryBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> sqlSessionFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">openSession</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	EmpMapper mapper <span style="color:#f92672">=</span> sqlSession<span style="color:#f92672">.</span><span style="color:#a6e22e">getMapper</span><span style="color:#f92672">(</span>EmpMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testPageHelper</span>() <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>	InputStream is <span style="color:#f92672">=</span> Resources.<span style="color:#a6e22e">getResourceAsStream</span>(<span style="color:#e6db74">&#34;mybatis-config.xml&#34;</span>);
+</span></span><span style="display:flex;"><span>	SqlSessionFactoryBuilder sqlSessionFactoryBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBuilder();
+</span></span><span style="display:flex;"><span>	SqlSessionFactory sqlSessionFactory <span style="color:#f92672">=</span> sqlSessionFactoryBuilder.<span style="color:#a6e22e">build</span>(is);
+</span></span><span style="display:flex;"><span>	SqlSession sqlSession <span style="color:#f92672">=</span> sqlSessionFactory.<span style="color:#a6e22e">openSession</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>	EmpMapper mapper <span style="color:#f92672">=</span> sqlSession.<span style="color:#a6e22e">getMapper</span>(EmpMapper.<span style="color:#a6e22e">class</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	PageHelper<span style="color:#f92672">.</span><span style="color:#a6e22e">startPage</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps <span style="color:#f92672">=</span> mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectByExample</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	PageHelper.<span style="color:#a6e22e">startPage</span>(1, 4);
+</span></span><span style="display:flex;"><span>	List<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> emps <span style="color:#f92672">=</span> mapper.<span style="color:#a6e22e">selectByExample</span>(<span style="color:#66d9ef">null</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	PageInfo<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> page <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PageInfo<span style="color:#f92672">&lt;&gt;(</span>emps<span style="color:#f92672">,</span><span style="color:#ae81ff">5</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>page<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	PageInfo<span style="color:#f92672">&lt;</span>Emp<span style="color:#f92672">&gt;</span> page <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PageInfo<span style="color:#f92672">&lt;&gt;</span>(emps,5);
+</span></span><span style="display:flex;"><span>	System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(page);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>

