@@ -58,7 +58,10 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Gin" />
+</noscript>
+  
+
+<meta property="og:title" content="Gin" />
 <meta property="og:description" content="对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 func main(){ // 使用默认中间件创建一个gin路由器 // logger and recovery (crash-free) 中间件 router := gin.Default() // 加载templates目录下的所有文件为html router.LoadHTMLGlob(&#34;/templates/**&#34;) router.GET(&#34;/someGet&#34;, getting) router.POST(&#34;/somePost&#34;, posting)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/gin/" /><meta property="article:section" content="posts" />
