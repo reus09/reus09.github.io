@@ -13,7 +13,10 @@
       <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
-      <description>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java</description>
+      <description>&lt;h2 id=&#34;0x00-前言&#34;&gt;0x00 前言&lt;/h2&gt;
+&lt;p&gt;最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-漏洞描述&#34;&gt;0x01 漏洞描述&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://logging.apache.org/log4j/2.x/index.html&#34;&gt;Apache Log4j2&lt;/a&gt; 是 Apache 软件基金会下的一个&lt;a href=&#34;https://github.com/apache/logging-log4j2&#34;&gt;开源&lt;/a&gt;的基于 Java 的日志记录工具。Log4j2 是一个 Log4j 1.x 的重写，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。由于其优异的性能而被广泛的应用于各种常见的 Web 服务中。&lt;/p&gt;</description>
     </item>
     
   </channel>

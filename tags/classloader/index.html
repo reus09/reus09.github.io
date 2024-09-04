@@ -57,10 +57,7 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="ClassLoader" />
+</noscript><meta property="og:title" content="ClassLoader" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://reus09.github.io/tags/classloader/" />
@@ -159,7 +156,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，...</p>
+    <p>这篇主要记录一下对于classloader的学习。
+类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，.class文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的.class文件，并创建对应的class对象，将class文件加载到虚拟机的内存，而在JVM中类的查找与装载就是由ClassLoader完成的，而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-22 18:44:22 &#43;0800 &#43;0800&#39;&gt;2022-10-22&lt;/span&gt;&amp;nbsp;·&amp;nbsp;22 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java之ClassLoader" href="https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/"></a>
@@ -171,7 +170,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以...</p>
+    <p>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。
+反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-21 14:14:54 &#43;0800 &#43;0800&#39;&gt;2022-10-21&lt;/span&gt;&amp;nbsp;·&amp;nbsp;12 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java反射" href="https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/"></a>

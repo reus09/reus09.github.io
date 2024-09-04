@@ -13,7 +13,7 @@
       <pubDate>Sun, 19 Mar 2023 20:34:53 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</guid>
-      <description>今天学习了Shiro-550漏洞的原理，看到通过Gadget使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的Object Array，CC6中的ChainTransformer本质是一个Transformer类型的数组，无法被序列化，这时候文章提到了大杀器C</description>
+      <description>&lt;p&gt;今天学习了&lt;code&gt;Shiro-550&lt;/code&gt;漏洞的原理，看到通过&lt;code&gt;Gadget&lt;/code&gt;使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的&lt;code&gt;Object Array&lt;/code&gt;，CC6中的&lt;code&gt;ChainTransformer&lt;/code&gt;本质是一个&lt;code&gt;Transformer&lt;/code&gt;类型的数组，无法被序列化，这时候文章提到了大杀器&lt;code&gt;CC11&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +22,9 @@
       <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
-      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTable。对于HashTable，这里学习了su18师傅提供的继承CC6的老路。 实际上在之后CC7的学习中，发现了HashTable在CC7链</description>
+      <description>&lt;p&gt;分析完&lt;code&gt;CC6&lt;/code&gt;，趁热打铁，继续学习一下&lt;code&gt;CC7&lt;/code&gt;的利用方法，发现还是大同小异，是对&lt;code&gt;LazyMap&lt;/code&gt;触发情况的又一种描述。&lt;/p&gt;
+&lt;p&gt;只不过这次用到了&lt;code&gt;HashTable&lt;/code&gt;。对于&lt;code&gt;HashTable&lt;/code&gt;，这里学习了&lt;code&gt;su18&lt;/code&gt;师傅提供的继承&lt;code&gt;CC6&lt;/code&gt;的老路。&lt;/p&gt;
+&lt;p&gt;实际上在之后CC7的学习中，发现了&lt;code&gt;HashTable&lt;/code&gt;在&lt;code&gt;CC7&lt;/code&gt;链中的运用不仅仅是&lt;code&gt;key.hashcode&lt;/code&gt;一条路，如&lt;code&gt;ysoserial&lt;/code&gt;中提供的&lt;code&gt;equals&lt;/code&gt;方法的利用，对&lt;code&gt;ysoserial&lt;/code&gt;的&lt;code&gt;CC7&lt;/code&gt;进行理解，感觉对&lt;code&gt;JAVA&lt;/code&gt;继承之间的关系调用理解更加深刻，同时对hashcode撞库攻击进行一定的认知，同时感觉&lt;code&gt;ysoserial&lt;/code&gt;链的构造奇妙，因为在分析链的时候，对为什么要最后&lt;code&gt;remove&lt;/code&gt;一个&lt;code&gt;lazyMap&lt;/code&gt;的数据感到很奇怪，经过分析感觉确实是严丝合缝。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +33,9 @@
       <pubDate>Sun, 30 Oct 2022 15:14:39 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</guid>
-      <description>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个</description>
+      <description>&lt;p&gt;言归正传，昨天已经提前看过了&lt;code&gt;CC5&lt;/code&gt;链的具体构造，今天主要就是一些运行调试。还是比较简单的。&lt;/p&gt;
+&lt;p&gt;CC5 依旧是&lt;code&gt; LazyMap&lt;/code&gt; 加 &lt;code&gt;ChainedTransformer&lt;/code&gt; 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。&lt;/p&gt;
+&lt;p&gt;因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +44,8 @@
       <pubDate>Sat, 29 Oct 2022 15:10:18 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</guid>
-      <description>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j</description>
+      <description>&lt;p&gt;因为电脑的缘故，把&lt;code&gt;java 1.7&lt;/code&gt; 和 &lt;code&gt;java 1.8&lt;/code&gt;的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下&lt;code&gt;CC5&lt;/code&gt;链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的&lt;code&gt;CommonsCollections6&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;简单看了一下&lt;code&gt;CC5&lt;/code&gt;的原理，主要是&lt;code&gt;javax.management.BadAttributeValueExpException&lt;/code&gt;在反序列化过程中会调用&lt;code&gt;valObj&lt;/code&gt;的&lt;code&gt;toString&lt;/code&gt;方法，&lt;code&gt;TiedMapEntry#toString&lt;/code&gt;会触发本身的&lt;code&gt;getValue&lt;/code&gt;从而触发&lt;code&gt;HashMap&lt;/code&gt;的&lt;code&gt;get&lt;/code&gt;方法，从而触发&lt;code&gt;LazyMap&lt;/code&gt;,从而触发RCE链。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,7 +54,8 @@
       <pubDate>Fri, 28 Oct 2022 19:36:38 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</guid>
-      <description>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransf</description>
+      <description>&lt;p&gt;这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了&lt;code&gt;CommonCollections&lt;/code&gt;链的第四条链。&lt;/p&gt;
+&lt;p&gt;这里还是跟着&lt;code&gt;su18&lt;/code&gt;师傅学习&lt;code&gt;commonCollections4&lt;/code&gt;,CC4 是 CC2 的一个变种，用 &lt;code&gt;PriorityQueue &lt;/code&gt;的 &lt;code&gt;TransformingComparator &lt;/code&gt;触发 &lt;code&gt;ChainedTransformer&lt;/code&gt;，再利用&lt;code&gt;InstantiateTransformer&lt;/code&gt;实例化&lt;code&gt; TemplatesImpl&lt;/code&gt;，排列组合了属于是。之前CC2根据&lt;code&gt;su18&lt;/code&gt;师傅的介绍，使用的&lt;code&gt;ChainedTransformer&lt;/code&gt;一种方式为：直接为&lt;code&gt;InvokeTransformer&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,7 +64,10 @@
       <pubDate>Thu, 27 Oct 2022 16:05:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</guid>
-      <description>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。 在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。 在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实</description>
+      <description>&lt;p&gt;因有事耽搁了一天，今天继续&lt;code&gt;CommonsCollection3&lt;/code&gt;链的学习。&lt;/p&gt;
+&lt;p&gt;CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。&lt;/p&gt;
+&lt;p&gt;在 CC1 中，使用了 &lt;code&gt;AnnotationInvocationHandler&lt;/code&gt; 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。&lt;/p&gt;
+&lt;p&gt;在 CC2 中，使用&lt;code&gt;TemplatesImpl&lt;/code&gt;的 newTransformer 方法触发实例化恶意类触发漏洞，方法的调用则是使用了&lt;code&gt; InvokerTransformer&lt;/code&gt; 反射调用。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -67,7 +76,8 @@
       <pubDate>Tue, 25 Oct 2022 18:44:13 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</guid>
-      <description>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。 在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Col</description>
+      <description>&lt;p&gt;学习完&lt;code&gt;CommonCollections1&lt;/code&gt;链之后，很自然的学习了&lt;code&gt;CommonCollection2&lt;/code&gt;，但是&lt;code&gt;CC2&lt;/code&gt;链的依赖版本较为固定，为&lt;code&gt;commcons-collections4 4.0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在2015年底&lt;code&gt;commons-collections&lt;/code&gt;反序列化利⽤链被提出时，&lt;code&gt;Apache Commons Collections&lt;/code&gt;有以下两个分⽀版本：&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -76,7 +86,8 @@
       <pubDate>Tue, 25 Oct 2022 14:57:25 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</guid>
-      <description>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。 从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsColl</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://commons.apache.org/proper/commons-collections/index.html&#34;&gt;Apache Commons Collections&lt;/a&gt; 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。&lt;/p&gt;
+&lt;p&gt;从本文开始正式对&lt;code&gt;CommonsCollections&lt;/code&gt;反序列化链进行学习，第一篇文章主要分析一下&lt;code&gt;CommonsCollections1&lt;/code&gt;这条链，通过对&lt;code&gt;CommonsCollections1&lt;/code&gt;链的学习，学到了&lt;code&gt;TransformedMap&lt;/code&gt;和&lt;code&gt;LazyMap&lt;/code&gt;的一些用法，包括&lt;code&gt;Transformer&lt;/code&gt;的一些实现类，最后还有&lt;code&gt;CommonsCollections1&lt;/code&gt;链的构造原理。&lt;/p&gt;</description>
     </item>
     
   </channel>

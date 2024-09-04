@@ -13,7 +13,19 @@
       <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/jdbc/</guid>
-      <description>JDBC概述 JDBC程序编写步骤 总结一下JDBC建立连接的全过程。 二：获取数据库连接 Driver接口实现类 Driver接口介绍 java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。 在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动</description>
+      <description>&lt;h2 id=&#34;jdbc概述&#34;&gt;JDBC概述&lt;/h2&gt;
+&lt;h3 id=&#34;jdbc程序编写步骤&#34;&gt;JDBC程序编写步骤&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;总结一下&lt;code&gt;JDBC&lt;/code&gt;建立连接的全过程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/1565969323908.png&#34; alt=&#34;1565969323908&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;二获取数据库连接&#34;&gt;二：获取数据库连接&lt;/h2&gt;
+&lt;h3 id=&#34;driver接口实现类&#34;&gt;Driver接口实现类&lt;/h3&gt;
+&lt;h4 id=&#34;driver接口介绍&#34;&gt;Driver接口介绍&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。&lt;/p&gt;</description>
     </item>
     
   </channel>

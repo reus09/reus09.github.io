@@ -57,10 +57,7 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="👨🏻‍💻技术" />
+</noscript><meta property="og:title" content="👨🏻‍💻技术" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/" />
@@ -180,7 +177,10 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个...</p>
+    <p>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。
+CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。
+因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-30 15:14:39 &#43;0800 &#43;0800&#39;&gt;2022-10-30&lt;/span&gt;&amp;nbsp;·&amp;nbsp;3 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections5分析" href="https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/"></a>
@@ -192,7 +192,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j...</p>
+    <p>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。
+简单看了一下CC5的原理，主要是javax.management.BadAttributeValueExpException在反序列化过程中会调用valObj的toString方法，TiedMapEntry#toString会触发本身的getValue从而触发HashMap的get方法，从而触发LazyMap,从而触发RCE链。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-29 15:10:18 &#43;0800 &#43;0800&#39;&gt;2022-10-29&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections6分析" href="https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/"></a>
@@ -204,7 +206,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransf...</p>
+    <p>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。
+这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransformer实例化 TemplatesImpl，排列组合了属于是。之前CC2根据su18师傅的介绍，使用的ChainedTransformer一种方式为：直接为InvokeTransformer。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-28 19:36:38 &#43;0800 &#43;0800&#39;&gt;2022-10-28&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections4分析" href="https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/"></a>
@@ -216,7 +220,11 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。 在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。 在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实...</p>
+    <p>因有事耽搁了一天，今天继续CommonsCollection3链的学习。
+CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。
+在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。
+在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实例化恶意类触发漏洞，方法的调用则是使用了 InvokerTransformer 反射调用。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-27 16:05:33 &#43;0800 &#43;0800&#39;&gt;2022-10-27&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections3分析" href="https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/"></a>
@@ -228,7 +236,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。 在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Col...</p>
+    <p>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。
+在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Collections有以下两个分⽀版本：
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-25 18:44:13 &#43;0800 &#43;0800&#39;&gt;2022-10-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections2分析" href="https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/"></a>
@@ -240,7 +250,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。 从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsColl...</p>
+    <p>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。
+从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsCollections1这条链，通过对CommonsCollections1链的学习，学到了TransformedMap和LazyMap的一些用法，包括Transformer的一些实现类，最后还有CommonsCollections1链的构造原理。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-25 14:57:25 &#43;0800 &#43;0800&#39;&gt;2022-10-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;13 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CommonsCollections1分析" href="https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/"></a>
@@ -252,7 +264,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。 序...</p>
+    <p>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。
+序列化和反序列化 Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-24 15:47:17 &#43;0800 &#43;0800&#39;&gt;2022-10-24&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java反序列化漏洞(一) 前置知识&URLDNS" href="https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/"></a>
@@ -264,7 +278,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，...</p>
+    <p>这篇主要记录一下对于classloader的学习。
+类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，.class文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的.class文件，并创建对应的class对象，将class文件加载到虚拟机的内存，而在JVM中类的查找与装载就是由ClassLoader完成的，而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-22 18:44:22 &#43;0800 &#43;0800&#39;&gt;2022-10-22&lt;/span&gt;&amp;nbsp;·&amp;nbsp;22 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java之ClassLoader" href="https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/"></a>
@@ -276,7 +292,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以...</p>
+    <p>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。
+反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-21 14:14:54 &#43;0800 &#43;0800&#39;&gt;2022-10-21&lt;/span&gt;&amp;nbsp;·&amp;nbsp;12 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java反射" href="https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/"></a>
@@ -288,7 +306,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。 0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，...</p>
+    <p>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。
+0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-17 14:20:49 &#43;0800 &#43;0800&#39;&gt;2022-10-17&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Java之动态代理" href="https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"></a>

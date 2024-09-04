@@ -13,7 +13,21 @@
       <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/javaweb/</guid>
-      <description>0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于tomcat8） 如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前） 1 2 3 4 5 String fname = request.getParameter(&amp;#34;fname&amp;#34;); //1.将字符串打散成字节数组 byte[] bytes =</description>
+      <description>&lt;h2 id=&#34;0x01-tomcat使用&#34;&gt;0x01 Tomcat使用&lt;/h2&gt;
+&lt;h3 id=&#34;11--tomcat设置编码&#34;&gt;1.1  &lt;code&gt;Tomcat&lt;/code&gt;设置编码&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Tomcat&lt;/code&gt;设置编码&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;tomcat8之前，设置编码：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;get请求方式：
+get方式目前不需要设置编码（基于tomcat8）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -13,7 +13,45 @@
       <pubDate>Fri, 22 Sep 2023 00:42:35 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/spring1%E9%93%BE%E5%88%86%E6%9E%90/</guid>
-      <description>影响版本 spring-core : 4.1.4.RELEASE spring-beans : 4.1.4.RELEASE 导入依赖： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-core --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-beans --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-beans&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 前提知识 ysoserial给出的spring1的利用链还是比较完整的。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 /* Gadget chain: ObjectInputStream.readObject() SerializableTypeWrapper.MethodInvokeTypeProvider.readObject() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.findMethod() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.invokeMethod() Method.invoke() Templates(Proxy).newTransformer() AutowireUtils.ObjectFactoryDelegatingInvocationHandler.invoke() ObjectFactory(Proxy).getObject() AnnotationInvocationHandler.invoke() HashMap.get() Method.invoke() TemplatesImpl.newTransformer() TemplatesImpl.getTransletInstance() TemplatesImpl.defineTransletClasses() TemplatesImpl.TransletClassLoader.defineClass() Pwner*(Javassist-generated).&amp;lt;static init&amp;gt; Runtime.exec() */ 然后根据</description>
+      <description>&lt;h2 id=&#34;影响版本&#34;&gt;影响版本&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;spring-core : 4.1.4.RELEASE&lt;/li&gt;
+&lt;li&gt;spring-beans : 4.1.4.RELEASE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;导入依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-core --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-core&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.1.1.RELEASE&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-beans --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-beans&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.1.1.RELEASE&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -22,7 +60,9 @@
       <pubDate>Mon, 24 Oct 2022 15:47:17 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</guid>
-      <description>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。 序</description>
+      <description>&lt;p&gt;跟着&lt;code&gt;su18&lt;/code&gt;师傅和p神继续学习Java安全，在之前对&lt;code&gt;FastJson&lt;/code&gt;的分析中，&lt;code&gt;FastJson&lt;/code&gt;的序列化漏洞主要是对对象反序列化过程中&lt;code&gt;getter&lt;/code&gt;,&lt;code&gt;setter&lt;/code&gt;方法的利用，这里学习的反序列化主要是继承了&lt;code&gt;Serializable&lt;/code&gt;接口，重写了&lt;code&gt;readObject&lt;/code&gt;方法的反序列化的利用。&lt;/p&gt;
+&lt;h2 id=&#34;序列化和反序列化&#34;&gt;序列化和反序列化&lt;/h2&gt;
+&lt;p&gt;Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。&lt;/p&gt;</description>
     </item>
     
   </channel>

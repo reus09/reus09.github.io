@@ -13,7 +13,10 @@
       <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</guid>
-      <description>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。 0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，</description>
+      <description>&lt;p&gt;实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对&lt;code&gt;Java安全&lt;/code&gt;缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下&lt;code&gt;Java安全&lt;/code&gt;的基础知识，今天先学习一下java里面的动态代理。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-概念&#34;&gt;0x01 概念&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -7,7 +7,9 @@
 <meta name="robots" content="index, follow">
 <title>Java Agent学习 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="Instrumentation">
-<meta name="description" content="前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation">
+<meta name="description" content="前言
+JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。
+在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +60,10 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Java Agent学习" />
-<meta property="og:description" content="前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation" />
+</noscript><meta property="og:title" content="Java Agent学习" />
+<meta property="og:description" content="前言
+JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。
+在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-07T18:51:30+08:00" />
@@ -70,7 +71,9 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Java Agent学习"/>
-<meta name="twitter:description" content="前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation"/>
+<meta name="twitter:description" content="前言
+JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。
+在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +108,7 @@
   "@type": "BlogPosting",
   "headline": "Java Agent学习",
   "name": "Java Agent学习",
-  "description": "前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation",
+  "description": "前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。\n在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。\n",
   "keywords": [
     "Instrumentation"
   ],
@@ -513,74 +516,74 @@
 <p>Transformer 可以对未加载的类进行拦截，同时可对已加载的类进行重新拦截，所以根据这个特性我们能够实现动态修改字节码</p>
 <p>利用 Instrumentation 我们可以实现如下功能：</p>
 <table>
-<thead>
-<tr>
-<th>类方法</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>void addTransformer(ClassFileTransformer transformer, boolean canRetransform)</code></td>
-<td>添加一个 Transformer，是否允许 reTransformer</td>
-</tr>
-<tr>
-<td><code>void addTransformer(ClassFileTransformer transformer)</code></td>
-<td>添加一个 Transformer</td>
-</tr>
-<tr>
-<td><code>boolean removeTransformer(ClassFileTransformer transformer)</code></td>
-<td>移除一个 Transformer</td>
-</tr>
-<tr>
-<td><code>boolean isRetransformClassesSupported()</code></td>
-<td>检测是否允许 reTransformer</td>
-</tr>
-<tr>
-<td><code>void retransformClasses(Class&lt;?&gt;... classes)</code></td>
-<td>重加载（retransform）类</td>
-</tr>
-<tr>
-<td><code>boolean isModifiableClass(Class&lt;?&gt; theClass)</code></td>
-<td>确定一个类是否可以被 retransformation 或 redefinition 修改</td>
-</tr>
-<tr>
-<td><code>Class[] getAllLoadedClasses()</code></td>
-<td>获取 JVM 当前加载的所有类</td>
-</tr>
-<tr>
-<td><code>Class[] getInitiatedClasses(ClassLoader loader)</code></td>
-<td>获取指定类加载器下所有已经初始化的类</td>
-</tr>
-<tr>
-<td><code>long getObjectSize(Object objectToSize)</code></td>
-<td>返回指定对象大小</td>
-</tr>
-<tr>
-<td><code>void appendToBootstrapClassLoaderSearch(JarFile jarfile)</code></td>
-<td>添加到 BootstrapClassLoader 搜索</td>
-</tr>
-<tr>
-<td><code>void appendToSystemClassLoaderSearch(JarFile jarfile)</code></td>
-<td>添加到 SystemClassLoader 搜索</td>
-</tr>
-<tr>
-<td><code>boolean isNativeMethodPrefixSupported()</code></td>
-<td>是否支持设置 native 方法 Prefix</td>
-</tr>
-<tr>
-<td><code>void setNativeMethodPrefix(ClassFileTransformer transformer, String prefix)</code></td>
-<td>通过允许重试，将前缀应用到名称，此方法修改本机方法解析的失败处理</td>
-</tr>
-<tr>
-<td><code>boolean isRedefineClassesSupported()</code></td>
-<td>是否支持类 redefine</td>
-</tr>
-<tr>
-<td><code>void redefineClasses(ClassDefinition... definitions)</code></td>
-<td>重定义（redefine）类</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">类方法</th>
+          <th style="text-align: left">功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>void addTransformer(ClassFileTransformer transformer, boolean canRetransform)</code></td>
+          <td style="text-align: left">添加一个 Transformer，是否允许 reTransformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void addTransformer(ClassFileTransformer transformer)</code></td>
+          <td style="text-align: left">添加一个 Transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>boolean removeTransformer(ClassFileTransformer transformer)</code></td>
+          <td style="text-align: left">移除一个 Transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>boolean isRetransformClassesSupported()</code></td>
+          <td style="text-align: left">检测是否允许 reTransformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void retransformClasses(Class&lt;?&gt;... classes)</code></td>
+          <td style="text-align: left">重加载（retransform）类</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>boolean isModifiableClass(Class&lt;?&gt; theClass)</code></td>
+          <td style="text-align: left">确定一个类是否可以被 retransformation 或 redefinition 修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Class[] getAllLoadedClasses()</code></td>
+          <td style="text-align: left">获取 JVM 当前加载的所有类</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Class[] getInitiatedClasses(ClassLoader loader)</code></td>
+          <td style="text-align: left">获取指定类加载器下所有已经初始化的类</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>long getObjectSize(Object objectToSize)</code></td>
+          <td style="text-align: left">返回指定对象大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void appendToBootstrapClassLoaderSearch(JarFile jarfile)</code></td>
+          <td style="text-align: left">添加到 BootstrapClassLoader 搜索</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void appendToSystemClassLoaderSearch(JarFile jarfile)</code></td>
+          <td style="text-align: left">添加到 SystemClassLoader 搜索</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>boolean isNativeMethodPrefixSupported()</code></td>
+          <td style="text-align: left">是否支持设置 native 方法 Prefix</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void setNativeMethodPrefix(ClassFileTransformer transformer, String prefix)</code></td>
+          <td style="text-align: left">通过允许重试，将前缀应用到名称，此方法修改本机方法解析的失败处理</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>boolean isRedefineClassesSupported()</code></td>
+          <td style="text-align: left">是否支持类 redefine</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>void redefineClasses(ClassDefinition... definitions)</code></td>
+          <td style="text-align: left">重定义（redefine）类</td>
+      </tr>
+  </tbody>
 </table>
 <p>其中常用的方法有:<code>addTransformer</code>,<code>retransformClasses</code>等</p>
 <p>我们可以通过<code>addTransformer</code>方法实现，添加一个我们自定义的转换器，这个转换器实现了<code>ClassFileTransformer</code>类，在重写的<code>transform</code>方法中实现对类的加载和修改。</p>

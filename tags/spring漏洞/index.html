@@ -57,10 +57,7 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Spring漏洞" />
+</noscript><meta property="og:title" content="Spring漏洞" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://reus09.github.io/tags/spring%E6%BC%8F%E6%B4%9E/" />
@@ -159,7 +156,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的...</p>
+    <p>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的 HTTP 请求头注入 SpEL 表达式。最终可导致远程执行任意代码，获取服务器权限。 风险等级：高风险 漏洞风险：攻击者利用该漏洞可导致远程执行任意代码，获取服务器权限 影响版本 Spring Cloud Function =&lt; 3.1.6 Spring Cloud Function =&lt; 3.2.2 安全版本 Spring Cloud Function &gt;= 3.1.7 Spring Cloud Function &gt;= 3.2.3 SpringCloud Function介绍 SpringCloud 是一套分布式系统的解决方案，常见的还有阿里巴巴的Dubbo，Fass（Function As A Service ）的底层实现就是函数式编程，在视频转码、音视频转换、数据仓库ETL等与状态相关度低的领域运用的比较多。开发者无需关注服务器环境运维等问题上，专注于自身业务逻辑实现即可。 SpringCloud Function 就是Spring提供的分布式函数式编程组件。 漏洞环境搭建 通过idea新建一个Spring项目，pom中引入spring-boot-starter-web、spring-cloud-function-web，如下：
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-07-02 09:18:51 &#43;0000 UTC&#39;&gt;2022-07-02&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-22963漏洞复现" href="https://reus09.github.io/posts/tech/cve-2022-22963/"></a>

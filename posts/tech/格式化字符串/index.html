@@ -7,7 +7,15 @@
 <meta name="robots" content="index, follow">
 <title>格式化字符串 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="格式化字符串漏洞">
-<meta name="description" content="格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据">
+<meta name="description" content="格式化字符串漏洞
+0x01 目的
+
+通过格式化字符串掌握泄露内存数据和覆写内存。
+
+0x02 基础知识
+
+
+格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +66,16 @@
         }
 
     </style>
-</noscript>
-  
+</noscript><meta property="og:title" content="格式化字符串" />
+<meta property="og:description" content="格式化字符串漏洞
+0x01 目的
 
-<meta property="og:title" content="格式化字符串" />
-<meta property="og:description" content="格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据" />
+通过格式化字符串掌握泄露内存数据和覆写内存。
+
+0x02 基础知识
+
+
+格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-11-03T20:46:59+00:00" />
@@ -70,7 +83,15 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="格式化字符串"/>
-<meta name="twitter:description" content="格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据"/>
+<meta name="twitter:description" content="格式化字符串漏洞
+0x01 目的
+
+通过格式化字符串掌握泄露内存数据和覆写内存。
+
+0x02 基础知识
+
+
+格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +126,7 @@
   "@type": "BlogPosting",
   "headline": "格式化字符串",
   "name": "格式化字符串",
-  "description": "格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据",
+  "description": "格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。\n",
   "keywords": [
     "格式化字符串漏洞"
   ],

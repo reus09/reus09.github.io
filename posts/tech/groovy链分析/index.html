@@ -7,7 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>Groovy链分析 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="Groovy链">
-<meta name="description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的">
+<meta name="description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。
+Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的功能。Groovy 既可以用作 Java 平台的编程语言，也可以用作脚本语言。groovy 编译之后生成 .class 文件，与 Java 编译生成的无异，因此可以在 JVM 上运行。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +59,9 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Groovy链分析" />
-<meta property="og:description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的" />
+</noscript><meta property="og:title" content="Groovy链分析" />
+<meta property="og:description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。
+Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的功能。Groovy 既可以用作 Java 平台的编程语言，也可以用作脚本语言。groovy 编译之后生成 .class 文件，与 Java 编译生成的无异，因此可以在 JVM 上运行。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-11-10T15:56:46+08:00" />
@@ -70,7 +69,8 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Groovy链分析"/>
-<meta name="twitter:description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的"/>
+<meta name="twitter:description" content="其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。
+Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的功能。Groovy 既可以用作 Java 平台的编程语言，也可以用作脚本语言。groovy 编译之后生成 .class 文件，与 Java 编译生成的无异，因此可以在 JVM 上运行。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +105,7 @@
   "@type": "BlogPosting",
   "headline": "Groovy链分析",
   "name": "Groovy链分析",
-  "description": "其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的",
+  "description": "其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。\nGroovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的功能。Groovy 既可以用作 Java 平台的编程语言，也可以用作脚本语言。groovy 编译之后生成 .class 文件，与 Java 编译生成的无异，因此可以在 JVM 上运行。\n",
   "keywords": [
     "Groovy链"
   ],

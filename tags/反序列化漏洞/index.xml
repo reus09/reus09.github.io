@@ -13,7 +13,9 @@
       <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前参加过护网的面试，总喜欢问&lt;code&gt;shiro-550&lt;/code&gt;漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。&lt;/p&gt;
+&lt;p&gt;根据官方网站上的&lt;a href=&#34;https://shiro.apache.org/security-reports.html&#34;&gt;漏洞通报&lt;/a&gt;，&lt;code&gt;Shiro&lt;/code&gt; 在历史上共通报了 &lt;code&gt;11&lt;/code&gt; 个 &lt;code&gt;CVE&lt;/code&gt;，除了 &lt;code&gt;SHIRO-550&lt;/code&gt; 和&lt;code&gt;SHIRO-721&lt;/code&gt;的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +24,9 @@
       <pubDate>Mon, 24 Oct 2022 15:47:17 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</guid>
-      <description>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。 序</description>
+      <description>&lt;p&gt;跟着&lt;code&gt;su18&lt;/code&gt;师傅和p神继续学习Java安全，在之前对&lt;code&gt;FastJson&lt;/code&gt;的分析中，&lt;code&gt;FastJson&lt;/code&gt;的序列化漏洞主要是对对象反序列化过程中&lt;code&gt;getter&lt;/code&gt;,&lt;code&gt;setter&lt;/code&gt;方法的利用，这里学习的反序列化主要是继承了&lt;code&gt;Serializable&lt;/code&gt;接口，重写了&lt;code&gt;readObject&lt;/code&gt;方法的反序列化的利用。&lt;/p&gt;
+&lt;h2 id=&#34;序列化和反序列化&#34;&gt;序列化和反序列化&lt;/h2&gt;
+&lt;p&gt;Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +35,7 @@
       <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
-      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一</description>
+      <description>&lt;p&gt;实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞&lt;code&gt;CVE-2022-25845&lt;/code&gt;，学到了&lt;code&gt;AutoTypeCheck&lt;/code&gt;是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一下，之后会对FastJson系列漏洞做一个系统的整理。&lt;/p&gt;</description>
     </item>
     
   </channel>

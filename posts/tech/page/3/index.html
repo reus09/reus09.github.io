@@ -57,10 +57,7 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="👨🏻‍💻技术" />
+</noscript><meta property="og:title" content="👨🏻‍💻技术" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/" />
@@ -180,7 +177,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕...</p>
+    <p>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕过，所以也简单学习了AutoTypeCheck机制，还有一些期望类的Gadget。本文主要对FastJson常用的的解析String的parse,parseObject等方法进行分析，然后分析AutoTypeCheck机制，同时也对FastJson历史漏洞进行简单的整理。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-12 14:04:36 &#43;0800 &#43;0800&#39;&gt;2022-10-12&lt;/span&gt;&amp;nbsp;·&amp;nbsp;33 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to FastJson反序列化漏洞总结" href="https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"></a>
@@ -192,7 +190,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一...</p>
+    <p>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一下，之后会对FastJson系列漏洞做一个系统的整理。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-09 16:32:33 &#43;0800 &#43;0800&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-25845 FastJson RCE漏洞分析" href="https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"></a>
@@ -204,7 +203,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，...</p>
+    <p>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，log4j2则是通过jndi加载的对应ldap对应服务上面的恶意类，从而实现RCE。下面简单分析一下。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-25 18:44:20 &#43;0800 &#43;0800&#39;&gt;2022-09-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-33980 RCE漏洞分析" href="https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"></a>
@@ -216,7 +216,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机jangow01的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有思路，所以总体还是参照其他人的思路走了一遍，但是也学到了很多的东西。 0x00 错误解决 jangow01作者给出的靶机是基于virtualBox的,但...</p>
+    <p>之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机jangow01的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有思路，所以总体还是参照其他人的思路走了一遍，但是也学到了很多的东西。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-21 15:39:33 &#43;0800 &#43;0800&#39;&gt;2022-09-21&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to 靶机练习 Jangow01" href="https://reus09.github.io/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/"></a>
@@ -228,7 +229,10 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交...</p>
+    <p>这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。
+0x01 docker的基本架构 首先查看docker官网给出的docker架构图：
+在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交互。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-20 15:16:35 &#43;0800 &#43;0800&#39;&gt;2022-09-20&lt;/span&gt;&amp;nbsp;·&amp;nbsp;8 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Dockerfile编写" href="https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/"></a>
@@ -240,7 +244,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java...</p>
+    <p>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。
+0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java 的日志记录工具。Log4j2 是一个 Log4j 1.x 的重写，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。由于其优异的性能而被广泛的应用于各种常见的 Web 服务中。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-18 17:01:52 &#43;0800 &#43;0800&#39;&gt;2022-09-18&lt;/span&gt;&amp;nbsp;·&amp;nbsp;13 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Log4j2漏洞复现及原理分析" href="https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"></a>
@@ -252,7 +258,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss xss概念 跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 WEB 应用程序中的计算机安全漏洞，是由于 WEB 应用程序对用户的输入过滤不足而产生的。攻击者利用网站漏洞把恶意的脚本代码注入到网页中...</p>
+    <p>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss
+xss概念 跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 WEB 应用程序中的计算机安全漏洞，是由于 WEB 应用程序对用户的输入过滤不足而产生的。攻击者利用网站漏洞把恶意的脚本代码注入到网页中，当其他用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能采取 Cookies 资料窃取、会话劫持、钓鱼欺骗等各种攻击。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-17 14:21:16 &#43;0800 &#43;0800&#39;&gt;2022-09-17&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Xss" href="https://reus09.github.io/posts/tech/xss/"></a>
@@ -264,7 +272,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据库路径 @@version_compile_os 操作系统版本 字符串拼接函数 concat(a,b,...) 没有分隔符地连接字符串 concat_ws(separator,a,b,...) 含有分隔符地连接字符串 group_concat(a,b,...) 以逗号分隔 联合查询 查库名-&gt;查表名-&gt;查列名...</p>
+    <p>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。
+常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据库路径 @@version_compile_os 操作系统版本 字符串拼接函数 concat(a,b,...) 没有分隔符地连接字符串 concat_ws(separator,a,b,...) 含有分隔符地连接字符串 group_concat(a,b,...) 以逗号分隔 联合查询 查库名-&gt;查表名-&gt;查列名（字段名）-&gt;查值（数据）
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-16 19:45:34 &#43;0800 &#43;0800&#39;&gt;2022-09-16&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Sql注入" href="https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/"></a>
@@ -276,7 +286,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称...</p>
+    <p>大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。
+逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。 因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-14 19:18:45 &#43;0800 &#43;0800&#39;&gt;2022-09-14&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Pwn基础知识" href="https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"></a>
@@ -288,7 +300,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo,发现Hugo的主题Hugo-PaperMod挺好看的，就了解了一下，并且结合github action 实现自动化部署。并从中学习到了一些git的命令，...</p>
+    <p>最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo,发现Hugo的主题Hugo-PaperMod挺好看的，就了解了一下，并且结合github action 实现自动化部署。并从中学习到了一些git的命令，稍后也做一个整理便于加深印象。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-12 22:06:57 &#43;0800 &#43;0800&#39;&gt;2022-09-12&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Hugo部署github" href="https://reus09.github.io/posts/tech/hugo%E9%83%A8%E7%BD%B2github/"></a>

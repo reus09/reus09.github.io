@@ -7,7 +7,11 @@
 <meta name="robots" content="index, follow">
 <title>Tomcat无文件内存马 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="内存马">
-<meta name="description" content="前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo">
+<meta name="description" content="前言
+之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。
+现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。
+回显问题
+jsp中内置了request和response，我们是可以直接获取到，通过request获取参数，response写我们的回显内容。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +62,12 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Tomcat无文件内存马" />
-<meta property="og:description" content="前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo" />
+</noscript><meta property="og:title" content="Tomcat无文件内存马" />
+<meta property="og:description" content="前言
+之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。
+现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。
+回显问题
+jsp中内置了request和response，我们是可以直接获取到，通过request获取参数，response写我们的回显内容。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-16T21:25:18+08:00" />
@@ -70,7 +75,11 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tomcat无文件内存马"/>
-<meta name="twitter:description" content="前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo"/>
+<meta name="twitter:description" content="前言
+之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。
+现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。
+回显问题
+jsp中内置了request和response，我们是可以直接获取到，通过request获取参数，response写我们的回显内容。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +114,7 @@
   "@type": "BlogPosting",
   "headline": "Tomcat无文件内存马",
   "name": "Tomcat无文件内存马",
-  "description": "前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo",
+  "description": "前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。\n现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。\n回显问题 jsp中内置了request和response，我们是可以直接获取到，通过request获取参数，response写我们的回显内容。\n",
   "keywords": [
     "内存马"
   ],

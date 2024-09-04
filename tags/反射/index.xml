@@ -13,7 +13,8 @@
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
-      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以</description>
+      <description>&lt;p&gt;前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合&lt;code&gt;su18&lt;/code&gt;师傅的&lt;code&gt;JavaSec&lt;/code&gt;项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。&lt;/p&gt;
+&lt;p&gt;反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -13,7 +13,45 @@
       <pubDate>Fri, 22 Sep 2023 00:42:35 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/spring1%E9%93%BE%E5%88%86%E6%9E%90/</guid>
-      <description>影响版本 spring-core : 4.1.4.RELEASE spring-beans : 4.1.4.RELEASE 导入依赖： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-core --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-beans --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-beans&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.1.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 前提知识 ysoserial给出的spring1的利用链还是比较完整的。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 /* Gadget chain: ObjectInputStream.readObject() SerializableTypeWrapper.MethodInvokeTypeProvider.readObject() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.findMethod() SerializableTypeWrapper.TypeProvider(Proxy).getType() AnnotationInvocationHandler.invoke() HashMap.get() ReflectionUtils.invokeMethod() Method.invoke() Templates(Proxy).newTransformer() AutowireUtils.ObjectFactoryDelegatingInvocationHandler.invoke() ObjectFactory(Proxy).getObject() AnnotationInvocationHandler.invoke() HashMap.get() Method.invoke() TemplatesImpl.newTransformer() TemplatesImpl.getTransletInstance() TemplatesImpl.defineTransletClasses() TemplatesImpl.TransletClassLoader.defineClass() Pwner*(Javassist-generated).&amp;lt;static init&amp;gt; Runtime.exec() */ 然后根据</description>
+      <description>&lt;h2 id=&#34;影响版本&#34;&gt;影响版本&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;spring-core : 4.1.4.RELEASE&lt;/li&gt;
+&lt;li&gt;spring-beans : 4.1.4.RELEASE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;导入依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-core --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-core&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.1.1.RELEASE&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-beans --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-beans&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.1.1.RELEASE&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -22,7 +60,11 @@
       <pubDate>Sun, 16 Apr 2023 21:25:18 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/tomcat%E6%97%A0%E6%96%87%E4%BB%B6%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
-      <description>前言 之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。 现在通过天下大木头,threedr3am师傅的博客学习一下通过反序列化实现内存马的生成。 回显问题 jsp中内置了request和respo</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前学习了Tomcat的相关内存马，通过jsp文件简单学习实现了一下，但是还是有些瑕疵的，内存马生成过程中还是有webshell文件落地的。&lt;/p&gt;
+&lt;p&gt;现在通过&lt;code&gt;天下大木头&lt;/code&gt;,&lt;code&gt;threedr3am&lt;/code&gt;师傅的博客学习一下通过反序列化实现内存马的生成。&lt;/p&gt;
+&lt;h2 id=&#34;回显问题&#34;&gt;回显问题&lt;/h2&gt;
+&lt;p&gt;jsp中内置了request和response，我们是可以直接获取到，通过request获取参数，response写我们的回显内容。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +73,8 @@
       <pubDate>Sat, 15 Apr 2023 14:38:38 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/</guid>
-      <description>前言 内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入，导致的文件 shell 难以写入和持久而衍生出的一种“概念型”木马。这种技术的核心思想非常简单，一句话就能概括，那就是对访问路径映射及相关处理代码的动</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;内存马又名无文件马，就是无文件落地的webshell技术。是由于 webshell 特征识别、防篡改、目录监控等等针对 web 应用目录或服务器文件防御手段的介入，导致的文件 shell 难以写入和持久而衍生出的一种“概念型”木马。这种技术的核心思想非常简单，一句话就能概括，那就是对访问路径映射及相关处理代码的动态注册。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +83,9 @@
       <pubDate>Fri, 07 Apr 2023 18:51:30 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;JDK 1.5 开始，Java新增了 &lt;code&gt;Instrumentation&lt;/code&gt; ( Java Agent API )和 &lt;code&gt;JVMTI&lt;/code&gt; ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。&lt;/p&gt;
+&lt;p&gt;在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，&lt;code&gt;instrumentation&lt;/code&gt;包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,7 +94,7 @@
       <pubDate>Sun, 19 Mar 2023 20:34:53 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections11%E9%93%BE%E5%88%86%E6%9E%90/</guid>
-      <description>今天学习了Shiro-550漏洞的原理，看到通过Gadget使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的Object Array，CC6中的ChainTransformer本质是一个Transformer类型的数组，无法被序列化，这时候文章提到了大杀器C</description>
+      <description>&lt;p&gt;今天学习了&lt;code&gt;Shiro-550&lt;/code&gt;漏洞的原理，看到通过&lt;code&gt;Gadget&lt;/code&gt;使用CC6链会因为Shiro执行反序列化的时候，只能反序列化原生的类型的&lt;code&gt;Object Array&lt;/code&gt;，CC6中的&lt;code&gt;ChainTransformer&lt;/code&gt;本质是一个&lt;code&gt;Transformer&lt;/code&gt;类型的数组，无法被序列化，这时候文章提到了大杀器&lt;code&gt;CC11&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,7 +103,9 @@
       <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前参加过护网的面试，总喜欢问&lt;code&gt;shiro-550&lt;/code&gt;漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。&lt;/p&gt;
+&lt;p&gt;根据官方网站上的&lt;a href=&#34;https://shiro.apache.org/security-reports.html&#34;&gt;漏洞通报&lt;/a&gt;，&lt;code&gt;Shiro&lt;/code&gt; 在历史上共通报了 &lt;code&gt;11&lt;/code&gt; 个 &lt;code&gt;CVE&lt;/code&gt;，除了 &lt;code&gt;SHIRO-550&lt;/code&gt; 和&lt;code&gt;SHIRO-721&lt;/code&gt;的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -67,7 +114,10 @@
       <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</guid>
-      <description>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。 这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送</description>
+      <description>&lt;p&gt;实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。&lt;/p&gt;
+&lt;h2 id=&#34;rmi介绍&#34;&gt;RMI介绍&lt;/h2&gt;
+&lt;p&gt;RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。&lt;/p&gt;
+&lt;p&gt;这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送数据结构，而在 Java 中，我们通常传递一个完整的对象，这个对象既包含数据，也包含数据和操作数据的方法，Java 中如果想完整的在网络中向远程位置传输一个对象，我们通常使用的方法是 Java 原生反序列化，并且可以结合动态类加载和安全管理器来安全的传输一个 Java 类。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -76,7 +126,10 @@
       <pubDate>Sat, 18 Feb 2023 13:46:05 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/life/%E9%95%BF%E6%B2%99%E4%B9%8B%E8%A1%8C/</guid>
-      <description>长沙之行 寒假时间过长，小县城的同龄人基本上已上学，我在家无所事事，当我面对来自高中同学长沙之旅的邀请，我不假思索，收拾行李，购买车票，踏上旅途。 同桌在长沙某不知名985高校就读，在长沙生活了三年之多，可称得上是美食老饕和不折不扣的长沙地头蛇了🐶。 鉴于本人实在拉胯的摄影技术，简单的</description>
+      <description>&lt;h2 id=&#34;长沙之行&#34;&gt;长沙之行&lt;/h2&gt;
+&lt;p&gt;寒假时间过长，小县城的同龄人基本上已上学，我在家无所事事，当我面对来自高中同学长沙之旅的邀请，我不假思索，收拾行李，购买车票，踏上旅途。&lt;/p&gt;
+&lt;p&gt;同桌在长沙某不知名985高校就读，在长沙生活了三年之多，可称得上是美食老饕和不折不扣的长沙地头蛇了🐶。&lt;/p&gt;
+&lt;p&gt;鉴于本人实在拉胯的摄影技术，简单的简述一下长沙之行的感受。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -85,7 +138,8 @@
       <pubDate>Thu, 10 Nov 2022 15:56:46 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/groovy%E9%93%BE%E5%88%86%E6%9E%90/</guid>
-      <description>其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。 Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的</description>
+      <description>&lt;p&gt;其实吧，搁置了很久，一直没有学习的念头，深感罪过。这里就继续学习一下Groovy链的构造方法，之后会暂时对反序列化链的学习告一段落，对目前学到的反序列化链进行了一个回顾，总是发现，人的遗忘时时刻刻都存在着。&lt;/p&gt;
+&lt;p&gt;Groovy 是一种基于 JVM 的开发语言，具有类似于 Python，Ruby，Perl 和 Smalltalk 的功能。Groovy 既可以用作 Java 平台的编程语言，也可以用作脚本语言。groovy 编译之后生成 .class 文件，与 Java 编译生成的无异，因此可以在 JVM 上运行。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -94,7 +148,7 @@
       <pubDate>Fri, 04 Nov 2022 17:09:24 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commosbeanutils%E5%88%86%E6%9E%90/</guid>
-      <description>实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的日子可以说过了相当一段时间，前不久感觉较为简单的CC7链的分析拖延了好长时间。但是生活总是要向前的，今天就继续跟着su18师傅继续学习反序列</description>
+      <description>&lt;p&gt;实际上我觉得博客并不是只来记录一些学习、技术上的感悟，记录学习过程的一些心理也是很有意义的。最近几天确实是过了一段比较舒适愉快的生活，摆烂的日子可以说过了相当一段时间，前不久感觉较为简单的&lt;code&gt;CC7&lt;/code&gt;链的分析拖延了好长时间。但是生活总是要向前的，今天就继续跟着&lt;code&gt;su18&lt;/code&gt;师傅继续学习反序列化的知识，但是现在觉得陷入了极大的重复、分析旋涡。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -103,7 +157,9 @@
       <pubDate>Tue, 01 Nov 2022 15:57:10 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections7%E5%88%86%E6%9E%90/</guid>
-      <description>分析完CC6，趁热打铁，继续学习一下CC7的利用方法，发现还是大同小异，是对LazyMap触发情况的又一种描述。 只不过这次用到了HashTable。对于HashTable，这里学习了su18师傅提供的继承CC6的老路。 实际上在之后CC7的学习中，发现了HashTable在CC7链</description>
+      <description>&lt;p&gt;分析完&lt;code&gt;CC6&lt;/code&gt;，趁热打铁，继续学习一下&lt;code&gt;CC7&lt;/code&gt;的利用方法，发现还是大同小异，是对&lt;code&gt;LazyMap&lt;/code&gt;触发情况的又一种描述。&lt;/p&gt;
+&lt;p&gt;只不过这次用到了&lt;code&gt;HashTable&lt;/code&gt;。对于&lt;code&gt;HashTable&lt;/code&gt;，这里学习了&lt;code&gt;su18&lt;/code&gt;师傅提供的继承&lt;code&gt;CC6&lt;/code&gt;的老路。&lt;/p&gt;
+&lt;p&gt;实际上在之后CC7的学习中，发现了&lt;code&gt;HashTable&lt;/code&gt;在&lt;code&gt;CC7&lt;/code&gt;链中的运用不仅仅是&lt;code&gt;key.hashcode&lt;/code&gt;一条路，如&lt;code&gt;ysoserial&lt;/code&gt;中提供的&lt;code&gt;equals&lt;/code&gt;方法的利用，对&lt;code&gt;ysoserial&lt;/code&gt;的&lt;code&gt;CC7&lt;/code&gt;进行理解，感觉对&lt;code&gt;JAVA&lt;/code&gt;继承之间的关系调用理解更加深刻，同时对hashcode撞库攻击进行一定的认知，同时感觉&lt;code&gt;ysoserial&lt;/code&gt;链的构造奇妙，因为在分析链的时候，对为什么要最后&lt;code&gt;remove&lt;/code&gt;一个&lt;code&gt;lazyMap&lt;/code&gt;的数据感到很奇怪，经过分析感觉确实是严丝合缝。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -112,7 +168,9 @@
       <pubDate>Sun, 30 Oct 2022 15:14:39 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/</guid>
-      <description>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。 前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个</description>
+      <description>&lt;p&gt;言归正传，昨天已经提前看过了&lt;code&gt;CC5&lt;/code&gt;链的具体构造，今天主要就是一些运行调试。还是比较简单的。&lt;/p&gt;
+&lt;p&gt;CC5 依旧是&lt;code&gt; LazyMap&lt;/code&gt; 加 &lt;code&gt;ChainedTransformer&lt;/code&gt; 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。&lt;/p&gt;
+&lt;p&gt;因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -121,7 +179,8 @@
       <pubDate>Sat, 29 Oct 2022 15:10:18 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/</guid>
-      <description>因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j</description>
+      <description>&lt;p&gt;因为电脑的缘故，把&lt;code&gt;java 1.7&lt;/code&gt; 和 &lt;code&gt;java 1.8&lt;/code&gt;的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下&lt;code&gt;CC5&lt;/code&gt;链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的&lt;code&gt;CommonsCollections6&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;简单看了一下&lt;code&gt;CC5&lt;/code&gt;的原理，主要是&lt;code&gt;javax.management.BadAttributeValueExpException&lt;/code&gt;在反序列化过程中会调用&lt;code&gt;valObj&lt;/code&gt;的&lt;code&gt;toString&lt;/code&gt;方法，&lt;code&gt;TiedMapEntry#toString&lt;/code&gt;会触发本身的&lt;code&gt;getValue&lt;/code&gt;从而触发&lt;code&gt;HashMap&lt;/code&gt;的&lt;code&gt;get&lt;/code&gt;方法，从而触发&lt;code&gt;LazyMap&lt;/code&gt;,从而触发RCE链。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -130,7 +189,8 @@
       <pubDate>Fri, 28 Oct 2022 19:36:38 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections4%E5%88%86%E6%9E%90/</guid>
-      <description>这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了CommonCollections链的第四条链。 这里还是跟着su18师傅学习commonCollections4,CC4 是 CC2 的一个变种，用 PriorityQueue 的 TransformingComparator 触发 ChainedTransformer，再利用InstantiateTransf</description>
+      <description>&lt;p&gt;这几天一直在忙一个项目的打杂，今天也是抽时间继续学习了&lt;code&gt;CommonCollections&lt;/code&gt;链的第四条链。&lt;/p&gt;
+&lt;p&gt;这里还是跟着&lt;code&gt;su18&lt;/code&gt;师傅学习&lt;code&gt;commonCollections4&lt;/code&gt;,CC4 是 CC2 的一个变种，用 &lt;code&gt;PriorityQueue &lt;/code&gt;的 &lt;code&gt;TransformingComparator &lt;/code&gt;触发 &lt;code&gt;ChainedTransformer&lt;/code&gt;，再利用&lt;code&gt;InstantiateTransformer&lt;/code&gt;实例化&lt;code&gt; TemplatesImpl&lt;/code&gt;，排列组合了属于是。之前CC2根据&lt;code&gt;su18&lt;/code&gt;师傅的介绍，使用的&lt;code&gt;ChainedTransformer&lt;/code&gt;一种方式为：直接为&lt;code&gt;InvokeTransformer&lt;/code&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -139,7 +199,10 @@
       <pubDate>Thu, 27 Oct 2022 16:05:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections3%E5%88%86%E6%9E%90/</guid>
-      <description>因有事耽搁了一天，今天继续CommonsCollection3链的学习。 CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。 在 CC1 中，使用了 AnnotationInvocationHandler 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。 在 CC2 中，使用TemplatesImpl的 newTransformer 方法触发实</description>
+      <description>&lt;p&gt;因有事耽搁了一天，今天继续&lt;code&gt;CommonsCollection3&lt;/code&gt;链的学习。&lt;/p&gt;
+&lt;p&gt;CC3 官方描述为 CC1 的变种，其中能看到 CC1 和 CC2 的部分影子，但是部分技术细节并不相同。&lt;/p&gt;
+&lt;p&gt;在 CC1 中，使用了 &lt;code&gt;AnnotationInvocationHandler&lt;/code&gt; 对 LazyMap 进行代理，在反序列化时触发 LazyMap 的 get 方法，并对 LazyMap 装饰 Transformer 触发漏洞。&lt;/p&gt;
+&lt;p&gt;在 CC2 中，使用&lt;code&gt;TemplatesImpl&lt;/code&gt;的 newTransformer 方法触发实例化恶意类触发漏洞，方法的调用则是使用了&lt;code&gt; InvokerTransformer&lt;/code&gt; 反射调用。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -148,7 +211,8 @@
       <pubDate>Tue, 25 Oct 2022 18:44:13 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections2%E5%88%86%E6%9E%90/</guid>
-      <description>学习完CommonCollections1链之后，很自然的学习了CommonCollection2，但是CC2链的依赖版本较为固定，为commcons-collections4 4.0。 在2015年底commons-collections反序列化利⽤链被提出时，Apache Commons Col</description>
+      <description>&lt;p&gt;学习完&lt;code&gt;CommonCollections1&lt;/code&gt;链之后，很自然的学习了&lt;code&gt;CommonCollection2&lt;/code&gt;，但是&lt;code&gt;CC2&lt;/code&gt;链的依赖版本较为固定，为&lt;code&gt;commcons-collections4 4.0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在2015年底&lt;code&gt;commons-collections&lt;/code&gt;反序列化利⽤链被提出时，&lt;code&gt;Apache Commons Collections&lt;/code&gt;有以下两个分⽀版本：&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -157,7 +221,8 @@
       <pubDate>Tue, 25 Oct 2022 14:57:25 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/commonscollections1%E5%88%86%E6%9E%90/</guid>
-      <description>Apache Commons Collections 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。 从本文开始正式对CommonsCollections反序列化链进行学习，第一篇文章主要分析一下CommonsColl</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://commons.apache.org/proper/commons-collections/index.html&#34;&gt;Apache Commons Collections&lt;/a&gt; 是一个扩展了 Java 标准库里的 Collection 结构的第三方基础库，它提供了很多强有力的数据结构类型并实现了各种集合工具类。作为 Apache 开源项目的重要组件，被广泛运用于各种 Java 应用的开发。&lt;/p&gt;
+&lt;p&gt;从本文开始正式对&lt;code&gt;CommonsCollections&lt;/code&gt;反序列化链进行学习，第一篇文章主要分析一下&lt;code&gt;CommonsCollections1&lt;/code&gt;这条链，通过对&lt;code&gt;CommonsCollections1&lt;/code&gt;链的学习，学到了&lt;code&gt;TransformedMap&lt;/code&gt;和&lt;code&gt;LazyMap&lt;/code&gt;的一些用法，包括&lt;code&gt;Transformer&lt;/code&gt;的一些实现类，最后还有&lt;code&gt;CommonsCollections1&lt;/code&gt;链的构造原理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -166,7 +231,9 @@
       <pubDate>Mon, 24 Oct 2022 15:47:17 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%80-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86urldns/</guid>
-      <description>跟着su18师傅和p神继续学习Java安全，在之前对FastJson的分析中，FastJson的序列化漏洞主要是对对象反序列化过程中getter,setter方法的利用，这里学习的反序列化主要是继承了Serializable接口，重写了readObject方法的反序列化的利用。 序</description>
+      <description>&lt;p&gt;跟着&lt;code&gt;su18&lt;/code&gt;师傅和p神继续学习Java安全，在之前对&lt;code&gt;FastJson&lt;/code&gt;的分析中，&lt;code&gt;FastJson&lt;/code&gt;的序列化漏洞主要是对对象反序列化过程中&lt;code&gt;getter&lt;/code&gt;,&lt;code&gt;setter&lt;/code&gt;方法的利用，这里学习的反序列化主要是继承了&lt;code&gt;Serializable&lt;/code&gt;接口，重写了&lt;code&gt;readObject&lt;/code&gt;方法的反序列化的利用。&lt;/p&gt;
+&lt;h2 id=&#34;序列化和反序列化&#34;&gt;序列化和反序列化&lt;/h2&gt;
+&lt;p&gt;Java 中的序列化与反序列化，就是将一个 Java 对象当前状态以字符串（字节序列）的形式描述出来，这串字符可能被储存/发送到任何需要的位置，在适当的时候，再将它转回原本的 Java 对象。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -175,7 +242,9 @@
       <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/</guid>
-      <description>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，</description>
+      <description>&lt;p&gt;这篇主要记录一下对于&lt;code&gt;classloader&lt;/code&gt;的学习。&lt;/p&gt;
+&lt;h2 id=&#34;类加载机制&#34;&gt;类加载机制&lt;/h2&gt;
+&lt;p&gt;Java中的源码&lt;code&gt;.java&lt;/code&gt;后缀文件会在运行前被编译成&lt;code&gt;.class&lt;/code&gt;后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用&lt;code&gt;java.lang.ClassLoader&lt;/code&gt;加载字节码，&lt;code&gt;.class&lt;/code&gt;文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的&lt;code&gt;.class&lt;/code&gt;文件，并创建对应的class对象，将class文件加载到虚拟机的内存，而在JVM中类的查找与装载就是由&lt;code&gt;ClassLoader&lt;/code&gt;完成的，而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -184,7 +253,8 @@
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
-      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以</description>
+      <description>&lt;p&gt;前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合&lt;code&gt;su18&lt;/code&gt;师傅的&lt;code&gt;JavaSec&lt;/code&gt;项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。&lt;/p&gt;
+&lt;p&gt;反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -193,7 +263,10 @@
       <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</guid>
-      <description>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。 0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，</description>
+      <description>&lt;p&gt;实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对&lt;code&gt;Java安全&lt;/code&gt;缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下&lt;code&gt;Java安全&lt;/code&gt;的基础知识，今天先学习一下java里面的动态代理。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-概念&#34;&gt;0x01 概念&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -202,7 +275,7 @@
       <pubDate>Wed, 12 Oct 2022 14:04:36 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</guid>
-      <description>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕</description>
+      <description>&lt;p&gt;实际上，前不久刚刚分析了&lt;code&gt;FastJson1.2.80&lt;/code&gt;漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于&lt;code&gt;FastJson1.2.25&lt;/code&gt;之后都是对AutoType机制进行绕过，所以也简单学习了AutoTypeCheck机制，还有一些期望类的&lt;code&gt;Gadget&lt;/code&gt;。本文主要对&lt;code&gt;FastJson&lt;/code&gt;常用的的解析&lt;code&gt;String&lt;/code&gt;的parse,parseObject等方法进行分析，然后分析AutoTypeCheck机制，同时也对FastJson历史漏洞进行简单的整理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -211,7 +284,7 @@
       <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
-      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一</description>
+      <description>&lt;p&gt;实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞&lt;code&gt;CVE-2022-25845&lt;/code&gt;，学到了&lt;code&gt;AutoTypeCheck&lt;/code&gt;是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一下，之后会对FastJson系列漏洞做一个系统的整理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -220,7 +293,9 @@
       <pubDate>Sun, 09 Oct 2022 15:33:36 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/life/%E8%A7%822022%E5%B9%B410%E6%9C%889%E6%97%A5%E5%A8%81%E6%96%AF%E7%89%B9%E6%B3%95%E4%BC%A6%E7%90%83%E5%9C%BA%E5%BE%B7%E5%9B%BD%E5%9B%BD%E5%AE%B6%E5%BE%B7%E6%AF%94%E6%9C%89%E6%84%9F/</guid>
-      <description>虽说有感，但其实多特与拜仁的国家德比也完完全全的映射在我的足球记忆，充斥在我的大学生活中。 我的足球萌芽起源于2018年俄罗斯世界杯，很晚才接触到足球，算上如今大学三年，接触足球也不过寥寥四年罢了，从一个不会踢、满脑子想着花式过人的运动废材到现在自认为愈发不会踢的庸人。对多特的印象</description>
+      <description>&lt;p&gt;虽说有感，但其实多特与拜仁的国家德比也完完全全的映射在我的足球记忆，充斥在我的大学生活中。&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/imageFej81XFXkAAxtNH.jpeg&#34; alt=&#34;Fej81XFXkAAxtNH&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;我的足球萌芽起源于2018年俄罗斯世界杯，很晚才接触到足球，算上如今大学三年，接触足球也不过寥寥四年罢了，从一个不会踢、满脑子想着花式过人的运动废材到现在自认为愈发不会踢的庸人。对多特的印象最开始是源自马尔科-罗伊斯，小火箭在世界杯上面的惊鸿一瞥，让我认识到了这个天妒英才的球员，然后对多特蒙德的印象就是2018年德国国家德比多特蒙德三比二逆转拜仁慕尼黑，奔着当时高中小伙伴都喜欢选一个主队的氛围，我选择青春风暴大黄蜂作为主队。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -229,7 +304,7 @@
       <pubDate>Sun, 25 Sep 2022 18:44:20 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
-      <description>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，</description>
+      <description>&lt;p&gt;今天在先知社区看到了一篇&lt;a href=&#34;https://xz.aliyun.com/t/11723&#34;&gt;文章&lt;/a&gt;对&lt;code&gt;apache commons configuration&lt;/code&gt;旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟&lt;code&gt;log4j2&lt;/code&gt;的一些共同点，都用到了&lt;code&gt;lookup&lt;/code&gt;和一些输入处理的不严谨。比如说对于该漏洞，可以通过&lt;code&gt;script&lt;/code&gt;将其视为&lt;code&gt;jvm&lt;/code&gt;脚本执行，从而实现RCE，&lt;code&gt;log4j2&lt;/code&gt;则是通过&lt;code&gt;jndi&lt;/code&gt;加载的对应&lt;code&gt;ldap&lt;/code&gt;对应服务上面的恶意类，从而实现RCE。下面简单分析一下。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -238,7 +313,7 @@
       <pubDate>Wed, 21 Sep 2022 15:39:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/%E9%9D%B6%E6%9C%BA%E7%BB%83%E4%B9%A0-jangow01/</guid>
-      <description>之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机jangow01的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有思路，所以总体还是参照其他人的思路走了一遍，但是也学到了很多的东西。 0x00 错误解决 jangow01作者给出的靶机是基于virtualBox的,但</description>
+      <description>&lt;p&gt;之前只是了解过一些渗透工具的使用还有一些渗透思路，这次靶机&lt;a href=&#34;https://www.vulnhub.com/entry/jangow-101,754/&#34;&gt;jangow01&lt;/a&gt;的练习算是做了一个小整合。但因为是第一次做，难免有些束手无策、没有思路，所以总体还是参照其他人的思路走了一遍，但是也学到了很多的东西。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -247,7 +322,10 @@
       <pubDate>Tue, 20 Sep 2022 15:16:35 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/</guid>
-      <description>这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交</description>
+      <description>&lt;p&gt;这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-docker的基本架构&#34;&gt;0x01 docker的基本架构&lt;/h2&gt;
+&lt;p&gt;首先查看docker官网给出的docker架构图：&lt;/p&gt;
+&lt;p&gt;在运行时分为 &lt;code&gt;Docker 引擎（服务端守护进程）&lt;/code&gt; 和 &lt;code&gt;客户端工具&lt;/code&gt;，我们日常使用各种 &lt;code&gt;docker 命令&lt;/code&gt;，其实就是在使用 &lt;code&gt;客户端工具&lt;/code&gt; 与 &lt;code&gt;Docker 引擎&lt;/code&gt; 进行交互。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -256,7 +334,10 @@
       <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
-      <description>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java</description>
+      <description>&lt;h2 id=&#34;0x00-前言&#34;&gt;0x00 前言&lt;/h2&gt;
+&lt;p&gt;最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-漏洞描述&#34;&gt;0x01 漏洞描述&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://logging.apache.org/log4j/2.x/index.html&#34;&gt;Apache Log4j2&lt;/a&gt; 是 Apache 软件基金会下的一个&lt;a href=&#34;https://github.com/apache/logging-log4j2&#34;&gt;开源&lt;/a&gt;的基于 Java 的日志记录工具。Log4j2 是一个 Log4j 1.x 的重写，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。由于其优异的性能而被广泛的应用于各种常见的 Web 服务中。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -265,7 +346,9 @@
       <pubDate>Sat, 17 Sep 2022 14:21:16 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/xss/</guid>
-      <description>主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss xss概念 跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 WEB 应用程序中的计算机安全漏洞，是由于 WEB 应用程序对用户的输入过滤不足而产生的。攻击者利用网站漏洞把恶意的脚本代码注入到网页中</description>
+      <description>&lt;p&gt;主要对xss常见的分类、攻击手段。主要参考ctf-wiki-web-xss&lt;/p&gt;
+&lt;h2 id=&#34;xss概念&#34;&gt;xss概念&lt;/h2&gt;
+&lt;p&gt;跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 WEB 应用程序中的计算机安全漏洞，是由于 WEB 应用程序对用户的输入过滤不足而产生的。攻击者利用网站漏洞把恶意的脚本代码注入到网页中，当其他用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能采取 Cookies 资料窃取、会话劫持、钓鱼欺骗等各种攻击。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -274,7 +357,23 @@
       <pubDate>Fri, 16 Sep 2022 19:45:34 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/sql%E6%B3%A8%E5%85%A5/</guid>
-      <description>这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。 常用函数 version() MySQL版本 user() 数据库用户名 database() 数据库名 @@datadir 数据库路径 @@version_compile_os 操作系统版本 字符串拼接函数 concat(a,b,...) 没有分隔符地连接字符串 concat_ws(separator,a,b,...) 含有分隔符地连接字符串 group_concat(a,b,...) 以逗号分隔 联合查询 查库名-&amp;gt;查表名-&amp;gt;查列名</description>
+      <description>&lt;p&gt;这篇文章主要想对web注入的方式进行一个梳理总结，主要通过靶场sqli-labs进行。&lt;/p&gt;
+&lt;h2 id=&#34;常用函数&#34;&gt;常用函数&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;version()&lt;/code&gt; MySQL版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;user()&lt;/code&gt; 数据库用户名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;database()&lt;/code&gt; 数据库名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@@datadir&lt;/code&gt; 数据库路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@@version_compile_os&lt;/code&gt; 操作系统版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;字符串拼接函数&#34;&gt;字符串拼接函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;concat(a,b,...)&lt;/code&gt; 没有分隔符地连接字符串&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;concat_ws(separator,a,b,...)&lt;/code&gt; 含有分隔符地连接字符串&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;group_concat(a,b,...)&lt;/code&gt; 以逗号分隔&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;联合查询&#34;&gt;联合查询&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;查库名-&amp;gt;查表名-&amp;gt;查列名（字段名）-&amp;gt;查值（数据）&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -283,7 +382,14 @@
       <pubDate>Wed, 14 Sep 2022 19:18:45 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
-      <description>大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称</description>
+      <description>&lt;p&gt;大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。&lt;/p&gt;
+&lt;h2 id=&#34;逆向基础&#34;&gt;逆向基础&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;amd64: 64位
+AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构&lt;/li&gt;
+&lt;li&gt;i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -292,7 +398,7 @@
       <pubDate>Mon, 12 Sep 2022 22:06:57 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/hugo%E9%83%A8%E7%BD%B2github/</guid>
-      <description>最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo,发现Hugo的主题Hugo-PaperMod挺好看的，就了解了一下，并且结合github action 实现自动化部署。并从中学习到了一些git的命令，</description>
+      <description>&lt;p&gt;最近阿里云服务器到期，服务太贵了，所以就想着继续使用github作为博客搭建的方法。以前使用hexo作为静态博客工具。最近了解了一下hugo,发现Hugo的主题Hugo-PaperMod挺好看的，就了解了一下，并且结合github action 实现自动化部署。并从中学习到了一些git的命令，稍后也做一个整理便于加深印象。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -301,7 +407,44 @@
       <pubDate>Mon, 12 Sep 2022 16:18:58 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/gin/</guid>
-      <description>对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。 初始化 这里直接给出一个通用的模板 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 func main(){ // 使用默认中间件创建一个gin路由器 // logger and recovery (crash-free) 中间件 router := gin.Default() // 加载templates目录下的所有文件为html router.LoadHTMLGlob(&amp;#34;/templates/**&amp;#34;) router.GET(&amp;#34;/someGet&amp;#34;, getting) router.POST(&amp;#34;/somePost&amp;#34;, posting)</description>
+      <description>&lt;p&gt;对开源的开发框架gin进行了简单的学习，对常用的进行了简单的整理。&lt;/p&gt;
+&lt;h2 id=&#34;初始化&#34;&gt;初始化&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;这里直接给出一个通用的模板&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -310,7 +453,9 @@
       <pubDate>Sun, 11 Sep 2022 14:40:53 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/go%E5%8E%9F%E7%94%9Fnet%E5%8C%85%E5%88%86%E6%9E%90/</guid>
-      <description>很长时间没有水博客了，前些天学习了一下go的语法。go凭借其轻量级和并发性的原因，性能越来越优异，这里简单分析一下如何通过go原生的http开启一个web服务，并对其过程进行一定的剖析。 go原生的web服务搭建 Go 语言里面提供了一个完善的 net/http 包，通过 http 包可以很方便的就搭建起来一个可以</description>
+      <description>&lt;p&gt;很长时间没有水博客了，前些天学习了一下go的语法。go凭借其轻量级和并发性的原因，性能越来越优异，这里简单分析一下如何通过go原生的http开启一个web服务，并对其过程进行一定的剖析。&lt;/p&gt;
+&lt;h2 id=&#34;go原生的web服务搭建&#34;&gt;go原生的web服务搭建&lt;/h2&gt;
+&lt;p&gt;Go 语言里面提供了一个完善的 net/http 包，通过 http 包可以很方便的就搭建起来一个可以运行的 Web 服务。同时使用这个包能很简单地对 Web 的路由，静态文件，模版，cookie 等数据进行设置和操作。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -319,7 +464,33 @@
       <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-22963/</guid>
-      <description>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的</description>
+      <description>&lt;h2 id=&#34;漏洞介绍&#34;&gt;漏洞介绍&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。&lt;/li&gt;
+&lt;li&gt;由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的 HTTP 请求头注入 SpEL 表达式。最终可导致远程执行任意代码，获取服务器权限。
+&lt;ul&gt;
+&lt;li&gt;风险等级：高风险&lt;/li&gt;
+&lt;li&gt;漏洞风险：攻击者利用该漏洞可导致远程执行任意代码，获取服务器权限&lt;/li&gt;
+&lt;li&gt;影响版本
+Spring Cloud Function =&amp;lt; 3.1.6
+Spring Cloud Function =&amp;lt; 3.2.2&lt;/li&gt;
+&lt;li&gt;安全版本
+Spring Cloud Function &amp;gt;= 3.1.7
+Spring Cloud Function &amp;gt;= 3.2.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;springcloud-function介绍&#34;&gt;&lt;code&gt;SpringCloud Function&lt;/code&gt;介绍&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SpringCloud &lt;/code&gt;是一套分布式系统的解决方案，常见的还有阿里巴巴的&lt;code&gt;Dubbo，Fass（Function As A Service ）&lt;/code&gt;的底层实现就是函数式编程，在视频转码、音视频转换、数据仓库ETL等与状态相关度低的领域运用的比较多。开发者无需关注服务器环境运维等问题上，专注于自身业务逻辑实现即可。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpringCloud Function&lt;/code&gt; 就是&lt;code&gt;Spring&lt;/code&gt;提供的分布式函数式编程组件。&lt;/li&gt;
+&lt;li&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20220401101253.png&#34; alt=&#34;image-20220401101253220&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;漏洞环境搭建&#34;&gt;漏洞环境搭建&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;通过idea新建一个Spring项目，pom中引入&lt;code&gt;spring-boot-starter-web&lt;/code&gt;、&lt;code&gt;spring-cloud-function-web&lt;/code&gt;，如下：&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -328,7 +499,42 @@
       <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/springboot/</guid>
-      <description>因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合</description>
+      <description>&lt;ul&gt;
+&lt;li&gt;因为之前接触了一点&lt;code&gt;ssm&lt;/code&gt;，所以这里简单的学习了&lt;code&gt;springboot&lt;/code&gt;的一些简单用法，具体的源码分析以后有时间的话慢慢分析&lt;/li&gt;
+&lt;li&gt;这里简单谈一下&lt;code&gt;springboot&lt;/code&gt;的简单了解，&lt;code&gt;springboot&lt;/code&gt;实际上是把&lt;code&gt;ssm&lt;/code&gt;、&lt;code&gt;web服务器比如tomcat,jetty&lt;/code&gt;、&lt;code&gt;mysql&lt;/code&gt;或者&lt;code&gt;nosql&lt;/code&gt;各个框架整合到一起的产物，使用&lt;code&gt;springboot&lt;/code&gt;实际上简化了各个框架的组合使用。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;springboot&lt;/code&gt;中加载支持的配置的依赖一般以&lt;code&gt;springboot-starter-xxx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;非官方支持的第三方依赖命名：&lt;code&gt;xxx-springboot-starter-xxx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SpringBoot默认会在底层配好所有的组件。但是如果用户自己配置了以用户的优先&lt;/li&gt;
+&lt;li&gt;学习可以通过&lt;code&gt;springboot&lt;/code&gt;提供的官方文档
+&lt;ul&gt;
+&lt;li&gt;这里给出&lt;code&gt;2.5.13&lt;/code&gt;版本的官方文档链接
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/&#34;&gt;https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-配置使用&#34;&gt;1 配置使用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;application.properties&lt;/code&gt;和&lt;code&gt;application.yaml&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-注解使用&#34;&gt;2 注解使用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;因为&lt;code&gt;springboot&lt;/code&gt;集成了&lt;code&gt;springmvc&lt;/code&gt;和&lt;code&gt;spring&lt;/code&gt;，也组合了其许多的注解&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;springbootapplication&#34;&gt;&lt;code&gt;@SpringBootApplication&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -337,7 +543,30 @@
       <pubDate>Fri, 29 Apr 2022 09:17:06 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/mybatis/</guid>
-      <description>MyBatis 这里整理了MyBatis的常见用法 Mybatis 主要对数据库的操作提供了组件 1 环境搭建 导入依赖 1 2 3 4 5 6 7 8 9 10 11 12 &amp;lt;!-- Mybatis核心 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mybatis&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- MySQL驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;8.0.27&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 创建MyBatis的核心配置文件 mybatis-config.xml 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39</description>
+      <description>&lt;h1 id=&#34;mybatis&#34;&gt;MyBatis&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;这里整理了&lt;code&gt;MyBatis&lt;/code&gt;的常见用法&lt;/li&gt;
+&lt;li&gt;Mybatis 主要对数据库的操作提供了组件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-环境搭建&#34;&gt;1 环境搭建&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;导入依赖&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -346,7 +575,19 @@
       <pubDate>Fri, 29 Apr 2022 09:16:59 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/spring-mvc/</guid>
-      <description>Spring-mvc 本篇主要对spring-mvc的知识点进行总结 MVC的工作流程： 用户通过视图层发送请求到服务器，在服务器中请求被Controller接收，Controller调用相应的Model层处理请求，处理完毕将结果返回到Controller，Controller再根据请求处理的结果找到相</description>
+      <description>&lt;h1 id=&#34;spring-mvc&#34;&gt;Spring-mvc&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;本篇主要对&lt;code&gt;spring-mvc&lt;/code&gt;的知识点进行总结&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MVC的工作流程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户通过视图层发送请求到服务器，在服务器中请求被&lt;code&gt;Controller&lt;/code&gt;接收，&lt;code&gt;Controller&lt;/code&gt;调用相应的&lt;code&gt;Model&lt;/code&gt;层处理请求，处理完毕将结果返回到&lt;code&gt;Controller&lt;/code&gt;，&lt;code&gt;Controller&lt;/code&gt;再根据请求处理的结果找到相应的&lt;code&gt;View&lt;/code&gt;视图，渲染数据后最终响应给浏览器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;SpringMVC&lt;/code&gt;工作流程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -355,7 +596,69 @@
       <pubDate>Mon, 18 Apr 2022 20:36:10 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/spring/</guid>
-      <description>这里主要学习了Spring5的相关知识，对ioc和Aop的相关知识进行整理 0x01 IOC 概念 控制反转，把创建对象过程交给 Spring 进行管理 使用目的： 为了耦合度降低 底层原理 xml 解析、工厂模式、反射 IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂 1.1 实现方式 BeanFactory：IOC 容器基本实现，是 Spring</description>
+      <description>&lt;ul&gt;
+&lt;li&gt;这里主要学习了&lt;code&gt;Spring5&lt;/code&gt;的相关知识，对&lt;code&gt;ioc&lt;/code&gt;和&lt;code&gt;Aop&lt;/code&gt;的相关知识进行整理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;0x01-ioc&#34;&gt;0x01 IOC&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;概念
+&lt;ul&gt;
+&lt;li&gt;控制反转，把创建对象过程交给 Spring 进行管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;使用目的：
+&lt;ul&gt;
+&lt;li&gt;为了耦合度降低&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;底层原理
+&lt;ul&gt;
+&lt;li&gt;xml 解析、工厂模式、反射&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;11-实现方式&#34;&gt;1.1 实现方式&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;BeanFactory&lt;/code&gt;：&lt;code&gt;IOC &lt;/code&gt;容器基本实现，是 &lt;code&gt;Spring&lt;/code&gt; 内部的使用接口，不提供开发人员进行使用
+&lt;ul&gt;
+&lt;li&gt;加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ApplicationContext&lt;/code&gt;：&lt;code&gt;BeanFactory&lt;/code&gt; 接口的子接口，提供更多更强大的功能，一般由开发人 员进行使用
+&lt;ul&gt;
+&lt;li&gt;加载配置文件时候就会把在配置文件对象进行创建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Bean&lt;/code&gt;管理
+&lt;ul&gt;
+&lt;li&gt;Spring创建对象&lt;/li&gt;
+&lt;li&gt;Spring注入属性&lt;/li&gt;
+&lt;li&gt;实现方法
+&lt;ul&gt;
+&lt;li&gt;基于&lt;code&gt;xml&lt;/code&gt;配置文件方式实现&lt;/li&gt;
+&lt;li&gt;基于注解方式实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;12-xml配置文件&#34;&gt;1.2 &lt;code&gt;xml&lt;/code&gt;配置文件&lt;/h3&gt;
+&lt;h4 id=&#34;121-创建对象&#34;&gt;1.2.1 创建对象&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;在 spring 配置文件中，使用 bean 标签，标签里面添加对应属性，就可以实现对象创建&lt;/li&gt;
+&lt;li&gt;在 bean 标签有很多属性，介绍常用的属性 *
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;id &lt;/code&gt;属性:唯一标识&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;class&lt;/code&gt; 属性:类全路径（包类路径)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;创建对象时候，默认也是执行无参数构造方法完成对象创建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -364,7 +667,21 @@
       <pubDate>Thu, 14 Apr 2022 20:12:46 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/javaweb/</guid>
-      <description>0x01 Tomcat使用 1.1 Tomcat设置编码 Tomcat设置编码 tomcat8之前，设置编码： get请求方式： get方式目前不需要设置编码（基于tomcat8） 如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前） 1 2 3 4 5 String fname = request.getParameter(&amp;#34;fname&amp;#34;); //1.将字符串打散成字节数组 byte[] bytes =</description>
+      <description>&lt;h2 id=&#34;0x01-tomcat使用&#34;&gt;0x01 Tomcat使用&lt;/h2&gt;
+&lt;h3 id=&#34;11--tomcat设置编码&#34;&gt;1.1  &lt;code&gt;Tomcat&lt;/code&gt;设置编码&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Tomcat&lt;/code&gt;设置编码&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;tomcat8之前，设置编码：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;get请求方式：
+get方式目前不需要设置编码（基于tomcat8）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果是get请求发送的中文数据，转码稍微有点麻烦（tomcat8之前）&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -373,7 +690,19 @@
       <pubDate>Thu, 24 Mar 2022 23:02:23 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/jdbc/</guid>
-      <description>JDBC概述 JDBC程序编写步骤 总结一下JDBC建立连接的全过程。 二：获取数据库连接 Driver接口实现类 Driver接口介绍 java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。 在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动</description>
+      <description>&lt;h2 id=&#34;jdbc概述&#34;&gt;JDBC概述&lt;/h2&gt;
+&lt;h3 id=&#34;jdbc程序编写步骤&#34;&gt;JDBC程序编写步骤&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;总结一下&lt;code&gt;JDBC&lt;/code&gt;建立连接的全过程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/1565969323908.png&#34; alt=&#34;1565969323908&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;二获取数据库连接&#34;&gt;二：获取数据库连接&lt;/h2&gt;
+&lt;h3 id=&#34;driver接口实现类&#34;&gt;Driver接口实现类&lt;/h3&gt;
+&lt;h4 id=&#34;driver接口介绍&#34;&gt;Driver接口介绍&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -382,7 +711,48 @@
       <pubDate>Sat, 01 Jan 2022 19:30:48 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/life/2021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</guid>
-      <description>2021 小结 当一个人坐在空无一人的宿舍里，也许是无聊吧，也许是眼慕朋友圈满天飞的跨年小结，也许是看各种推送的年度总结有感，因此总想写点什么东西，特别是在这种孤单的气氛中，这种感觉很难形容，总想提笔倾诉一点东西，不吐不快。 2021年总的来说，成功遗憾参半。如果2021年度总分十分的话，我</description>
+      <description>&lt;h1 id=&#34;2021-小结&#34;&gt;2021 小结&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;当一个人坐在空无一人的宿舍里，也许是无聊吧，也许是眼慕朋友圈满天飞的跨年小结，也许是看各种推送的年度总结有感，因此总想写点什么东西，特别是在这种孤单的气氛中，这种感觉很难形容，总想提笔倾诉一点东西，不吐不快。&lt;/li&gt;
+&lt;li&gt;2021年总的来说，成功遗憾参半。如果2021年度总分十分的话，我只能打到7分。&lt;/li&gt;
+&lt;li&gt;这大概是本人第一次个人年度小结，当然也没人看，也就随便写写自己相对自己想说的话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2021年度的收获&#34;&gt;2021年度的收获&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;当然说起收获，自然是这个写作的平台博客了。&lt;/li&gt;
+&lt;li&gt;探店北京美食。&lt;/li&gt;
+&lt;li&gt;在Lord佬的带飞下，拿个天融信小奖项。&lt;/li&gt;
+&lt;li&gt;收获一批很不错的足球小伙伴。最后也拿了一个网安院的小足球比赛的冠军。&lt;/li&gt;
+&lt;li&gt;去逛了从小到大书本里记载里的长城，初春时刻，看巍峨的长城崎岖蜿蜒。&lt;/li&gt;
+&lt;li&gt;在学业上有了相当程度的精进，大一时候存在一定的摆烂，因此大一的成绩与保研无望，同时人际交往较少，但是大二通过担任班级学委，可以说极大拓展了交往的朋友圈，也认识了可以一些可以相识的朋友，成绩也有了一些小突破，可以说比较接近保研的名额。&lt;/li&gt;
+&lt;li&gt;人际交往方面，个人性格的缺点相当严重，自卑吧，也许只能在熟人面前能够倾吐自己的想法，但是这种讲话的方式却又十分的丑陋，往往会惹得其他人不满，然后自己也相当不爽，但是自己也只能把所有心事埋在心里，自己不断地反思自己的问题，也许就是谨言慎行吧，说话要懂得符合事宜、不能满嘴跑火车，说话方式也有了极大地改善。&lt;/li&gt;
+&lt;li&gt;性格方面，这一年应该说成长了不少，因为从小接受教育比较封闭的问题，初中高中的沟通比较少，内向还是有的。这一年通过一些交流、外出游玩性格应该是开放了一点、敢说，不再是自闭儿童了。其实吧，人应该自信一点。&lt;/li&gt;
+&lt;li&gt;技术方面：学了爬虫、简单的web前端、php、还有一些CTF的方向。&lt;/li&gt;
+&lt;li&gt;生活习惯：相当不自律，大三上的半年中每晚平均都是一点半之后睡觉，大部分都是二点之后才浑浑噩噩的睡着，昼夜作息极度紊乱，早餐基本半年没吃过一次。&lt;/li&gt;
+&lt;li&gt;BVB，罗伊斯拿下人生中第一个比较重要的冠军头衔：德国杯。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2021年的遗憾&#34;&gt;2021年的遗憾&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;最大的遗憾应该是大学两年半，却从未去过号称文化精华的故宫，总是以各种各样的原因鸽了故宫，这里立一个flag:2022年度无论如何都要看一看故宫的模样。&lt;/li&gt;
+&lt;li&gt;还有遗憾就是，大学第一次相对正式的足球比赛，校长杯表现相当糟糕，也许一生中也很难忘记这场比赛，总而言之，就是心态糟糕，技术糟糕。&lt;/li&gt;
+&lt;li&gt;还有就是对于想学的技术往往不能坚持到底，意志力不够强大，一直对网络安全方面的知识感兴趣，但是总是三心二意。&lt;/li&gt;
+&lt;li&gt;在相识的人中，走丢了一些人。也许这就是人生吧，当有人意见与你想左的时候，你不能强迫所有人都能达成共识，不是所有人的三观都是相同的，总有人要下车，也总有人要上车，静观其变，随其飞去吧。&lt;/li&gt;
+&lt;li&gt;本学期的相当一部分作业为小组合作形式，往往不能够正常的分工、合作、团队意识还是欠缺。&lt;/li&gt;
+&lt;li&gt;还有就是对于想要的不敢直说，(这就是含蓄？)，毫无疑问，这丢掉了一大堆想要的东西，可望而不可即。&lt;/li&gt;
+&lt;li&gt;对于学委的工作，有一点疲倦，如果可以，任期满的时候考虑辞职。&lt;/li&gt;
+&lt;li&gt;大三上的半年课认识到了院里老师的一些水平，是时候考虑往更大的方向考虑。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2022-希望&#34;&gt;2022 希望&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;1、去一次故宫&lt;/li&gt;
+&lt;li&gt;2、努力学习技术，拿到一个心仪的实习offer&lt;/li&gt;
+&lt;li&gt;3、继续专心学习，确保学业能够拿到保研资格&lt;/li&gt;
+&lt;li&gt;4、对足球更上心吧，练练技术、拉拉体能，争取能在校长杯上场吧，有所表现吧。&lt;/li&gt;
+&lt;li&gt;5、继续目前的人际交往，如果可以，可以认识更多的朋友。&lt;/li&gt;
+&lt;li&gt;6、去更多的地方游玩，希望五一或国庆假期到内蒙或者长沙玩一次。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;总而言之，就是以上了，还是太矫情了，但是吧，人总要倾吐一点东西，2021就这样吧，2021就到这里了。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -391,7 +761,53 @@
       <pubDate>Wed, 03 Nov 2021 22:11:40 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/rop/</guid>
-      <description>pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实</description>
+      <description>&lt;h1 id=&#34;pwn_rop-调试&#34;&gt;pwn_rop 调试&lt;/h1&gt;
+&lt;h2 id=&#34;0x01-实验目的&#34;&gt;0x01 实验目的&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2.针对实验二的32位环境和64位环境，通过调试分析，完成实际rop2.py和rop3.py （预留有空白和错误之处），最终拿到shell权限。相关详细分析过程写入报告&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;0x02-实验环境&#34;&gt;0x02 实验环境&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&#34;ubuntu-20&#34;&gt;Ubuntu 20&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20211012222641174.png&#34; alt=&#34;image-20211012222641174&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h4 id=&#34;gcc-版本&#34;&gt;gcc 版本&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/image-20211012222710806.png&#34; alt=&#34;image-20211012222710806&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h4 id=&#34;工具&#34;&gt;工具&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;pwndbg&#34;&gt;pwndbg&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;ropgadget&#34;&gt;ROPgadget&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;pwntools&#34;&gt;pwntools&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;visual-studio-code&#34;&gt;visual studio code&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;通过vs code 的ssh 远程连接服务器ubuntu，并且远程调试程序。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;0x03-实验前提知识&#34;&gt;0x03 实验前提知识&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ROP&lt;/strong&gt;的全称为 &lt;strong&gt;Return-oriented Programming&lt;/strong&gt;（返回导向编程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -400,7 +816,15 @@
       <pubDate>Wed, 03 Nov 2021 20:46:59 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
-      <description>格式化字符串漏洞 0x01 目的 通过格式化字符串掌握泄露内存数据和覆写内存。 0x02 基础知识 格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据</description>
+      <description>&lt;h1 id=&#34;格式化字符串漏洞&#34;&gt;格式化字符串漏洞&lt;/h1&gt;
+&lt;h2 id=&#34;0x01-目的&#34;&gt;0x01 目的&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;通过格式化字符串掌握泄露内存数据和覆写内存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;0x02-基础知识&#34;&gt;0x02 基础知识&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;格式化函数是一种特殊的ANSI C函数，它们从格式化字符串中提取参数，并对这些参数进行处理。而格式化字符串将C语言的主要数据类型，以易于阅读的方式保存在字符串里。从程序输出数据、打印错误信息到处理字符串数据，格式化字符串几乎出现在所有的C程序中。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -409,7 +833,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://reus09.github.io/about/</guid>
-      <description>BUPT在读 目前希望找到方向</description>
+      <description>&lt;p&gt;BUPT在读
+目前希望找到方向&lt;/p&gt;</description>
     </item>
     
     

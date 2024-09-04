@@ -7,7 +7,14 @@
 <meta name="robots" content="index, follow">
 <title>Pwn基础知识 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="Basic Knowledge">
-<meta name="description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称">
+<meta name="description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。
+逆向基础
+
+amd64: 64位
+AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构
+i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。
+
+因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +65,15 @@
         }
 
     </style>
-</noscript>
-  
+</noscript><meta property="og:title" content="Pwn基础知识" />
+<meta property="og:description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。
+逆向基础
 
-<meta property="og:title" content="Pwn基础知识" />
-<meta property="og:description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称" />
+amd64: 64位
+AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构
+i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。
+
+因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-14T19:18:45+08:00" />
@@ -70,7 +81,14 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pwn基础知识"/>
-<meta name="twitter:description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称"/>
+<meta name="twitter:description" content="大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。
+逆向基础
+
+amd64: 64位
+AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构
+i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。
+
+因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +123,7 @@
   "@type": "BlogPosting",
   "headline": "Pwn基础知识",
   "name": "Pwn基础知识",
-  "description": "大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。 逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称",
+  "description": "大四了，最近一直在摆烂，因为之前学习过一点pwn的基础，最近也是再重新回顾一下，了解一下二进制安全。\n逆向基础 amd64: 64位 AMD64，或“x64”，是一种64位元的电脑处理器架构。它是基于现有32位元的x86架构 i386：—— intel 80386 32位， 通常作为intel32位微处理器（cpu）的统称。 因为32位指令集具有普适，所以这里主要讲述x86-32版本的汇编语言。\n",
   "keywords": [
     "Basic Knowledge"
   ],
@@ -706,34 +724,34 @@ DX—<strong>数据寄存器</strong>，乘除运算时可作为默认操作数�
 </ul>
 <p>主要的函数调用约定如下，其中 cdecl 是 C 语言默认的调用约定：</p>
 <table>
-<thead>
-<tr>
-<th style="text-align:left">调用约定</th>
-<th style="text-align:left">出栈方</th>
-<th style="text-align:left">参数传递</th>
-<th style="text-align:left">名字修饰</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">cdecl</td>
-<td style="text-align:left">函数调用方</td>
-<td style="text-align:left">从右到左的顺序压参数入栈</td>
-<td style="text-align:left">下划线＋函数名</td>
-</tr>
-<tr>
-<td style="text-align:left">stdcall</td>
-<td style="text-align:left">函数本身</td>
-<td style="text-align:left">从右到左的顺序压参数入栈</td>
-<td style="text-align:left">下划线＋函数名＋@＋参数的字节数</td>
-</tr>
-<tr>
-<td style="text-align:left">fastcall</td>
-<td style="text-align:left">函数本身</td>
-<td style="text-align:left">都两个 DWORD（4 字节）类型或者占更少字节的参数被放入寄存器，其他剩下的参数按从右到左的顺序压入栈</td>
-<td style="text-align:left">@＋函数名＋@＋参数的字节数</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">调用约定</th>
+          <th style="text-align: left">出栈方</th>
+          <th style="text-align: left">参数传递</th>
+          <th style="text-align: left">名字修饰</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">cdecl</td>
+          <td style="text-align: left">函数调用方</td>
+          <td style="text-align: left">从右到左的顺序压参数入栈</td>
+          <td style="text-align: left">下划线＋函数名</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">stdcall</td>
+          <td style="text-align: left">函数本身</td>
+          <td style="text-align: left">从右到左的顺序压参数入栈</td>
+          <td style="text-align: left">下划线＋函数名＋@＋参数的字节数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">fastcall</td>
+          <td style="text-align: left">函数本身</td>
+          <td style="text-align: left">都两个 DWORD（4 字节）类型或者占更少字节的参数被放入寄存器，其他剩下的参数按从右到左的顺序压入栈</td>
+          <td style="text-align: left">@＋函数名＋@＋参数的字节数</td>
+      </tr>
+  </tbody>
 </table>
 <p>除了参数的传递之外，函数与调用方还可以通过返回值进行交互。当返回值不大于 4 字节时，返回值存储在 eax 寄存器中，当返回值在 5~8 字节时，采用 eax 和 edx 结合的形式返回，其中 eax 存储低 4 字节， edx 存储高 4 字节。</p>
 <h4 id="堆">堆<a hidden class="anchor" aria-hidden="true" href="#堆">#</a></h4>

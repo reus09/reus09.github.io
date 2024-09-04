@@ -13,7 +13,9 @@
       <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/</guid>
-      <description>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，</description>
+      <description>&lt;p&gt;这篇主要记录一下对于&lt;code&gt;classloader&lt;/code&gt;的学习。&lt;/p&gt;
+&lt;h2 id=&#34;类加载机制&#34;&gt;类加载机制&lt;/h2&gt;
+&lt;p&gt;Java中的源码&lt;code&gt;.java&lt;/code&gt;后缀文件会在运行前被编译成&lt;code&gt;.class&lt;/code&gt;后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用&lt;code&gt;java.lang.ClassLoader&lt;/code&gt;加载字节码，&lt;code&gt;.class&lt;/code&gt;文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的&lt;code&gt;.class&lt;/code&gt;文件，并创建对应的class对象，将class文件加载到虚拟机的内存，而在JVM中类的查找与装载就是由&lt;code&gt;ClassLoader&lt;/code&gt;完成的，而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +24,8 @@
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
-      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以</description>
+      <description>&lt;p&gt;前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合&lt;code&gt;su18&lt;/code&gt;师傅的&lt;code&gt;JavaSec&lt;/code&gt;项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。&lt;/p&gt;
+&lt;p&gt;反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。&lt;/p&gt;</description>
     </item>
     
   </channel>

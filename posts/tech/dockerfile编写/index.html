@@ -7,7 +7,10 @@
 <meta name="robots" content="index, follow">
 <title>Dockerfile编写 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="dockerFile">
-<meta name="description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交">
+<meta name="description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。
+0x01 docker的基本架构
+首先查看docker官网给出的docker架构图：
+在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交互。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +61,11 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Dockerfile编写" />
-<meta property="og:description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交" />
+</noscript><meta property="og:title" content="Dockerfile编写" />
+<meta property="og:description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。
+0x01 docker的基本架构
+首先查看docker官网给出的docker架构图：
+在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交互。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/dockerfile%E7%BC%96%E5%86%99/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-20T15:16:35+08:00" />
@@ -70,7 +73,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Dockerfile编写"/>
-<meta name="twitter:description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交"/>
+<meta name="twitter:description" content="这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。
+0x01 docker的基本架构
+首先查看docker官网给出的docker架构图：
+在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交互。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +111,7 @@
   "@type": "BlogPosting",
   "headline": "Dockerfile编写",
   "name": "Dockerfile编写",
-  "description": "这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。 0x01 docker的基本架构 首先查看docker官网给出的docker架构图： 在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交",
+  "description": "这篇文章主要是想对docker的常见使用做一下小结，并学习一下dockerfile的编写方法。\n0x01 docker的基本架构 首先查看docker官网给出的docker架构图：\n在运行时分为 Docker 引擎（服务端守护进程） 和 客户端工具，我们日常使用各种 docker 命令，其实就是在使用 客户端工具 与 Docker 引擎 进行交互。\n",
   "keywords": [
     "dockerFile"
   ],
@@ -376,22 +382,22 @@
 <h3 id="container-容器">Container 容器<a hidden class="anchor" aria-hidden="true" href="#container-容器">#</a></h3>
 <p>镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
 <table>
-<thead>
-<tr>
-<th style="text-align:left">Docker</th>
-<th style="text-align:left">面向对象</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">容器</td>
-<td style="text-align:left">对象</td>
-</tr>
-<tr>
-<td style="text-align:left">镜像</td>
-<td style="text-align:left">类</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Docker</th>
+          <th style="text-align: left">面向对象</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">容器</td>
+          <td style="text-align: left">对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">镜像</td>
+          <td style="text-align: left">类</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="镜像分层">镜像分层<a hidden class="anchor" aria-hidden="true" href="#镜像分层">#</a></h3>
 <p><img loading="lazy" src="https://mrhelloworld.com/resources/articles/docker/12180844322018196a29c55c8de4a2.png" alt="img"  />

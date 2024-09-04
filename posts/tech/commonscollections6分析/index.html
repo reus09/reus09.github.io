@@ -7,7 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>CommonsCollections6分析 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="CommonsCollections链">
-<meta name="description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j">
+<meta name="description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。
+简单看了一下CC5的原理，主要是javax.management.BadAttributeValueExpException在反序列化过程中会调用valObj的toString方法，TiedMapEntry#toString会触发本身的getValue从而触发HashMap的get方法，从而触发LazyMap,从而触发RCE链。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +59,9 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="CommonsCollections6分析" />
-<meta property="og:description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j" />
+</noscript><meta property="og:title" content="CommonsCollections6分析" />
+<meta property="og:description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。
+简单看了一下CC5的原理，主要是javax.management.BadAttributeValueExpException在反序列化过程中会调用valObj的toString方法，TiedMapEntry#toString会触发本身的getValue从而触发HashMap的get方法，从而触发LazyMap,从而触发RCE链。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/commonscollections6%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-29T15:10:18+08:00" />
@@ -70,7 +69,8 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CommonsCollections6分析"/>
-<meta name="twitter:description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j"/>
+<meta name="twitter:description" content="因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。
+简单看了一下CC5的原理，主要是javax.management.BadAttributeValueExpException在反序列化过程中会调用valObj的toString方法，TiedMapEntry#toString会触发本身的getValue从而触发HashMap的get方法，从而触发LazyMap,从而触发RCE链。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +105,7 @@
   "@type": "BlogPosting",
   "headline": "CommonsCollections6分析",
   "name": "CommonsCollections6分析",
-  "description": "因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。 简单看了一下CC5的原理，主要是j",
+  "description": "因为电脑的缘故，把java 1.7 和 java 1.8的低版本都放在windows即另一台机器上面，所以，就简单的学习了一下CC5链的一些原理，具体复现之后有时间配置好环境即可，今天就先主要学习复现一下利用版本没那么苛刻的CommonsCollections6。\n简单看了一下CC5的原理，主要是javax.management.BadAttributeValueExpException在反序列化过程中会调用valObj的toString方法，TiedMapEntry#toString会触发本身的getValue从而触发HashMap的get方法，从而触发LazyMap,从而触发RCE链。\n",
   "keywords": [
     "CommonsCollections链"
   ],

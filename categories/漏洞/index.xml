@@ -13,7 +13,9 @@
       <pubDate>Sun, 19 Mar 2023 14:04:48 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前参加过护网的面试，总喜欢问&lt;code&gt;shiro-550&lt;/code&gt;漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。&lt;/p&gt;
+&lt;p&gt;根据官方网站上的&lt;a href=&#34;https://shiro.apache.org/security-reports.html&#34;&gt;漏洞通报&lt;/a&gt;，&lt;code&gt;Shiro&lt;/code&gt; 在历史上共通报了 &lt;code&gt;11&lt;/code&gt; 个 &lt;code&gt;CVE&lt;/code&gt;，除了 &lt;code&gt;SHIRO-550&lt;/code&gt; 和&lt;code&gt;SHIRO-721&lt;/code&gt;的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +24,7 @@
       <pubDate>Wed, 12 Oct 2022 14:04:36 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</guid>
-      <description>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕</description>
+      <description>&lt;p&gt;实际上，前不久刚刚分析了&lt;code&gt;FastJson1.2.80&lt;/code&gt;漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于&lt;code&gt;FastJson1.2.25&lt;/code&gt;之后都是对AutoType机制进行绕过，所以也简单学习了AutoTypeCheck机制，还有一些期望类的&lt;code&gt;Gadget&lt;/code&gt;。本文主要对&lt;code&gt;FastJson&lt;/code&gt;常用的的解析&lt;code&gt;String&lt;/code&gt;的parse,parseObject等方法进行分析，然后分析AutoTypeCheck机制，同时也对FastJson历史漏洞进行简单的整理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +33,7 @@
       <pubDate>Sun, 09 Oct 2022 16:32:33 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
-      <description>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一</description>
+      <description>&lt;p&gt;实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞&lt;code&gt;CVE-2022-25845&lt;/code&gt;，学到了&lt;code&gt;AutoTypeCheck&lt;/code&gt;是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一下，之后会对FastJson系列漏洞做一个系统的整理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +42,7 @@
       <pubDate>Sun, 25 Sep 2022 18:44:20 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</guid>
-      <description>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，</description>
+      <description>&lt;p&gt;今天在先知社区看到了一篇&lt;a href=&#34;https://xz.aliyun.com/t/11723&#34;&gt;文章&lt;/a&gt;对&lt;code&gt;apache commons configuration&lt;/code&gt;旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟&lt;code&gt;log4j2&lt;/code&gt;的一些共同点，都用到了&lt;code&gt;lookup&lt;/code&gt;和一些输入处理的不严谨。比如说对于该漏洞，可以通过&lt;code&gt;script&lt;/code&gt;将其视为&lt;code&gt;jvm&lt;/code&gt;脚本执行，从而实现RCE，&lt;code&gt;log4j2&lt;/code&gt;则是通过&lt;code&gt;jndi&lt;/code&gt;加载的对应&lt;code&gt;ldap&lt;/code&gt;对应服务上面的恶意类，从而实现RCE。下面简单分析一下。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,7 +51,10 @@
       <pubDate>Sun, 18 Sep 2022 17:01:52 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
-      <description>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java</description>
+      <description>&lt;h2 id=&#34;0x00-前言&#34;&gt;0x00 前言&lt;/h2&gt;
+&lt;p&gt;最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-漏洞描述&#34;&gt;0x01 漏洞描述&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://logging.apache.org/log4j/2.x/index.html&#34;&gt;Apache Log4j2&lt;/a&gt; 是 Apache 软件基金会下的一个&lt;a href=&#34;https://github.com/apache/logging-log4j2&#34;&gt;开源&lt;/a&gt;的基于 Java 的日志记录工具。Log4j2 是一个 Log4j 1.x 的重写，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。由于其优异的性能而被广泛的应用于各种常见的 Web 服务中。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,7 +63,33 @@
       <pubDate>Sat, 02 Jul 2022 09:18:51 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/cve-2022-22963/</guid>
-      <description>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的</description>
+      <description>&lt;h2 id=&#34;漏洞介绍&#34;&gt;漏洞介绍&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。&lt;/li&gt;
+&lt;li&gt;由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的 HTTP 请求头注入 SpEL 表达式。最终可导致远程执行任意代码，获取服务器权限。
+&lt;ul&gt;
+&lt;li&gt;风险等级：高风险&lt;/li&gt;
+&lt;li&gt;漏洞风险：攻击者利用该漏洞可导致远程执行任意代码，获取服务器权限&lt;/li&gt;
+&lt;li&gt;影响版本
+Spring Cloud Function =&amp;lt; 3.1.6
+Spring Cloud Function =&amp;lt; 3.2.2&lt;/li&gt;
+&lt;li&gt;安全版本
+Spring Cloud Function &amp;gt;= 3.1.7
+Spring Cloud Function &amp;gt;= 3.2.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;springcloud-function介绍&#34;&gt;&lt;code&gt;SpringCloud Function&lt;/code&gt;介绍&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SpringCloud &lt;/code&gt;是一套分布式系统的解决方案，常见的还有阿里巴巴的&lt;code&gt;Dubbo，Fass（Function As A Service ）&lt;/code&gt;的底层实现就是函数式编程，在视频转码、音视频转换、数据仓库ETL等与状态相关度低的领域运用的比较多。开发者无需关注服务器环境运维等问题上，专注于自身业务逻辑实现即可。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpringCloud Function&lt;/code&gt; 就是&lt;code&gt;Spring&lt;/code&gt;提供的分布式函数式编程组件。&lt;/li&gt;
+&lt;li&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://cnblog-img-reus09.oss-cn-beijing.aliyuncs.com/image/20220401101253.png&#34; alt=&#34;image-20220401101253220&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;漏洞环境搭建&#34;&gt;漏洞环境搭建&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;通过idea新建一个Spring项目，pom中引入&lt;code&gt;spring-boot-starter-web&lt;/code&gt;、&lt;code&gt;spring-cloud-function-web&lt;/code&gt;，如下：&lt;/p&gt;</description>
     </item>
     
   </channel>

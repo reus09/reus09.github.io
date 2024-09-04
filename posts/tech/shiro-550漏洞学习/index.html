@@ -7,7 +7,9 @@
 <meta name="robots" content="index, follow">
 <title>Shiro-550漏洞分析 | Reus09&#39;s Blog</title>
 <meta name="keywords" content="反序列化漏洞">
-<meta name="description" content="前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和">
+<meta name="description" content="前言
+之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。
+根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和SHIRO-721的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +60,10 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="Shiro-550漏洞分析" />
-<meta property="og:description" content="前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和" />
+</noscript><meta property="og:title" content="Shiro-550漏洞分析" />
+<meta property="og:description" content="前言
+之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。
+根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和SHIRO-721的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-03-19T14:04:48+08:00" />
@@ -70,7 +71,9 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Shiro-550漏洞分析"/>
-<meta name="twitter:description" content="前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和"/>
+<meta name="twitter:description" content="前言
+之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。
+根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和SHIRO-721的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +108,7 @@
   "@type": "BlogPosting",
   "headline": "Shiro-550漏洞分析",
   "name": "Shiro-550漏洞分析",
-  "description": "前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和",
+  "description": "前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。\n根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和SHIRO-721的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。\n",
   "keywords": [
     "反序列化漏洞"
   ],
@@ -766,38 +769,38 @@
 <h2 id="shiro-550漏洞分析">Shiro-550漏洞分析<a hidden class="anchor" aria-hidden="true" href="#shiro-550漏洞分析">#</a></h2>
 <h3 id="漏洞信息">漏洞信息<a hidden class="anchor" aria-hidden="true" href="#漏洞信息">#</a></h3>
 <table>
-<thead>
-<tr>
-<th style="text-align:left">漏洞信息</th>
-<th style="text-align:left">详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">漏洞编号</td>
-<td style="text-align:left"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0074">CVE-2016-4437</a> / <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2016-03869">CNVD-2016-03869</a> / <a href="https://issues.apache.org/jira/browse/SHIRO-550">SHIRO-550</a></td>
-</tr>
-<tr>
-<td style="text-align:left">影响版本</td>
-<td style="text-align:left">shiro 1.x &lt; 1.2.5</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞描述</td>
-<td style="text-align:left">如果程序未能正确配置 “remember me” 功能使用的密钥。 攻击者可通过发送带有特制参数的请求利用该漏洞执行任意代码或访问受限制内容。</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞关键字</td>
-<td style="text-align:left">cookie | RememberMe | 反序列化 | 硬编码 | AES</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞补丁</td>
-<td style="text-align:left"><a href="https://github.com/apache/shiro/commit/4d5bb000a7f3c02d8960b32e694a565c95976848">Commit-4d5bb00</a></td>
-</tr>
-<tr>
-<td style="text-align:left">相关链接</td>
-<td style="text-align:left"><a href="https://issues.apache.org/jira/browse/SHIRO-441">SHIRO-441</a> <a href="https://www.anquanke.com/post/id/192619">https://www.anquanke.com/post/id/192619</a></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">漏洞信息</th>
+          <th style="text-align: left">详情</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">漏洞编号</td>
+          <td style="text-align: left"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0074">CVE-2016-4437</a> / <a href="https://www.cnvd.org.cn/flaw/show/CNVD-2016-03869">CNVD-2016-03869</a> / <a href="https://issues.apache.org/jira/browse/SHIRO-550">SHIRO-550</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">影响版本</td>
+          <td style="text-align: left">shiro 1.x &lt; 1.2.5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">漏洞描述</td>
+          <td style="text-align: left">如果程序未能正确配置 “remember me” 功能使用的密钥。 攻击者可通过发送带有特制参数的请求利用该漏洞执行任意代码或访问受限制内容。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">漏洞关键字</td>
+          <td style="text-align: left">cookie | RememberMe | 反序列化 | 硬编码 | AES</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">漏洞补丁</td>
+          <td style="text-align: left"><a href="https://github.com/apache/shiro/commit/4d5bb000a7f3c02d8960b32e694a565c95976848">Commit-4d5bb00</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">相关链接</td>
+          <td style="text-align: left"><a href="https://issues.apache.org/jira/browse/SHIRO-441">SHIRO-441</a> <a href="https://www.anquanke.com/post/id/192619">https://www.anquanke.com/post/id/192619</a></td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="漏洞详解">漏洞详解<a hidden class="anchor" aria-hidden="true" href="#漏洞详解">#</a></h3>
 <p>Shiro 从 0.9 版本开始设计了 RememberMe 的功能，用来提供在应用中记住用户登陆状态的功能。</p>

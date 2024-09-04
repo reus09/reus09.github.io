@@ -13,7 +13,9 @@
       <pubDate>Fri, 07 Apr 2023 18:51:30 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java-agent%E5%AD%A6%E4%B9%A0/</guid>
-      <description>前言 JDK 1.5 开始，Java新增了 Instrumentation ( Java Agent API )和 JVMTI ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。 在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，instrumentation</description>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;JDK 1.5 开始，Java新增了 &lt;code&gt;Instrumentation&lt;/code&gt; ( Java Agent API )和 &lt;code&gt;JVMTI&lt;/code&gt; ( JVM Tool Interface )功能，允许JVM在加载某个 class 文件之前对其字节码进行修改，同时也支持对已加载的 class (类字节码)进行重新加载( Retransform )。&lt;/p&gt;
+&lt;p&gt;在1.6版本新增了attach(附加方式)，可以对运行中的Java进程插入Agent，&lt;code&gt;instrumentation&lt;/code&gt;包被赋予了更强大的功能：启动后的 instrument、本地代码（native code）instrument，以及动态改变 classpath 等等。这些改变，意味着 Java 具有了更强的动态控制、解释能力，它使得 Java 语言变得更加灵活多变。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +24,10 @@
       <pubDate>Fri, 10 Mar 2023 19:17:17 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%AE%89%E5%85%A8-rmi/</guid>
-      <description>实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。 RMI介绍 RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。 这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送</description>
+      <description>&lt;p&gt;实际上，懒狗(x本人)好久没学习了，但是倍感就业压力如此之大，此篇简单分析一下RMI的流程。&lt;/p&gt;
+&lt;h2 id=&#34;rmi介绍&#34;&gt;RMI介绍&lt;/h2&gt;
+&lt;p&gt;RMI (Remote Method Invocation) 远程方法调用，他的出现是为了解决一个问题，如何在本地透明的调用远程服务器上的方法。&lt;/p&gt;
+&lt;p&gt;这种思想在 C 语言中的 RPC（Remote Procedure Calls）中早就有了体现，但是 RPC 是打包和传送数据结构，而在 Java 中，我们通常传递一个完整的对象，这个对象既包含数据，也包含数据和操作数据的方法，Java 中如果想完整的在网络中向远程位置传输一个对象，我们通常使用的方法是 Java 原生反序列化，并且可以结合动态类加载和安全管理器来安全的传输一个 Java 类。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +36,9 @@
       <pubDate>Sat, 22 Oct 2022 18:44:22 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E4%B9%8Bclassloader/</guid>
-      <description>这篇主要记录一下对于classloader的学习。 类加载机制 Java中的源码.java后缀文件会在运行前被编译成.class后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用java.lang.ClassLoader加载字节码，</description>
+      <description>&lt;p&gt;这篇主要记录一下对于&lt;code&gt;classloader&lt;/code&gt;的学习。&lt;/p&gt;
+&lt;h2 id=&#34;类加载机制&#34;&gt;类加载机制&lt;/h2&gt;
+&lt;p&gt;Java中的源码&lt;code&gt;.java&lt;/code&gt;后缀文件会在运行前被编译成&lt;code&gt;.class&lt;/code&gt;后缀文件，文件内的字节码的本质就是一个字节数组 ，它有特定的复杂的内部格式，Java类初始化的时候会调用&lt;code&gt;java.lang.ClassLoader&lt;/code&gt;加载字节码，&lt;code&gt;.class&lt;/code&gt;文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的&lt;code&gt;.class&lt;/code&gt;文件，并创建对应的class对象，将class文件加载到虚拟机的内存，而在JVM中类的查找与装载就是由&lt;code&gt;ClassLoader&lt;/code&gt;完成的，而程序在启动的时候，并不会一次性加载程序所要用的所有class文件，而是根据程序的需要，来动态加载某个class文件到内存当中的，从而只有class文件被载入到了内存之后，才能被其它class所引用。所以ClassLoader就是用来动态加载class文件到内存当中用的。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +47,8 @@
       <pubDate>Fri, 21 Oct 2022 14:14:54 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8F%8D%E5%B0%84/</guid>
-      <description>前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合su18师傅的JavaSec项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以</description>
+      <description>&lt;p&gt;前不久学习了动态代理的一些知识，然后跟着p神的代码审计知识星球进行初步学习，结合&lt;code&gt;su18&lt;/code&gt;师傅的&lt;code&gt;JavaSec&lt;/code&gt;项目，一些相关博客，对Java反射进行了学习。感觉p神的相关介绍更加的贴近原理、一些小trick。&lt;/p&gt;
+&lt;p&gt;反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,7 +57,10 @@
       <pubDate>Mon, 17 Oct 2022 14:20:49 +0800</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</guid>
-      <description>实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对Java安全缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下Java安全的基础知识，今天先学习一下java里面的动态代理。 0x01 概念 代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，</description>
+      <description>&lt;p&gt;实际上在之前的学习阶段复现了一些CVE漏洞，但是发现还是存在基础方面的缺陷，对&lt;code&gt;Java安全&lt;/code&gt;缺乏系统性的整理，因此从今天这篇开始，系统的整理学习一下&lt;code&gt;Java安全&lt;/code&gt;的基础知识，今天先学习一下java里面的动态代理。&lt;/p&gt;
+&lt;h2 id=&#34;0x01-概念&#34;&gt;0x01 概念&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;代理模式是常用的 java 设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -7,7 +7,53 @@
 <meta name="robots" content="index, follow">
 <title>Rop | Reus09&#39;s Blog</title>
 <meta name="keywords" content="rop">
-<meta name="description" content="pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实">
+<meta name="description" content="pwn_rop 调试
+0x01 实验目的
+
+1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。
+2.针对实验二的32位环境和64位环境，通过调试分析，完成实际rop2.py和rop3.py （预留有空白和错误之处），最终拿到shell权限。相关详细分析过程写入报告
+
+0x02 实验环境
+
+
+Ubuntu 20
+
+
+
+
+
+
+gcc 版本
+
+
+
+
+
+
+工具
+
+
+pwndbg
+
+
+ROPgadget
+
+
+pwntools
+
+
+visual studio code
+
+通过vs code 的ssh 远程连接服务器ubuntu，并且远程调试程序。
+
+
+
+
+
+0x03 实验前提知识
+
+
+ROP的全称为 Return-oriented Programming（返回导向编程">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/rop/">
 <meta name="google-site-verification" content="XYZabc">
@@ -58,11 +104,54 @@
         }
 
     </style>
-</noscript>
-  
+</noscript><meta property="og:title" content="Rop" />
+<meta property="og:description" content="pwn_rop 调试
+0x01 实验目的
 
-<meta property="og:title" content="Rop" />
-<meta property="og:description" content="pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实" />
+1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。
+2.针对实验二的32位环境和64位环境，通过调试分析，完成实际rop2.py和rop3.py （预留有空白和错误之处），最终拿到shell权限。相关详细分析过程写入报告
+
+0x02 实验环境
+
+
+Ubuntu 20
+
+
+
+
+
+
+gcc 版本
+
+
+
+
+
+
+工具
+
+
+pwndbg
+
+
+ROPgadget
+
+
+pwntools
+
+
+visual studio code
+
+通过vs code 的ssh 远程连接服务器ubuntu，并且远程调试程序。
+
+
+
+
+
+0x03 实验前提知识
+
+
+ROP的全称为 Return-oriented Programming（返回导向编程" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/rop/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-11-03T22:11:40+00:00" />
@@ -70,7 +159,53 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Rop"/>
-<meta name="twitter:description" content="pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实"/>
+<meta name="twitter:description" content="pwn_rop 调试
+0x01 实验目的
+
+1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。
+2.针对实验二的32位环境和64位环境，通过调试分析，完成实际rop2.py和rop3.py （预留有空白和错误之处），最终拿到shell权限。相关详细分析过程写入报告
+
+0x02 实验环境
+
+
+Ubuntu 20
+
+
+
+
+
+
+gcc 版本
+
+
+
+
+
+
+工具
+
+
+pwndbg
+
+
+ROPgadget
+
+
+pwntools
+
+
+visual studio code
+
+通过vs code 的ssh 远程连接服务器ubuntu，并且远程调试程序。
+
+
+
+
+
+0x03 实验前提知识
+
+
+ROP的全称为 Return-oriented Programming（返回导向编程"/>
 
 
 <script type="application/ld+json">
@@ -105,7 +240,7 @@
   "@type": "BlogPosting",
   "headline": "Rop",
   "name": "Rop",
-  "description": "pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实",
+  "description": "pwn_rop 调试 0x01 实验目的 1.针对实验一，通过gdb调试rop1，确定shellcode的地址；此外，通过rop1.py的调试脚本确定shellcode地址；最终拿到shell权限。相关详细分析过程写入报告，并比较两种方法的特点。 2.针对实验二的32位环境和64位环境，通过调试分析，完成实际rop2.py和rop3.py （预留有空白和错误之处），最终拿到shell权限。相关详细分析过程写入报告 0x02 实验环境 Ubuntu 20 gcc 版本 工具 pwndbg ROPgadget pwntools visual studio code 通过vs code 的ssh 远程连接服务器ubuntu，并且远程调试程序。 0x03 实验前提知识 ROP的全称为 Return-oriented Programming（返回导向编程\n",
   "keywords": [
     "rop"
   ],

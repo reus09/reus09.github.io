@@ -13,7 +13,42 @@
       <pubDate>Tue, 03 May 2022 12:43:35 +0000</pubDate>
       
       <guid>https://reus09.github.io/posts/tech/springboot/</guid>
-      <description>因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合</description>
+      <description>&lt;ul&gt;
+&lt;li&gt;因为之前接触了一点&lt;code&gt;ssm&lt;/code&gt;，所以这里简单的学习了&lt;code&gt;springboot&lt;/code&gt;的一些简单用法，具体的源码分析以后有时间的话慢慢分析&lt;/li&gt;
+&lt;li&gt;这里简单谈一下&lt;code&gt;springboot&lt;/code&gt;的简单了解，&lt;code&gt;springboot&lt;/code&gt;实际上是把&lt;code&gt;ssm&lt;/code&gt;、&lt;code&gt;web服务器比如tomcat,jetty&lt;/code&gt;、&lt;code&gt;mysql&lt;/code&gt;或者&lt;code&gt;nosql&lt;/code&gt;各个框架整合到一起的产物，使用&lt;code&gt;springboot&lt;/code&gt;实际上简化了各个框架的组合使用。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;springboot&lt;/code&gt;中加载支持的配置的依赖一般以&lt;code&gt;springboot-starter-xxx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;非官方支持的第三方依赖命名：&lt;code&gt;xxx-springboot-starter-xxx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SpringBoot默认会在底层配好所有的组件。但是如果用户自己配置了以用户的优先&lt;/li&gt;
+&lt;li&gt;学习可以通过&lt;code&gt;springboot&lt;/code&gt;提供的官方文档
+&lt;ul&gt;
+&lt;li&gt;这里给出&lt;code&gt;2.5.13&lt;/code&gt;版本的官方文档链接
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/&#34;&gt;https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-配置使用&#34;&gt;1 配置使用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;application.properties&lt;/code&gt;和&lt;code&gt;application.yaml&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-注解使用&#34;&gt;2 注解使用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;因为&lt;code&gt;springboot&lt;/code&gt;集成了&lt;code&gt;springmvc&lt;/code&gt;和&lt;code&gt;spring&lt;/code&gt;，也组合了其许多的注解&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;springbootapplication&#34;&gt;&lt;code&gt;@SpringBootApplication&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
   </channel>

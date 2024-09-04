@@ -57,10 +57,7 @@
         }
 
     </style>
-</noscript>
-  
-
-<meta property="og:title" content="漏洞" />
+</noscript><meta property="og:title" content="漏洞" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://reus09.github.io/categories/%E6%BC%8F%E6%B4%9E/" />
@@ -159,7 +156,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。 根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和...</p>
+    <p>前言 之前参加过护网的面试，总喜欢问shiro-550漏洞的原理，再加上现在在进行JAVA安全的学习，Shiro作为Java开发中一个很重要的Java安全框架，这里也就跟进学习一下shiro存在的一些历史漏洞。
+根据官方网站上的漏洞通报，Shiro 在历史上共通报了 11 个 CVE，除了 SHIRO-550 和SHIRO-721的反序列化以及 CVE-2014-0074 的 ldap 绕过之外，其他的绕过都是在路径处理过程中产生问题导致的绕过。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2023-03-19 14:04:48 &#43;0800 &#43;0800&#39;&gt;2023-03-19&lt;/span&gt;&amp;nbsp;·&amp;nbsp;13 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Shiro-550漏洞分析" href="https://reus09.github.io/posts/tech/shiro-550%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/"></a>
@@ -171,7 +170,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕...</p>
+    <p>实际上，前不久刚刚分析了FastJson1.2.80漏洞，一方面对Java反序列化漏洞有了一个初步的了解，如果可以控制一个类的实例化，并且这个类里面的成员也存在可控，就可以注入恶意JSON实现反序列漏洞，另一方面由于FastJson1.2.25之后都是对AutoType机制进行绕过，所以也简单学习了AutoTypeCheck机制，还有一些期望类的Gadget。本文主要对FastJson常用的的解析String的parse,parseObject等方法进行分析，然后分析AutoTypeCheck机制，同时也对FastJson历史漏洞进行简单的整理。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-12 14:04:36 &#43;0800 &#43;0800&#39;&gt;2022-10-12&lt;/span&gt;&amp;nbsp;·&amp;nbsp;33 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to FastJson反序列化漏洞总结" href="https://reus09.github.io/posts/tech/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"></a>
@@ -183,7 +183,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一...</p>
+    <p>实际上保研后、十一假期之后，一直在摆烂、躺平(充分感受到研究生打工仔的命运)，这篇文章主要是想分析一下FastJson最新爆出来的漏洞CVE-2022-25845，学到了AutoTypeCheck是如何作用的。实际上好多大师傅已经分析的很明白了，我也只是借着大师傅的笔记手动复现一下，之后会对FastJson系列漏洞做一个系统的整理。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-09 16:32:33 &#43;0800 &#43;0800&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-25845 FastJson RCE漏洞分析" href="https://reus09.github.io/posts/tech/cve-2022-25845-fastjson-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"></a>
@@ -195,7 +196,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，...</p>
+    <p>今天在先知社区看到了一篇文章对apache commons configuration旧版本的一个RCE漏洞分析的文章，阅读了一下，发现其利用过程跟log4j2的一些共同点，都用到了lookup和一些输入处理的不严谨。比如说对于该漏洞，可以通过script将其视为jvm脚本执行，从而实现RCE，log4j2则是通过jndi加载的对应ldap对应服务上面的恶意类，从而实现RCE。下面简单分析一下。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-25 18:44:20 &#43;0800 &#43;0800&#39;&gt;2022-09-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-33980 RCE漏洞分析" href="https://reus09.github.io/posts/tech/cve-2022-33980-rce%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"></a>
@@ -207,7 +209,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。 0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java...</p>
+    <p>0x00 前言 最近时间比较充沛，因此在这里复现一些流传比较广泛、危害性高的漏洞，Log4j2漏洞作为2021年爆出来的CVE明星，苦于当时时间紧迫，没有时间进行学习，现在系统性的学习一下log4j2的漏洞原理,复现过程,具体使用的一些姿势。
+0x01 漏洞描述 Apache Log4j2 是 Apache 软件基金会下的一个开源的基于 Java 的日志记录工具。Log4j2 是一个 Log4j 1.x 的重写，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。由于其优异的性能而被广泛的应用于各种常见的 Web 服务中。
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-09-18 17:01:52 &#43;0800 &#43;0800&#39;&gt;2022-09-18&lt;/span&gt;&amp;nbsp;·&amp;nbsp;13 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to Log4j2漏洞复现及原理分析" href="https://reus09.github.io/posts/tech/log4j2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"></a>
@@ -219,7 +223,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的...</p>
+    <p>漏洞介绍 Spring Cloud Function 是基于 Spring Boot 的函数计算框架。该项目致力于促进函数为主的开发单元，它抽象出所有传输细节和基础架构，并提供一个通用的模型，用于在各种平台上部署基于函数的软件。 由于Spring Cloud Function存在SpEL表达式注入漏洞。远程攻击者无需认证即可构造特定的数据包，并通过特定的 HTTP 请求头注入 SpEL 表达式。最终可导致远程执行任意代码，获取服务器权限。 风险等级：高风险 漏洞风险：攻击者利用该漏洞可导致远程执行任意代码，获取服务器权限 影响版本 Spring Cloud Function =&lt; 3.1.6 Spring Cloud Function =&lt; 3.2.2 安全版本 Spring Cloud Function &gt;= 3.1.7 Spring Cloud Function &gt;= 3.2.3 SpringCloud Function介绍 SpringCloud 是一套分布式系统的解决方案，常见的还有阿里巴巴的Dubbo，Fass（Function As A Service ）的底层实现就是函数式编程，在视频转码、音视频转换、数据仓库ETL等与状态相关度低的领域运用的比较多。开发者无需关注服务器环境运维等问题上，专注于自身业务逻辑实现即可。 SpringCloud Function 就是Spring提供的分布式函数式编程组件。 漏洞环境搭建 通过idea新建一个Spring项目，pom中引入spring-boot-starter-web、spring-cloud-function-web，如下：
+...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-07-02 09:18:51 &#43;0000 UTC&#39;&gt;2022-07-02&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>
   <a class="entry-link" aria-label="post link to CVE-2022-22963漏洞复现" href="https://reus09.github.io/posts/tech/cve-2022-22963/"></a>
