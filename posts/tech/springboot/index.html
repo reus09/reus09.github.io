@@ -42,7 +42,35 @@ application.properties和application.yaml
 3
 4
 5
-">
+
+
+@SpringBootApplication
+等同于
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(&#34;com.reus.boot&#34;)
+
+
+@SpringBootConfiguration
+
+@Configuration。代表当前是一个配置类
+
+@EnableAutoConfiguration
+
+
+1
+2
+3
+
+
+@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration {}
+
+
+
+
+@EnableAutoConfiguration集成了两个注解">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/springboot/">
 <meta name="google-site-verification" content="XYZabc">
@@ -129,7 +157,35 @@ application.properties和application.yaml
 3
 4
 5
-" />
+
+
+@SpringBootApplication
+等同于
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(&#34;com.reus.boot&#34;)
+
+
+@SpringBootConfiguration
+
+@Configuration。代表当前是一个配置类
+
+@EnableAutoConfiguration
+
+
+1
+2
+3
+
+
+@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration {}
+
+
+
+
+@EnableAutoConfiguration集成了两个注解" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/springboot/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-05-03T12:43:35+00:00" />
@@ -172,7 +228,35 @@ application.properties和application.yaml
 3
 4
 5
-"/>
+
+
+@SpringBootApplication
+等同于
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(&#34;com.reus.boot&#34;)
+
+
+@SpringBootConfiguration
+
+@Configuration。代表当前是一个配置类
+
+@EnableAutoConfiguration
+
+
+1
+2
+3
+
+
+@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration {}
+
+
+
+
+@EnableAutoConfiguration集成了两个注解"/>
 
 
 <script type="application/ld+json">
@@ -207,7 +291,7 @@ application.properties和application.yaml
   "@type": "BlogPosting",
   "headline": "SpringBoot",
   "name": "SpringBoot",
-  "description": " 因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合到一起的产物，使用springboot实际上简化了各个框架的组合使用。 springboot中加载支持的配置的依赖一般以springboot-starter-xxx 非官方支持的第三方依赖命名：xxx-springboot-starter-xxx SpringBoot默认会在底层配好所有的组件。但是如果用户自己配置了以用户的优先 学习可以通过springboot提供的官方文档 这里给出2.5.13版本的官方文档链接 https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/ 1 配置使用 application.properties和application.yaml 2 注解使用 因为springboot集成了springmvc和spring，也组合了其许多的注解 @SpringBootApplication 1 2 3 4 5 ",
+  "description": " 因为之前接触了一点ssm，所以这里简单的学习了springboot的一些简单用法，具体的源码分析以后有时间的话慢慢分析 这里简单谈一下springboot的简单了解，springboot实际上是把ssm、web服务器比如tomcat,jetty、mysql或者nosql各个框架整合到一起的产物，使用springboot实际上简化了各个框架的组合使用。 springboot中加载支持的配置的依赖一般以springboot-starter-xxx 非官方支持的第三方依赖命名：xxx-springboot-starter-xxx SpringBoot默认会在底层配好所有的组件。但是如果用户自己配置了以用户的优先 学习可以通过springboot提供的官方文档 这里给出2.5.13版本的官方文档链接 https://docs.spring.io/spring-boot/docs/2.5.13/reference/html/ 1 配置使用 application.properties和application.yaml 2 注解使用 因为springboot集成了springmvc和spring，也组合了其许多的注解 @SpringBootApplication 1 2 3 4 5 @SpringBootApplication 等同于 @SpringBootConfiguration @EnableAutoConfiguration @ComponentScan(\u0026#34;com.reus.boot\u0026#34;) @SpringBootConfiguration @Configuration。代表当前是一个配置类 @EnableAutoConfiguration 1 2 3 @AutoConfigurationPackage @Import(AutoConfigurationImportSelector.class) public @interface EnableAutoConfiguration {} @EnableAutoConfiguration集成了两个注解\n",
   "keywords": [
     "springboot"
   ],

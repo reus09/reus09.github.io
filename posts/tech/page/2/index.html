@@ -180,6 +180,7 @@
     <p>言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。
 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。
 因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。
+前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个 Map.Entry 的实现类，从名称中可以看到，这是一个绑定了底层 map 的 Entry，用来使一个 map entry 对象拥有在底层修改 map 的功能。
 ...</p>
   </div>
   <footer class="entry-footer">&lt;span title=&#39;2022-10-30 15:14:39 &#43;0800 &#43;0800&#39;&gt;2022-10-30&lt;/span&gt;&amp;nbsp;·&amp;nbsp;3 分钟&amp;nbsp;·&amp;nbsp;Reus09</footer>

@@ -9,7 +9,10 @@
 <meta name="keywords" content="CommonsCollections链">
 <meta name="description" content="言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。
 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。
-因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。">
+因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。
+前置知识
+TiedMapEntry
+org.apache.commons.collections.keyvalue.TiedMapEntry 是一个 Map.Entry 的实现类，从名称中可以看到，这是一个绑定了底层 map 的 Entry，用来使一个 map entry 对象拥有在底层修改 map 的功能。">
 <meta name="author" content="Reus09">
 <link rel="canonical" href="https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/">
 <meta name="google-site-verification" content="XYZabc">
@@ -63,7 +66,10 @@ CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再�
 </noscript><meta property="og:title" content="CommonsCollections5分析" />
 <meta property="og:description" content="言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。
 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。
-因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。" />
+因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。
+前置知识
+TiedMapEntry
+org.apache.commons.collections.keyvalue.TiedMapEntry 是一个 Map.Entry 的实现类，从名称中可以看到，这是一个绑定了底层 map 的 Entry，用来使一个 map entry 对象拥有在底层修改 map 的功能。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://reus09.github.io/posts/tech/commonscollections5%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-30T15:14:39+08:00" />
@@ -73,7 +79,10 @@ CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再�
 <meta name="twitter:title" content="CommonsCollections5分析"/>
 <meta name="twitter:description" content="言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。
 CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。
-因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。"/>
+因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。
+前置知识
+TiedMapEntry
+org.apache.commons.collections.keyvalue.TiedMapEntry 是一个 Map.Entry 的实现类，从名称中可以看到，这是一个绑定了底层 map 的 Entry，用来使一个 map entry 对象拥有在底层修改 map 的功能。"/>
 
 
 <script type="application/ld+json">
@@ -108,7 +117,7 @@ CC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再�
   "@type": "BlogPosting",
   "headline": "CommonsCollections5分析",
   "name": "CommonsCollections5分析",
-  "description": "言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。\nCC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。\n因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。\n",
+  "description": "言归正传，昨天已经提前看过了CC5链的具体构造，今天主要就是一些运行调试。还是比较简单的。\nCC5 依旧是 LazyMap 加 ChainedTransformer 的触发模式，只不过不再使用 AnnotationInvocationHandler 的动态代理来触发 LazyMap 的 get ，而是找到了其他的方式。\n因为 jdk 在 1.8 之后对 AnnotationInvocationHandler 类进行了修复，所以在 jdk 1.8 版本就必须找出能替代 AnnotationInvocationHandler 的新的可以利用的类。\n前置知识 TiedMapEntry org.apache.commons.collections.keyvalue.TiedMapEntry 是一个 Map.Entry 的实现类，从名称中可以看到，这是一个绑定了底层 map 的 Entry，用来使一个 map entry 对象拥有在底层修改 map 的功能。\n",
   "keywords": [
     "CommonsCollections链"
   ],
